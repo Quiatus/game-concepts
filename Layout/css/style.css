@@ -1,0 +1,187 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(10, 10, 10);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-size: 18px;
+    overflow-x: hidden;
+}
+
+/* RESOURCE BAR STYLE */
+
+.res-bar {
+    background-color: rgb(30, 30, 30);
+    border-top: 1px solid rgb(50, 50, 50);
+    border-bottom: 1px solid rgb(50, 50, 50);
+    padding: 5px 20px 5px 20px;
+    margin: 20px 0 0 0;
+    width: 100%;
+    display: inline-flex;
+}
+
+.res-text {
+    width: 10%;
+    border-right: 2px solid rgb(50, 50, 50);
+    padding-right: 20px;
+    margin-right: 20px;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    align-content: center;
+}
+
+.res-text-nongain{
+    width: 10%;
+    border-right: 2px solid rgb(50, 50, 50);
+    padding-right: 20px;
+    margin-right: 20px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.res-text-short {
+    width: 7%;
+    grid-template-columns: 30% 70%;
+}
+
+.res-text-short-nongain {
+    width: 5%;
+}
+
+.res-type {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    font-size: 24px;
+}
+
+.res-amount {
+    grid-column: 2;
+    grid-row: 1;
+    font-weight: bold;
+}
+
+.month-gain {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 12px;
+}
+
+.res-ec {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 14px;
+}
+
+.res-mil {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 14px;
+}
+
+.res-type-nongain {
+    font-size: 18px;
+}
+
+.finish-bar {
+    border-right: 6px double rgb(50, 50, 50);
+}
+
+.non-bar {
+    width: 12%;
+    border-right: none;
+}
+
+/* MAIN WINDOW STYLE */
+
+.main {
+    margin: 20px auto;
+    width: 100%;
+    display: inline-flex;
+}
+
+.nav-bar {
+    background-color: rgb(30, 30, 30);
+    border-left: 1px solid rgb(50, 50, 50);
+    border-right: 1px solid rgb(50, 50, 50);
+    padding: 10px;
+    margin-left: 20px;
+    width: 10%;
+    text-align: center;
+}
+
+.nav-title {
+    border-bottom: 1px solid rgb(50, 50, 50);
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.nav-item {
+    color: white;
+    font-size: 16px;
+}
+
+.nav-item a, a:visited {
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.nav-item a:hover {
+    color: lightcoral
+}
+
+.next-month a, a:visited {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.next-month a:hover {
+    color: lightcoral
+}
+
+.window {
+    background-color: rgb(30, 30, 30);
+    border: 1px solid rgb(50, 50, 50);
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 85%;
+    padding: 10px;
+}
+
+#gold {
+    color: goldenrod;
+    font-weight: bold;
+}
+
+#people {
+    color: purple;
+    font-weight: bold;
+}
+
+#food {
+    color: wheat;
+    font-weight: bold;
+}
+
+#wood {
+    color: brown;
+    font-weight: bold;
+}
+
+#stone {
+    color: gray;
+    font-weight: bold;
+}
+
+#general {
+    font-weight: bold;
+}
+
+#positive {
+    color: lime;
+}
+
+#negative {
+    color: red;
+}
