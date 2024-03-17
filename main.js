@@ -124,13 +124,14 @@ class Pop extends Resource{
 
     isMaxPop() {
         if (this.resource === totalSpace()) {
-            popText.classList.add('text-red')
+            texts.forEach(item => {item.id === 'popText' ? item.classList.add('text-red') : null})
             printMessage('Population capacity reached. Build more housing!', 'warning')
         } else if (this.resource > totalSpace()) {
-            popText.classList.add('text-red')
+            texts.forEach(item => {item.id === 'popText' ? item.classList.add('text-red') : null})
             printMessage('People have nowhere to live. x people have left. Build more housing!', 'warning')
+            // remove x % of pop until pop = max space
         } else {
-            popText.classList.remove('text-red') 
+            texts.forEach(item => {item.id === 'popText' ? item.classList.remove('text-red') : null})
         }
     }
 }
@@ -299,8 +300,6 @@ const btn = document.getElementById('btn');
 const btnRes = document.getElementById('res');
 const btnBuildHouse = document.getElementById('btnBuildHouse');
 
-const popText = document.getElementById('pop');
-
 const messages = document.querySelector('.message-div')
 const texts = document.querySelectorAll('span');
 const buttons = document.querySelectorAll('button');
@@ -368,7 +367,8 @@ const printText = () => {
     texts.forEach(item => {
         item.id === 'month' ? item.textContent = converThousand(month.getResource()) : null
         item.id === 'gold' ? item.textContent = converThousand(gold.getResource()) : null
-        item.id === 'pop' ? item.textContent = `${converThousand(pop.getResource())} / ${converThousand(totalSpace())}` : null
+        item.id === 'pop' ? item.textContent = converThousand(pop.getResource()) : null
+        item.id === 'maxPop' ? item.textContent = ` / ${converThousand(totalSpace())}` : null
         item.id === 'wood' ? item.textContent = converThousand(wood.getResource()) : null
         item.id === 'stone' ? item.textContent = converThousand(stone.getResource()) : null
 

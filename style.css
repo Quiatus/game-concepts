@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Carrois+Gothic&family=Nanum+Gothic&display=swap');
 
+:root {
+    --clr-white: #f0f8ff;
+    --clr-gray: #BFBEBC;
+    --clr-bg: #101020;
+    --clr-yellow: #f5deb3;
+    --clr-bgblue: #334;
+    --clr-compbg: #223;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -12,9 +21,9 @@ html {
 }
 
 body {
-    background-color: #101020;
+    background-color: var(--clr-bg);
     margin: 1rem;
-    color: aliceblue;
+    color: var(--clr-white);
 }
 
 main {
@@ -27,16 +36,16 @@ main {
 }
 
 main > div {
-    /* border: 1px solid aliceblue; */
+    /* border: 1px solid var(--clr-white); */
     border-radius: 0.35rem;
     overflow: hidden;
     padding: 1rem;
-    box-shadow: 0 0 5px lightgray;
+    box-shadow: 0 0 5px var(--clr-gray);
 }
 
 main > div h3 {
-    background-color: lightgray;
-    color: #101020;
+    background-color: var(--clr-gray);
+    color: var(--clr-bg);
     line-height: 1;
     margin: -1rem;
     margin-bottom: 1rem;
@@ -73,7 +82,7 @@ main > div h3 {
 
 .resources hr {
     margin: 1rem 0;
-    background-color: aliceblue;
+    background-color: var(--clr-white);
     height: 1px;
     border: none;
 }
@@ -97,13 +106,13 @@ main > div h3 {
     grid-template-rows: auto;
     gap: 1rem;
     padding: 1rem;
-    border: 1px solid #B3B0AD;
+    border: 1px solid var(--clr-gray);
     border-radius: 0.25rem;
     border-top-left-radius: 0;
 }
 
 .building-div {
-    background-color: #334;
+    background-color: var(--clr-bgblue);
     width: 320px;
     padding: 0.5rem 1rem;
     display: flex;
@@ -111,16 +120,16 @@ main > div h3 {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    box-shadow: 0 0 10px #334;
+    box-shadow: 0 0 10px var(--clr-bgblue);
     border-radius: 0.25rem;
 }
 
 .building-div > h4 {
-    background-color: #223;
+    background-color: var(--clr-compbg);
     width: 100%;
     text-align: center;
     padding: 0.25rem 0;
-    box-shadow: 0 0 5px #223;
+    box-shadow: 0 0 5px var(--clr-compbg);
     border-radius: 0.25rem;
 }
 
@@ -159,19 +168,19 @@ main > div h3 {
 
 button {
     font: inherit;
-    background-color: #334;
-    color: aliceblue;
-    border: 1px solid aliceblue;
+    background-color: var(--clr-compbg);
+    color: var(--clr-white);
+    border: 1px solid var(--clr-white);
     line-height: 1;
     padding: 0.25rem 1rem;
     border-radius: 0.25rem;
 }
 
 button:hover {
-    color: wheat;
-    border-color: wheat;
-    box-shadow: 0 0 10px wheat;
-    text-shadow: 0 0 10px wheat;
+    color: var(--clr-yellow);
+    border-color: var(--clr-yellow);
+    box-shadow: 0 0 10px var(--clr-yellow);
+    text-shadow: 0 0 10px var(--clr-yellow);
     cursor: pointer;
 }
 
@@ -180,18 +189,17 @@ button:active {
 }
 
 .btnHouse {
-    background-color: #223;
     width: 100%;
 }
 
 .btnDisable {
-    color: #aaa;
-    border-color: #aaa;
+    color: var(--clr-gray);
+    border-color: var(--clr-gray);
 }
 
 .btnDisable:hover {
-    color: #aaa;
-    border-color: #aaa;
+    color: var(--clr-gray);
+    border-color: var(--clr-gray);
     box-shadow: none;
     text-shadow: none;
     cursor: default;
@@ -202,17 +210,17 @@ button:active {
 }
 
 .btnTab {
-    border-color: #B3B0AD;
+    border-color: var(--clr-gray);
     border-bottom: none;
     border-radius: 0;
 }
 
 .btnTab:hover {
-    border-color: #B3B0AD;
+    border-color: var(--clr-gray);
     border-bottom: none;
     box-shadow: none;
     text-shadow: none;
-    color: aliceblue;
+    color: var(--clr-white);
 }
 
 .btnTab:first-of-type {
@@ -225,8 +233,8 @@ button:active {
 
 .btnTabActive, 
 .btnTabActive:hover {
-    color: wheat;
-    text-shadow: 0 0 10px wheat;
+    color: var(--clr-yellow);
+    text-shadow: 0 0 10px var(--clr-yellow);
 }
 
 .btnTab:active, 
@@ -246,18 +254,23 @@ button:active {
     font-size: 1.2rem;
 }
 
+.text-small {
+    font-weight: 400;
+    font-size: 16px;
+}
+
 .text-bold {
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .stat-header {
     font-weight: 700;
-    border-bottom: 1px solid aliceblue;
+    border-bottom: 1px solid var(--clr-white);
     margin-bottom: 0.5rem;
 }
 
 .text-white {
-    color: aliceblue;
+    color: var(--clr-white);
 }
 
 .text-red {
@@ -265,23 +278,27 @@ button:active {
 }
 
 .text-orange {
-    color: #df8920;
+    color: #e1a500;
 }
 
 .text-green {
     color: #00d000;
 }
 
+.text-blue {
+    color: #0080d0;
+}
+
 .text-gray {
-    color: #B3B0AD;
+    color: var(--clr-gray);
 }
 
 .text-purple {
-    color: #A76ED4;
+    color: #9370db;
 }
 
 .text-gold {
-    color: #DBA400;
+    color: #e1d700;
 }
 
 .text-brown {
@@ -289,5 +306,5 @@ button:active {
 }
 
 .text-yellow {
-    color: #FFFFAA;
+    color: var(--clr-yellow);
 }
