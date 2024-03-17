@@ -163,6 +163,8 @@ class Building {
         this.buildCostGold = null
         this.buildCostWood = null
         this.buildCostStone = null
+        this.requiresPlans = null
+        this.plans = null
     }
 
     initValues(values) {
@@ -175,6 +177,8 @@ class Building {
         this.buildCostGold = values[6]
         this.buildCostWood = values[7]
         this.buildCostStone = values[8]
+        this.requiresPlans = values[9]
+        this.plans = values[10]
     }
 
     checkIfCanBuild() {
@@ -208,6 +212,12 @@ class Building {
         if (this.amountBuilt === 1 && this.isUnique === true) {
             canBuild = false
             reason = 'We can only build one unique building!'
+            return [canBuild, reason]
+        }
+
+        if (this.requiresPlans === true && this.plans === 0) {
+            canBuild = false
+            reason = 'No available space for construction!'
             return [canBuild, reason]
         }
 
@@ -295,7 +305,7 @@ const initData = {
         3: [false, 1.1],
         4: [false, 20]
     },
-    buildingHouse: ['House', 0, false, 2, false, 0, 250, 5, 0, 100]  // Name, amount, unique, time, constructing, progress, gold, wood, stone, effect
+    buildingHouse: ['House', 0, false, 2, false, 0, 250, 5, 0, true, 0, 100]  // Name, amount, unique, time, constructing, progress, gold, wood, stone, require plans, plans, effect
 }
 
 let gameData = {}
@@ -307,6 +317,8 @@ const texts = document.querySelectorAll('span');
 const buttons = document.querySelectorAll('button');
 const btnTab = document.querySelectorAll('.btnTab');
 const tabs = document.querySelectorAll('.buildings');
+const menuButtons = document.querySelectorAll('.menuBtn');
+const rightPanels = document.querySelectorAll('.right-panel');
 
 // instantiate classes
 const gold = new Gold();
@@ -341,7 +353,7 @@ const loadGame = () => {
     stone.resource = gameData.basicResources.stone
 
     house.initValues(gameData.buildingHouse)
-    house.setSpace(gameData.buildingHouse[9])
+    house.setSpace(gameData.buildingHouse[11])
 
     for (let i = 0; i < gold.goldModifiers.length; i++) {
         gold.goldModifiers[i].active = gameData.goldModifiers[i+1][0]
@@ -363,6 +375,11 @@ const checks = () => {
     pop.isMaxPop()
 }
 
+const showGeneralPanel = () => {
+    rightPanels.forEach(panel => panel.classList.add('none'))
+    rightPanels[0].classList.remove('none')
+}
+
 // initializes the app
 const initApp = () => {
     const load = JSON.parse(localStorage.getItem('testStorage'))
@@ -371,10 +388,12 @@ const initApp = () => {
         localStorage.setItem('testStorage', JSON.stringify(gameData))
     )
 
+    showGeneralPanel()
     loadGame()
 }
 
 const incmnth = () => {
+    showGeneralPanel()
     clearMessages()
 
     checkConstruction(true)
@@ -477,6 +496,12 @@ btnTab.forEach(btn => {btn.addEventListener('click', () => {
     btn.classList.add('btnTabActive')
     btn.id == 'btnTabBuild' ? tabs[0].classList.remove('none') : null
     btn.id == 'btnTabBuildDiff' ? tabs[1].classList.remove('none') : null
+})})
+
+menuButtons.forEach(btn => {btn.addEventListener('click', (e) => {
+    rightPanels.forEach(panel => panel.classList.add('none'))
+    btn.id == 'menuBtnGeneral' ? rightPanels[0].classList.remove('none') : null
+    btn.id == 'menuBtnBuildings' ? rightPanels[1].classList.remove('none') : null
 })})
 
 initApp();

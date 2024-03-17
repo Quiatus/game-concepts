@@ -9,7 +9,7 @@
 </head>
 <body>
     <main>
-        <div class="resources">
+        <div class="box-main resources">
             <h3>Resources</h3>
             <div class="res">
                 <span class="text-big text-gray">Month: </span><span class="text-big" id="month"></span>
@@ -20,44 +20,80 @@
                 <span class="text-gray">Stone: </span><span class="text-bold" id="stone"></span>
             </div>
             <hr>
+            <div class="res">
+                <span class="text-gray">Fame: </span><span class="text-bold" id="fame">0</span>
+                <span class="text-gray">Happiness: </span><span class="text-bold text-gold" id="happiness">50%</span>
+                <span class="text-gray">Might: </span><span class="text-bold" id="might">0</span>
+                <span class="text-gray">Army status: </span><span class="text-bold text-green" id="armyStatus">Ready</span>
+            </div>
+            <hr>
             <div class="res-buttons">
                 <button id="btn">Next Month</button>
                 <button id="res" type="submit">Reset</button>
             </div>
         </div>
 
-        <div class="messages">
-            <h3>Messages</h3>
-            <div class="message-div"></div>
-        </div>
-
-        <div class="events">
-            <h3>Events</h3>
-        </div>
-        
-        <div class="stats">
-            <h3>Stats</h3>
-            <p class="stat-header">General:</p>
-            <div class="stat-div">
-                <span class="text-gray">Fame:</span><span id="stat-gen-fame">0</span>
-                <span class="text-gray">Happiness:</span><span class="text-gold" id="stat-gen-hap">50%</span>
-                <span class="text-gray">Might:</span><span id="stat-gen-might">0</span>
-                <span class="text-gray">Army:</span><span class="text-green" id="stat-gen-might">Ready</span>
-            </div>
-            <p class="stat-header">Space:</p>
-            <div class="stat-div">
-                <span class="text-gray">Capital:</span><span id="stat-space-cap"></span>
-                <span class="text-gray">Houses:</span><span id="stat-space-house"></span>
-                <span class="text-gray">Total space:</span><span id="stat-space-total"></span>
-                <span class="text-gray">Free space:</span><span id="stat-space-free"></span>
-            </div>
-            <p class="stat-header">Buildings:</p>
-            <div class="stat-div">
-                <span class="text-gray">Houses:</span><span id="stat-build-house"></span>
+        <div class="box-main alerts">
+            <h3>Alerts</h3>
+            <div class="alert-div text-red">
+                <span>Famine</span>
             </div>
         </div>
 
-        <div class="building">
+        <div class="box-main menu">
+            <h3>Menu</h3>
+            <div class="menu-buttons text-small">
+                <button class="menuBtn" id="menuBtnGeneral">General</button>
+                <button class="menuBtn" id="menuBtnBuildings">Buildings</button>
+            </div>
+        </div>
+
+        <div class="box-main right-panel general">
+            <h3>General</h3>
+            <div class="box-sub messages">
+                <h3>Messages</h3>
+                <div class="message-div text-small"></div>
+            </div>
+    
+            <div class="box-sub events">
+                <h3>Events</h3>
+            </div>
+            
+            <div class="box-sub stats">
+                <h3>Statistics</h3>
+                <div class="statistics">
+                    <div>
+                        <p class="stat-header">General:</p>
+                        <div class="stat-div">
+                            <span class="text-gray">Fame:</span><span id="stat-gen-fame">0</span>
+                            <span class="text-gray">Happiness:</span><span class="text-gold" id="stat-gen-hap">50%</span>
+                            <span class="text-gray">Might:</span><span id="stat-gen-might">0</span>
+                            <span class="text-gray">Army:</span><span class="text-green" id="stat-gen-might">Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <p class="stat-header">Space:</p>
+                        <div class="stat-div">
+                            <span class="text-gray">Capital:</span><span id="stat-space-cap"></span>
+                            <span class="text-gray">Houses:</span><span id="stat-space-house"></span>
+                            <span class="text-gray">Total space:</span><span id="stat-space-total"></span>
+                            <span class="text-gray">Free space:</span><span id="stat-space-free"></span>
+                        </div>
+                    </div>
+    
+                    <div>
+                        <p class="stat-header">Buildings:</p>
+                        <div class="stat-div">
+                            <span class="text-gray">Houses:</span><span id="stat-build-house"></span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="box-main right-panel building">
             <h3>Buildings</h3>
             <button class="btnTab btnTabActive" id="btnTabBuild">Basic buildings</button><button class="btnTab" id="btnTabBuildDiff" >Diff</button>
             <div class="buildings" id="tabBuild">
@@ -83,7 +119,6 @@
             </div>
 
             <div class="buildings none" id="tabBuildDiff">
-                
             </div>
         </div>
     </main>
