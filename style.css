@@ -5,7 +5,7 @@
     --clr-compbg: #222;
     --clr-bg: #111;
 
-    --clr-white: #f0f8ff;
+    --clr-white: #eee;
     --clr-gray: #aaa;
     --clr-yellow: #f5deb3;
     --clr-red: #E00000;
@@ -111,20 +111,6 @@ main {
     border: none;
 }
 
-.res-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0.5rem 1rem 0;
-    gap: 1rem;
-}
-
-.res-buttons button:first-child {
-    width: 70%;
-    padding: 0.5rem 1rem;
-    font-weight: 700;
-}
-
 /* Alert box */
 
 .alerts {
@@ -132,8 +118,9 @@ main {
 }
 
 .alert-div {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 0.5rem 1rem;
 }
 
@@ -161,9 +148,8 @@ main {
 
 .statistics {
     display: grid;
-    grid-template-columns: repeat(3, 280px);
-    gap: 1.5rem 3rem;
-    justify-content: center;
+    grid-template-columns: repeat(4, 250px);
+    gap: 1.5rem 2rem;
 }
 
 .stat-header {
@@ -175,7 +161,7 @@ main {
 
 .stat-div {
     display: grid;
-    grid-template-columns: 1.25fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     margin-left: 1rem;
     font-size: 16px;
@@ -250,6 +236,10 @@ main {
     display: none;
 }
 
+.gap-sb {
+    margin-bottom: 0.5rem;
+}
+
 /* Buttons */
 
 button {
@@ -274,7 +264,7 @@ button:active {
     transform: scale(0.95);
 }
 
-.btnHouse {
+.btnBuild {
     width: 100%;
 }
 

@@ -22,29 +22,26 @@
             <hr>
             <div class="res">
                 <span class="text-gray">Fame: </span><span class="text-bold" id="fame">0</span>
-                <span class="text-gray">Happiness: </span><span class="text-bold text-gold" id="happiness">50%</span>
                 <span class="text-gray">Might: </span><span class="text-bold" id="might">0</span>
+                <span class="text-gray">Happiness: </span><span class="text-bold text-gold" id="happiness">50%</span>
                 <span class="text-gray">Army status: </span><span class="text-bold text-green" id="armyStatus">Ready</span>
-            </div>
-            <hr>
-            <div class="res-buttons">
-                <button id="btn">Next Month</button>
-                <button id="res" type="submit">Reset</button>
             </div>
         </div>
 
         <div class="box-main alerts">
             <h3>Alerts</h3>
             <div class="alert-div text-red">
-                <span>Famine</span>
+                
             </div>
         </div>
 
         <div class="box-main menu">
             <h3>Menu</h3>
             <div class="menu-buttons text-small">
+                <button class="gap-sb text-bold" id="btnNextMonth">Next Month</button>
                 <button class="menuBtn" id="menuBtnGeneral">General</button>
-                <button class="menuBtn" id="menuBtnBuildings">Buildings</button>
+                <button class="menuBtn gap-sb" id="menuBtnBuildings">Buildings</button>
+                <button id="reset">Reset</button>
             </div>
         </div>
 
@@ -87,9 +84,8 @@
                         <div class="stat-div">
                             <span class="text-gray">Houses:</span><span id="stat-build-house"></span>
                         </div>
-                    </div>
-                </div>
-                
+                    </div>    
+                </div>          
             </div>
         </div>
 
@@ -112,7 +108,7 @@
                         <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-house-progress">-</span>
                     </div>
                     <div class="build-buttons">
-                        <button class="btnHouse" id="btnBuildHouse">Begin construction</button>
+                        <button class="btnBuild" id="btnBuildHouse">Begin construction</button>
                         <span class="build-description text-red hidden">.</span>
                     </div>          
                 </div>                

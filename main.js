@@ -305,16 +305,17 @@ const initData = {
         3: [false, 1.1],
         4: [false, 20]
     },
-    buildingHouse: ['House', 0, false, 2, false, 0, 250, 5, 0, true, 0, 100]  // Name, amount, unique, time, constructing, progress, gold, wood, stone, require plans, plans, effect
+    buildingHouse: ['House', 0, false, 2, false, 0, 250, 5, 0, false, 0, 100]  // Name, amount, unique, time, constructing, progress, gold, wood, stone, require plans, plans, effect
 }
 
 let gameData = {}
 
-const btnBuildHouse = document.getElementById('btnBuildHouse');
+const btnNextMonth = document.getElementById('btnNextMonth');
+const reset = document.getElementById('reset');
 
 const messages = document.querySelector('.message-div')
 const texts = document.querySelectorAll('span');
-const buttons = document.querySelectorAll('button');
+const btnBuild = document.querySelectorAll('.btnBuild');
 const btnTab = document.querySelectorAll('.btnTab');
 const tabs = document.querySelectorAll('.buildings');
 const menuButtons = document.querySelectorAll('.menuBtn');
@@ -367,7 +368,7 @@ const loadGame = () => {
 
 // checks if any construction is ongoing. If the game is loaded, disables built button, if next month, progresses the construction
 const checkConstruction = (nextMonth) => {
-    house.checkIfBeingBuilt(btnBuildHouse, nextMonth)
+    house.checkIfBeingBuilt(btnBuild[0], nextMonth)
 }
 
 // checks various conditions at the game start
@@ -480,14 +481,14 @@ const printMessage = (text, type='info') => {
 
 const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-buttons[0].addEventListener('click', incmnth);
+btnNextMonth.addEventListener('click', incmnth);
 
-buttons[1].addEventListener('click', () => {
+reset.addEventListener('click', () => {
     localStorage.removeItem('testStorage')
     location.reload()
 })
 
-btnBuildHouse.addEventListener('click', (e) => house.startConstruction(e))
+btnBuild[0].addEventListener('click', (e) => house.startConstruction(e))
 
 // switch between building tabs
 btnTab.forEach(btn => {btn.addEventListener('click', () => {
@@ -498,10 +499,10 @@ btnTab.forEach(btn => {btn.addEventListener('click', () => {
     btn.id == 'btnTabBuildDiff' ? tabs[1].classList.remove('none') : null
 })})
 
-menuButtons.forEach(btn => {btn.addEventListener('click', (e) => {
+menuButtons.forEach(btn => {btn.addEventListener('click', () => {
     rightPanels.forEach(panel => panel.classList.add('none'))
-    btn.id == 'menuBtnGeneral' ? rightPanels[0].classList.remove('none') : null
+    btn.id == 'menuBtnGeneral' ? showGeneralPanel() : null
     btn.id == 'menuBtnBuildings' ? rightPanels[1].classList.remove('none') : null
 })})
 
-initApp();
+initApp()
