@@ -1,12 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Carrois+Gothic&family=Nanum+Gothic&display=swap');
 
 :root {
-    --clr-white: #f0f8ff;
-    --clr-gray: #BFBEBC;
-    --clr-bg: #101020;
-    --clr-yellow: #f5deb3;
     --clr-bgblue: #334;
     --clr-compbg: #223;
+    --clr-bg: #101020;
+
+    --clr-white: #f0f8ff;
+    --clr-gray: #BFBEBC;
+    --clr-yellow: #f5deb3;
+    --clr-red: #d00000;
+    --clr-orange: #e1a500;
+    --clr-green: #00d000;
+    --clr-blue: #0080d0;
+    --clr-purple: #9370db;
+    --clr-gold: #ffd700;
+    --clr-brown: #C15710; 
 }
 
 * {
@@ -89,7 +97,16 @@ main > div h3 {
 
 .res-buttons {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 1rem;
+}
+
+.res-buttons button:first-child {
+    width: 70%;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
 }
 
 .stat-div {
@@ -274,19 +291,19 @@ button:active {
 }
 
 .text-red {
-    color: #d00000;
+    color: var(--clr-red);
 }
 
 .text-orange {
-    color: #e1a500;
+    color: var(--clr-orange);
 }
 
 .text-green {
-    color: #00d000;
+    color: var(--clr-green);
 }
 
 .text-blue {
-    color: #0080d0;
+    color: var(--clr-blue);
 }
 
 .text-gray {
@@ -294,15 +311,15 @@ button:active {
 }
 
 .text-purple {
-    color: #9370db;
+    color: var(--clr-purple);
 }
 
 .text-gold {
-    color: #e1d700;
+    color: var(--clr-gold);
 }
 
 .text-brown {
-    color: #C15710;
+    color: var(--clr-brown);
 }
 
 .text-yellow {

@@ -35,7 +35,6 @@ class Month extends Resource{
 
     increaseMonth() {
         this.resource += 1
-        gameData.basicResources.month = this.resource
     }
 }
 
@@ -102,6 +101,7 @@ class Gold extends Resource{
 class Pop extends Resource{
     constructor(){
         super()
+        this.basicSpace = null
     }
 
     increasePop() {
@@ -111,9 +111,9 @@ class Pop extends Resource{
         // adds between 2 - 20 pop on the top of the base increase. This is to account for low increase if pop is too low
         const addPop = Math.floor(Math.random() * (max - min) + min) + Math.floor(Math.random() * (21-2) + 2); 
 
-        if (this.resource + addPop >= totalSpace()) {
-            this.resourceChange = (totalSpace() - this.resource)
-            this.resource = totalSpace()
+        if (this.resource + addPop >= this.totalSpace()) {
+            this.resourceChange = (this.totalSpace() - this.resource)
+            this.resource = this.totalSpace()
         } else {
             this.resource += addPop
             this.resourceChange = addPop
@@ -123,16 +123,20 @@ class Pop extends Resource{
     }
 
     isMaxPop() {
-        if (this.resource === totalSpace()) {
+        if (this.resource === this.totalSpace()) {
             texts.forEach(item => {item.id === 'popText' ? item.classList.add('text-red') : null})
             printMessage('Population capacity reached. Build more housing!', 'warning')
-        } else if (this.resource > totalSpace()) {
+        } else if (this.resource > this.totalSpace()) {
             texts.forEach(item => {item.id === 'popText' ? item.classList.add('text-red') : null})
             printMessage('People have nowhere to live. x people have left. Build more housing!', 'warning')
             // remove x % of pop until pop = max space
         } else {
             texts.forEach(item => {item.id === 'popText' ? item.classList.remove('text-red') : null})
         }
+    }
+
+    totalSpace() {
+        return this.basicSpace + house.TotalSpace()
     }
 }
 
@@ -271,7 +275,7 @@ class House extends Building {
         this.space = space
     }
 
-    hTotalSpace() {
+    TotalSpace() {
         return this.space * this.amountBuilt
     }
 }
@@ -287,7 +291,7 @@ const initData = {
     },
     goldModifiers: {
         1: [true, 0],
-        2: [true, 10],
+        2: [false, 0],
         3: [false, 1.1],
         4: [false, 20]
     },
@@ -296,8 +300,6 @@ const initData = {
 
 let gameData = {}
 
-const btn = document.getElementById('btn');
-const btnRes = document.getElementById('res');
 const btnBuildHouse = document.getElementById('btnBuildHouse');
 
 const messages = document.querySelector('.message-div')
@@ -306,6 +308,7 @@ const buttons = document.querySelectorAll('button');
 const btnTab = document.querySelectorAll('.btnTab');
 const tabs = document.querySelectorAll('.buildings');
 
+// instantiate classes
 const gold = new Gold();
 const pop = new Pop();
 const month = new Month();
@@ -313,7 +316,9 @@ const wood = new Wood();
 const stone = new Stone();
 const house = new House();
 
+//saves values from classes, then saves to json
 const saveGame = () => {
+    gameData.basicResources.month = month.getResource()
     gameData.basicResources.gold = gold.getResource()
     gameData.basicResources.pop = pop.getResource()
     gameData.basicResources.wood = wood.getResource()
@@ -326,9 +331,11 @@ const saveGame = () => {
     localStorage.setItem('testStorage', JSON.stringify(gameData));
 }
 
+//loads values from gamedata obj
 const loadGame = () => {
     gold.resource = gameData.basicResources.gold
     pop.resource = gameData.basicResources.pop
+    pop.basicSpace = gameData.basicResources.basicSpace
     month.resource = gameData.basicResources.month
     wood.resource = gameData.basicResources.wood
     stone.resource = gameData.basicResources.stone
@@ -340,16 +347,23 @@ const loadGame = () => {
         gold.goldModifiers[i].active = gameData.goldModifiers[i+1][0]
         gold.goldModifiers[i].value = gameData.goldModifiers[i+1][1]
     }
+
+    checkConstruction(false)
+    checks()
+    printText()
 }
 
+// checks if any construction is ongoing. If the game is loaded, disables built button, if next month, progresses the construction
 const checkConstruction = (nextMonth) => {
     house.checkIfBeingBuilt(btnBuildHouse, nextMonth)
 }
 
+// checks various conditions at the game start
 const checks = () => {
     pop.isMaxPop()
 }
 
+// initializes the app
 const initApp = () => {
     const load = JSON.parse(localStorage.getItem('testStorage'))
     load ? gameData = load : (
@@ -358,39 +372,6 @@ const initApp = () => {
     )
 
     loadGame()
-    checkConstruction(false)
-    checks()
-    printText()
-}
-
-const printText = () => {
-    texts.forEach(item => {
-        item.id === 'month' ? item.textContent = converThousand(month.getResource()) : null
-        item.id === 'gold' ? item.textContent = converThousand(gold.getResource()) : null
-        item.id === 'pop' ? item.textContent = converThousand(pop.getResource()) : null
-        item.id === 'maxPop' ? item.textContent = ` / ${converThousand(totalSpace())}` : null
-        item.id === 'wood' ? item.textContent = converThousand(wood.getResource()) : null
-        item.id === 'stone' ? item.textContent = converThousand(stone.getResource()) : null
-
-        item.id === 'stat-space-cap' ? item.textContent = converThousand(gameData.basicResources.basicSpace) : null
-        item.id === 'stat-space-house' ? item.textContent = converThousand(house.hTotalSpace()) : null
-        item.id === 'stat-space-total' ? item.textContent = converThousand(totalSpace()) : null
-        item.id === 'stat-space-free' ? item.textContent = converThousand(totalSpace() - pop.getResource()) : null
-        item.id === 'stat-build-house' ? item.textContent = converThousand(house.amountBuilt) : null
-
-        item.id === 'building-house-cost' 
-        ? item.innerHTML = `<span class='text-gold'>${converThousand(house.buildCostGold)}</span>` 
-            + (house.buildCostWood > 0 ? ` • <span class='text-brown'>${converThousand(house.buildCostWood)}</span>` : ``)
-            + (house.buildCostStone > 0 ? ` • <span class='text-gray'>${converThousand(house.buildCostStone)}</span>` : ``)
-        : null
-
-        item.id === 'building-house-constrtime' ? item.textContent = `${converThousand(house.constructionTime)} months` : null
-        item.id === 'building-house-built' ? item.textContent = converThousand(house.amountBuilt) : null
-        item.id === 'building-house-space' ? item.textContent = converThousand(house.space) : null
-        item.id === 'building-house-progress' 
-        ? house.isBeingConstructed ? item.textContent = `${house.calculateProgress()} %` : item.textContent = '-'  
-        : null
-    })
 }
 
 const incmnth = () => {
@@ -406,6 +387,36 @@ const incmnth = () => {
     printMessage('', 'gains')
 
     saveGame()
+}
+
+const printText = () => {
+    texts.forEach(item => {
+        item.id === 'month' ? item.textContent = converThousand(month.getResource()) : null
+        item.id === 'gold' ? item.textContent = converThousand(gold.getResource()) : null
+        item.id === 'pop' ? item.textContent = converThousand(pop.getResource()) : null
+        item.id === 'maxPop' ? item.textContent = ` / ${converThousand(pop.totalSpace())}` : null
+        item.id === 'wood' ? item.textContent = converThousand(wood.getResource()) : null
+        item.id === 'stone' ? item.textContent = converThousand(stone.getResource()) : null
+
+        item.id === 'stat-space-cap' ? item.textContent = converThousand(pop.basicSpace) : null
+        item.id === 'stat-space-house' ? item.textContent = converThousand(house.TotalSpace()) : null
+        item.id === 'stat-space-total' ? item.textContent = converThousand(pop.totalSpace()) : null
+        item.id === 'stat-space-free' ? item.textContent = converThousand(pop.totalSpace() - pop.getResource()) : null
+        item.id === 'stat-build-house' ? item.textContent = converThousand(house.amountBuilt) : null
+
+        item.id === 'building-house-cost' 
+        ? item.innerHTML = `<span class='text-gold'>${converThousand(house.buildCostGold)}</span>` 
+            + (house.buildCostWood > 0 ? ` • <span class='text-brown'>${converThousand(house.buildCostWood)}</span>` : ``)
+            + (house.buildCostStone > 0 ? ` • <span class='text-gray'>${converThousand(house.buildCostStone)}</span>` : ``)
+        : null
+
+        item.id === 'building-house-constrtime' ? item.textContent = `${converThousand(house.constructionTime)} months` : null
+        item.id === 'building-house-built' ? item.textContent = converThousand(house.amountBuilt) : null
+        item.id === 'building-house-space' ? item.textContent = converThousand(house.space) : null
+        item.id === 'building-house-progress' 
+        ? house.isBeingConstructed ? item.textContent = `${house.calculateProgress()} %` : item.textContent = '-'  
+        : null
+    })
 }
 
 const clearMessages = () => {
@@ -450,19 +461,16 @@ const printMessage = (text, type='info') => {
 
 const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-const totalSpace = () => {
-    return gameData.basicResources.basicSpace + house.hTotalSpace()
-}
+buttons[0].addEventListener('click', incmnth);
 
-btn.addEventListener('click', incmnth);
-
-btnRes.addEventListener('click', () => {
+buttons[1].addEventListener('click', () => {
     localStorage.removeItem('testStorage')
     location.reload()
 })
 
 btnBuildHouse.addEventListener('click', (e) => house.startConstruction(e))
 
+// switch between building tabs
 btnTab.forEach(btn => {btn.addEventListener('click', () => {
     btnTab.forEach(btn => btn.classList.remove('btnTabActive'))
     tabs.forEach(tab => tab.classList.add('none'))
