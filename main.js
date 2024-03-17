@@ -104,16 +104,16 @@ class Pop extends Resource{
         super()
     }
 
-    increasePop(space) {
+    increasePop() {
         // Pop increase is between 0.1% - 0.5% per month
         const min = Math.floor(this.resource * 0.001);  
         const max = Math.floor(this.resource * 0.005);
         // adds between 2 - 20 pop on the top of the base increase. This is to account for low increase if pop is too low
         const addPop = Math.floor(Math.random() * (max - min) + min) + Math.floor(Math.random() * (21-2) + 2); 
 
-        if (this.resource + addPop >= space) {
-            this.resourceChange = (space - this.resource)
-            this.resource = space
+        if (this.resource + addPop >= totalSpace()) {
+            this.resourceChange = (totalSpace() - this.resource)
+            this.resource = totalSpace()
         } else {
             this.resource += addPop
             this.resourceChange = addPop
@@ -123,10 +123,15 @@ class Pop extends Resource{
     }
 
     isMaxPop() {
-        this.resource === totalSpace() 
-        ? (popText.classList.add('text-red'),
-        printMessage('Our people have nowhere to live. Build more housing!', 'warning'))
-        : popText.classList.remove('text-red') 
+        if (this.resource === totalSpace()) {
+            popText.classList.add('text-red')
+            printMessage('Population capacity reached. Build more housing!', 'warning')
+        } else if (this.resource > totalSpace()) {
+            popText.classList.add('text-red')
+            printMessage('People have nowhere to live. x people have left. Build more housing!', 'warning')
+        } else {
+            popText.classList.remove('text-red') 
+        }
     }
 }
 
@@ -299,6 +304,8 @@ const popText = document.getElementById('pop');
 const messages = document.querySelector('.message-div')
 const texts = document.querySelectorAll('span');
 const buttons = document.querySelectorAll('button');
+const btnTab = document.querySelectorAll('.btnTab');
+const tabs = document.querySelectorAll('.buildings');
 
 const gold = new Gold();
 const pop = new Pop();
@@ -340,6 +347,10 @@ const checkConstruction = (nextMonth) => {
     house.checkIfBeingBuilt(btnBuildHouse, nextMonth)
 }
 
+const checks = () => {
+    pop.isMaxPop()
+}
+
 const initApp = () => {
     const load = JSON.parse(localStorage.getItem('testStorage'))
     load ? gameData = load : (
@@ -349,6 +360,7 @@ const initApp = () => {
 
     loadGame()
     checkConstruction(false)
+    checks()
     printText()
 }
 
@@ -368,8 +380,8 @@ const printText = () => {
 
         item.id === 'building-house-cost' 
         ? item.innerHTML = `<span class='text-gold'>${converThousand(house.buildCostGold)}</span>` 
-            + (house.buildCostWood > 0 ? ` | <span class='text-brown'>${converThousand(house.buildCostWood)}</span>` : ``)
-            + (house.buildCostStone > 0 ? ` | <span class='text-gray'>${converThousand(house.buildCostStone)}</span>` : ``)
+            + (house.buildCostWood > 0 ? ` • <span class='text-brown'>${converThousand(house.buildCostWood)}</span>` : ``)
+            + (house.buildCostStone > 0 ? ` • <span class='text-gray'>${converThousand(house.buildCostStone)}</span>` : ``)
         : null
 
         item.id === 'building-house-constrtime' ? item.textContent = `${converThousand(house.constructionTime)} months` : null
@@ -388,7 +400,7 @@ const incmnth = () => {
 
     month.increaseMonth();
     gold.calculateGold(pop.getResource());
-    pop.increasePop(totalSpace());
+    pop.increasePop();
 
     printText()
     printMessage('', 'gains')
@@ -419,12 +431,15 @@ const newMonthGains = () => {
 
 const printMessage = (text, type='info') => {
     const msg = document.createElement('p');
-    if (type==='warning') {
-        msg.textContent = text
+    msg.textContent = text
+    if (type==='critical') {
         msg.className = 'text-red'
     } 
+    if (type==='warning') {
+        msg.className = 'text-orange'
+    } 
     if (type==='info') {
-        msg.textContent = text
+        msg.className = 'text-white'
     } 
     if (type==='gains') {
         msg.innerHTML = newMonthGains();
@@ -447,5 +462,13 @@ btnRes.addEventListener('click', () => {
 })
 
 btnBuildHouse.addEventListener('click', (e) => house.startConstruction(e))
+
+btnTab.forEach(btn => {btn.addEventListener('click', () => {
+    btnTab.forEach(btn => btn.classList.remove('btnTabActive'))
+    tabs.forEach(tab => tab.classList.add('none'))
+    btn.classList.add('btnTabActive')
+    btn.id == 'btnTabBuild' ? tabs[0].classList.remove('none') : null
+    btn.id == 'btnTabBuildDiff' ? tabs[1].classList.remove('none') : null
+})})
 
 initApp();

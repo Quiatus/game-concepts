@@ -19,7 +19,7 @@ body {
 
 main {
     display: grid;
-    grid-template-columns: repeat(4, 320px);
+    grid-template-columns: repeat(4, 350px);
     grid-template-rows: auto;
     justify-content: center;
     margin: 2rem;
@@ -66,7 +66,7 @@ main > div h3 {
 
 .res {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.25fr;
     grid-template-rows: auto;
     row-gap: 0.5rem;
 }
@@ -92,9 +92,14 @@ main > div h3 {
 }
 
 .buildings {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
     gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #B3B0AD;
+    border-radius: 0.25rem;
+    border-top-left-radius: 0;
 }
 
 .building-div {
@@ -146,6 +151,10 @@ main > div h3 {
     visibility: visible;
 }
 
+.none {
+    display: none;
+}
+
 /* Components */
 
 button {
@@ -192,6 +201,39 @@ button:active {
     transform: scale(1);
 }
 
+.btnTab {
+    border-color: #B3B0AD;
+    border-bottom: none;
+    border-radius: 0;
+}
+
+.btnTab:hover {
+    border-color: #B3B0AD;
+    border-bottom: none;
+    box-shadow: none;
+    text-shadow: none;
+    color: aliceblue;
+}
+
+.btnTab:first-of-type {
+    border-top-left-radius: 0.25rem;
+}
+
+.btnTab:last-of-type {
+    border-top-right-radius: 0.25rem;
+}
+
+.btnTabActive, 
+.btnTabActive:hover {
+    color: wheat;
+    text-shadow: 0 0 10px wheat;
+}
+
+.btnTab:active, 
+.btnTabActive:active {
+    transform: scale(1);
+}
+
 /* Typography */
 
 .build-description {
@@ -204,12 +246,8 @@ button:active {
     font-size: 1.2rem;
 }
 
-.text-red {
-    color: red;
-}
-
-.text-green {
-    color: ForestGreen;
+.text-bold {
+    font-weight: bold;
 }
 
 .stat-header {
@@ -218,22 +256,38 @@ button:active {
     margin-bottom: 0.5rem;
 }
 
+.text-white {
+    color: aliceblue;
+}
+
+.text-red {
+    color: #d00000;
+}
+
+.text-orange {
+    color: #df8920;
+}
+
+.text-green {
+    color: #00d000;
+}
+
 .text-gray {
-    color: DarkGray;
+    color: #B3B0AD;
 }
 
 .text-purple {
-    color: MediumPurple;
+    color: #A76ED4;
 }
 
 .text-gold {
-    color: Gold;
+    color: #DBA400;
 }
 
 .text-brown {
-    color: Chocolate;
+    color: #C15710;
 }
 
-.text-bold {
-    font-weight: bold;
+.text-yellow {
+    color: #FFFFAA;
 }
