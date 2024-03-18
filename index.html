@@ -15,7 +15,7 @@
                 <span class="text-big text-gray">Month: </span><span class="text-big" id="month"></span>
                 <span class="text-gray">Population: </span><span class="text-bold" id="popText"> <span id="pop"></span><span class="text-small" id="maxPop"></span></span>
                 <span class="text-gray">Gold: </span><span class="text-bold" id="gold"></span>
-                <span class="text-gray">Food: </span><span class="text-bold" id="food">0</span>
+                <span class="text-gray">Food: </span><span class="text-bold" id="food"></span>
                 <span class="text-gray">Wood: </span><span class="text-bold" id="wood"></span>
                 <span class="text-gray">Stone: </span><span class="text-bold" id="stone"></span>
             </div>
@@ -25,6 +25,11 @@
                 <span class="text-gray">Might: </span><span class="text-bold" id="might">0</span>
                 <span class="text-gray">Happiness: </span><span class="text-bold text-gold" id="happiness">50%</span>
                 <span class="text-gray">Army status: </span><span class="text-bold text-green" id="armyStatus">Ready</span>
+            </div>
+            <hr>
+            <div class="nm-div">
+                <button class="text-bold" id="btnNextMonth">Next Month</button>
+                <button id="reset">Reset</button>
             </div>
         </div>
 
@@ -37,11 +42,12 @@
 
         <div class="box-main menu">
             <h3>Menu</h3>
-            <div class="menu-buttons text-small">
-                <button class="gap-sb text-bold" id="btnNextMonth">Next Month</button>
-                <button class="menuBtn" id="menuBtnGeneral">General</button>
-                <button class="menuBtn gap-sb" id="menuBtnBuildings">Buildings</button>
-                <button id="reset">Reset</button>
+            <div class="menu-buttons text-small">             
+                <div class="menu-buttons-section">
+                    <span class="menuBtn" id="menuBtnGeneral">General</span>
+                    <span class="menuBtn" id="menuBtnManagement">Management</span>
+                    <span class="menuBtn" id="menuBtnBuildings">Buildings</span>
+                </div>
             </div>
         </div>
 
@@ -55,6 +61,11 @@
             <div class="box-sub events">
                 <h3>Events</h3>
             </div>
+        
+        </div>
+
+        <div class="box-main right-panel management">
+            <h3>Management</h3>
             
             <div class="box-sub stats">
                 <h3>Statistics</h3>

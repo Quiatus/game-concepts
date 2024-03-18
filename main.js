@@ -140,6 +140,12 @@ class Pop extends Resource{
     }
 }
 
+class Food extends Resource{
+    constructor() {
+        super()
+    }
+}
+
 class Wood extends Resource{
     constructor() {
         super()
@@ -295,6 +301,7 @@ const initData = {
         month: 0,
         gold: 500,
         pop: 100,
+        food: 50,
         wood: 20,
         stone: 5,
         basicSpace: 1000
@@ -325,6 +332,7 @@ const rightPanels = document.querySelectorAll('.right-panel');
 const gold = new Gold();
 const pop = new Pop();
 const month = new Month();
+const food = new Food();
 const wood = new Wood();
 const stone = new Stone();
 const house = new House();
@@ -334,6 +342,7 @@ const saveGame = () => {
     gameData.basicResources.month = month.getResource()
     gameData.basicResources.gold = gold.getResource()
     gameData.basicResources.pop = pop.getResource()
+    gameData.basicResources.food = food.getResource()
     gameData.basicResources.wood = wood.getResource()
     gameData.basicResources.stone = stone.getResource()
     
@@ -349,6 +358,7 @@ const loadGame = () => {
     gold.resource = gameData.basicResources.gold
     pop.resource = gameData.basicResources.pop
     pop.basicSpace = gameData.basicResources.basicSpace
+    food.resource = gameData.basicResources.food
     month.resource = gameData.basicResources.month
     wood.resource = gameData.basicResources.wood
     stone.resource = gameData.basicResources.stone
@@ -383,10 +393,10 @@ const showGeneralPanel = () => {
 
 // initializes the app
 const initApp = () => {
-    const load = JSON.parse(localStorage.getItem('testStorage'))
+    const load = JSON.parse(localStorage.getItem('gameSave'))
     load ? gameData = load : (
         gameData = initData,
-        localStorage.setItem('testStorage', JSON.stringify(gameData))
+        localStorage.setItem('gameSave', JSON.stringify(gameData))
     )
 
     showGeneralPanel()
@@ -415,6 +425,7 @@ const printText = () => {
         item.id === 'gold' ? item.textContent = converThousand(gold.getResource()) : null
         item.id === 'pop' ? item.textContent = converThousand(pop.getResource()) : null
         item.id === 'maxPop' ? item.textContent = ` / ${converThousand(pop.totalSpace())}` : null
+        item.id === 'food' ? item.textContent = converThousand(food.getResource()) : null
         item.id === 'wood' ? item.textContent = converThousand(wood.getResource()) : null
         item.id === 'stone' ? item.textContent = converThousand(stone.getResource()) : null
 
@@ -502,7 +513,8 @@ btnTab.forEach(btn => {btn.addEventListener('click', () => {
 menuButtons.forEach(btn => {btn.addEventListener('click', () => {
     rightPanels.forEach(panel => panel.classList.add('none'))
     btn.id == 'menuBtnGeneral' ? showGeneralPanel() : null
-    btn.id == 'menuBtnBuildings' ? rightPanels[1].classList.remove('none') : null
+    btn.id == 'menuBtnManagement' ? rightPanels[1].classList.remove('none') : null
+    btn.id == 'menuBtnBuildings' ? rightPanels[2].classList.remove('none') : null
 })})
 
 initApp()

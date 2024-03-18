@@ -7,6 +7,7 @@
 
     --clr-white: #eee;
     --clr-gray: #aaa;
+
     --clr-yellow: #f5deb3;
     --clr-red: #E00000;
     --clr-orange: #e1a500;
@@ -50,7 +51,7 @@ main {
 .box-main {
     border-radius: 0.35rem;
     overflow: hidden;
-    padding: 1rem;
+    padding: 1rem 1rem 0.5rem;
     box-shadow: 0 0 5px var(--clr-gray);
 }
 
@@ -59,7 +60,7 @@ main {
     color: var(--clr-bg);
     line-height: 1;
     margin: -1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding: 0.25rem 0 0.25rem 0.75rem;
     letter-spacing: 1px;
 }
@@ -68,7 +69,7 @@ main {
 
 .box-sub {
     overflow: hidden;
-    padding: 1rem;
+    padding: 1rem 1rem 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid var(--clr-bgblue);
     box-shadow: 0 0 5px var(--clr-bgblue);
@@ -80,7 +81,7 @@ main {
     color: var(--clr-gray);
     line-height: 1;
     margin: -1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding: 0.25rem 0.5rem;
     font-size: 18px;
     font-weight: 700;
@@ -111,6 +112,17 @@ main {
     border: none;
 }
 
+.nm-div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-evenly;
+}
+
+.nm-div:first-child {
+    width: 70%;
+}
+
 /* Alert box */
 
 .alerts {
@@ -133,12 +145,48 @@ main {
 .menu-buttons {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 1rem;
+}
+
+.menu-buttons-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem
+}
+
+.menuBtn {
+    user-select: none;
+    letter-spacing: 1px;
+    line-height: 1;
+    font-size: 18px;
+}
+
+.menuBtn:hover {
+    font-weight: 700;
+    color: var(--clr-yellow);
+    text-shadow: 0 0 10px var(--clr-yellow);
+    cursor: pointer;
+}
+
+.menuBtn:active {
+    font-weight: 700;
+    color: var(--clr-white);
+    text-shadow: 0 0 10px var(--clr-yellow);
+    cursor: pointer;
 }
 
 /* General box */
 
 .general {
+    grid-area: 1/2/5/2;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Management box */
+
+.management {
     grid-area: 1/2/5/2;
     display: flex;
     flex-direction: column;
@@ -240,6 +288,10 @@ main {
     margin-bottom: 0.5rem;
 }
 
+.right-panel > h3 {
+    margin-bottom: 1rem;
+}
+
 /* Buttons */
 
 button {
@@ -325,6 +377,7 @@ button:active {
 .btnTabActive:active {
     transform: scale(1);
 }
+
 
 /* Typography */
 
