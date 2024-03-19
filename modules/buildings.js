@@ -12,8 +12,9 @@ class Building {
         this.buildCostGold = null
         this.buildCostWood = null
         this.buildCostStone = null
-        this.requiresPlans = null
-        this.plans = null
+        this.requiresSpace = null
+        this.space = null
+        this.effect = null
     }
 
     initValues(values) {
@@ -26,8 +27,9 @@ class Building {
         this.buildCostGold = values[6]
         this.buildCostWood = values[7]
         this.buildCostStone = values[8]
-        this.requiresPlans = values[9]
-        this.plans = values[10]
+        this.requiresSpace = values[9]
+        this.space = values[10]
+        this.effect = values[11]
     }
 
     checkIfCanBuild({ gold, wood, stone }) {
@@ -64,7 +66,7 @@ class Building {
             return [canBuild, reason]
         }
 
-        if (this.requiresPlans === true && this.plans === 0) {
+        if (this.requiresSpace === true && this.space === 0) {
             canBuild = false
             reason = 'No available space for construction!'
             return [canBuild, reason]
@@ -127,14 +129,16 @@ class Building {
 export class House extends Building {
     constructor(){
         super()
-        this.space = null
-    }
-
-    setSpace(space) {
-        this.space = space
     }
 
     totalSpace() {
-        return this.space * this.amountBuilt
+        return this.effect * this.amountBuilt
     }
 }
+
+export class Farm extends Building {
+    constructor(){
+        super()
+    }
+}
+

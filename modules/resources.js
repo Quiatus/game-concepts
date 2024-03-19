@@ -119,8 +119,6 @@ export class Pop extends Resource{
             this.resource += addPop
             this.resourceChange = addPop
         }
-
-        this.isMaxPop()
     }
 
     isMaxPop() {
@@ -140,6 +138,29 @@ export class Pop extends Resource{
 export class Food extends Resource{
     constructor() {
         super()
+    }
+
+    gainFood(farms) {
+        const gain = farms.amountBuilt * farms.effect
+        this.resource += gain
+        this.resourceChange = gain
+    }
+
+    consumeFood(currentPop) {
+        const consumedFood = Math.floor(currentPop / 100);
+        printMessage(`Our people have consumed <span class='text-bold'>${consumedFood}</span> food.`, 'info')
+        this.resource -= consumedFood
+        if (this.resource < 0) {
+            this.resource = 0
+        }
+        this.checkIfEnoughFood(currentPop)
+    }
+
+    checkIfEnoughFood(currentPop) {
+        const consumedFood = Math.floor(currentPop / 100);
+        if (consumedFood * 10 > this.resource) {
+            printMessage(`We are running low on food! Build more farms!`, 'warning')
+        }
     }
 }
 

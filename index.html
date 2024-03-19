@@ -91,6 +91,7 @@
                         <p class="stat-header">Buildings:</p>
                         <div class="stat-div">
                             <span class="text-gray">Houses:</span><span id="stat-build-house"></span>
+                            <span class="text-gray">Farms:</span><span id="stat-build-farm"></span>
                         </div>
                     </div>    
 
@@ -113,12 +114,12 @@
                     <div class="building-div">
                         <h4 class="text-big">House</h4>
                         <div class="build-description">
-                            <p>Increases population capacity by <span class="text-bold" id="building-house-space"></span>.</p>
+                            <p>Increases population capacity by <span class="text-bold" id="building-house-descr"></span>.</p>
                             <span class="text-orange none">Unique - Requires plans</span>
                         </div>
                         
                         <div class="build-stats">
-                            <span class="text-gray">Built:</span> <span id="building-house-built"></span>
+                            <span class="text-gray">Built:</span> <span id="building-house-amount"></span>
                         </div> 
                         <div class="build-stats">
                             <span class="text-gray">Building cost:</span> <span id="building-house-cost"></span>
@@ -131,6 +132,37 @@
                         <div class="build-buttons">
                             <span class="text-red text-small hidden">.</span>
                             <button class="btnBuild" id="btnBuildHouse">Begin construction</button>
+                        </div>          
+                    </div>     
+                </div>
+            </div>
+
+            <div class="box-sub">
+                <h3>Resource buildings</h3>
+                <div class="buildings">      
+
+                    <div class="building-div">
+                        <h4 class="text-big">Farm</h4>
+                        <div class="build-description">
+                            <p>Produces <span class="text-bold" id="building-farm-descr"></span> units of food per month.</p>
+                            <span class="text-orange">Requires space</span>
+                        </div>
+                        
+                        <div class="build-stats">
+                            <span class="text-gray">Built:</span> <span id="building-farm-amount"></span>
+                        </div> 
+                        <div class="build-stats">
+                            <span class="text-gray">Building cost:</span> <span id="building-farm-cost"></span>
+                            <span class="text-gray">Constr. time:</span><span id="building-farm-constrtime"></span>
+                            <span class="text-gray">Avail. space: </span><span id="building-farm-space"></span>
+                        </div>
+                                    
+                        <div class="build-stats">
+                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-farm-progress">-</span>
+                        </div>
+                        <div class="build-buttons">
+                            <span class="text-red text-small hidden">.</span>
+                            <button class="btnBuild" id="btnBuildFarm">Begin construction</button>
                         </div>          
                     </div>     
                 </div>
