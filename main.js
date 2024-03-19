@@ -1,3 +1,6 @@
+import { initData } from "./modules/initvals.js"
+import { printText, clearMessages, printMessage, showGeneralPanel } from "./modules/domhelpers.js"
+
 class Resource {
     constructor() {
         this.resource = null
@@ -95,7 +98,6 @@ class Gold extends Resource{
         const addGold = Math.floor(Math.random() * (max - min) + min);
         return addGold;
     }
-
 }
 
 class Pop extends Resource{
@@ -124,14 +126,14 @@ class Pop extends Resource{
 
     isMaxPop() {
         if (this.resource === this.totalSpace()) {
-            texts.forEach(item => {item.id === 'popText' ? item.classList.add('text-red') : null})
+            popText.classList.add('text-red')
             printMessage('Population capacity reached. Build more housing!', 'warning')
         } else if (this.resource > this.totalSpace()) {
-            texts.forEach(item => {item.id === 'popText' ? item.classList.add('text-red') : null})
-            printMessage('People have nowhere to live. x people have left. Build more housing!', 'warning')
+            popText.classList.add('text-red')
+            printMessage('People have nowhere to live. x people have left. Build more housing!', 'critical')
             // remove x % of pop until pop = max space
         } else {
-            texts.forEach(item => {item.id === 'popText' ? item.classList.remove('text-red') : null})
+            popText.classList.remove('text-red')
         }
     }
 
@@ -296,33 +298,11 @@ class House extends Building {
     }
 }
 
-const initData = {
-    basicResources: {
-        month: 0,
-        gold: 500,
-        pop: 100,
-        food: 50,
-        wood: 20,
-        stone: 5,
-        basicSpace: 1000
-    },
-    goldModifiers: {
-        1: [true, 0],
-        2: [false, 0],
-        3: [false, 1.1],
-        4: [false, 20]
-    },
-    buildingHouse: ['House', 0, false, 2, false, 0, 2500, 5, 0, false, 0, 100]  // Name, amount, unique, time, constructing, progress, gold, wood, stone, require plans, plans, effect
-}
-
 let gameData = {}
 
 const buttons = document.querySelectorAll('button');
-const messages = document.querySelector('.message-div')
-const texts = document.querySelectorAll('span');
-const btnBuild = document.querySelectorAll('.btnBuild');
-const menuButtons = document.querySelectorAll('.menuBtn');
-const rightPanels = document.querySelectorAll('.right-panel');
+const btnBuild = document.querySelectorAll('.btnBuild')
+const popText = document.getElementById('popText')
 
 // instantiate classes
 const gold = new Gold();
@@ -369,7 +349,7 @@ const loadGame = () => {
 
     checkConstruction(false)
     checks()
-    printText()
+    printText(month, gold, pop, food, wood, stone, house)
 }
 
 // checks if any construction is ongoing. If the game is loaded, disables built button, if next month, progresses the construction
@@ -382,17 +362,18 @@ const checks = () => {
     pop.isMaxPop()
 }
 
-const showGeneralPanel = () => {
-    rightPanels.forEach(panel => panel.classList.add('none'))
-    rightPanels[0].classList.remove('none')
-}
-
 // initializes the app
 const initApp = () => {
     const load = JSON.parse(localStorage.getItem('gameSave'))
-    load ? gameData = load : (
+    load 
+    ? (
+        gameData = load,
+        printMessage('Game loaded successfully!')
+    ) 
+    : (
         gameData = initData,
-        localStorage.setItem('gameSave', JSON.stringify(gameData))
+        localStorage.setItem('gameSave', JSON.stringify(gameData)),
+        printMessage('A new game has started. Have fun!')
     )
 
     showGeneralPanel()
@@ -409,84 +390,11 @@ const incmnth = () => {
     gold.calculateGold();
     pop.increasePop();
 
-    printText()
-    printMessage('', 'gains')
+    printText(month, gold, pop, food, wood, stone, house)
+    printMessage('', 'gains', {gold, pop})
 
     saveGame()
 }
-
-const printText = () => {
-    texts.forEach(item => {
-        item.id === 'month' ? item.textContent = converThousand(month.getResource()) : null
-        item.id === 'gold' ? item.textContent = converThousand(gold.getResource()) : null
-        item.id === 'pop' ? item.textContent = converThousand(pop.getResource()) : null
-        item.id === 'maxPop' ? item.textContent = ` / ${converThousand(pop.totalSpace())}` : null
-        item.id === 'food' ? item.textContent = converThousand(food.getResource()) : null
-        item.id === 'wood' ? item.textContent = converThousand(wood.getResource()) : null
-        item.id === 'stone' ? item.textContent = converThousand(stone.getResource()) : null
-
-        item.id === 'stat-space-cap' ? item.textContent = converThousand(pop.basicSpace) : null
-        item.id === 'stat-space-house' ? item.textContent = converThousand(house.TotalSpace()) : null
-        item.id === 'stat-space-total' ? item.textContent = converThousand(pop.totalSpace()) : null
-        item.id === 'stat-space-free' ? item.textContent = converThousand(pop.totalSpace() - pop.getResource()) : null
-        item.id === 'stat-build-house' ? item.textContent = converThousand(house.amountBuilt) : null
-
-        item.id === 'building-house-cost' 
-        ? item.innerHTML = `<span class='text-gold'>${converThousand(house.buildCostGold)}</span>` 
-            + (house.buildCostWood > 0 ? ` • <span class='text-brown'>${converThousand(house.buildCostWood)}</span>` : ``)
-            + (house.buildCostStone > 0 ? ` • <span class='text-gray'>${converThousand(house.buildCostStone)}</span>` : ``)
-        : null
-
-        item.id === 'building-house-constrtime' ? item.textContent = `${converThousand(house.constructionTime)} months` : null
-        item.id === 'building-house-built' ? item.textContent = converThousand(house.amountBuilt) : null
-        item.id === 'building-house-space' ? item.textContent = converThousand(house.space) : null
-        item.id === 'building-house-progress' 
-        ? house.isBeingConstructed ? item.textContent = `${house.calculateProgress()} %` : item.textContent = '-'  
-        : null
-    })
-}
-
-const clearMessages = () => {
-    let child = messages.lastElementChild;
-    while (child) {
-        messages.removeChild(child);
-        child = messages.lastElementChild;
-    }   
-}
-
-const newMonthGains = () => {
-    let addedGold, addedPop = ''
-
-    gold.getResourceChange() > 0 ? addedGold = `<span class="text-gold text-bold"> ${converThousand(gold.getResourceChange())} </span> gold,` : null
-    pop.getResourceChange() > 0 ? addedPop = `<span class="text-purple text-bold"> ${converThousand(pop.getResourceChange())} </span> pops,` : null
-
-    let res = `Gained ${addedPop} ${addedGold}.`.replace(',.', '.').replace(', .', '.')
-    const repl = res.lastIndexOf(',')
-    repl > 0 ? res = res.substring(0, repl) + ' and ' + res.substring(repl+1) : null
-
-    return res
-}
-
-const printMessage = (text, type='info') => {
-    const msg = document.createElement('p');
-    msg.textContent = text
-    if (type==='critical') {
-        msg.className = 'text-red'
-    } 
-    if (type==='warning') {
-        msg.className = 'text-orange'
-    } 
-    if (type==='info') {
-        msg.className = 'text-white'
-    } 
-    if (type==='gains') {
-        msg.innerHTML = newMonthGains();
-    }
-
-    messages.appendChild(msg)
-}
-
-const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
 buttons[0].addEventListener('click', incmnth);
 buttons[1].addEventListener('click', () => {
@@ -495,12 +403,5 @@ buttons[1].addEventListener('click', () => {
 })
 
 btnBuild[0].addEventListener('click', (e) => house.startConstruction(e))
-
-menuButtons.forEach(btn => {btn.addEventListener('click', () => {
-    rightPanels.forEach(panel => panel.classList.add('none'))
-    btn.id == 'menuBtnGeneral' ? showGeneralPanel() : null
-    btn.id == 'menuBtnManagement' ? rightPanels[1].classList.remove('none') : null
-    btn.id == 'menuBtnBuildings' ? rightPanels[2].classList.remove('none') : null
-})})
 
 initApp()
