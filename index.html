@@ -28,15 +28,14 @@
             </div>
             <hr>
             <div class="nm-div">
-                <button class="text-bold" id="btnNextMonth">Next Month</button>
-                <button id="reset">Reset</button>
+                <button class="text-bold">Next Month</button>
+                <button>Reset</button>
             </div>
         </div>
 
         <div class="box-main alerts">
             <h3>Alerts</h3>
             <div class="alert-div text-red">
-                
             </div>
         </div>
 
@@ -53,21 +52,19 @@
 
         <div class="box-main right-panel general">
             <h3>General</h3>
-            <div class="box-sub messages">
+            <div class="box-sub">
                 <h3>Messages</h3>
                 <div class="message-div text-small"></div>
             </div>
     
-            <div class="box-sub events">
+            <div class="box-sub">
                 <h3>Events</h3>
             </div>
-        
         </div>
 
         <div class="box-main right-panel management">
             <h3>Management</h3>
-            
-            <div class="box-sub stats">
+            <div class="box-sub">
                 <h3>Statistics</h3>
                 <div class="statistics">
                     <div>
@@ -96,36 +93,47 @@
                             <span class="text-gray">Houses:</span><span id="stat-build-house"></span>
                         </div>
                     </div>    
+
+                    <div>
+                        <p class="stat-header">Runes:</p>
+                        <div class="stat-div">
+                            
+                        </div>
+                    </div> 
                 </div>          
             </div>
         </div>
 
         <div class="box-main right-panel building">
             <h3>Buildings</h3>
-            <button class="btnTab btnTabActive" id="btnTabBuild">Basic buildings</button><button class="btnTab" id="btnTabBuildDiff" >Diff</button>
-            <div class="buildings" id="tabBuild">
-                <div class="building-div">
-                    <h4 class="text-big">House</h4>
-                    <p class="build-description">Increases population capacity by <span class="text-bold" id="building-house-space"></span>.</p>
-                    <div class="build-stats">
-                        <span class="text-gray">Built:</span> <span id="building-house-built"></span>
-                    </div> 
-                    <div class="build-stats">
-                        <span class="text-gray">Building cost:</span> <span id="building-house-cost"></span>
-                        <span class="text-gray">Constr. time:</span><span id="building-house-constrtime"></span>
-                    </div>
-                                   
-                    <div class="build-stats">
-                        <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-house-progress">-</span>
-                    </div>
-                    <div class="build-buttons">
-                        <button class="btnBuild" id="btnBuildHouse">Begin construction</button>
-                        <span class="build-description text-red hidden">.</span>
-                    </div>          
-                </div>                
-            </div>
+            <div class="box-sub">
+                <h3>General buildings</h3>
+                <div class="buildings">      
 
-            <div class="buildings none" id="tabBuildDiff">
+                    <div class="building-div">
+                        <h4 class="text-big">House</h4>
+                        <div class="build-description">
+                            <p>Increases population capacity by <span class="text-bold" id="building-house-space"></span>.</p>
+                            <span class="text-orange none">Unique - Requires plans</span>
+                        </div>
+                        
+                        <div class="build-stats">
+                            <span class="text-gray">Built:</span> <span id="building-house-built"></span>
+                        </div> 
+                        <div class="build-stats">
+                            <span class="text-gray">Building cost:</span> <span id="building-house-cost"></span>
+                            <span class="text-gray">Constr. time:</span><span id="building-house-constrtime"></span>
+                        </div>
+                                    
+                        <div class="build-stats">
+                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-house-progress">-</span>
+                        </div>
+                        <div class="build-buttons">
+                            <span class="text-red text-small hidden">.</span>
+                            <button class="btnBuild" id="btnBuildHouse">Begin construction</button>
+                        </div>          
+                    </div>     
+                </div>
             </div>
         </div>
     </main>

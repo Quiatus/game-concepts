@@ -73,8 +73,8 @@ class Gold extends Resource{
         ]
      }
 
-    calculateGold(currentPop) {
-        this.goldModifiers[0].value = this.getGoldFromPop(currentPop)
+    calculateGold() {
+        this.goldModifiers[0].value = this.getGoldFromPop()
         let amount = 0;
 
         for (let i = 0; i < this.goldModifiers.length; i++) {
@@ -88,10 +88,10 @@ class Gold extends Resource{
         this.resourceChange = amount
     }
 
-    getGoldFromPop(currentPop) {
+    getGoldFromPop() {
         // each 10 pops generate 1 gold, +- 25%
-        const min = Math.floor(currentPop * 0.075);  
-        const max = Math.floor(currentPop * 0.125);  
+        const min = Math.floor(pop.getResource() * 0.075);  
+        const max = Math.floor(pop.getResource() * 0.125);  
         const addGold = Math.floor(Math.random() * (max - min) + min);
         return addGold;
     }
@@ -247,9 +247,9 @@ class Building {
             saveGame()
             printText()
         } else {
-            e.target.parentElement.children[1].textContent = checkRes[1]
-            e.target.parentElement.children[1].classList.remove('hidden')
-            setTimeout(() => {e.target.parentElement.children[1].classList.add('hidden')}, 5000)
+            e.target.parentElement.children[0].textContent = checkRes[1]
+            e.target.parentElement.children[0].classList.remove('hidden')
+            setTimeout(() => {e.target.parentElement.children[0].classList.add('hidden')}, 5000)
         }
     }
 
@@ -312,19 +312,15 @@ const initData = {
         3: [false, 1.1],
         4: [false, 20]
     },
-    buildingHouse: ['House', 0, false, 2, false, 0, 250, 5, 0, false, 0, 100]  // Name, amount, unique, time, constructing, progress, gold, wood, stone, require plans, plans, effect
+    buildingHouse: ['House', 0, false, 2, false, 0, 2500, 5, 0, false, 0, 100]  // Name, amount, unique, time, constructing, progress, gold, wood, stone, require plans, plans, effect
 }
 
 let gameData = {}
 
-const btnNextMonth = document.getElementById('btnNextMonth');
-const reset = document.getElementById('reset');
-
+const buttons = document.querySelectorAll('button');
 const messages = document.querySelector('.message-div')
 const texts = document.querySelectorAll('span');
 const btnBuild = document.querySelectorAll('.btnBuild');
-const btnTab = document.querySelectorAll('.btnTab');
-const tabs = document.querySelectorAll('.buildings');
 const menuButtons = document.querySelectorAll('.menuBtn');
 const rightPanels = document.querySelectorAll('.right-panel');
 
@@ -350,7 +346,7 @@ const saveGame = () => {
     gameData.buildingHouse[4] = house.isBeingConstructed
     gameData.buildingHouse[5] = house.constructionProgress
 
-    localStorage.setItem('testStorage', JSON.stringify(gameData));
+    localStorage.setItem('gameSave', JSON.stringify(gameData));
 }
 
 //loads values from gamedata obj
@@ -410,7 +406,7 @@ const incmnth = () => {
     checkConstruction(true)
 
     month.increaseMonth();
-    gold.calculateGold(pop.getResource());
+    gold.calculateGold();
     pop.increasePop();
 
     printText()
@@ -492,23 +488,13 @@ const printMessage = (text, type='info') => {
 
 const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-btnNextMonth.addEventListener('click', incmnth);
-
-reset.addEventListener('click', () => {
-    localStorage.removeItem('testStorage')
+buttons[0].addEventListener('click', incmnth);
+buttons[1].addEventListener('click', () => {
+    localStorage.removeItem('gameSave')
     location.reload()
 })
 
 btnBuild[0].addEventListener('click', (e) => house.startConstruction(e))
-
-// switch between building tabs
-btnTab.forEach(btn => {btn.addEventListener('click', () => {
-    btnTab.forEach(btn => btn.classList.remove('btnTabActive'))
-    tabs.forEach(tab => tab.classList.add('none'))
-    btn.classList.add('btnTabActive')
-    btn.id == 'btnTabBuild' ? tabs[0].classList.remove('none') : null
-    btn.id == 'btnTabBuildDiff' ? tabs[1].classList.remove('none') : null
-})})
 
 menuButtons.forEach(btn => {btn.addEventListener('click', () => {
     rightPanels.forEach(panel => panel.classList.add('none'))
