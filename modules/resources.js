@@ -1,7 +1,7 @@
-import { printText, clearMessages, printMessage, showGeneralPanel } from "./modules/domhelpers.js"
-import { saveGame, checkIfNewGame } from "./modules/utilities.js"
-import { House } from "./modules/buildings.js"
+import { printMessage } from "./domhelpers.js"
+import { saveGame } from "./utilities.js"
 
+const popText = document.getElementById('popText')
 
 class Resource {
     constructor() {
@@ -33,7 +33,7 @@ class Resource {
     }
 }
 
-class Month extends Resource{
+export class Month extends Resource{
     constructor() {
         super()
     }
@@ -43,7 +43,7 @@ class Month extends Resource{
     }
 }
 
-class Gold extends Resource{
+export class Gold extends Resource{
      constructor(){
         super()
         this.goldModifiers = [
@@ -102,7 +102,7 @@ class Gold extends Resource{
     }
 }
 
-class Pop extends Resource{
+export class Pop extends Resource{
     constructor(){
         super()
         this.basicSpace = null
@@ -144,79 +144,20 @@ class Pop extends Resource{
     }
 }
 
-class Food extends Resource{
+export class Food extends Resource{
     constructor() {
         super()
     }
 }
 
-class Wood extends Resource{
+export class Wood extends Resource{
     constructor() {
         super()
     }
 }
 
-class Stone extends Resource{
+export class Stone extends Resource{
     constructor() {
         super()
     }
 }
-
-const buttons = document.querySelectorAll('button');
-const btnBuild = document.querySelectorAll('.btnBuild')
-const popText = document.getElementById('popText')
-
-// instantiate classes
-const gold = new Gold();
-const pop = new Pop();
-const month = new Month();
-const food = new Food();
-const wood = new Wood();
-const stone = new Stone();
-const house = new House();
-
-const args = {gold, pop, month, food, wood, stone, house}
-
-// checks if any construction is ongoing. If the game is loaded, disables built button, if next month, progresses the construction
-const checkConstruction = (nextMonth) => {
-    house.checkIfBeingBuilt(btnBuild[0], nextMonth)
-}
-
-// checks various conditions at the game start
-const checkResources = () => {
-    pop.isMaxPop()
-}
-
-// initializes the app
-const initApp = () => {
-    showGeneralPanel()
-    checkIfNewGame(args)
-    checkConstruction(false)
-    checkResources()
-    printText(args)
-}
-
-const incmnth = () => {
-    showGeneralPanel()
-    clearMessages()
-    checkConstruction(true)
-
-    month.increaseMonth();
-    gold.calculateGold();
-    pop.increasePop();
-
-    printText(args)
-    printMessage('', 'gains', args)
-
-    saveGame(args)
-}
-
-buttons[0].addEventListener('click', incmnth);
-buttons[1].addEventListener('click', () => {
-    localStorage.removeItem('gameSave')
-    location.reload()
-})
-
-btnBuild[0].addEventListener('click', (e) => house.startConstruction(e, args))
-
-initApp()
