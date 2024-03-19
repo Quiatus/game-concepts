@@ -62,7 +62,7 @@ class Building {
 
         if (this.amountBuilt === 1 && this.isUnique === true) {
             canBuild = false
-            reason = 'We can only build one unique building!'
+            reason = 'We can only have one unique building!'
             return [canBuild, reason]
         }
 
