@@ -1,5 +1,4 @@
 import { printMessage } from "./domhelpers.js"
-import { saveGame } from "./utilities.js"
 
 const popText = document.getElementById('popText')
 
@@ -15,7 +14,6 @@ class Resource {
 
     setResource(amount) {
         this.resource = amount
-        saveGame(args)
     }
 
     getResourceChange() {
@@ -24,12 +22,10 @@ class Resource {
 
     spendResource(amount) {
         this.resource -= amount
-        saveGame(args)
     }
 
     addResource(amount) {
         this.resource += amount
-        saveGame(args)
     }
 }
 
@@ -78,8 +74,8 @@ export class Gold extends Resource{
         ]
      }
 
-    calculateGold() {
-        this.goldModifiers[0].value = this.getGoldFromPop()
+    calculateGold(pop) {
+        this.goldModifiers[0].value = this.getGoldFromPop(pop)
         let amount = 0;
 
         for (let i = 0; i < this.goldModifiers.length; i++) {
@@ -93,10 +89,10 @@ export class Gold extends Resource{
         this.resourceChange = amount
     }
 
-    getGoldFromPop() {
+    getGoldFromPop(pop) {
         // each 10 pops generate 1 gold, +- 25%
-        const min = Math.floor(pop.getResource() * 0.075);  
-        const max = Math.floor(pop.getResource() * 0.125);  
+        const min = Math.floor(pop * 0.075);  
+        const max = Math.floor(pop * 0.125);  
         const addGold = Math.floor(Math.random() * (max - min) + min);
         return addGold;
     }
@@ -106,6 +102,7 @@ export class Pop extends Resource{
     constructor(){
         super()
         this.basicSpace = null
+        this.totalSpace = null
     }
 
     increasePop() {
@@ -115,9 +112,9 @@ export class Pop extends Resource{
         // adds between 2 - 20 pop on the top of the base increase. This is to account for low increase if pop is too low
         const addPop = Math.floor(Math.random() * (max - min) + min) + Math.floor(Math.random() * (21-2) + 2); 
 
-        if (this.resource + addPop >= this.totalSpace()) {
-            this.resourceChange = (this.totalSpace() - this.resource)
-            this.resource = this.totalSpace()
+        if (this.resource + addPop >= this.totalSpace) {
+            this.resourceChange = (this.totalSpace - this.resource)
+            this.resource = this.totalSpace
         } else {
             this.resource += addPop
             this.resourceChange = addPop
@@ -127,20 +124,16 @@ export class Pop extends Resource{
     }
 
     isMaxPop() {
-        if (this.resource === this.totalSpace()) {
+        if (this.resource === this.totalSpace) {
             popText.classList.add('text-red')
             printMessage('Population capacity reached. Build more housing!', 'warning')
-        } else if (this.resource > this.totalSpace()) {
+        } else if (this.resource > this.totalSpace) {
             popText.classList.add('text-red')
             printMessage('People have nowhere to live. x people have left. Build more housing!', 'critical')
             // remove x % of pop until pop = max space
         } else {
             popText.classList.remove('text-red')
         }
-    }
-
-    totalSpace() {
-        return this.basicSpace + house.TotalSpace()
     }
 }
 

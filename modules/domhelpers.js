@@ -50,15 +50,15 @@ export const printText = (args) => {
         item.id === 'month' ? item.textContent = converThousand(args.month.getResource()) : null
         item.id === 'gold' ? item.textContent = converThousand(args.gold.getResource()) : null
         item.id === 'pop' ? item.textContent = converThousand(args.pop.getResource()) : null
-        item.id === 'maxPop' ? item.textContent = ` / ${converThousand(args.pop.totalSpace())}` : null
+        item.id === 'maxPop' ? item.textContent = ` / ${converThousand(args.pop.totalSpace)}` : null
         item.id === 'food' ? item.textContent = converThousand(args.food.getResource()) : null
         item.id === 'wood' ? item.textContent = converThousand(args.wood.getResource()) : null
         item.id === 'stone' ? item.textContent = converThousand(args.stone.getResource()) : null
 
         item.id === 'stat-space-cap' ? item.textContent = converThousand(args.pop.basicSpace) : null
-        item.id === 'stat-space-house' ? item.textContent = converThousand(args.house.TotalSpace()) : null
-        item.id === 'stat-space-total' ? item.textContent = converThousand(args.pop.totalSpace()) : null
-        item.id === 'stat-space-free' ? item.textContent = converThousand(args.pop.totalSpace() - args.pop.getResource()) : null
+        item.id === 'stat-space-house' ? item.textContent = converThousand(args.house.totalSpace()) : null
+        item.id === 'stat-space-total' ? item.textContent = converThousand(args.pop.totalSpace) : null
+        item.id === 'stat-space-free' ? item.textContent = converThousand(args.pop.totalSpace - args.pop.getResource()) : null
         item.id === 'stat-build-house' ? item.textContent = converThousand(args.house.amountBuilt) : null
 
         item.id === 'building-house-cost' 

@@ -134,7 +134,7 @@ export class House extends Building {
         this.space = space
     }
 
-    TotalSpace() {
+    totalSpace() {
         return this.space * this.amountBuilt
     }
 }
