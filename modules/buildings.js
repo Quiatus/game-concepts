@@ -1,72 +1,42 @@
 import { printText } from "./domhelpers.js"
-import { saveGame } from "./utilities.js"
+import { saveGame, loadGame } from "./utilities.js"
 
 class Building {
-    constructor() {
-        this.name = null
-        this.amountBuilt = null
-        this.isUnique = null
-        this.constructionTime = null
-        this.isBeingConstructed = null
-        this.constructionProgress = null
-        this.buildCostGold = null
-        this.buildCostWood = null
-        this.buildCostStone = null
-        this.requiresSpace = null
-        this.space = null
-        this.effect = null
-    }
-
-    initValues(values) {
-        this.name = values[0]
-        this.amountBuilt = values[1]
-        this.isUnique = values[2]
-        this.constructionTime = values[3]
-        this.isBeingConstructed = values[4]
-        this.constructionProgress = values[5]
-        this.buildCostGold = values[6]
-        this.buildCostWood = values[7]
-        this.buildCostStone = values[8]
-        this.requiresSpace = values[9]
-        this.space = values[10]
-        this.effect = values[11]
-    }
-
-    checkIfCanBuild({ gold, wood, stone }) {
+    checkIfCanBuild(building, resources) {
         let canBuild = true
         let reason = ''
 
-        if (this.isBeingConstructed === true) {
+        if (building.isBeingBuilt === true) {
             canBuild = false
             reason = 'Construction already in progress!'
             return [canBuild, reason]
         }
 
-        if (this.buildCostGold > gold.getResource()) {
+        if (building.costGold > resources.gold) {
             canBuild = false
             reason = 'Not enough gold!'
             return [canBuild, reason]
         }
 
-        if (this.buildCostWood > wood.getResource()) {
+        if (building.costWood > resources.wood) {
             canBuild = false
             reason = 'Not enough wood!'
             return [canBuild, reason]
         }
 
-        if (this.buildCostStone > stone.getResource()) {
+        if (building.costStone > resources.stone) {
             canBuild = false
             reason = 'Not enough stone!'
             return [canBuild, reason]
         }
 
-        if (this.amountBuilt === 1 && this.isUnique === true) {
+        if (building.amount === 1 && building.amount === true) {
             canBuild = false
             reason = 'We can only have one unique building!'
             return [canBuild, reason]
         }
 
-        if (this.requiresSpace === true && this.space === 0) {
+        if (building.requiresSpace === true && building.space === 0) {
             canBuild = false
             reason = 'No available space for construction!'
             return [canBuild, reason]
@@ -75,53 +45,61 @@ class Building {
         return [canBuild, reason]
     }
 
-    startConstruction(e, args) {
-        const checkRes = this.checkIfCanBuild(args)
+    startConstruction(e) {
+        let target = e.target.id
+        let gameData = loadGame()
+
+        const checkRes = this.checkIfCanBuild(gameData[target], gameData.basicResources)
         
         if (checkRes[0]) {
             e.target.textContent = 'Building in progress'
             e.target.classList.add('btnDisable')
             e.target.disabled = true;
 
-            this.isBeingConstructed = true;
+            gameData[target].isBeingBuilt = true;
 
-            args.gold.spendResource(this.buildCostGold)
-            args.wood.spendResource(this.buildCostWood)
-            args.stone.spendResource(this.buildCostStone)
+            gameData.basicResources.gold -= gameData[target].costGold
+            gameData.basicResources.wood -= gameData[target].costWood
+            gameData.basicResources.stone -= gameData[target].costStone
 
-            saveGame(args)
-            printText(args)
+            saveGame(gameData)
+            printText()
         } else {
             e.target.parentElement.children[0].textContent = checkRes[1]
             e.target.parentElement.children[0].classList.remove('hidden')
-            setTimeout(() => {e.target.parentElement.children[0].classList.add('hidden')}, 5000)
+            setTimeout(() => {e.target.parentElement.children[0].classList.add('hidden')}, 3000)
         }
     }
 
-    progressBuild(button) {
-        if (this.constructionProgress === (this.constructionTime - 1)) {
+    progressBuild(button, target) {
+        let gameData = loadGame()
+       
+        if (gameData[target].buildProgress === (gameData[target].costTime - 1)) {
             button.textContent = 'Begin construction'
             button.classList.remove('btnDisable')
             button.disabled = false;
-            this.isBeingConstructed = false;
-            this.constructionProgress = 0;
-            this.amountBuilt += 1;
+            
+            gameData[target].isBeingBuilt = false;
+            gameData[target].buildProgress = 0;
+            gameData[target].amount += 1;
         } else {
-            this.constructionProgress += 1
+            gameData[target].buildProgress += 1
         }
+        saveGame(gameData)
     }
 
-    calculateProgress() {
-        return 100 / this.constructionTime * this.constructionProgress
-    }
-
-    checkIfBeingBuilt(button, nextMonth) {
-        if (this.isBeingConstructed && !nextMonth) {
+    checkIfBeingBuilt(button, isNewMonth) {
+        let target = button.id
+        let gameData = loadGame()
+        let building = gameData[target]
+        
+        if (building.isBeingBuilt && !isNewMonth) {
             button.textContent = 'Building in progress'
             button.classList.add('btnDisable')
             button.disabled = true;
-        } else if (this.isBeingConstructed && nextMonth) {
-            this.progressBuild(button)
+        } else if (building.isBeingBuilt && isNewMonth) {
+            
+            this.progressBuild(button, target)
         }
     }
 }
@@ -129,10 +107,6 @@ class Building {
 export class House extends Building {
     constructor(){
         super()
-    }
-
-    totalSpace() {
-        return this.effect * this.amountBuilt
     }
 }
 

@@ -1,47 +1,18 @@
 import { printMessage } from "./domhelpers.js"
+import { saveGame, loadGame } from "./utilities.js"
 
 const popText = document.getElementById('popText')
 
-class Resource {
-    constructor() {
-        this.resource = null
-        this.resourceChange = null
-    }
-
-    getResource() {
-        return this.resource
-    }
-
-    setResource(amount) {
-        this.resource = amount
-    }
-
-    getResourceChange() {
-        return this.resourceChange
-    }
-
-    spendResource(amount) {
-        this.resource -= amount
-    }
-
-    addResource(amount) {
-        this.resource += amount
-    }
-}
-
-export class Month extends Resource{
-    constructor() {
-        super()
-    }
-
+export class Month{
     increaseMonth() {
-        this.resource++
+        let gameData = loadGame()
+        gameData.basicResources.month++
+        saveGame(gameData)
     }
 }
 
-export class Gold extends Resource{
+export class Gold{
      constructor(){
-        super()
         this.goldModifiers = [
             {
                 id: 1,
@@ -74,8 +45,32 @@ export class Gold extends Resource{
         ]
      }
 
-    calculateGold(pop) {
+     loadModifiers() {
+        let gameData = loadGame()
+        for (let i = 0; i < this.goldModifiers.length; i++) {
+            this.goldModifiers[i].active = gameData.goldModifiers[i+1][0]
+            this.goldModifiers[i].value = gameData.goldModifiers[i+1][1]
+        }
+     }
+
+    addTaxes() {
+        let gameData = loadGame()
+
+        gameData.general.tax === 1 ? gameData.goldModifiers[2][1] = 0.5 : null
+        gameData.general.tax === 2 ? gameData.goldModifiers[2][1] = 1 : null
+        gameData.general.tax === 3 ? gameData.goldModifiers[2][1] = 1.5 : null
+
+        saveGame(gameData)
+    }
+
+    calculateGold() {
+        this.addTaxes() 
+        this.loadModifiers()
+        let gameData = loadGame()
+        let pop = gameData.basicResources.pop
+        
         this.goldModifiers[0].value = this.getGoldFromPop(pop)
+        
         let amount = 0;
 
         for (let i = 0; i < this.goldModifiers.length; i++) {
@@ -85,8 +80,11 @@ export class Gold extends Resource{
                 else if (this.goldModifiers[i].type === 'multiply') amount = Math.round(amount * this.goldModifiers[i].value)
             }
         }
-        this.resource += amount
-        this.resourceChange = amount
+        
+        gameData.resourceChange.gold = 0
+        gameData.basicResources.gold += amount
+        gameData.resourceChange.gold = amount
+        saveGame(gameData)
     }
 
     getGoldFromPop(pop) {
@@ -98,108 +96,129 @@ export class Gold extends Resource{
     }
 }
 
-export class Pop extends Resource{
-    constructor(){
-        super()
-        this.basicSpace = null
-        this.totalSpace = null
+export class Pop {
+    calculateTotalSpace = () => {
+        let gameData = loadGame()
+        let basicSpace = gameData.basicResources.basicSpace
+        let houseSpace = gameData.buildingHouse.amount * gameData.buildingHouse.effect
+        let totalSpace = basicSpace + houseSpace
+
+        gameData.tempData.houseSpace = houseSpace
+        gameData.tempData.totalSpace = totalSpace
+        saveGame(gameData)
     }
 
-    increasePop(alerts) {
+    increasePop() {
+        let gameData = loadGame()
+        let pop = gameData.basicResources.pop
+        let alert = gameData.alerts.overpopulation
+        let totalSpace = gameData.tempData.totalSpace 
         // Pop increase is between 0.1% - 0.5% per month
-        const min = Math.floor(this.resource * 0.001);  
-        const max = Math.floor(this.resource * 0.005);
+        const min = Math.floor(pop * 0.001);  
+        const max = Math.floor(pop * 0.005);
         // adds between 2 - 20 pop on the top of the base increase. This is to account for low increase if pop is too low
         const addPop = Math.floor(Math.random() * (max - min) + min) + Math.floor(Math.random() * (21-2) + 2); 
-
-        if (!alerts.alert.overpopulation) {
-            if (this.resource + addPop >= this.totalSpace) {
-                this.resourceChange = (this.totalSpace - this.resource)
-                this.resource = this.totalSpace
+        gameData.resourceChange.pop = 0
+        if (!alert) {
+            if (pop + addPop >= totalSpace) {
+                gameData.resourceChange.pop = totalSpace - pop
+                gameData.basicResources.pop = totalSpace
             } else {
-                this.resource += addPop
-                this.resourceChange = addPop
+                gameData.basicResources.pop += addPop
+                gameData.resourceChange.pop = addPop
             }
         }
-
+        saveGame(gameData)
     }
 
-    isMaxPop(alerts, newMonth) {
-        alerts.alert.overpopulation = false
+    isMaxPop(isNewMonth=true) {
+        let gameData = loadGame()
+        let pop = gameData.basicResources.pop
+        let totalSpace = gameData.tempData.totalSpace 
+
         popText.classList.remove('text-red')
-        if (this.resource === this.totalSpace) {
+        if (pop === totalSpace) {
             popText.classList.add('text-red')
             printMessage('Population capacity reached. Build more housing!', 'warning')
-        } else if ((this.resource > this.totalSpace) && newMonth) {
-            alerts.alert.overpopulation = true
+        } else if ((pop > totalSpace) && isNewMonth) {
+            gameData.alerts.overpopulation = true
+            saveGame(gameData)
             popText.classList.add('text-red')
-            const leftPop = this.removePops('overpopulation')
+            const leftPop = this.removePops(gameData, 'overpopulation')
             printMessage(`People have nowhere to live. ${leftPop} people have left. Build more housing!`, 'critical')
-            this.resource < this.totalSpace ? popText.classList.remove('text-red') : null
-        } else if ((this.resource > this.totalSpace) && !newMonth) {
-            alerts.alert.overpopulation = true
+            pop < totalSpace ? popText.classList.remove('text-red') : null
+        } else if ((pop > totalSpace) && !isNewMonth) {
+            gameData.alerts.overpopulation = true
+            saveGame(gameData)
             popText.classList.add('text-red')
             printMessage(`People have nowhere to live. Build more housing!`, 'critical')
         }
+        
     }
 
     removePops(reason) {
+        let gameData = loadGame()
         let removedAmount = 0
+        let pop = gameData.basicResources.pop
         if (reason === 'famine') {
-            removedAmount = Math.floor(Math.random() * (this.resource * 0.12 - this.resource * 0.08) + this.resource * 0.08)          
+            removedAmount = Math.floor(Math.random() * (pop * 0.12 - pop * 0.08) + pop * 0.08)          
         } else if (reason === 'overpopulation') {
-            removedAmount = Math.floor(Math.random() * (this.resource * 0.15 - this.resource * 0.05) + this.resource * 0.05)
+            removedAmount = Math.floor(Math.random() * (pop * 0.15 - pop * 0.05) + pop * 0.05)
         }
-        this.resource -= removedAmount
+        gameData.basicResources.pop -= removedAmount
+        saveGame(gameData)
         return removedAmount
     }
 }
 
-export class Food extends Resource{
-    constructor() {
-        super()
+export class Food{
+    gainFood() {
+        let gameData = loadGame()
+        const gain = gameData.buildingFarm.amount * gameData.buildingFarm.effect
+        gameData.resourceChange.food = 0
+        gameData.basicResources.food += gain
+        gameData.resourceChange.food = gain
+        saveGame(gameData)
     }
 
-    gainFood(farms) {
-        const gain = farms.amountBuilt * farms.effect
-        this.resource += gain
-        this.resourceChange = gain
-    }
-
-    consumeFood(pop, alerts) {
-        const consumedFood = Math.floor(pop.getResource() / 100);
+    consumeFood() {
+        let gameData = loadGame()
+        const currentPop = gameData.basicResources.pop
+        const consumedFood = Math.floor(currentPop / 100);
         printMessage(`Our people have consumed <span class='text-bold'>${consumedFood}</span> food.`, 'info')
-        this.resource -= consumedFood
-        if (this.resource < 0) {
-            this.resource = 0
-        }
-        this.checkIfEnoughFood(pop, true, alerts)
+        gameData.tempData.consumedFood = 0
+        gameData.basicResources.food -= consumedFood
+        gameData.tempData.consumedFood = consumedFood
+        gameData.basicResources.food < 0 ? gameData.basicResources.food = 0 : null
+        saveGame(gameData)
     }
 
-    checkIfEnoughFood(pop, newMonth=true, alerts) {
-        const consumedFood = Math.floor(pop.getResource() / 100);
-        alerts.alert.famine = false
-        if ((consumedFood - this.resourceChange) * 15 >= this.resource && this.resource > 0) {
+    checkIfEnoughFood(pop, isNewMonth=true) {
+        let gameData = loadGame()
+        const food = gameData.basicResources.food
+        const currentPop = gameData.basicResources.pop
+        const gainedFood = gameData.resourceChange.food
+        const consumedFood = Math.floor(currentPop / 100);
+        gameData.alerts.famine = false
+        
+        if (((consumedFood - gainedFood) * 15 >= food) && food > 0) {
             printMessage(`We are running low on food! Increase food production!`, 'warning')
-        } else if (this.resource === 0 && !newMonth) {
-            alerts.alert.famine = true
+        } else if (food === 0 && !isNewMonth) {
+            gameData.alerts.famine = true
+            saveGame(gameData)
             printMessage(`Our clan is suffering from famine! Increase food production!`, 'critical')
-        } else if (this.resource === 0 && newMonth) {
-            alerts.alert.famine = true
+        } else if (food === 0 && isNewMonth) {
+            gameData.alerts.famine = true
+            saveGame(gameData)
             const deadPop = pop.removePops('famine')
             printMessage(`Our clan is suffering from famine! ${deadPop} people has died from starvation! Increase food production! `, 'critical')
         }
     }
 }
 
-export class Wood extends Resource{
-    constructor() {
-        super()
-    }
+export class Wood{
 }
 
-export class Stone extends Resource{
-    constructor() {
-        super()
-    }
+export class Stone{
+
 }

@@ -23,7 +23,7 @@
             <div class="res">
                 <span class="text-gray">Fame: </span><span class="text-bold" id="fame">0</span>
                 <span class="text-gray">Might: </span><span class="text-bold" id="might">0</span>
-                <span class="text-gray">Happiness: </span><span class="text-bold text-gold" id="happiness">50%</span>
+                <span class="text-gray">Happiness: </span><span class="text-bold" id="happiness"></span>
                 <span class="text-gray">Army status: </span><span class="text-bold text-green" id="armyStatus">Ready</span>
             </div>
             <hr>
@@ -65,6 +65,29 @@
 
         <div class="box-main right-panel management">
             <h3>Management</h3>
+
+            <div class="box-sub">
+                <h3>Clan settings</h3>
+                <div class="settings text-small">
+                    <div class="settings-div">
+                        <h4 class="text-big">Taxes</h4>
+                        <div class="build-description">
+                            <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes has opposite effect.</p>
+                        </div>
+                        <div class="settings-stats">
+                            <span class="text-gray">Current tax:</span> <span id="tax-level"></span>
+                            <span class="text-gray">Gold p. 100 pop.:</span><span id="tax-gain"></span>
+                        </div>
+                        <span>Set tax level:</span>
+                        <div class="settings-buttons">
+                            <button class="btnTax" id="btnTaxLow">Low</button>
+                            <button class="btnTax" id="btnTaxBalanced">Balanced</button>
+                            <button class="btnTax" id="btnTaxHigh">High</button>
+                        </div>
+                    </div> 
+                </div>          
+            </div>
+
             <div class="box-sub">
                 <h3>Statistics</h3>
                 <div class="statistics">
@@ -72,7 +95,7 @@
                         <p class="stat-header">General:</p>
                         <div class="stat-div">
                             <span class="text-gray">Fame:</span><span id="stat-gen-fame">0</span>
-                            <span class="text-gray">Happiness:</span><span class="text-gold" id="stat-gen-hap">50%</span>
+                            <span class="text-gray">Happiness:</span><span id="stat-gen-hap"></span>
                             <span class="text-gray">Might:</span><span id="stat-gen-might">0</span>
                             <span class="text-gray">Army:</span><span class="text-green" id="stat-gen-might">Ready</span>
                         </div>
@@ -104,6 +127,29 @@
                     </div> 
                 </div>          
             </div>
+
+            <div class="box-sub">
+                <h3>Economy</h3>
+                <div class="economy">
+                    <div>
+                        <p class="stat-header">People:</p>
+                        <div class="economy-div">
+                            <span class="text-white spread">Income</span>
+                            <span class="text-gray ml">Taxes:</span><span class="text-green">0</span>
+                            <span class="text-white">Total:</span><span class="text-bold text-green">0</span>
+                        </div>
+                        <div class="economy-div">
+                            <span class=" text-white spread">Expenditure</span>
+                            <span class="text-gray ml">Army:</span><span class="text-red">0</span>
+                            <span class="text-white">Total:</span><span class="text-bold text-red">0</span>
+                        </div>
+                        <div class="economy-div">
+                            <span class="text-white">Difference:</span><span class="text-bold text-green">+0</span>
+                        </div>
+                    </div>
+                
+                </div>          
+            </div>
         </div>
 
         <div class="box-main right-panel building">
@@ -132,7 +178,7 @@
                         </div>
                         <div class="build-buttons">
                             <span class="text-red hidden">.</span>
-                            <button class="btnBuild" id="btnBuildHouse">Begin construction</button>
+                            <button class="btnBuild" id="buildingHouse">Begin construction</button>
                         </div>          
                     </div>           
                 </div>
@@ -163,7 +209,7 @@
                         </div>
                         <div class="build-buttons">
                             <span class="text-red hidden">.</span>
-                            <button class="btnBuild" id="btnBuildFarm">Begin construction</button>
+                            <button class="btnBuild" id="buildingFarm">Begin construction</button>
                         </div>          
                     </div>     
                 </div>

@@ -1,11 +1,12 @@
 import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAlerts } from "./modules/domhelpers.js"
-import { saveGame, checkIfNewGame } from "./modules/utilities.js"
+import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
 import { House, Farm } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { Alerts } from "./modules/alerts.js";
 
 const buttons = document.querySelectorAll('button')
 const btnBuild = document.querySelectorAll('.btnBuild')
+const btnTax = document.querySelectorAll('.btnTax')
 
 // instantiate classes
 const gold = new Gold();
@@ -18,110 +19,90 @@ const house = new House();
 const farm = new Farm();
 const alerts = new Alerts();
 
-const args = {gold, pop, month, food, wood, stone, house, farm, alerts}
-
-document.addEventListener('readystatechange', (event) => {
-    if (event.target.readyState === "complete") {
+document.addEventListener('readystatechange', (e) => {
+    if (e.target.readyState === "complete") {
         initApp();
     }
 });
 
 // checks if any construction is ongoing. If the game is loaded, disables built button, if next month, progresses the construction
-const checkConstruction = (nextMonth) => {
+const checkConstruction = (isNewMonth) => {
     btnBuild.forEach(btn => {
-        btn.id == 'btnBuildHouse' ? house.checkIfBeingBuilt(btn, nextMonth) : null
-        btn.id == 'btnBuildFarm' ? farm.checkIfBeingBuilt(btn, nextMonth) : null
+        btn.id == 'buildingHouse' ? house.checkIfBeingBuilt(btn, isNewMonth) : null
+        btn.id == 'buildingFarm' ? farm.checkIfBeingBuilt(btn, isNewMonth) : null
     })
 }
 
-// checks various conditions at the game start
-const checkResources = () => {
-    pop.isMaxPop(alerts, false)
-    food.checkIfEnoughFood(pop, false, alerts)
-}
-
-const calculateTotalSpace = () => {
-    pop.totalSpace = pop.basicSpace + house.totalSpace()
-}
-
 const calculateHappiness = () => {
-    const happyText = document.getElementById('happiness')
-    const happyTextStat = document.getElementById('stat-gen-hap')
-    const baseHappiness = 50
+    let gameData = loadGame()
+    let calculatedHappiness = gameData.basicResources.baseHappiness
 
-    let calculatedHappiness = baseHappiness
+    gameData.general.tax === 1 ? calculatedHappiness += 20 : null
+    gameData.alerts.famine ? calculatedHappiness -= 10 : null
+    gameData.alerts.overpopulation ? calculatedHappiness -= 5 : null
+    gameData.general.tax === 3 ? calculatedHappiness -= 20 : null
 
-    alerts.alert.famine ? calculatedHappiness -= 10 : null
-    alerts.alert.overpopulation ? calculatedHappiness -= 5 : null
+    calculatedHappiness < 0 ? calculatedHappiness = 0 : null
+    calculatedHappiness > 100 ? calculatedHappiness = 100 : null
 
-    happyText.classList.remove('text-red', 'text-brown', 'text-gold', 'text-green', 'text-darkgreen')
-    happyTextStat.classList.remove('text-red', 'text-brown', 'text-gold', 'text-green', 'text-darkgreen')
-    alerts.alert.riot = false
+    gameData.tempData.happiness = calculatedHappiness
 
-    if (calculatedHappiness <= 0) {
-        calculatedHappiness = 0
-        printMessage('Our population is rioting!', 'critical')
-        alerts.alert.riot = true
-        happyText.classList.add('text-red')
-        happyTextStat.classList.add('text-red')
-    } else if (calculatedHappiness > 0 && calculatedHappiness < 20) {
-        printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning')
-        happyText.classList.add('text-red')
-        happyTextStat.classList.add('text-red')
-    } else if (calculatedHappiness >= 20 && calculatedHappiness < 40) {
-        happyText.classList.add('text-brown')
-        happyTextStat.classList.add('text-brown')
-    } else if (calculatedHappiness >= 40 && calculatedHappiness < 60) {
-        happyText.classList.add('text-gold')
-        happyTextStat.classList.add('text-gold')
-    } else if (calculatedHappiness >= 60 && calculatedHappiness < 80) {
-        happyText.classList.add('text-green')
-        happyTextStat.classList.add('text-green')
-    } else if (calculatedHappiness >= 80) {
-        calculatedHappiness > 100 ? calculatedHappiness = 100 : null
-        happyText.classList.add('text-darkgreen')
-        happyTextStat.classList.add('text-darkgreen')
-    }
+    calculatedHappiness > 0 && calculatedHappiness < 20 ? printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning') : null
+    calculatedHappiness === 0 ? (
+        printMessage('Our population is rioting!', 'critical'),
+        gameData.alerts.riot = true
+    ) : null
 
-    happyText.textContent = `${calculatedHappiness}%`
-    happyTextStat.textContent = `${calculatedHappiness}%`
+    saveGame(gameData)
+}
+
+const changeTax = (id) => {
+    let gameData = loadGame()
+
+    id === 'btnTaxLow' ? gameData.general.tax = 1 : null
+    id === 'btnTaxBalanced' ? gameData.general.tax = 2 : null
+    id === 'btnTaxHigh' ? gameData.general.tax = 3 : null
+
+    saveGame(gameData)
+    printText()
+}
+
+// check before gaining res or at the beginning of teh game
+const checkBeforeGains = (isNewMonth) => {
+    showGeneralPanel()
+    clearMessages(isNewMonth)
+    checkConstruction(isNewMonth)
+    pop.calculateTotalSpace()
+}
+
+// checks various conditions after gaining resources and run events
+const checkAfterGains = (isNewMonth) => {
+    pop.isMaxPop(isNewMonth)
+    food.checkIfEnoughFood(pop, isNewMonth)
+    calculateHappiness()
+    checkActiveAlerts(alerts)
+    printText()
 }
 
 // initializes the app
 const initApp = () => {
-    showGeneralPanel()
-
-    checkIfNewGame(args)
-    checkConstruction(false)
-    calculateTotalSpace()
-    checkResources()
-    checkActiveAlerts(alerts)
-    calculateHappiness()
-
-    printText(args)
+    checkIfNewGame()
+    checkBeforeGains(false)
+    checkAfterGains(false)
 }
 
+// progress month
 const incmnth = () => {
-    showGeneralPanel()
-    clearMessages()
-
-    checkConstruction(true)
-    calculateTotalSpace()
+    checkBeforeGains(true)
 
     month.increaseMonth();
-    gold.calculateGold(pop.getResource());
-    pop.increasePop(alerts);
-    food.gainFood(farm);
-    printMessage('', 'gains', args)
-
-    food.consumeFood(pop, alerts);
-    pop.isMaxPop(alerts, true)
-
-    checkActiveAlerts(alerts)
-    calculateHappiness()
-
-    printText(args)
-    saveGame(args)
+    gold.calculateGold();
+    pop.increasePop();
+    food.gainFood();
+    printMessage('', 'gains')
+    food.consumeFood();
+    
+    checkAfterGains(true)
 }
 
 buttons[0].addEventListener('click', incmnth);
@@ -131,6 +112,8 @@ buttons[1].addEventListener('click', () => {
 })
 
 btnBuild.forEach(btn => {btn.addEventListener('click', (e) => {
-    btn.id == 'btnBuildHouse' ? house.startConstruction(e, args) : null
-    btn.id == 'btnBuildFarm' ? farm.startConstruction(e, args) : null
+    btn.id == 'buildingHouse' ? house.startConstruction(e) : null
+    btn.id == 'buildingFarm' ? farm.startConstruction(e) : null
 })})
+
+btnTax.forEach(btn => {btn.addEventListener('click', (e) => changeTax(e.target.id))})
