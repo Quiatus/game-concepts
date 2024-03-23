@@ -10,13 +10,14 @@ export const initData = {
     },
     goldModifiers: {
         1: [true, 0],
-        2: [false, 0],
+        2: [true, 1],
         3: [false, 1.1],
         4: [false, 20]
     },
     alerts: {
         famine: false,
-        overpopulation: false
+        overpopulation: false,
+        riot: false
     },
                     
     buildingHouse: ['House', 0, false, 2, false, 0, 250, 5, 0, false, 0, 100],  // Name, amount, unique, time, constructing, progress, gold, wood, stone, require space, space, effect

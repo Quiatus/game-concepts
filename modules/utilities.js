@@ -36,6 +36,7 @@ export const saveGame = (args) => {
 
     gameData.alerts.famine = args.alerts.alert.famine
     gameData.alerts.overpopulation = args.alerts.alert.overpopulation
+    gameData.alerts.riot = args.alerts.alert.riot
 
     localStorage.setItem('gameSave', JSON.stringify(gameData));
 }
@@ -54,6 +55,7 @@ const loadGame = (args) => {
 
     args.alerts.alert.famine = gameData.alerts.famine
     args.alerts.alert.overpopulation = gameData.alerts.overpopulation
+    args.alerts.alert.riot = gameData.alerts.riot
 
     for (let i = 0; i < args.gold.goldModifiers.length; i++) {
         args.gold.goldModifiers[i].active = gameData.goldModifiers[i+1][0]

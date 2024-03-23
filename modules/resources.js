@@ -52,8 +52,8 @@ export class Gold extends Resource{
             },
             {
                 id: 2,
-                name: 'bonus Increase',
-                type: 'add',
+                name: 'Tax Multiplier',
+                type: 'multiply',
                 active: null,
                 value: null
             },

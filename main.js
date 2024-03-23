@@ -44,6 +44,49 @@ const calculateTotalSpace = () => {
     pop.totalSpace = pop.basicSpace + house.totalSpace()
 }
 
+const calculateHappiness = () => {
+    const happyText = document.getElementById('happiness')
+    const happyTextStat = document.getElementById('stat-gen-hap')
+    const baseHappiness = 50
+
+    let calculatedHappiness = baseHappiness
+
+    alerts.alert.famine ? calculatedHappiness -= 10 : null
+    alerts.alert.overpopulation ? calculatedHappiness -= 5 : null
+
+    happyText.classList.remove('text-red', 'text-brown', 'text-gold', 'text-green', 'text-darkgreen')
+    happyTextStat.classList.remove('text-red', 'text-brown', 'text-gold', 'text-green', 'text-darkgreen')
+    alerts.alert.riot = false
+
+    if (calculatedHappiness <= 0) {
+        calculatedHappiness = 0
+        printMessage('Our population is rioting!', 'critical')
+        alerts.alert.riot = true
+        happyText.classList.add('text-red')
+        happyTextStat.classList.add('text-red')
+    } else if (calculatedHappiness > 0 && calculatedHappiness < 20) {
+        printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning')
+        happyText.classList.add('text-red')
+        happyTextStat.classList.add('text-red')
+    } else if (calculatedHappiness >= 20 && calculatedHappiness < 40) {
+        happyText.classList.add('text-brown')
+        happyTextStat.classList.add('text-brown')
+    } else if (calculatedHappiness >= 40 && calculatedHappiness < 60) {
+        happyText.classList.add('text-gold')
+        happyTextStat.classList.add('text-gold')
+    } else if (calculatedHappiness >= 60 && calculatedHappiness < 80) {
+        happyText.classList.add('text-green')
+        happyTextStat.classList.add('text-green')
+    } else if (calculatedHappiness >= 80) {
+        calculatedHappiness > 100 ? calculatedHappiness = 100 : null
+        happyText.classList.add('text-darkgreen')
+        happyTextStat.classList.add('text-darkgreen')
+    }
+
+    happyText.textContent = `${calculatedHappiness}%`
+    happyTextStat.textContent = `${calculatedHappiness}%`
+}
+
 // initializes the app
 const initApp = () => {
     showGeneralPanel()
@@ -53,6 +96,7 @@ const initApp = () => {
     calculateTotalSpace()
     checkResources()
     checkActiveAlerts(alerts)
+    calculateHappiness()
 
     printText(args)
 }
@@ -74,6 +118,8 @@ const incmnth = () => {
     pop.isMaxPop(alerts, true)
 
     checkActiveAlerts(alerts)
+    calculateHappiness()
+
     printText(args)
     saveGame(args)
 }

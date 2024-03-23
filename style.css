@@ -4,7 +4,7 @@
     --clr-bgblue: #333;
     --clr-compbg: #222;
     --clr-bg: #111;
-    --clr-bgyellow: #653;
+    --clr-bgyellow: #443;
     --clr-bgpurp: #434;
 
     --clr-white: #eee;
@@ -18,6 +18,7 @@
     --clr-purple: #9370db;
     --clr-gold: #ffd700;
     --clr-brown: #C15710; 
+    --clr-darkgreen: #008000;
 }
 
 * {
@@ -412,4 +413,8 @@ button:active {
 
 .text-yellow {
     color: var(--clr-yellow);
+}
+
+.text-darkgreen {
+    color: var(--clr-darkgreen);
 }

@@ -3,6 +3,7 @@ export class Alerts{
         this.alert = {
             famine: false,
             overpopulation: false,
+            riot: false
         }
     }
 
