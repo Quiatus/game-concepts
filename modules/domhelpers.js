@@ -2,6 +2,7 @@ const messages = document.querySelector('.message-div')
 const texts = document.querySelectorAll('span')
 const menuButtons = document.querySelectorAll('.menuBtn')
 const rightPanels = document.querySelectorAll('.right-panel')
+const alertsPanel = document.querySelector('.alert-div')
 
 const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
@@ -25,6 +26,19 @@ export const clearMessages = () => {
         messages.removeChild(child);
         child = messages.lastElementChild;
     }   
+}
+
+export const checkActiveAlerts = (alerts) => {
+    alertsPanel.innerHTML = ''
+
+    const alertList = alerts.listActiveAlerts()
+
+    for (let i = 0; i < alertList.length; i++) {
+        const span = document.createElement('span')
+        span.textContent = alertList[i]
+        alertsPanel.append(span)
+    }
+
 }
 
 export const printMessage = (text, type='info', args={}) => {

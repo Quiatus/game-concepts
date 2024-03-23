@@ -35,7 +35,7 @@ export class Month extends Resource{
     }
 
     increaseMonth() {
-        this.resource += 1
+        this.resource++
     }
 }
 
@@ -105,33 +105,53 @@ export class Pop extends Resource{
         this.totalSpace = null
     }
 
-    increasePop() {
+    increasePop(alerts) {
         // Pop increase is between 0.1% - 0.5% per month
         const min = Math.floor(this.resource * 0.001);  
         const max = Math.floor(this.resource * 0.005);
         // adds between 2 - 20 pop on the top of the base increase. This is to account for low increase if pop is too low
         const addPop = Math.floor(Math.random() * (max - min) + min) + Math.floor(Math.random() * (21-2) + 2); 
 
-        if (this.resource + addPop >= this.totalSpace) {
-            this.resourceChange = (this.totalSpace - this.resource)
-            this.resource = this.totalSpace
-        } else {
-            this.resource += addPop
-            this.resourceChange = addPop
+        if (!alerts.alert.overpopulation) {
+            if (this.resource + addPop >= this.totalSpace) {
+                this.resourceChange = (this.totalSpace - this.resource)
+                this.resource = this.totalSpace
+            } else {
+                this.resource += addPop
+                this.resourceChange = addPop
+            }
         }
+
     }
 
-    isMaxPop() {
+    isMaxPop(alerts, newMonth) {
+        alerts.alert.overpopulation = false
+        popText.classList.remove('text-red')
         if (this.resource === this.totalSpace) {
             popText.classList.add('text-red')
             printMessage('Population capacity reached. Build more housing!', 'warning')
-        } else if (this.resource > this.totalSpace) {
+        } else if ((this.resource > this.totalSpace) && newMonth) {
+            alerts.alert.overpopulation = true
             popText.classList.add('text-red')
-            printMessage('People have nowhere to live. x people have left. Build more housing!', 'critical')
-            // remove x % of pop until pop = max space
-        } else {
-            popText.classList.remove('text-red')
+            const leftPop = this.removePops('overpopulation')
+            printMessage(`People have nowhere to live. ${leftPop} people have left. Build more housing!`, 'critical')
+            this.resource < this.totalSpace ? popText.classList.remove('text-red') : null
+        } else if ((this.resource > this.totalSpace) && !newMonth) {
+            alerts.alert.overpopulation = true
+            popText.classList.add('text-red')
+            printMessage(`People have nowhere to live. Build more housing!`, 'critical')
         }
+    }
+
+    removePops(reason) {
+        let removedAmount = 0
+        if (reason === 'famine') {
+            removedAmount = Math.floor(Math.random() * (this.resource * 0.12 - this.resource * 0.08) + this.resource * 0.08)          
+        } else if (reason === 'overpopulation') {
+            removedAmount = Math.floor(Math.random() * (this.resource * 0.15 - this.resource * 0.05) + this.resource * 0.05)
+        }
+        this.resource -= removedAmount
+        return removedAmount
     }
 }
 
@@ -146,20 +166,28 @@ export class Food extends Resource{
         this.resourceChange = gain
     }
 
-    consumeFood(currentPop) {
-        const consumedFood = Math.floor(currentPop / 100);
+    consumeFood(pop, alerts) {
+        const consumedFood = Math.floor(pop.getResource() / 100);
         printMessage(`Our people have consumed <span class='text-bold'>${consumedFood}</span> food.`, 'info')
         this.resource -= consumedFood
         if (this.resource < 0) {
             this.resource = 0
         }
-        this.checkIfEnoughFood(currentPop)
+        this.checkIfEnoughFood(pop, true, alerts)
     }
 
-    checkIfEnoughFood(currentPop) {
-        const consumedFood = Math.floor(currentPop / 100);
-        if (consumedFood * 10 > this.resource) {
-            printMessage(`We are running low on food! Build more farms!`, 'warning')
+    checkIfEnoughFood(pop, newMonth=true, alerts) {
+        const consumedFood = Math.floor(pop.getResource() / 100);
+        alerts.alert.famine = false
+        if ((consumedFood - this.resourceChange) * 15 >= this.resource && this.resource > 0) {
+            printMessage(`We are running low on food! Increase food production!`, 'warning')
+        } else if (this.resource === 0 && !newMonth) {
+            alerts.alert.famine = true
+            printMessage(`Our clan is suffering from famine! Increase food production!`, 'critical')
+        } else if (this.resource === 0 && newMonth) {
+            alerts.alert.famine = true
+            const deadPop = pop.removePops('famine')
+            printMessage(`Our clan is suffering from famine! ${deadPop} people has died from starvation! Increase food production! `, 'critical')
         }
     }
 }

@@ -34,6 +34,9 @@ export const saveGame = (args) => {
     gameData.buildingFarm[4] = args.farm.isBeingConstructed
     gameData.buildingFarm[5] = args.farm.constructionProgress
 
+    gameData.alerts.famine = args.alerts.alert.famine
+    gameData.alerts.overpopulation = args.alerts.alert.overpopulation
+
     localStorage.setItem('gameSave', JSON.stringify(gameData));
 }
 
@@ -48,6 +51,9 @@ const loadGame = (args) => {
 
     args.house.initValues(gameData.buildingHouse)
     args.farm.initValues(gameData.buildingFarm)
+
+    args.alerts.alert.famine = gameData.alerts.famine
+    args.alerts.alert.overpopulation = gameData.alerts.overpopulation
 
     for (let i = 0; i < args.gold.goldModifiers.length; i++) {
         args.gold.goldModifiers[i].active = gameData.goldModifiers[i+1][0]

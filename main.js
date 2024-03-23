@@ -1,7 +1,8 @@
-import { printText, clearMessages, printMessage, showGeneralPanel } from "./modules/domhelpers.js"
+import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAlerts } from "./modules/domhelpers.js"
 import { saveGame, checkIfNewGame } from "./modules/utilities.js"
 import { House, Farm } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
+import { Alerts } from "./modules/alerts.js";
 
 const buttons = document.querySelectorAll('button')
 const btnBuild = document.querySelectorAll('.btnBuild')
@@ -15,8 +16,9 @@ const wood = new Wood();
 const stone = new Stone();
 const house = new House();
 const farm = new Farm();
+const alerts = new Alerts();
 
-const args = {gold, pop, month, food, wood, stone, house, farm}
+const args = {gold, pop, month, food, wood, stone, house, farm, alerts}
 
 document.addEventListener('readystatechange', (event) => {
     if (event.target.readyState === "complete") {
@@ -34,8 +36,8 @@ const checkConstruction = (nextMonth) => {
 
 // checks various conditions at the game start
 const checkResources = () => {
-    pop.isMaxPop()
-    food.checkIfEnoughFood(pop.getResource())
+    pop.isMaxPop(alerts, false)
+    food.checkIfEnoughFood(pop, false, alerts)
 }
 
 const calculateTotalSpace = () => {
@@ -50,6 +52,7 @@ const initApp = () => {
     checkConstruction(false)
     calculateTotalSpace()
     checkResources()
+    checkActiveAlerts(alerts)
 
     printText(args)
 }
@@ -63,13 +66,14 @@ const incmnth = () => {
 
     month.increaseMonth();
     gold.calculateGold(pop.getResource());
-    pop.increasePop();
+    pop.increasePop(alerts);
     food.gainFood(farm);
     printMessage('', 'gains', args)
 
-    food.consumeFood(pop.getResource());
-    pop.isMaxPop()
+    food.consumeFood(pop, alerts);
+    pop.isMaxPop(alerts, true)
 
+    checkActiveAlerts(alerts)
     printText(args)
     saveGame(args)
 }

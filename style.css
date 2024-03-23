@@ -4,6 +4,8 @@
     --clr-bgblue: #333;
     --clr-compbg: #222;
     --clr-bg: #111;
+    --clr-bgyellow: #653;
+    --clr-bgpurp: #434;
 
     --clr-white: #eee;
     --clr-gray: #aaa;
@@ -136,6 +138,10 @@ main {
     gap: 0.5rem 1rem;
 }
 
+.alert-div span {
+    text-transform: capitalize;
+}
+
 /* Menu box */
 
 .menu {
@@ -264,6 +270,15 @@ main {
 .right-panel > h3 {
     margin-bottom: 1rem;
 }
+
+.bgyellow {
+    background-color: var(--clr-bgyellow);
+}
+
+.bgpurple {
+    background-color: var(--clr-bgpurp);
+}
+
 
 /* Buttons */
 
