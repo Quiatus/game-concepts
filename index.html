@@ -106,6 +106,7 @@
                         <div class="stat-div">
                             <span class="text-gray">Capital:</span><span id="stat-space-cap"></span>
                             <span class="text-gray">Houses:</span><span id="stat-space-house"></span>
+                            <span class="text-gray">Settlements:</span><span id="stat-space-settlement">0</span>
                             <span class="text-gray">Total space:</span><span id="stat-space-total"></span>
                             <span class="text-gray">Free space:</span><span id="stat-space-free"></span>
                         </div>
@@ -116,13 +117,17 @@
                         <div class="stat-div">
                             <span class="text-gray">Houses:</span><span id="stat-build-house"></span>
                             <span class="text-gray">Farms:</span><span id="stat-build-farm"></span>
+                            <span class="text-gray">Lumber yards:</span><span id="stat-build-lumber"></span>
+                            <span class="text-gray">Quarries:</span><span id="stat-build-quarry"></span>
                         </div>
                     </div>    
 
                     <div>
-                        <p class="stat-header">Runes:</p>
+                        <p class="stat-header">Settlements:</p>
                         <div class="stat-div">
-                            
+                            <span class="text-gray">Villages:</span><span id="stat-settlement-village">0</span>
+                            <span class="text-gray">Towns:</span><span id="stat-settlement-town">0</span>
+                            <span class="text-gray">Cities:</span><span id="stat-settlement-city">0</span>
                         </div>
                     </div> 
                 </div>          
@@ -186,6 +191,7 @@
                         <p class="stat-header">Wood:</p>
                         <div class="economy-div">
                             <span class="text-white spread">Gains</span>
+                            <span class="text-gray ml">Lumber yard:</span><span class="text-green" id="econ-w-lumber"></span>
                             <span class="text-white">Total:</span><span class="text-bold text-green" id="econ-w-totalgain"></span>
                         </div>
                         <div class="economy-div">
@@ -201,6 +207,7 @@
                         <p class="stat-header">Stone:</p>
                         <div class="economy-div">
                             <span class="text-white spread">Gains</span>
+                            <span class="text-gray ml">Quarries:</span><span class="text-green" id="econ-s-quarry"></span>
                             <span class="text-white">Total:</span><span class="text-bold text-green" id="econ-s-totalgain"></span>
                         </div>
                         <div class="economy-div">
@@ -276,6 +283,56 @@
                             <button class="btnBuild" id="buildingFarm">Begin construction</button>
                         </div>          
                     </div>     
+
+                    <div class="building-div bgbrown">
+                        <h4 class="text-big">Lumber yard</h4>
+                        <div class="build-description">
+                            <p>Produces <span class="text-bold" id="building-lumber-descr"></span> units of wood per month.</p>
+                            <span class="text-orange">Requires space</span>
+                        </div>
+                        
+                        <div class="build-stats">
+                            <span class="text-gray">Built:</span> <span id="building-lumber-amount"></span>
+                        </div> 
+                        <div class="build-stats">
+                            <span class="text-gray">Building cost:</span> <span id="building-lumber-cost"></span>
+                            <span class="text-gray">Constr. time:</span><span id="building-lumber-constrtime"></span>
+                            <span class="text-gray">Avail. space: </span><span id="building-lumber-space"></span>
+                        </div>
+                                    
+                        <div class="build-stats">
+                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-lumber-progress">-</span>
+                        </div>
+                        <div class="build-buttons">
+                            <span class="text-red hidden">.</span>
+                            <button class="btnBuild" id="buildingLumberyard">Begin construction</button>
+                        </div>          
+                    </div>
+
+                    <div class="building-div bggrey">
+                        <h4 class="text-big">Quarry</h4>
+                        <div class="build-description">
+                            <p>Produces <span class="text-bold" id="building-quarry-descr"></span> units of stone per month.</p>
+                            <span class="text-orange">Requires space</span>
+                        </div>
+                        
+                        <div class="build-stats">
+                            <span class="text-gray">Built:</span> <span id="building-quarry-amount"></span>
+                        </div> 
+                        <div class="build-stats">
+                            <span class="text-gray">Building cost:</span> <span id="building-quarry-cost"></span>
+                            <span class="text-gray">Constr. time:</span><span id="building-quarry-constrtime"></span>
+                            <span class="text-gray">Avail. space: </span><span id="building-quarry-space"></span>
+                        </div>
+                                    
+                        <div class="build-stats">
+                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-quarry-progress">-</span>
+                        </div>
+                        <div class="build-buttons">
+                            <span class="text-red hidden">.</span>
+                            <button class="btnBuild" id="buildingQuarry">Begin construction</button>
+                        </div>          
+                    </div>
                 </div>
             </div>
         </div>

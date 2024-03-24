@@ -299,8 +299,97 @@ export class Food{
 }
 
 export class Wood{
+    constructor(){
+        this.woodModifiers = [
+            {
+                id: 1,
+                name: 'Base increase',
+                type: 'add',
+                active: null,
+                value: null
+            }
+        ]
+     }
+
+     loadModifiers(modifiers) {
+        let i = 0
+        for (let item in modifiers) {
+            this.woodModifiers[i].active = modifiers[item]
+            i++
+        }
+     }
+
+     calculateWood() {
+        let gameData = loadGame()
+        this.loadModifiers(gameData.woodModifiers)
+        this.woodModifiers[0].value = this.gainWood(gameData)
+        
+        let amount = 0;
+
+        for (let i = 0; i < this.woodModifiers.length; i++) {
+            if (this.woodModifiers[i].active) {
+                if (this.woodModifiers[i].type === 'add') amount += this.woodModifiers[i].value  
+                else if (this.woodModifiers[i].type === 'substract') amount -= this.woodModifiers[i].value
+                else if (this.woodModifiers[i].type === 'multiply') amount = Math.round(amount * this.woodModifiers[i].value)
+            }
+        }
+        
+        gameData.resourceChange.wood = 0
+        gameData.basicResources.wood += amount
+        gameData.resourceChange.wood = amount
+        saveGame(gameData)
+    }
+
+    gainWood(gameData) {
+        const gain = gameData.buildingLumberyard.amount * gameData.buildingLumberyard.effect
+        return gain
+    }
 }
 
 export class Stone{
+    constructor(){
+        this.stoneModifiers = [
+            {
+                id: 1,
+                name: 'Base increase',
+                type: 'add',
+                active: null,
+                value: null
+            }
+        ]
+     }
 
+     loadModifiers(modifiers) {
+        let i = 0
+        for (let item in modifiers) {
+            this.stoneModifiers[i].active = modifiers[item]
+            i++
+        }
+     }
+
+     calculateStone() {
+        let gameData = loadGame()
+        this.loadModifiers(gameData.stoneModifiers)
+        this.stoneModifiers[0].value = this.gainStone(gameData)
+        
+        let amount = 0;
+
+        for (let i = 0; i < this.stoneModifiers.length; i++) {
+            if (this.stoneModifiers[i].active) {
+                if (this.stoneModifiers[i].type === 'add') amount += this.stoneModifiers[i].value  
+                else if (this.stoneModifiers[i].type === 'substract') amount -= this.stoneModifiers[i].value
+                else if (this.stoneModifiers[i].type === 'multiply') amount = Math.round(amount * this.stoneModifiers[i].value)
+            }
+        }
+        
+        gameData.resourceChange.stone = 0
+        gameData.basicResources.stone += amount
+        gameData.resourceChange.stone = amount
+        saveGame(gameData)
+    }
+
+    gainStone(gameData) {
+        const gain = gameData.buildingQuarry.amount * gameData.buildingQuarry.effect
+        return gain
+    }
 }

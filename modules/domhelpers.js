@@ -10,14 +10,18 @@ const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d
 
 const newMonthGains = () => {
     let gameData = loadGame()
-    let addedGold = '', addedFood = '', addedPop = ''
+    let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
 
     gameData.resourceChange.gold > 0 ? addedGold = `<span class="text-gold text-bold"> ${converThousand(gameData.resourceChange.gold)} </span> gold,` : null
     gameData.resourceChange.pop > 0 ? addedPop = `<span class="text-purple text-bold"> ${converThousand(gameData.resourceChange.pop)} </span> pops,` : null
     gameData.resourceChange.food > 0 ? addedFood = `<span class="text-yellow text-bold"> ${converThousand(gameData.resourceChange.food)} </span> food,` : null
+    gameData.resourceChange.wood > 0 ? addedWood = `<span class="text-brown text-bold"> ${converThousand(gameData.resourceChange.wood)} </span> wood,` : null
+    gameData.resourceChange.stone > 0 ? addedStone = `<span class="text-gray text-bold"> ${converThousand(gameData.resourceChange.stone)} </span> stone,` : null
 
-    let res = `Gained ${addedPop} ${addedGold} ${addedFood}.`.replace(',.', '.').replace(', .', '.')
+    let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.').replace(', .', '.')
+    console.log(res)
     const repl = res.lastIndexOf(',')
+    
     repl > 0 ? res = res.substring(0, repl) + ' and ' + res.substring(repl+1) : null
 
     return res
@@ -83,6 +87,8 @@ export const printText = () => {
         item.id === 'stat-space-free' ? item.textContent = converThousand(gameData.tempData.totalSpace - gameData.basicResources.pop) : null
         item.id === 'stat-build-house' ? item.textContent = converThousand(gameData.buildingHouse.amount) : null
         item.id === 'stat-build-farm' ? item.textContent = converThousand(gameData.buildingFarm.amount) : null
+        item.id === 'stat-build-lumber' ? item.textContent = converThousand(gameData.buildingLumberyard.amount) : null
+        item.id === 'stat-build-quarry' ? item.textContent = converThousand(gameData.buildingQuarry.amount) : null
         item.id === 'stat-gen-hap' ? item.innerHTML = changeHappinessColor(gameData.tempData.happiness) : null
 
         // Economics text
@@ -105,10 +111,12 @@ export const printText = () => {
         item.id === 'econ-f-totalloss' ? item.textContent = converThousand(calcEconomy('f')[1]) : null
         item.id === 'econ-f-total' ? item.innerHTML = converThousand(calcEconomy('f')[2]) : null
 
+        item.id === 'econ-w-lumber' ? gameData.resourceChange.wood > 0 ? item.textContent = converThousand(gameData.resourceChange.wood) : item.textContent = '-' : null
         item.id === 'econ-w-totalgain' ? item.textContent = converThousand(calcEconomy('w')[0]) : null
         item.id === 'econ-w-totalloss' ? item.textContent = converThousand(calcEconomy('w')[1]) : null
         item.id === 'econ-w-total' ? item.innerHTML = converThousand(calcEconomy('w')[2]) : null
 
+        item.id === 'econ-s-quarry' ? gameData.resourceChange.stone > 0 ? item.textContent = converThousand(gameData.resourceChange.stone) : item.textContent = '-' : null
         item.id === 'econ-s-totalgain' ? item.textContent = converThousand(calcEconomy('s')[0]) : null
         item.id === 'econ-s-totalloss' ? item.textContent = converThousand(calcEconomy('s')[1]) : null
         item.id === 'econ-s-total' ? item.innerHTML = converThousand(calcEconomy('s')[2]) : null
@@ -138,6 +146,34 @@ export const printText = () => {
         item.id === 'building-farm-space' ? item.textContent = converThousand(gameData.buildingFarm.space) : null
         item.id === 'building-farm-progress' 
         ? gameData.buildingFarm.isBeingBuilt ? item.textContent = `${100 / gameData.buildingFarm.costTime * gameData.buildingFarm.buildProgress} %` : item.textContent = '-'  
+        : null
+
+        // Building - lumberyard text
+        item.id === 'building-lumber-cost' 
+        ? item.innerHTML = `<span class='text-gold'>${converThousand(gameData.buildingLumberyard.costGold)}</span>` 
+            + (gameData.buildingLumberyard.costWood > 0 ? ` • <span class='text-brown'>${converThousand(gameData.buildingLumberyard.costWood)}</span>` : ``)
+            + (gameData.buildingLumberyard.costStone > 0 ? ` • <span class='text-gray'>${converThousand(gameData.buildingLumberyard.costStone)}</span>` : ``)
+        : null
+        item.id === 'building-lumber-constrtime' ? item.textContent = `${converThousand(gameData.buildingLumberyard.costTime)} months` : null
+        item.id === 'building-lumber-amount' ? item.textContent = converThousand(gameData.buildingLumberyard.amount) : null
+        item.id === 'building-lumber-descr' ? item.textContent = converThousand(gameData.buildingLumberyard.effect) : null
+        item.id === 'building-lumber-space' ? item.textContent = converThousand(gameData.buildingLumberyard.space) : null
+        item.id === 'building-lumber-progress' 
+        ? gameData.buildingLumberyard.isBeingBuilt ? item.textContent = `${100 / gameData.buildingLumberyard.costTime * gameData.buildingLumberyard.buildProgress} %` : item.textContent = '-'  
+        : null
+
+        // Building - quarry text
+        item.id === 'building-quarry-cost' 
+        ? item.innerHTML = `<span class='text-gold'>${converThousand(gameData.buildingQuarry.costGold)}</span>` 
+            + (gameData.buildingQuarry.costWood > 0 ? ` • <span class='text-brown'>${converThousand(gameData.buildingQuarry.costWood)}</span>` : ``)
+            + (gameData.buildingQuarry.costStone > 0 ? ` • <span class='text-gray'>${converThousand(gameData.buildingQuarry.costStone)}</span>` : ``)
+        : null
+        item.id === 'building-quarry-constrtime' ? item.textContent = `${converThousand(gameData.buildingQuarry.costTime)} months` : null
+        item.id === 'building-quarry-amount' ? item.textContent = converThousand(gameData.buildingQuarry.amount) : null
+        item.id === 'building-quarry-descr' ? item.textContent = converThousand(gameData.buildingQuarry.effect) : null
+        item.id === 'building-quarry-space' ? item.textContent = converThousand(gameData.buildingQuarry.space) : null
+        item.id === 'building-quarry-progress' 
+        ? gameData.buildingQuarry.isBeingBuilt ? item.textContent = `${100 / gameData.buildingQuarry.costTime * gameData.buildingQuarry.buildProgress} %` : item.textContent = '-'  
         : null
     })
 }

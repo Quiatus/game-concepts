@@ -1,6 +1,6 @@
 import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAlerts } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
-import { House, Farm } from "./modules/buildings.js"
+import { House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { Alerts } from "./modules/alerts.js";
 
@@ -17,6 +17,8 @@ const wood = new Wood();
 const stone = new Stone();
 const house = new House();
 const farm = new Farm();
+const lumberyard = new Lumberyard();
+const quarry = new Quarry();
 const alerts = new Alerts();
 
 document.addEventListener('readystatechange', (e) => {
@@ -30,6 +32,8 @@ const checkConstruction = (isNewMonth) => {
     btnBuild.forEach(btn => {
         btn.id == 'buildingHouse' ? house.checkIfBeingBuilt(btn, isNewMonth) : null
         btn.id == 'buildingFarm' ? farm.checkIfBeingBuilt(btn, isNewMonth) : null
+        btn.id == 'buildingLumberyard' ? lumberyard.checkIfBeingBuilt(btn, isNewMonth) : null
+        btn.id == 'buildingQuarry' ? quarry.checkIfBeingBuilt(btn, isNewMonth) : null
     })
 }
 
@@ -99,6 +103,8 @@ const incmnth = () => {
     gold.calculateGold();
     pop.calculatePop();
     food.calculateFood();
+    wood.calculateWood();
+    stone.calculateStone();
     printMessage('', 'gains')
     food.consumeFood();
     
@@ -114,6 +120,8 @@ buttons[1].addEventListener('click', () => {
 btnBuild.forEach(btn => {btn.addEventListener('click', (e) => {
     btn.id == 'buildingHouse' ? house.startConstruction(e) : null
     btn.id == 'buildingFarm' ? farm.startConstruction(e) : null
+    btn.id == 'buildingLumberyard' ? lumberyard.startConstruction(e) : null
+    btn.id == 'buildingQuarry' ? quarry.startConstruction(e) : null
 })})
 
 btnTax.forEach(btn => {btn.addEventListener('click', (e) => changeTax(e.target.id))})

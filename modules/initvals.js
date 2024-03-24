@@ -29,6 +29,12 @@ export const initData = {
     foodModifiers: {
         base: true,
     },
+    woodModifiers: {
+        base: true,
+    },
+    stoneModifiers: {
+        base: true,
+    },
     alerts: {
         famine: false,
         overpopulation: false,
@@ -54,7 +60,7 @@ export const initData = {
         costStone: 0,
         requireSpace: false,
         space: 0,
-        effect: 100
+        effect: 50
     },
     buildingFarm: {
         name: 'Farm',
@@ -67,7 +73,35 @@ export const initData = {
         costWood: 20,
         costStone: 5,
         requireSpace: true,
-        space: 0,
+        space: 1,
+        effect: 10
+    },
+    buildingLumberyard: {
+        name: 'Lumber yard',
+        amount: 0,
+        isUnique: false,
+        isBeingBuilt: false,
+        buildProgress: 0,
+        costTime: 5,
+        costGold: 500,
+        costWood: 10,
+        costStone: 0,
+        requireSpace: true,
+        space: 1,
+        effect: 5
+    },
+    buildingQuarry: {
+        name: 'Quarry',
+        amount: 0,
+        isUnique: false,
+        isBeingBuilt: false,
+        buildProgress: 0,
+        costTime: 20,
+        costGold: 10000,
+        costWood: 100,
+        costStone: 20,
+        requireSpace: true,
+        space: 1,
         effect: 10
     }
 }

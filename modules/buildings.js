@@ -36,7 +36,7 @@ class Building {
             return [canBuild, reason]
         }
 
-        if (building.requiresSpace === true && building.space === 0) {
+        if (building.requireSpace === true && building.space === 0) {
             canBuild = false
             reason = 'No available space for construction!'
             return [canBuild, reason]
@@ -57,7 +57,8 @@ class Building {
             e.target.disabled = true;
 
             gameData[target].isBeingBuilt = true;
-
+            gameData[target].requireSpace ? gameData[target].space -= 1 : null
+            
             gameData.basicResources.gold -= gameData[target].costGold
             gameData.basicResources.wood -= gameData[target].costWood
             gameData.basicResources.stone -= gameData[target].costStone
@@ -111,6 +112,18 @@ export class House extends Building {
 }
 
 export class Farm extends Building {
+    constructor(){
+        super()
+    }
+}
+
+export class Lumberyard extends Building {
+    constructor(){
+        super()
+    }
+}
+
+export class Quarry extends Building {
     constructor(){
         super()
     }

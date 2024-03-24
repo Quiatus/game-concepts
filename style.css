@@ -6,6 +6,8 @@
     --clr-bg: #111;
     --clr-bgyellow: #443;
     --clr-bgpurp: #434;
+    --clr-bgbrown: #420;
+    --clr-bggrey: #444;
 
     --clr-white: #eee;
     --clr-gray: #aaa;
@@ -257,7 +259,7 @@ main {
 
 .economy-div {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     grid-template-rows: auto;
     margin-left: 1rem;
     margin-bottom: 0.5rem;
@@ -352,6 +354,13 @@ main {
     background-color: var(--clr-bgpurp);
 }
 
+.bgbrown {
+    background-color: var(--clr-bgbrown);
+}
+
+.bggrey {
+    background-color: var(--clr-bggrey);
+}
 
 /* Buttons */
 
