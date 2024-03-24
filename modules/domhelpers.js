@@ -85,6 +85,34 @@ export const printText = () => {
         item.id === 'stat-build-farm' ? item.textContent = converThousand(gameData.buildingFarm.amount) : null
         item.id === 'stat-gen-hap' ? item.innerHTML = changeHappinessColor(gameData.tempData.happiness) : null
 
+        // Economics text
+
+        item.id === 'econ-p-birth' ? gameData.resourceChange.pop > 0 ? item.textContent = converThousand(gameData.resourceChange.pop) : item.textContent = '-' : null
+        item.id === 'econ-p-totalgain' ? item.textContent = converThousand(calcEconomy('p')[0]) : null
+        item.id === 'econ-p-left' ? gameData.tempData.popLeft > 0 ? item.textContent = converThousand(gameData.tempData.popLeft) : item.textContent = '-' : null
+        item.id === 'econ-p-death' ? gameData.tempData.popDied > 0 ? item.textContent = converThousand(gameData.tempData.popDied) : item.textContent = '-' : null
+        item.id === 'econ-p-totalloss' ? item.textContent = converThousand(calcEconomy('p')[1]) : null
+        item.id === 'econ-p-total' ? item.innerHTML = converThousand(calcEconomy('p')[2]) : null
+
+        item.id === 'econ-g-tax' ? gameData.resourceChange.gold > 0 ? item.textContent = converThousand(gameData.resourceChange.gold) : item.textContent = '-' : null
+        item.id === 'econ-g-totalgain' ? item.textContent = converThousand(calcEconomy('g')[0]) : null
+        item.id === 'econ-g-totalloss' ? item.textContent = converThousand(calcEconomy('g')[1]) : null
+        item.id === 'econ-g-total' ? item.innerHTML = converThousand(calcEconomy('g')[2]) : null
+
+        item.id === 'econ-f-farm' ? gameData.resourceChange.food > 0 ? item.textContent = converThousand(gameData.resourceChange.food) : item.textContent = '-' : null
+        item.id === 'econ-f-totalgain' ? item.textContent = converThousand(calcEconomy('f')[0]) : null
+        item.id === 'econ-f-people' ? gameData.tempData.consumedFood > 0 ? item.textContent = converThousand(gameData.tempData.consumedFood) : item.textContent = '-' : null
+        item.id === 'econ-f-totalloss' ? item.textContent = converThousand(calcEconomy('f')[1]) : null
+        item.id === 'econ-f-total' ? item.innerHTML = converThousand(calcEconomy('f')[2]) : null
+
+        item.id === 'econ-w-totalgain' ? item.textContent = converThousand(calcEconomy('w')[0]) : null
+        item.id === 'econ-w-totalloss' ? item.textContent = converThousand(calcEconomy('w')[1]) : null
+        item.id === 'econ-w-total' ? item.innerHTML = converThousand(calcEconomy('w')[2]) : null
+
+        item.id === 'econ-s-totalgain' ? item.textContent = converThousand(calcEconomy('s')[0]) : null
+        item.id === 'econ-s-totalloss' ? item.textContent = converThousand(calcEconomy('s')[1]) : null
+        item.id === 'econ-s-total' ? item.innerHTML = converThousand(calcEconomy('s')[2]) : null
+
         // Building - house text
         item.id === 'building-house-cost' 
         ? item.innerHTML = `<span class='text-gold'>${converThousand(gameData.buildingHouse.costGold)}</span>` 
@@ -141,6 +169,41 @@ const changeTaxText = (tax) => {
     } else if (tax === 3) {
         return '<span class="text-red">High</span>'
     }
+}
+
+const calcEconomy = (econType) => {
+    let gameData = loadGame()
+    let results = [0, 0, ``]
+    let total = 0
+
+    if (econType === 'p') {
+        results[0] = gameData.resourceChange.pop 
+        results[1] = gameData.tempData.popDied + gameData.tempData.popLeft
+    } else if (econType === 'g') {
+        results[0] = gameData.resourceChange.gold 
+    } else if (econType === 'f') {
+        results[0] = gameData.resourceChange.food 
+        results[1] = gameData.tempData.consumedFood
+    } else if (econType === 'w') {
+        results[0] = gameData.resourceChange.wood 
+    } else if (econType === 's') {
+        results[0] = gameData.resourceChange.stone 
+    }
+
+    total = results[0] - results[1]
+
+    results[0] === 0 ? results[0] = '-' : null
+    results[1] === 0 ? results[1] = '-' : null
+
+    if (total > 0) {
+        results[2] = `<span class='text-green'>+ ${total}</span>`
+    } else if (total < 0) {
+        results[2] = `<span class='text-red'>${total}</span>`
+    } else {
+        results[2] = `-`
+    }
+
+    return results
 }
 
 menuButtons.forEach(btn => {btn.addEventListener('click', () => {

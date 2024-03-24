@@ -262,6 +262,7 @@ main {
     margin-left: 1rem;
     margin-bottom: 0.5rem;
     font-size: 16px;
+    
 }
 
 .spread {
@@ -435,6 +436,11 @@ button:active {
 .text-big {
     font-weight: 700;
     font-size: 1.2rem;
+}
+
+.text-sb {
+    font-weight: 700;
+    font-size: 18px;
 }
 
 .text-small {

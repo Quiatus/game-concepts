@@ -97,8 +97,8 @@ const incmnth = () => {
 
     month.increaseMonth();
     gold.calculateGold();
-    pop.increasePop();
-    food.gainFood();
+    pop.calculatePop();
+    food.calculateFood();
     printMessage('', 'gains')
     food.consumeFood();
     

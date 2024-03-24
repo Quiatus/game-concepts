@@ -20,10 +20,14 @@ export const initData = {
         stone: 0
     },
     goldModifiers: {
-        1: [true, 0],
-        2: [true, 1],
-        3: [false, 1.1],
-        4: [false, 20]
+        base: true,
+        tax: true,
+    },
+    popModifiers: {
+        base: true,
+    },
+    foodModifiers: {
+        base: true,
     },
     alerts: {
         famine: false,
@@ -34,9 +38,10 @@ export const initData = {
         houseSpace: 0,
         totalSpace: 0,
         consumedFood: 0,
-        happiness: 0
-    },
-                    
+        happiness: 0, 
+        popLeft: 0,
+        popDied: 0
+    },               
     buildingHouse: {
         name: 'House',
         amount: 0,
