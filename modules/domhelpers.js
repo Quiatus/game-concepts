@@ -19,7 +19,7 @@ const newMonthGains = () => {
     gameData.resourceChange.stone > 0 ? addedStone = `<span class="text-gray text-bold"> ${converThousand(gameData.resourceChange.stone)} </span> stone,` : null
 
     let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.').replace(', .', '.')
-    console.log(res)
+    
     const repl = res.lastIndexOf(',')
     
     repl > 0 ? res = res.substring(0, repl) + ' and ' + res.substring(repl+1) : null

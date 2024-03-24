@@ -8,40 +8,34 @@ class Building {
 
         if (building.isBeingBuilt === true) {
             canBuild = false
-            reason = 'Construction already in progress!'
-            return [canBuild, reason]
+            reason += 'Construction already in progress, '
         }
 
         if (building.costGold > resources.gold) {
             canBuild = false
-            reason = 'Not enough gold!'
-            return [canBuild, reason]
+            reason += 'Not enough gold, '
         }
 
         if (building.costWood > resources.wood) {
             canBuild = false
-            reason = 'Not enough wood!'
-            return [canBuild, reason]
+            reason += 'Not enough wood, '
         }
 
         if (building.costStone > resources.stone) {
             canBuild = false
-            reason = 'Not enough stone!'
-            return [canBuild, reason]
+            reason += 'Not enough stone, '
         }
 
         if (building.amount === 1 && building.amount === true) {
             canBuild = false
-            reason = 'We can only have one unique building!'
-            return [canBuild, reason]
+            reason += 'We can only have one unique building, '
         }
 
         if (building.requireSpace === true && building.space === 0) {
             canBuild = false
-            reason = 'No available space for construction!'
-            return [canBuild, reason]
+            reason += 'No available space for construction, '
         }
-
+        reason = reason.substring(0, reason.length - 2)
         return [canBuild, reason]
     }
 
@@ -67,8 +61,7 @@ class Building {
             printText()
         } else {
             e.target.parentElement.children[0].textContent = checkRes[1]
-            e.target.parentElement.children[0].classList.remove('hidden')
-            setTimeout(() => {e.target.parentElement.children[0].classList.add('hidden')}, 3000)
+            setTimeout(() => {e.target.parentElement.children[0].textContent = ''}, 5000)
         }
     }
 

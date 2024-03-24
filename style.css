@@ -195,7 +195,6 @@ main {
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
     gap: 0.5rem;
     box-shadow: 0 0 10px var(--clr-bgblue);
@@ -264,7 +263,6 @@ main {
     margin-left: 1rem;
     margin-bottom: 0.5rem;
     font-size: 16px;
-    
 }
 
 .spread {
@@ -295,7 +293,6 @@ main {
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
     gap: 0.5rem;
     box-shadow: 0 0 10px var(--clr-bgblue);
@@ -317,7 +314,6 @@ main {
     display: grid;
     grid-template-columns: 1fr 1.25fr;
     grid-template-rows: auto;
-
 }
 
 .build-buttons {
@@ -325,18 +321,18 @@ main {
     flex-direction: column;
     width: 100%;
     align-items: center;
+    text-align: center;
     gap: 0.25rem;
+    position: relative;
+    padding-top: 2rem;
 }
+
+.error-text {
+    position: absolute;
+    top: 0;
+} 
 
 /* Utilities */
-
-.hidden {
-    visibility: hidden;
-}
-
-.visible {
-    visibility: visible;
-}
 
 .none {
     display: none;
