@@ -300,7 +300,7 @@ main {
     height: fit-content;
 }
 
-.building-div > h4 {
+ h4 {
     background-color: var(--clr-compbg);
     width: 100%;
     text-align: center;

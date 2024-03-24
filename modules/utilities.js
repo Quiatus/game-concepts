@@ -10,6 +10,7 @@ export const loadGame = () => {
     return gameData
 }
 
+// checks if game file exists, if so, loads it, if not, creates a new one and loads inital values
 export const checkIfNewGame = () => {
     const load = JSON.parse(localStorage.getItem('gameSave'))
     load ? printMessage('Game loaded successfully!') 

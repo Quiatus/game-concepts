@@ -6,43 +6,26 @@ const menuButtons = document.querySelectorAll('.menuBtn')
 const rightPanels = document.querySelectorAll('.right-panel')
 const alertsPanel = document.querySelector('.alert-div')
 
-const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
-const newMonthGains = () => {
-    let gameData = loadGame()
-    let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
-
-    gameData.resourceChange.gold > 0 ? addedGold = `<span class="text-gold text-bold"> ${converThousand(gameData.resourceChange.gold)} </span> gold,` : null
-    gameData.resourceChange.pop > 0 ? addedPop = `<span class="text-purple text-bold"> ${converThousand(gameData.resourceChange.pop)} </span> pops,` : null
-    gameData.resourceChange.food > 0 ? addedFood = `<span class="text-yellow text-bold"> ${converThousand(gameData.resourceChange.food)} </span> food,` : null
-    gameData.resourceChange.wood > 0 ? addedWood = `<span class="text-brown text-bold"> ${converThousand(gameData.resourceChange.wood)} </span> wood,` : null
-    gameData.resourceChange.stone > 0 ? addedStone = `<span class="text-gray text-bold"> ${converThousand(gameData.resourceChange.stone)} </span> stone,` : null
-
-    let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.').replace(', .', '.')
-    
-    const repl = res.lastIndexOf(',')
-    
-    repl > 0 ? res = res.substring(0, repl) + ' and ' + res.substring(repl+1) : null
-
-    return res
-}
-
+// clears the message box
 export const clearMessages = (isNewMonth) => {
     isNewMonth ? messages.innerHTML = '' : null
 }
 
-export const checkActiveAlerts = (alerts) => {
+// loops over alerts and checks which are active, then displays those
+export const checkActiveAlerts = () => {
+    let gameData = loadGame()
     alertsPanel.innerHTML = ''
-    const alertList = alerts.listActiveAlerts()
-    
 
-    for (let i = 0; i < alertList.length; i++) {
-        const span = document.createElement('span')
-        span.textContent = alertList[i]
-        alertsPanel.append(span)
+    for (let alert in gameData.alerts) {
+        if (gameData.alerts[alert]) {
+            const span = document.createElement('span')
+            span.textContent = alert
+            alertsPanel.append(span)
+        }
     }
 }
 
+// prints various messages 
 export const printMessage = (text, type='info') => {
     const msg = document.createElement('p');
     msg.innerHTML = text
@@ -62,6 +45,7 @@ export const printMessage = (text, type='info') => {
     messages.appendChild(msg)
 }
 
+// Main fuction that changes text fields
 export const printText = () => {
     let gameData = loadGame()
     
@@ -93,30 +77,30 @@ export const printText = () => {
 
         // Economics text
 
-        item.id === 'econ-p-birth' ? gameData.resourceChange.pop > 0 ? item.textContent = converThousand(gameData.resourceChange.pop) : item.textContent = '-' : null
+        item.id === 'econ-p-birth' ? gameData.resourceGain.pop > 0 ? item.textContent = converThousand(gameData.resourceGain.pop) : item.textContent = '-' : null
         item.id === 'econ-p-totalgain' ? item.textContent = converThousand(calcEconomy('p')[0]) : null
         item.id === 'econ-p-left' ? gameData.tempData.popLeft > 0 ? item.textContent = converThousand(gameData.tempData.popLeft) : item.textContent = '-' : null
         item.id === 'econ-p-death' ? gameData.tempData.popDied > 0 ? item.textContent = converThousand(gameData.tempData.popDied) : item.textContent = '-' : null
         item.id === 'econ-p-totalloss' ? item.textContent = converThousand(calcEconomy('p')[1]) : null
         item.id === 'econ-p-total' ? item.innerHTML = converThousand(calcEconomy('p')[2]) : null
 
-        item.id === 'econ-g-tax' ? gameData.resourceChange.gold > 0 ? item.textContent = converThousand(gameData.resourceChange.gold) : item.textContent = '-' : null
+        item.id === 'econ-g-tax' ? gameData.resourceGain.goldTax > 0 ? item.textContent = converThousand(gameData.resourceGain.goldTax) : item.textContent = '-' : null
         item.id === 'econ-g-totalgain' ? item.textContent = converThousand(calcEconomy('g')[0]) : null
         item.id === 'econ-g-totalloss' ? item.textContent = converThousand(calcEconomy('g')[1]) : null
         item.id === 'econ-g-total' ? item.innerHTML = converThousand(calcEconomy('g')[2]) : null
 
-        item.id === 'econ-f-farm' ? gameData.resourceChange.food > 0 ? item.textContent = converThousand(gameData.resourceChange.food) : item.textContent = '-' : null
+        item.id === 'econ-f-farm' ? gameData.resourceGain.food > 0 ? item.textContent = converThousand(gameData.resourceGain.food) : item.textContent = '-' : null
         item.id === 'econ-f-totalgain' ? item.textContent = converThousand(calcEconomy('f')[0]) : null
         item.id === 'econ-f-people' ? gameData.tempData.consumedFood > 0 ? item.textContent = converThousand(gameData.tempData.consumedFood) : item.textContent = '-' : null
         item.id === 'econ-f-totalloss' ? item.textContent = converThousand(calcEconomy('f')[1]) : null
         item.id === 'econ-f-total' ? item.innerHTML = converThousand(calcEconomy('f')[2]) : null
 
-        item.id === 'econ-w-lumber' ? gameData.resourceChange.wood > 0 ? item.textContent = converThousand(gameData.resourceChange.wood) : item.textContent = '-' : null
+        item.id === 'econ-w-lumber' ? gameData.resourceGain.wood > 0 ? item.textContent = converThousand(gameData.resourceGain.wood) : item.textContent = '-' : null
         item.id === 'econ-w-totalgain' ? item.textContent = converThousand(calcEconomy('w')[0]) : null
         item.id === 'econ-w-totalloss' ? item.textContent = converThousand(calcEconomy('w')[1]) : null
         item.id === 'econ-w-total' ? item.innerHTML = converThousand(calcEconomy('w')[2]) : null
 
-        item.id === 'econ-s-quarry' ? gameData.resourceChange.stone > 0 ? item.textContent = converThousand(gameData.resourceChange.stone) : item.textContent = '-' : null
+        item.id === 'econ-s-quarry' ? gameData.resourceGain.stone > 0 ? item.textContent = converThousand(gameData.resourceGain.stone) : item.textContent = '-' : null
         item.id === 'econ-s-totalgain' ? item.textContent = converThousand(calcEconomy('s')[0]) : null
         item.id === 'econ-s-totalloss' ? item.textContent = converThousand(calcEconomy('s')[1]) : null
         item.id === 'econ-s-total' ? item.innerHTML = converThousand(calcEconomy('s')[2]) : null
@@ -178,11 +162,35 @@ export const printText = () => {
     })
 }
 
+// Shows the general panel at the start of game or at teh beginning of month
 export const showGeneralPanel = () => {
     rightPanels.forEach(panel => panel.classList.add('none'))
     rightPanels[0].classList.remove('none')
 }
 
+// decimal separator
+const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+// display beginning of month gains. Only shows positive gains
+const newMonthGains = () => {
+    let gameData = loadGame()
+    let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
+
+    gameData.resourceGain.goldTax > 0 ? addedGold = `<span class="text-gold text-bold"> ${converThousand(gameData.resourceGain.goldTax)} </span> gold,` : null
+    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple text-bold"> ${converThousand(gameData.resourceGain.pop)} </span> pops,` : null
+    gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow text-bold"> ${converThousand(gameData.resourceGain.food)} </span> food,` : null
+    gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown text-bold"> ${converThousand(gameData.resourceGain.wood)} </span> wood,` : null
+    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-gray text-bold"> ${converThousand(gameData.resourceGain.stone)} </span> stone,` : null
+
+    // cleanup functions - replaces last , with and removes commas
+    let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.')
+    const repl = res.lastIndexOf(',')
+    repl > 0 ? res = res.substring(0, repl) + ' and ' + res.substring(repl+1) : null
+
+    return res
+}
+
+// changes the color of the happiness text
 const changeHappinessColor = (happiness) => {
     if (happiness < 20) {
         return `<span class="text-red">${happiness} %</span>`
@@ -197,6 +205,7 @@ const changeHappinessColor = (happiness) => {
     }
 }
 
+// changes the tax level text
 const changeTaxText = (tax) => {
     if (tax === 1) {
         return '<span class="text-green">Low</span>'
@@ -207,30 +216,35 @@ const changeTaxText = (tax) => {
     }
 }
 
+// helper function to display economy stats. Calculates gains and losses and totals the amounts
 const calcEconomy = (econType) => {
     let gameData = loadGame()
     let results = [0, 0, ``]
     let total = 0
 
+    // calculate gains and losses
     if (econType === 'p') {
-        results[0] = gameData.resourceChange.pop 
+        results[0] = gameData.resourceGain.pop 
         results[1] = gameData.tempData.popDied + gameData.tempData.popLeft
     } else if (econType === 'g') {
-        results[0] = gameData.resourceChange.gold 
+        results[0] = gameData.resourceGain.goldTax
     } else if (econType === 'f') {
-        results[0] = gameData.resourceChange.food 
+        results[0] = gameData.resourceGain.food 
         results[1] = gameData.tempData.consumedFood
     } else if (econType === 'w') {
-        results[0] = gameData.resourceChange.wood 
+        results[0] = gameData.resourceGain.wood 
     } else if (econType === 's') {
-        results[0] = gameData.resourceChange.stone 
+        results[0] = gameData.resourceGain.stone 
     }
 
+    // calculate total
     total = results[0] - results[1]
 
+    // if total is 0, display -
     results[0] === 0 ? results[0] = '-' : null
     results[1] === 0 ? results[1] = '-' : null
 
+    // changes teh text color of total depending wheter the total is gain or loss
     if (total > 0) {
         results[2] = `<span class='text-green'>+ ${total}</span>`
     } else if (total < 0) {
@@ -242,6 +256,7 @@ const calcEconomy = (econType) => {
     return results
 }
 
+// main menu buttons
 menuButtons.forEach(btn => {btn.addEventListener('click', () => {
     rightPanels.forEach(panel => panel.classList.add('none'))
     btn.id == 'menuBtnGeneral' ? showGeneralPanel() : null

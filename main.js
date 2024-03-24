@@ -2,7 +2,6 @@ import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAl
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
 import { House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
-import { Alerts } from "./modules/alerts.js";
 
 const buttons = document.querySelectorAll('button')
 const btnBuild = document.querySelectorAll('.btnBuild')
@@ -19,8 +18,8 @@ const house = new House();
 const farm = new Farm();
 const lumberyard = new Lumberyard();
 const quarry = new Quarry();
-const alerts = new Alerts();
 
+// initiates app once page is fully loaded
 document.addEventListener('readystatechange', (e) => {
     if (e.target.readyState === "complete") {
         initApp();
@@ -37,20 +36,26 @@ const checkConstruction = (isNewMonth) => {
     })
 }
 
+// Calculate happines. Min 0, max 100. If reach 0 happines, riots will occur (generally pop will die and attack our army. If no army, gold will disappear)
 const calculateHappiness = () => {
     let gameData = loadGame()
-    let calculatedHappiness = gameData.basicResources.baseHappiness
+    let calculatedHappiness = gameData.basicResources.baseHappiness // 50
 
+    // Positive gains
     gameData.general.tax === 1 ? calculatedHappiness += 20 : null
+
+    // Negative gains
     gameData.alerts.famine ? calculatedHappiness -= 10 : null
     gameData.alerts.overpopulation ? calculatedHappiness -= 5 : null
     gameData.general.tax === 3 ? calculatedHappiness -= 20 : null
 
+    // Happiness cannot go below 0 or above 100
     calculatedHappiness < 0 ? calculatedHappiness = 0 : null
     calculatedHappiness > 100 ? calculatedHappiness = 100 : null
 
     gameData.tempData.happiness = calculatedHappiness
 
+    // checks if happiness is too low and prints / triggers adequate response
     calculatedHappiness > 0 && calculatedHappiness < 20 ? printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning') : null
     calculatedHappiness === 0 ? (
         printMessage('Our population is rioting!', 'critical'),
@@ -60,6 +65,7 @@ const calculateHappiness = () => {
     saveGame(gameData)
 }
 
+// change tax index (1 = low tax, high happiness; 2 = balanced; 3 = high tax, low happiness)
 const changeTax = (id) => {
     let gameData = loadGame()
 
@@ -75,16 +81,18 @@ const changeTax = (id) => {
 const checkBeforeGains = (isNewMonth) => {
     showGeneralPanel()
     clearMessages(isNewMonth)
-    checkConstruction(isNewMonth)
-    pop.calculateTotalSpace()
+    checkConstruction(isNewMonth) // checks ongoing constructions
+    pop.calculateTotalSpace() 
 }
 
-// checks various conditions after gaining resources and run events
+// checks various conditions after gaining resources and run events. Check for events before printing text
 const checkAfterGains = (isNewMonth) => {
     pop.isMaxPop(isNewMonth)
     food.checkIfEnoughFood(pop, isNewMonth)
+
+    // Should run at the end
     calculateHappiness()
-    checkActiveAlerts(alerts)
+    checkActiveAlerts()
     printText()
 }
 
@@ -99,6 +107,7 @@ const initApp = () => {
 const incmnth = () => {
     checkBeforeGains(true)
 
+    // res gains
     month.increaseMonth();
     gold.calculateGold();
     pop.calculatePop();
@@ -106,17 +115,23 @@ const incmnth = () => {
     wood.calculateWood();
     stone.calculateStone();
     printMessage('', 'gains')
-    food.consumeFood();
-    
+
+    // spendings
+    let gameData = loadGame()
+    printMessage(`Our people have consumed <span class='text-bold text-yellow'>${gameData.tempData.consumedFood}</span> food.`, 'info')
+
+    // events 
     checkAfterGains(true)
 }
 
+// Main buttons event listeners
 buttons[0].addEventListener('click', incmnth);
 buttons[1].addEventListener('click', () => {
     localStorage.removeItem('gameSave')
     location.reload()
 })
 
+// Building buttons event listeners
 btnBuild.forEach(btn => {btn.addEventListener('click', (e) => {
     btn.id == 'buildingHouse' ? house.startConstruction(e) : null
     btn.id == 'buildingFarm' ? farm.startConstruction(e) : null
@@ -124,4 +139,5 @@ btnBuild.forEach(btn => {btn.addEventListener('click', (e) => {
     btn.id == 'buildingQuarry' ? quarry.startConstruction(e) : null
 })})
 
+// Tax buttons event listeners
 btnTax.forEach(btn => {btn.addEventListener('click', (e) => changeTax(e.target.id))})

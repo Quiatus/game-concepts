@@ -12,28 +12,12 @@ export const initData = {
         basicSpace: 1000,
         baseHappiness: 50
     },
-    resourceChange: {
-        gold: 0,
+    resourceGain: {
+        goldTax: 0,
         pop: 0,
         food: 0,
         wood: 0,
         stone: 0
-    },
-    goldModifiers: {
-        base: true,
-        tax: true,
-    },
-    popModifiers: {
-        base: true,
-    },
-    foodModifiers: {
-        base: true,
-    },
-    woodModifiers: {
-        base: true,
-    },
-    stoneModifiers: {
-        base: true,
     },
     alerts: {
         famine: false,
