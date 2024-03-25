@@ -1,10 +1,10 @@
-import { printText } from "./domhelpers.js"
+import { printText, buildingConstrProgress } from "./domhelpers.js"
 import { saveGame, loadGame } from "./utilities.js"
 
 class Building {
 
     // checks for various conditions and concatinate each that is not met
-    checkIfCanBuild(building, resources) {
+    checkIfCanBuild(building, gameData) {
         let canBuild = true
         let reason = ''
 
@@ -13,56 +13,58 @@ class Building {
             reason += 'Construction already in progress, '
         }
 
-        if (building.costGold > resources.gold) {
+        if (building.requireCapitalLevel > gameData.general.capitalLevel) {
+            canBuild = false
+            reason += 'Capital level too low, '
+        }
+
+        if (building.costGold > gameData.basicResources.gold) {
             canBuild = false
             reason += 'Not enough gold, '
         }
 
-        if (building.costWood > resources.wood) {
+        if (building.costWood > gameData.basicResources.wood) {
             canBuild = false
             reason += 'Not enough wood, '
         }
 
-        if (building.costStone > resources.stone) {
+        if (building.costStone > gameData.basicResources.stone) {
             canBuild = false
             reason += 'Not enough stone, '
         }
 
-        if (building.amount === 1 && building.amount === true) {
+        if (building.amount === 1 && building.amount === true && building.name !== 'Capital') {
             canBuild = false
             reason += 'We can only have one unique building, '
         }
 
-        if (building.requireSpace === true && building.space === 0) {
+        if (building.requireSpace === true && building.space === 0 && building.name !== 'Capital') {
             canBuild = false
-            reason += 'No available space for construction, '
+            reason += 'No available space, '
         }
         reason = reason.substring(0, reason.length - 2)
         return [canBuild, reason] // bool, string
     }
 
     // start building construction
-    startConstruction(e) {
-        let target = e.target.id // based on button clicked
+    startConstruction(e, target) {
         let gameData = loadGame()
-
+        let building = gameData[target]
+       
         // checks if construction is possible. Passes teh building object and resources
-        const checkRes = this.checkIfCanBuild(gameData[target], gameData.basicResources)
+        const checkRes = this.checkIfCanBuild(building, gameData)
         
         // if check pass, start building
         if (checkRes[0]) {
-            e.target.textContent = 'Building in progress'
-            e.target.classList.add('btnDisable')
-            e.target.disabled = true;
-
-            gameData[target].isBeingBuilt = true;
-            gameData[target].requireSpace ? gameData[target].space -= 1 : null
+            building.isBeingBuilt = true;
+            building.requireSpace ? building.space -= 1 : null
             
-            gameData.basicResources.gold -= gameData[target].costGold
-            gameData.basicResources.wood -= gameData[target].costWood
-            gameData.basicResources.stone -= gameData[target].costStone
+            gameData.basicResources.gold -= building.costGold
+            gameData.basicResources.wood -= building.costWood
+            gameData.basicResources.stone -= building.costStone
 
             saveGame(gameData)
+            buildingConstrProgress()
             printText()
         } else {
             // displaus the error message if construction not possible
@@ -72,37 +74,25 @@ class Building {
     }
 
     // progresses the construction
-    progressBuild(button, target) {
-        let gameData = loadGame()
-       
-        // if the last month passes, completes the construction
-        if (gameData[target].buildProgress === (gameData[target].costTime - 1)) {
-            button.textContent = 'Begin construction'
-            button.classList.remove('btnDisable')
-            button.disabled = false;
-            
-            gameData[target].isBeingBuilt = false;
-            gameData[target].buildProgress = 0;
-            gameData[target].amount += 1;
-        } else {
-            gameData[target].buildProgress += 1
-        }
-        saveGame(gameData)
-    }
-
-    // runs at the beginning of month or at the game load. Checks if construction is in progress, if so, progresses it
-    checkIfBeingBuilt(button, isNewMonth) {
-        let target = button.id
+    progressBuild(target) {
         let gameData = loadGame()
         let building = gameData[target]
         
-        // if the game is loaded, disables the construct button and shows the progress for each building being constructed
-        if (building.isBeingBuilt && !isNewMonth) {
-            button.textContent = 'Building in progress'
-            button.classList.add('btnDisable')
-            button.disabled = true;
-        } else if (building.isBeingBuilt && isNewMonth) {
-            this.progressBuild(button, target)
+        // if the last month passes, completes the construction
+        if (building.isBeingBuilt) {
+            if (building.buildProgress === (building.costTime - 1)) {  
+                building.isBeingBuilt = false;
+                building.buildProgress = 0;
+                if (building.name !== 'Capital') {
+                    building.amount++;
+                } else {
+                    gameData.general.capitalLevel++
+                }      
+                
+            } else {
+                building.buildProgress++
+            }
+            saveGame(gameData)
         }
     }
 }
@@ -130,4 +120,11 @@ export class Quarry extends Building {
         super()
     }
 }
+
+export class Capital extends Building {
+    constructor(){
+        super()
+    }
+}
+
 

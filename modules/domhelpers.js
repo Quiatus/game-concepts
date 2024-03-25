@@ -7,6 +7,9 @@ const rightPanels = document.querySelectorAll('.right-panel')
 const alertsPanel = document.querySelector('.alert-div')
 const buildingBox = document.querySelectorAll('.building-div')
 
+const resourcesText = document.getElementById('resourceBox')
+const taxBox = document.getElementById('taxBox')
+
 // clears the message box
 export const clearMessages = (isNewMonth) => {
     isNewMonth ? messages.innerHTML = '' : null
@@ -46,23 +49,56 @@ export const printMessage = (text, type='info') => {
     messages.appendChild(msg)
 }
 
+
+
+const displayResourceBox = (gameData) => {
+    return resourcesText.innerHTML =
+    `<div class="res">
+    <span class="text-big text-gray">Month: </span><span class="text-big">${converThousand(gameData.basicResources.month)}</span>
+    <span class="text-gray">Population: </span><span class="text-bold">${popText(gameData.basicResources.pop, gameData.tempData.totalSpace)}</span>
+    <span class="text-gray">Gold: </span><span class="text-bold">${converThousand(gameData.basicResources.gold)}</span>
+    <span class="text-gray">Food: </span><span class="text-bold">${converThousand(gameData.basicResources.food)}</span>
+    <span class="text-gray">Wood: </span><span class="text-bold">${converThousand(gameData.basicResources.wood)}</span>
+    <span class="text-gray">Stone: </span><span class="text-bold">${converThousand(gameData.basicResources.stone)}</span>
+    </div>
+    <hr>
+    <div class="res">
+    <span class="text-gray">Fame: </span><span class="text-bold" id="fame">0</span>
+    <span class="text-gray">Might: </span><span class="text-bold" id="might">0</span>
+    <span class="text-gray">Happiness: </span><span class="text-bold" id="happiness">${changeHappinessColor(gameData.tempData.happiness)}</span>
+    <span class="text-gray">Army status: </span><span class="text-bold text-green" id="armyStatus">Ready</span>
+    </div>`
+}
+
+const displayTaxBox = (gameData) => {
+    return taxBox.innerHTML = `<h4 class="text-big">Taxes</h4>
+    <div class="build-description">
+        <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes has opposite effect.</p>
+    </div>
+    <div class="settings-stats">
+        <span class="text-gray">Current tax:</span> <span id="tax-level">${changeTaxText(gameData.general.tax)}</span>
+        <span class="text-gray">Gold p. 100 pop.:</span><span id="tax-gain">${gameData.general.tax * 5}</span>
+    </div>
+    <span>Set tax level:</span>
+    <div class="settings-buttons">
+        <button class="btnTax" id="btnTaxLow">Low</button>
+        <button class="btnTax" id="btnTaxBalanced">Balanced</button>
+        <button class="btnTax" id="btnTaxHigh">High</button>
+    </div>`
+}
+
 // Main fuction that changes text fields
 export const printText = () => {
     let gameData = loadGame()
+
+    displayResourceBox(gameData)
+    displayTaxBox(gameData)
     
     texts.forEach(item => {
-        // Resource text
-        item.id === 'month' ? item.textContent = converThousand(gameData.basicResources.month) : null
-        item.id === 'gold' ? item.textContent = converThousand(gameData.basicResources.gold) : null
-        item.id === 'popText' ? item.innerHTML = popText(gameData.basicResources.pop, gameData.tempData.totalSpace) : null
-        item.id === 'food' ? item.textContent = converThousand(gameData.basicResources.food) : null
-        item.id === 'wood' ? item.textContent = converThousand(gameData.basicResources.wood) : null
-        item.id === 'stone' ? item.textContent = converThousand(gameData.basicResources.stone) : null
-        item.id === 'happiness' ? item.innerHTML = changeHappinessColor(gameData.tempData.happiness) : null
 
         // Settings 
-        item.id === 'tax-level' ? item.innerHTML = changeTaxText(gameData.general.tax) : null
-        item.id === 'tax-gain' ? item.textContent = (gameData.general.tax * 5) : null
+        // item.id === 'tax-level' ? item.innerHTML = changeTaxText(gameData.general.tax) : null
+        // item.id === 'tax-gain' ? item.textContent = (gameData.general.tax * 5) : null
 
         // Statistics text
         item.id === 'stat-space-cap' ? item.textContent = converThousand(gameData.basicResources.basicSpace) : null
@@ -76,7 +112,6 @@ export const printText = () => {
         item.id === 'stat-gen-hap' ? item.innerHTML = changeHappinessColor(gameData.tempData.happiness) : null
 
         // Economics text
-
         item.id === 'econ-p-birth' ? gameData.resourceGain.pop > 0 ? item.textContent = converThousand(gameData.resourceGain.pop) : item.textContent = '-' : null
         item.id === 'econ-p-totalgain' ? item.textContent = converThousand(calcEconomy('p')[0]) : null
         item.id === 'econ-p-left' ? gameData.tempData.popLeft > 0 ? item.textContent = converThousand(gameData.tempData.popLeft) : item.textContent = '-' : null
@@ -105,60 +140,42 @@ export const printText = () => {
         item.id === 'econ-s-totalloss' ? item.textContent = converThousand(calcEconomy('s')[1]) : null
         item.id === 'econ-s-total' ? item.innerHTML = converThousand(calcEconomy('s')[2]) : null
 
+
+        // Building - capital text
+        item.id === 'building-capital-level' ? item.textContent = `Level ${gameData.general.capitalLevel}` : null
+        item.id === 'building-capital-space' ? item.textContent = converThousand(gameData.basicResources.basicSpace) : null
+        item.id === 'building-capital-house' ? item.textContent = '20' : null
+        item.id === 'building-capital-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingCapital) : null
+        item.id === 'building-capital-constrtime' ? item.textContent = `${converThousand(gameData.buildingCapital.costTime)} months` : null
+
         // Building - house text
-        item.id === 'building-house-cost' 
-        ? item.innerHTML = `<span class='text-gold'>${converThousand(gameData.buildingHouse.costGold)}</span>` 
-            + (gameData.buildingHouse.costWood > 0 ? ` • <span class='text-brown'>${converThousand(gameData.buildingHouse.costWood)}</span>` : ``)
-            + (gameData.buildingHouse.costStone > 0 ? ` • <span class='text-gray'>${converThousand(gameData.buildingHouse.costStone)}</span>` : ``)
-        : null
+        item.id === 'building-house-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingHouse) : null
         item.id === 'building-house-constrtime' ? item.textContent = `${converThousand(gameData.buildingHouse.costTime)} months` : null
         item.id === 'building-house-amount' ? item.textContent = converThousand(gameData.buildingHouse.amount) : null
         item.id === 'building-house-descr' ? item.textContent = converThousand(gameData.buildingHouse.effect) : null
-        item.id === 'building-house-progress' 
-        ? gameData.buildingHouse.isBeingBuilt ? item.textContent = `${100 / gameData.buildingHouse.costTime * gameData.buildingHouse.buildProgress} %` : item.textContent = '-'  
-        : null
+        item.id === 'building-house-space' ? item.textContent = converThousand(gameData.buildingHouse.space) : null
 
         // Building - farm text
-        item.id === 'building-farm-cost' 
-        ? item.innerHTML = `<span class='text-gold'>${converThousand(gameData.buildingFarm.costGold)}</span>` 
-            + (gameData.buildingFarm.costWood > 0 ? ` • <span class='text-brown'>${converThousand(gameData.buildingFarm.costWood)}</span>` : ``)
-            + (gameData.buildingFarm.costStone > 0 ? ` • <span class='text-gray'>${converThousand(gameData.buildingFarm.costStone)}</span>` : ``)
-        : null
+        item.id === 'building-farm-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingFarm) : null
         item.id === 'building-farm-constrtime' ? item.textContent = `${converThousand(gameData.buildingFarm.costTime)} months` : null
         item.id === 'building-farm-amount' ? item.textContent = converThousand(gameData.buildingFarm.amount) : null
         item.id === 'building-farm-descr' ? item.textContent = converThousand(gameData.buildingFarm.effect) : null
         item.id === 'building-farm-space' ? item.textContent = converThousand(gameData.buildingFarm.space) : null
-        item.id === 'building-farm-progress' 
-        ? gameData.buildingFarm.isBeingBuilt ? item.textContent = `${100 / gameData.buildingFarm.costTime * gameData.buildingFarm.buildProgress} %` : item.textContent = '-'  
-        : null
 
         // Building - lumberyard text
-        item.id === 'building-lumber-cost' 
-        ? item.innerHTML = `<span class='text-gold'>${converThousand(gameData.buildingLumberyard.costGold)}</span>` 
-            + (gameData.buildingLumberyard.costWood > 0 ? ` • <span class='text-brown'>${converThousand(gameData.buildingLumberyard.costWood)}</span>` : ``)
-            + (gameData.buildingLumberyard.costStone > 0 ? ` • <span class='text-gray'>${converThousand(gameData.buildingLumberyard.costStone)}</span>` : ``)
-        : null
+        item.id === 'building-lumber-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingLumberyard) : null
         item.id === 'building-lumber-constrtime' ? item.textContent = `${converThousand(gameData.buildingLumberyard.costTime)} months` : null
         item.id === 'building-lumber-amount' ? item.textContent = converThousand(gameData.buildingLumberyard.amount) : null
         item.id === 'building-lumber-descr' ? item.textContent = converThousand(gameData.buildingLumberyard.effect) : null
         item.id === 'building-lumber-space' ? item.textContent = converThousand(gameData.buildingLumberyard.space) : null
-        item.id === 'building-lumber-progress' 
-        ? gameData.buildingLumberyard.isBeingBuilt ? item.textContent = `${100 / gameData.buildingLumberyard.costTime * gameData.buildingLumberyard.buildProgress} %` : item.textContent = '-'  
-        : null
 
         // Building - quarry text
-        item.id === 'building-quarry-cost' 
-        ? item.innerHTML = `<span class='text-gold'>${converThousand(gameData.buildingQuarry.costGold)}</span>` 
-            + (gameData.buildingQuarry.costWood > 0 ? ` • <span class='text-brown'>${converThousand(gameData.buildingQuarry.costWood)}</span>` : ``)
-            + (gameData.buildingQuarry.costStone > 0 ? ` • <span class='text-gray'>${converThousand(gameData.buildingQuarry.costStone)}</span>` : ``)
-        : null
+        item.id === 'building-quarry-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingQuarry) : null
         item.id === 'building-quarry-constrtime' ? item.textContent = `${converThousand(gameData.buildingQuarry.costTime)} months` : null
         item.id === 'building-quarry-amount' ? item.textContent = converThousand(gameData.buildingQuarry.amount) : null
         item.id === 'building-quarry-descr' ? item.textContent = converThousand(gameData.buildingQuarry.effect) : null
         item.id === 'building-quarry-space' ? item.textContent = converThousand(gameData.buildingQuarry.space) : null
-        item.id === 'building-quarry-progress' 
-        ? gameData.buildingQuarry.isBeingBuilt ? item.textContent = `${100 / gameData.buildingQuarry.costTime * gameData.buildingQuarry.buildProgress} %` : item.textContent = '-'  
-        : null
+
     })
 }
 
@@ -179,9 +196,37 @@ export const displayBuildingBox = () => {
         bb.id === 'bdQuarry' ? gameData.buildingQuarry.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
     })
 }
+ 
+// Displays active construction
+export const buildingConstrProgress = () => {
+    const gameData = loadGame()
+    buildingBox.forEach(item => {
+        const building = gameData[item.id]
+
+        // if the building is being built, hides the button, shows progress bar, calculates teh current progress
+        if (building.isBeingBuilt) {
+            const progress = 100 / building.costTime * building.buildProgress
+            item.lastElementChild.children[0].classList.add('none')
+            item.lastElementChild.children[1].classList.remove('none')
+            item.lastElementChild.children[1].children[1].textContent = `${building.buildProgress} / ${building.costTime}`
+            item.lastElementChild.children[1].children[1].style.background = `linear-gradient(90deg, var(--clr-darkgreen) ${progress}%, transparent ${progress}%)`
+        } else {
+            item.lastElementChild.children[0].classList.remove('none')
+            item.lastElementChild.children[1].classList.add('none')
+        }
+    })
+}
 
 // decimal separator
 const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+
+// displays building costs
+const displayBuildCosts = (building) => {
+    return `<span class='text-gold'>${converThousand(building.costGold)}</span>
+     ${building.costWood > 0 ? ` • <span class='text-brown'>${converThousand(building.costWood)}</span>` : ``}
+     ${building.costStone > 0 ? ` • <span class='text-gray'>${converThousand(building.costStone)}</span>` : ``}`
+}
 
 // display beginning of month gains. Only shows positive gains
 const newMonthGains = () => {
@@ -189,7 +234,7 @@ const newMonthGains = () => {
     let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
 
     gameData.resourceGain.goldTax > 0 ? addedGold = `<span class="text-gold text-bold"> ${converThousand(gameData.resourceGain.goldTax)} </span> gold,` : null
-    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple text-bold"> ${converThousand(gameData.resourceGain.pop)} </span> pops,` : null
+    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple text-bold"> ${converThousand(gameData.resourceGain.pop)} </span> people,` : null
     gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow text-bold"> ${converThousand(gameData.resourceGain.food)} </span> food,` : null
     gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown text-bold"> ${converThousand(gameData.resourceGain.wood)} </span> wood,` : null
     gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-gray text-bold"> ${converThousand(gameData.resourceGain.stone)} </span> stone,` : null

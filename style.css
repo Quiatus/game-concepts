@@ -183,10 +183,11 @@ main {
 /* Settings subbox */
 
 .settings {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-template-rows: auto;
     gap: 1rem;
+    justify-content: start;
 }
 
 .settings-div {
@@ -223,6 +224,23 @@ main {
     flex-direction: row;
     width: 100%;
     justify-content: space-evenly;
+}
+
+.subdiv-separator {
+    width: 100%;
+    background-color: var(--clr-white);
+    height: 1px;
+    border: none;
+}
+
+/* Settings */
+
+#buildingCapital {
+    grid-area: 1/1/3/1;
+}
+
+#taxBox {
+    grid-area: 1/2/1/2;
 }
 
 /* Statistics subbox */
@@ -332,6 +350,25 @@ main {
     top: 0;
 } 
 
+.build-progress {
+    padding-top: 2rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    align-items: center;
+}
+
+.progress-bar {
+    width: 100%;
+    border: 1px solid var(--clr-gray);
+    text-align: center;
+    border-radius: 0.25rem;
+}
+
+.subdiv {
+    width: 100%;
+    height: 4rem;
+}
 /* Utilities */
 
 .none {

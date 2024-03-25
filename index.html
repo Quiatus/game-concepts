@@ -14,25 +14,13 @@
 
         <div class="box-main resources">
             <h3>Resources</h3>
-            <div class="res">
-                <span class="text-big text-gray">Month: </span><span class="text-big" id="month"></span>
-                <span class="text-gray">Population: </span><span class="text-bold" id="popText"> </span>
-                <span class="text-gray">Gold: </span><span class="text-bold" id="gold"></span>
-                <span class="text-gray">Food: </span><span class="text-bold" id="food"></span>
-                <span class="text-gray">Wood: </span><span class="text-bold" id="wood"></span>
-                <span class="text-gray">Stone: </span><span class="text-bold" id="stone"></span>
-            </div>
-            <hr>
-            <div class="res">
-                <span class="text-gray">Fame: </span><span class="text-bold" id="fame">0</span>
-                <span class="text-gray">Might: </span><span class="text-bold" id="might">0</span>
-                <span class="text-gray">Happiness: </span><span class="text-bold" id="happiness"></span>
-                <span class="text-gray">Army status: </span><span class="text-bold text-green" id="armyStatus">Ready</span>
+            <div id="resourceBox">
+
             </div>
             <hr>
             <div class="nm-div">
-                <button class="text-bold">Next Month</button>
-                <button>Reset</button>
+                <button class="text-bold" id="btnNewMonth">Next Month</button>
+                <button id="btnReset">Reset</button>
             </div>
         </div>
 
@@ -78,27 +66,57 @@
         <div class="box-main right-panel management">
             <h3>Management</h3>
 
+            <!-- Settings -->
+
             <div class="box-sub">
                 <h3>Clan settings</h3>
                 <div class="settings text-small">
-                    <div class="settings-div">
-                        <h4 class="text-big">Taxes</h4>
+
+                    <div class="building-div" id="buildingCapital">
+                        <h4 class="text-big">Capital</h4>
                         <div class="build-description">
-                            <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes has opposite effect.</p>
+                            <p>Capital city of our empire.</p>
                         </div>
+                        <span class="text-bold text-orange" id="building-capital-level"></span>
+                        
                         <div class="settings-stats">
-                            <span class="text-gray">Current tax:</span> <span id="tax-level"></span>
-                            <span class="text-gray">Gold p. 100 pop.:</span><span id="tax-gain"></span>
+                            <span class="text-gray">Space:</span><span id="building-capital-space"></span>
+                            <span class="text-gray">Max. houses:</span><span id="building-capital-house"></span>
                         </div>
-                        <span>Set tax level:</span>
-                        <div class="settings-buttons">
-                            <button class="btnTax" id="btnTaxLow">Low</button>
-                            <button class="btnTax" id="btnTaxBalanced">Balanced</button>
-                            <button class="btnTax" id="btnTaxHigh">High</button>
+                        <hr class="subdiv-separator">
+                        <span>Upgrade to <span class="text-bold text-orange" id="building-capital-incLevel"></span></span>
+                        <div class="settings-stats">
+                            <span class="text-gray">Space:</span><span id="building-capital-incSpace"></span>
+                            <span class="text-gray">Max. houses:</span><span id="building-capital-incHousing"></span>
+                        </div>
+                        <span>Cost</span>
+                        <div class="settings-stats">
+                            <span class="text-gray">Build costs:</span> <span id="building-capital-cost"></span>
+                            <span class="text-gray">Time:</span><span id="building-capital-constrtime"></span>
+                            <span class="text-gray">Special costs:</span><span>-</span>
+                        </div>
+
+                        <div class="subdiv">
+                            <div class="build-buttons">
+                                <span class="text-red error-text"></span>
+                                <button class="btnBuild" id="btnCapital">Upgrade Capital</button>
+                            </div>
+
+                            <div class="build-progress none">
+                                <span class="text-gray text-bold">Upgrade progress:</span>
+                                <div class="progress-bar"></div>
+                            </div> 
                         </div>
                     </div> 
+
+                    <div class="settings-div" id="taxBox">
+
+                    </div> 
+
                 </div>          
             </div>
+
+            <!-- Statistics -->
 
             <div class="box-sub">
                 <h3>Statistics</h3>
@@ -144,6 +162,8 @@
                     </div> 
                 </div>          
             </div>
+
+            <!-- Economy -->
 
             <div class="box-sub">
                 <h3>Economy</h3>
@@ -239,15 +259,18 @@
 
         <div class="box-main right-panel building">
             <h3>Buildings</h3>
+
+            <!-- General buildings -->
+
             <div class="box-sub">
                 <h3>General buildings</h3>
                 <div class="buildings text-small">      
 
-                    <div class="building-div " id="bdHouse">
+                    <div class="building-div" id="buildingHouse">
                         <h4 class="text-big bgpurple">House</h4>
                         <div class="build-description">
                             <p>Increases population capacity by <span class="text-bold" id="building-house-descr"></span>.</p>
-                            <span class="text-orange none">Unique - Requires plans</span>
+                            <span class="text-orange">Requires space</span>
                         </div>
                         
                         <div class="build-stats">
@@ -255,25 +278,33 @@
                         </div> 
                         <div class="build-stats">
                             <span class="text-gray">Building cost:</span> <span id="building-house-cost"></span>
-                            <span class="text-gray">Constr. time:</span><span id="building-house-constrtime"></span>
+                            <span class="text-gray">Build time:</span><span id="building-house-constrtime"></span>
+                            <span class="text-gray">Avail. space: </span><span id="building-house-space"></span>
                         </div>
-                                    
-                        <div class="build-stats">
-                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-house-progress">-</span>
+
+                        <div class="subdiv">
+                            <div class="build-buttons ">
+                                <span class="text-red error-text"></span>
+                                <button class="btnBuild" id="btnHouse">Build house</button>
+                            </div>
+
+                            <div class="build-progress none">
+                                <span class="text-gray text-bold">Build progress:</span>
+                                <div class="progress-bar"></div>
+                            </div> 
                         </div>
-                        <div class="build-buttons">
-                            <span class="text-red error-text"></span>
-                            <button class="btnBuild" id="buildingHouse">Begin construction</button>
-                        </div>          
+   
                     </div>           
                 </div>
             </div>
+            
+            <!-- Resource buildings -->
 
             <div class="box-sub">
                 <h3>Resource buildings</h3>
                 <div class="buildings text-small">      
 
-                    <div class="building-div " id="bdFarm">
+                    <div class="building-div " id="buildingFarm">
                         <h4 class="text-big bgyellow">Farm</h4>
                         <div class="build-description">
                             <p>Produces <span class="text-bold" id="building-farm-descr"></span> units of food per month.</p>
@@ -285,20 +316,24 @@
                         </div> 
                         <div class="build-stats">
                             <span class="text-gray">Building cost:</span> <span id="building-farm-cost"></span>
-                            <span class="text-gray">Constr. time:</span><span id="building-farm-constrtime"></span>
+                            <span class="text-gray">Build time:</span><span id="building-farm-constrtime"></span>
                             <span class="text-gray">Avail. space: </span><span id="building-farm-space"></span>
                         </div>
                                     
-                        <div class="build-stats">
-                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-farm-progress">-</span>
-                        </div>
-                        <div class="build-buttons">
-                            <span class="text-red error-text"></span>
-                            <button class="btnBuild" id="buildingFarm">Begin construction</button>
+                        <div class="subdiv">
+                            <div class="build-buttons ">
+                                <span class="text-red error-text"></span>
+                                <button class="btnBuild" id="btnFarm">Build farm</button>
+                            </div>
+
+                            <div class="build-progress none">
+                                <span class="text-gray text-bold">Build progress:</span>
+                                <div class="progress-bar"></div>
+                            </div> 
                         </div>          
                     </div>     
 
-                    <div class="building-div " id="bdLumberyard">
+                    <div class="building-div " id="buildingLumberyard">
                         <h4 class="text-big bgbrown">Lumber yard</h4>
                         <div class="build-description">
                             <p>Produces <span class="text-bold" id="building-lumber-descr"></span> units of wood per month.</p>
@@ -310,20 +345,24 @@
                         </div> 
                         <div class="build-stats">
                             <span class="text-gray">Building cost:</span> <span id="building-lumber-cost"></span>
-                            <span class="text-gray">Constr. time:</span><span id="building-lumber-constrtime"></span>
+                            <span class="text-gray">Build time:</span><span id="building-lumber-constrtime"></span>
                             <span class="text-gray">Avail. space: </span><span id="building-lumber-space"></span>
                         </div>
                                     
-                        <div class="build-stats">
-                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-lumber-progress">-</span>
-                        </div>
-                        <div class="build-buttons">
-                            <span class="text-red error-text"></span>
-                            <button class="btnBuild" id="buildingLumberyard">Begin construction</button>
-                        </div>          
+                        <div class="subdiv">
+                            <div class="build-buttons ">
+                                <span class="text-red error-text"></span>
+                                <button class="btnBuild" id="btnLumberyard">Build lumber yard</button>
+                            </div>
+
+                            <div class="build-progress none">
+                                <span class="text-gray text-bold">Build progress:</span>
+                                <div class="progress-bar"></div>
+                            </div> 
+                        </div>         
                     </div>
 
-                    <div class="building-div " id="bdQuarry">
+                    <div class="building-div " id="buildingQuarry">
                         <h4 class="text-big bggrey">Quarry</h4>
                         <div class="build-description">
                             <p>Produces <span class="text-bold" id="building-quarry-descr"></span> units of stone per month.</p>
@@ -335,17 +374,21 @@
                         </div> 
                         <div class="build-stats">
                             <span class="text-gray">Building cost:</span> <span id="building-quarry-cost"></span>
-                            <span class="text-gray">Constr. time:</span><span id="building-quarry-constrtime"></span>
+                            <span class="text-gray">Build time:</span><span id="building-quarry-constrtime"></span>
                             <span class="text-gray">Avail. space: </span><span id="building-quarry-space"></span>
                         </div>
                                     
-                        <div class="build-stats">
-                            <span class="text-gray">Build progress:</span> <span class="text-bold" id="building-quarry-progress">-</span>
-                        </div>
-                        <div class="build-buttons">
-                            <span class="text-red error-text"></span>
-                            <button class="btnBuild" id="buildingQuarry">Begin construction</button>
-                        </div>          
+                        <div class="subdiv">
+                            <div class="build-buttons ">
+                                <span class="text-red error-text"></span>
+                                <button class="btnBuild" id="btnQuarry">Build quarry</button>
+                            </div>
+
+                            <div class="build-progress none">
+                                <span class="text-gray text-bold">Build progress:</span>
+                                <div class="progress-bar"></div>
+                            </div> 
+                        </div>           
                     </div>
                 </div>
             </div>

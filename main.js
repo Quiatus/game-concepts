@@ -1,11 +1,9 @@
-import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAlerts, displayBuildingBox } from "./modules/domhelpers.js"
+import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAlerts, displayBuildingBox, buildingConstrProgress } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
-import { House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
+import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 
-const buttons = document.querySelectorAll('button')
 const btnBuild = document.querySelectorAll('.btnBuild')
-const btnTax = document.querySelectorAll('.btnTax')
 
 // instantiate classes
 const gold = new Gold();
@@ -14,6 +12,7 @@ const month = new Month();
 const food = new Food();
 const wood = new Wood();
 const stone = new Stone();
+const capital = new Capital();
 const house = new House();
 const farm = new Farm();
 const lumberyard = new Lumberyard();
@@ -26,14 +25,13 @@ document.addEventListener('readystatechange', (e) => {
     }
 });
 
-// checks if any construction is ongoing. If the game is loaded, disables built button, if next month, progresses the construction
-const checkConstruction = (isNewMonth) => {
-    btnBuild.forEach(btn => {
-        btn.id === 'buildingHouse' ? house.checkIfBeingBuilt(btn, isNewMonth) : null
-        btn.id === 'buildingFarm' ? farm.checkIfBeingBuilt(btn, isNewMonth) : null
-        btn.id === 'buildingLumberyard' ? lumberyard.checkIfBeingBuilt(btn, isNewMonth) : null
-        btn.id === 'buildingQuarry' ? quarry.checkIfBeingBuilt(btn, isNewMonth) : null
-    })
+// checks if any construction is ongoing.
+const checkConstruction = () => {
+    capital.progressBuild('buildingCapital')
+    house.progressBuild('buildingHouse')
+    farm.progressBuild('buildingFarm')
+    lumberyard.progressBuild('buildingLumberyard')
+    quarry.progressBuild('buildingQuarry')
 }
 
 // Calculate happines. Min 0, max 100. If reach 0 happines, riots will occur (generally pop will die and attack our army. If no army, gold will disappear)
@@ -77,11 +75,24 @@ const changeTax = (id) => {
     printText()
 }
 
+// checks the current capital level and applies modifiers
+const applyCapitalBonuses = () => {
+    let gameData = loadGame()
+    const capitalLevel = gameData.general.capitalLevel - 1
+    const values = gameData.capitalLevels[capitalLevel]
+
+    gameData.basicResources.basicSpace = values.space
+    gameData.buildingHouse.space = values.houses - gameData.buildingHouse.amount
+
+    saveGame(gameData)
+}
+
 // check before gaining res or at the beginning of teh game
 const checkBeforeGains = (isNewMonth) => {
     showGeneralPanel()
     clearMessages(isNewMonth)
-    checkConstruction(isNewMonth) // checks ongoing constructions
+    buildingConstrProgress()
+    applyCapitalBonuses()
     pop.calculateTotalSpace() 
     displayBuildingBox()
 }
@@ -106,8 +117,9 @@ const initApp = () => {
 
 // progress month
 const incmnth = () => {
+    checkConstruction()
     checkBeforeGains(true)
-
+    
     // res gains
     month.increaseMonth();
     gold.calculateGold();
@@ -125,20 +137,28 @@ const incmnth = () => {
     checkAfterGains(true)
 }
 
-// Main buttons event listeners
-buttons[0].addEventListener('click', incmnth);
-buttons[1].addEventListener('click', () => {
-    localStorage.removeItem('gameSave')
-    location.reload()
-})
 
 // Building buttons event listeners
 btnBuild.forEach(btn => {btn.addEventListener('click', (e) => {
-    btn.id === 'buildingHouse' ? house.startConstruction(e) : null
-    btn.id === 'buildingFarm' ? farm.startConstruction(e) : null
-    btn.id === 'buildingLumberyard' ? lumberyard.startConstruction(e) : null
-    btn.id === 'buildingQuarry' ? quarry.startConstruction(e) : null
+    btn.id === 'btnCapital' ? capital.startConstruction(e, 'buildingCapital') : null
+    btn.id === 'btnHouse' ? house.startConstruction(e, 'buildingHouse') : null
+    btn.id === 'btnFarm' ? farm.startConstruction(e, 'buildingFarm') : null
+    btn.id === 'btnLumberyard' ? lumberyard.startConstruction(e, 'buildingLumberyard') : null
+    btn.id === 'btnQuarry' ? quarry.startConstruction(e, 'buildingQuarry') : null
 })})
 
-// Tax buttons event listeners
-btnTax.forEach(btn => {btn.addEventListener('click', (e) => changeTax(e.target.id))})
+document.addEventListener('click', (e) => {
+    const target = e.target.id
+
+    // New month and reset buttons
+    target === 'btnNewMonth' ? incmnth() : null
+    target === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
+    
+    // Tax buttons event listeners
+    target === 'btnTaxLow' ? changeTax(target) : null
+    target === 'btnTaxBalanced' ? changeTax(target) : null
+    target === 'btnTaxHigh' ? changeTax(target) : null
+
+    // build buttons
+    
+})
