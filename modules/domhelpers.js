@@ -54,8 +54,7 @@ export const printText = () => {
         // Resource text
         item.id === 'month' ? item.textContent = converThousand(gameData.basicResources.month) : null
         item.id === 'gold' ? item.textContent = converThousand(gameData.basicResources.gold) : null
-        item.id === 'pop' ? item.textContent = converThousand(gameData.basicResources.pop) : null
-        item.id === 'maxPop' ? item.textContent = ` / ${converThousand(gameData.tempData.totalSpace)}` : null
+        item.id === 'popText' ? item.innerHTML = popText(gameData.basicResources.pop, gameData.tempData.totalSpace) : null
         item.id === 'food' ? item.textContent = converThousand(gameData.basicResources.food) : null
         item.id === 'wood' ? item.textContent = converThousand(gameData.basicResources.wood) : null
         item.id === 'stone' ? item.textContent = converThousand(gameData.basicResources.stone) : null
@@ -227,6 +226,14 @@ const changeTaxText = (tax) => {
     } else if (tax === 3) {
         return '<span class="text-red">High</span>'
     }
+}
+
+// changes the color of the pop text
+const popText = (pop, space) => {
+    if (pop >= space) {
+        return `<span class="text-red">${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
+    }
+    return `<span>${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
 }
 
 // helper function to display economy stats. Calculates gains and losses and totals the amounts

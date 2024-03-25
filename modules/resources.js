@@ -1,8 +1,6 @@
 import { printMessage } from "./domhelpers.js"
 import { saveGame, loadGame } from "./utilities.js"
 
-const popText = document.getElementById('popText')
-
 export class Month{
     increaseMonth() {
         let gameData = loadGame()
@@ -104,22 +102,16 @@ export class Pop {
         let pop = gameData.basicResources.pop
         let totalSpace = gameData.tempData.totalSpace 
 
-        popText.classList.remove('text-red')
-
         if (pop === totalSpace) {
-            popText.classList.add('text-red')
             printMessage('Population capacity reached. Build more housing or conquer more settlements!', 'warning')
         } else if ((pop > totalSpace) && isNewMonth) {
             gameData.alerts.overpopulation = true
             saveGame(gameData)
-            popText.classList.add('text-red')
             const leftPop = this.removePops(gameData, 'overpopulation')
             printMessage(`People have nowhere to live. ${leftPop} people have left. Build more housing or conquer more settlements!`, 'critical')
-            pop < totalSpace ? popText.classList.remove('text-red') : null
         } else if ((pop > totalSpace) && !isNewMonth) {
             gameData.alerts.overpopulation = true
             saveGame(gameData)
-            popText.classList.add('text-red')
             printMessage(`People have nowhere to live. Build more housing!`, 'critical')
         }
     }
