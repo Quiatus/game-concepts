@@ -71,6 +71,8 @@ export class Pop {
 
         const baseGain = this.increasePop(pop) 
 
+        gameData.resourceGain.pop = baseGain
+
         amount = baseGain
 
         if (!alert) {
@@ -79,7 +81,6 @@ export class Pop {
                 gameData.basicResources.pop = totalSpace
             } else {
                 gameData.basicResources.pop += amount
-                gameData.resourceGain.pop = amount
                 gameData.basicResources.pop < 0 ? gameData.basicResources.pop = 0 : null
             }
         }

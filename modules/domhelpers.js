@@ -5,6 +5,7 @@ const texts = document.querySelectorAll('span')
 const menuButtons = document.querySelectorAll('.menuBtn')
 const rightPanels = document.querySelectorAll('.right-panel')
 const alertsPanel = document.querySelector('.alert-div')
+const buildingBox = document.querySelectorAll('.building-div')
 
 // clears the message box
 export const clearMessages = (isNewMonth) => {
@@ -166,6 +167,18 @@ export const printText = () => {
 export const showGeneralPanel = () => {
     rightPanels.forEach(panel => panel.classList.add('none'))
     rightPanels[0].classList.remove('none')
+}
+
+// Display unlocked buildings
+export const displayBuildingBox = () => {
+    let gameData = loadGame()
+
+    buildingBox.forEach(bb => {
+        bb.id === 'bdHouse' ? gameData.buildingHouse.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
+        bb.id === 'bdFarm' ? gameData.buildingFarm.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
+        bb.id === 'bdLumberyard' ? gameData.buildingLumberyard.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
+        bb.id === 'bdQuarry' ? gameData.buildingQuarry.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
+    })
 }
 
 // decimal separator

@@ -1,4 +1,4 @@
-import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAlerts } from "./modules/domhelpers.js"
+import { printText, clearMessages, printMessage, showGeneralPanel, checkActiveAlerts, displayBuildingBox } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
 import { House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
@@ -29,10 +29,10 @@ document.addEventListener('readystatechange', (e) => {
 // checks if any construction is ongoing. If the game is loaded, disables built button, if next month, progresses the construction
 const checkConstruction = (isNewMonth) => {
     btnBuild.forEach(btn => {
-        btn.id == 'buildingHouse' ? house.checkIfBeingBuilt(btn, isNewMonth) : null
-        btn.id == 'buildingFarm' ? farm.checkIfBeingBuilt(btn, isNewMonth) : null
-        btn.id == 'buildingLumberyard' ? lumberyard.checkIfBeingBuilt(btn, isNewMonth) : null
-        btn.id == 'buildingQuarry' ? quarry.checkIfBeingBuilt(btn, isNewMonth) : null
+        btn.id === 'buildingHouse' ? house.checkIfBeingBuilt(btn, isNewMonth) : null
+        btn.id === 'buildingFarm' ? farm.checkIfBeingBuilt(btn, isNewMonth) : null
+        btn.id === 'buildingLumberyard' ? lumberyard.checkIfBeingBuilt(btn, isNewMonth) : null
+        btn.id === 'buildingQuarry' ? quarry.checkIfBeingBuilt(btn, isNewMonth) : null
     })
 }
 
@@ -83,6 +83,7 @@ const checkBeforeGains = (isNewMonth) => {
     clearMessages(isNewMonth)
     checkConstruction(isNewMonth) // checks ongoing constructions
     pop.calculateTotalSpace() 
+    displayBuildingBox()
 }
 
 // checks various conditions after gaining resources and run events. Check for events before printing text
@@ -133,10 +134,10 @@ buttons[1].addEventListener('click', () => {
 
 // Building buttons event listeners
 btnBuild.forEach(btn => {btn.addEventListener('click', (e) => {
-    btn.id == 'buildingHouse' ? house.startConstruction(e) : null
-    btn.id == 'buildingFarm' ? farm.startConstruction(e) : null
-    btn.id == 'buildingLumberyard' ? lumberyard.startConstruction(e) : null
-    btn.id == 'buildingQuarry' ? quarry.startConstruction(e) : null
+    btn.id === 'buildingHouse' ? house.startConstruction(e) : null
+    btn.id === 'buildingFarm' ? farm.startConstruction(e) : null
+    btn.id === 'buildingLumberyard' ? lumberyard.startConstruction(e) : null
+    btn.id === 'buildingQuarry' ? quarry.startConstruction(e) : null
 })})
 
 // Tax buttons event listeners
