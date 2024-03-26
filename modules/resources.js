@@ -16,13 +16,15 @@ export class Gold{
         let amount = 0
         const pop = gameData.basicResources.pop
         const tax = gameData.general.tax
+        const commerce = gameData.tempData.commerce // gained from higher capital levels. Will create random function
 
         //base income from pop * tax multiplier
         const baseIncome = Math.round(this.getGoldFromPop(pop) * this.addTaxes(tax))
         
-        amount = baseIncome
-
+        amount = baseIncome + commerce
+        gameData.resourceGain.goldTotal = amount
         gameData.resourceGain.goldTax = baseIncome
+
         gameData.basicResources.gold += amount
         gameData.basicResources.gold < 0 ? gameData.basicResources.gold = 0 : null
 

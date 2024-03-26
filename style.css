@@ -305,7 +305,8 @@ main {
     justify-content: start;
 }
 
-.building-div {
+.building-div,
+.building-capital {
     background-color: var(--clr-bgblue);
     width: 280px;
     padding: 0.5rem;

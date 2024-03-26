@@ -15,7 +15,7 @@
         <div class="box-main resources">
             <h3>Resources</h3>
             <div id="resourceBox">
-
+                <!-- Dynamically generated -->
             </div>
             <hr>
             <div class="nm-div">
@@ -29,7 +29,7 @@
         <div class="box-main alerts">
             <h3>Alerts</h3>
             <div class="alert-div text-red">
-                
+                <!-- Dynamically generated -->
             </div>
         </div>
 
@@ -46,14 +46,15 @@
             </div>
         </div>
 
-
         <!-- GENERAL -------------------------------------------------------------------------------------------------------------------- -->
 
         <div class="box-main right-panel general">
             <h3>General</h3>
             <div class="box-sub">
                 <h3>Messages</h3>
-                <div class="message-div text-small"></div>
+                <div class="message-div text-small">
+                    <!-- Dynamically generated -->
+                </div>
             </div>
     
             <div class="box-sub">
@@ -72,94 +73,14 @@
                 <h3>Clan settings</h3>
                 <div class="settings text-small">
 
-                    <div class="building-div" id="buildingCapital">
-                        <h4 class="text-big">Capital</h4>
-                        <div class="build-description">
-                            <p>Capital city of our empire.</p>
-                        </div>
-                        <span class="text-bold text-orange" id="building-capital-level"></span>
-                        
-                        <div class="settings-stats">
-                            <span class="text-gray">Space:</span><span id="building-capital-space"></span>
-                            <span class="text-gray">Max. houses:</span><span id="building-capital-house"></span>
-                        </div>
-                        <hr class="subdiv-separator">
-                        <span>Upgrade to <span class="text-bold text-orange" id="building-capital-incLevel"></span></span>
-                        <div class="settings-stats">
-                            <span class="text-gray">Space:</span><span id="building-capital-incSpace"></span>
-                            <span class="text-gray">Max. houses:</span><span id="building-capital-incHousing"></span>
-                        </div>
-                        <span>Cost</span>
-                        <div class="settings-stats">
-                            <span class="text-gray">Build costs:</span> <span id="building-capital-cost"></span>
-                            <span class="text-gray">Time:</span><span id="building-capital-constrtime"></span>
-                            <span class="text-gray">Special costs:</span><span>-</span>
-                        </div>
-
-                        <div class="subdiv">
-                            <div class="build-buttons">
-                                <span class="text-red error-text"></span>
-                                <button class="btnBuild" id="btnCapital">Upgrade Capital</button>
-                            </div>
-
-                            <div class="build-progress none">
-                                <span class="text-gray text-bold">Upgrade progress:</span>
-                                <div class="progress-bar"></div>
-                            </div> 
-                        </div>
+                    <div class="building-capital" id="buildingCapital">
+                        <!-- Dynamically generated -->
                     </div> 
 
                     <div class="settings-div" id="taxBox">
-
+                        <!-- Dynamically generated -->
                     </div> 
 
-                </div>          
-            </div>
-
-            <!-- Statistics -->
-
-            <div class="box-sub">
-                <h3>Statistics</h3>
-                <div class="statistics">
-                    <div>
-                        <p class="stat-header">General:</p>
-                        <div class="stat-div">
-                            <span class="text-gray">Fame:</span><span id="stat-gen-fame">0</span>
-                            <span class="text-gray">Happiness:</span><span id="stat-gen-hap"></span>
-                            <span class="text-gray">Might:</span><span id="stat-gen-might">0</span>
-                            <span class="text-gray">Army:</span><span class="text-green" id="stat-gen-might">Ready</span>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <p class="stat-header">Space:</p>
-                        <div class="stat-div">
-                            <span class="text-gray">Capital:</span><span id="stat-space-cap"></span>
-                            <span class="text-gray">Houses:</span><span id="stat-space-house"></span>
-                            <span class="text-gray">Settlements:</span><span id="stat-space-settlement">0</span>
-                            <span class="text-gray">Total space:</span><span id="stat-space-total"></span>
-                            <span class="text-gray">Free space:</span><span id="stat-space-free"></span>
-                        </div>
-                    </div>
-    
-                    <div>
-                        <p class="stat-header">Buildings:</p>
-                        <div class="stat-div">
-                            <span class="text-gray">Houses:</span><span id="stat-build-house"></span>
-                            <span class="text-gray">Farms:</span><span id="stat-build-farm"></span>
-                            <span class="text-gray">Lumber yards:</span><span id="stat-build-lumber"></span>
-                            <span class="text-gray">Quarries:</span><span id="stat-build-quarry"></span>
-                        </div>
-                    </div>    
-
-                    <div>
-                        <p class="stat-header">Settlements:</p>
-                        <div class="stat-div">
-                            <span class="text-gray">Villages:</span><span id="stat-settlement-village">0</span>
-                            <span class="text-gray">Towns:</span><span id="stat-settlement-town">0</span>
-                            <span class="text-gray">Cities:</span><span id="stat-settlement-city">0</span>
-                        </div>
-                    </div> 
                 </div>          
             </div>
 
@@ -167,92 +88,20 @@
 
             <div class="box-sub">
                 <h3>Economy</h3>
-                <div class="economy">
-                    <div>
-                        <p class="stat-header">People:</p>
-                        <div class="economy-div">
-                            <span class="text-white spread">Gains</span>
-                            <span class="text-gray ml">Births:</span><span class="text-green" id="econ-p-birth"></span>
-                            <span class="text-white">Total:</span><span class="text-bold text-green" id="econ-p-totalgain"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class=" text-white spread">Loses</span>
-                            <span class="text-gray ml">Left:</span><span class="text-red" id="econ-p-left"></span>
-                            <span class="text-gray ml">Deaths:</span><span class="text-red" id="econ-p-death"></span>
-                            <span class="text-white">Total:</span><span class="text-bold text-red" id="econ-p-totalloss"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class="text-white text-bold">Difference:</span><span class="text-bold" id="econ-p-total"></span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p class="stat-header">Gold:</p>
-                        <div class="economy-div">
-                            <span class="text-white spread">Income</span>
-                            <span class="text-gray ml">Taxes:</span><span class="text-green" id="econ-g-tax"></span>
-                            <span class="text-white">Total:</span><span class="text-bold text-green" id="econ-g-totalgain"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class=" text-white spread">Expenditures</span>
-                            <span class="text-white">Total:</span><span class="text-bold text-red" id="econ-g-totalloss"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class="text-white text-bold">Difference:</span><span class="text-bold" id="econ-g-total"></span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p class="stat-header">Food:</p>
-                        <div class="economy-div">
-                            <span class="text-white spread">Gains</span>
-                            <span class="text-gray ml">Farms:</span><span class="text-green" id="econ-f-farm"></span>
-                            <span class="text-white">Total:</span><span class="text-bold text-green" id="econ-f-totalgain"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class=" text-white spread">Loses</span>
-                            <span class="text-gray ml">People:</span><span class="text-red" id="econ-f-people"></span>
-                            <span class="text-white">Total:</span><span class="text-bold text-red" id="econ-f-totalloss"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class="text-white text-bold">Difference:</span><span class="text-bold" id="econ-f-total"></span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p class="stat-header">Wood:</p>
-                        <div class="economy-div">
-                            <span class="text-white spread">Gains</span>
-                            <span class="text-gray ml">Lumber yard:</span><span class="text-green" id="econ-w-lumber"></span>
-                            <span class="text-white">Total:</span><span class="text-bold text-green" id="econ-w-totalgain"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class=" text-white spread">Loses</span>
-                            <span class="text-white">Total:</span><span class="text-bold text-red" id="econ-w-totalloss"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class="text-white text-bold">Difference:</span><span class="text-bold" id="econ-w-total"></span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p class="stat-header">Stone:</p>
-                        <div class="economy-div">
-                            <span class="text-white spread">Gains</span>
-                            <span class="text-gray ml">Quarries:</span><span class="text-green" id="econ-s-quarry"></span>
-                            <span class="text-white">Total:</span><span class="text-bold text-green" id="econ-s-totalgain"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class=" text-white spread">Loses</span>
-                            <span class="text-white">Total:</span><span class="text-bold text-red" id="econ-s-totalloss"></span>
-                        </div>
-                        <div class="economy-div">
-                            <span class="text-white text-bold">Difference:</span><span class="text-bold" id="econ-s-total"></span>
-                        </div>
-                    </div>
-                
+                <div class="economy" id="economy">
+                    <!-- Dynamically generated -->
                 </div>          
             </div>
+
+            <!-- Statistics -->
+
+            <div class="box-sub">
+                <h3>Statistics</h3>
+                <div class="statistics" id="statistics">
+                    <!-- Dynamically generated -->
+                </div>          
+            </div>
+        
         </div>
 
         <!-- BUILDINGS -------------------------------------------------------------------------------------------------------------------- -->

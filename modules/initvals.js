@@ -15,6 +15,7 @@ export const initData = {
     },
     resourceGain: {
         goldTax: 0,
+        goldTotal: 0,
         pop: 0,
         food: 0,
         wood: 0,
@@ -28,6 +29,7 @@ export const initData = {
     tempData: {
         houseSpace: 0,
         totalSpace: 0,
+        commerce: 0,
         consumedFood: 0,
         happiness: 0, 
         popLeft: 0,
