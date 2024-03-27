@@ -119,7 +119,7 @@ export const displayEconomy = (gameData) => {
     <div class="economy-div">
         <span class="text-white spread">Income</span>
         <span class="text-gray ml">Taxes:</span><span class="text-green">${converThousand(gameData.resourceGain.goldTax)}</span>
-        <span class="text-gray ml">Commerce:</span><span class="text-green">${converThousand(gameData.tempData.commerce)}</span>
+        <span class="text-gray ml">Trade:</span><span class="text-green">${converThousand(gameData.tempData.commerce)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('g')[0])}</span>
     </div>
     <div class="economy-div">
@@ -209,7 +209,7 @@ export const displayCapital = (gameData) => {
         <div class="settings-stats">
             <span class="text-gray">Space:</span><span>${converThousand(getCapitalInfo().currentLevel.space)} > <span class="text-green">${converThousand(getCapitalInfo().nextLevel.space)}</span></span>
             <span class="text-gray">Max. houses:</span><span>${converThousand(getCapitalInfo().currentLevel.houses)} > <span class="text-green">${converThousand(getCapitalInfo().nextLevel.houses)}</span></span>
-            <span class="text-gray">Commerce:</span><span>${converThousand(getCapitalInfo().currentLevel.commerce)} > <span class="text-green">${converThousand(getCapitalInfo().nextLevel.commerce)}</span></span>
+            <span class="text-gray">Gold from trade:</span><span>${converThousand(getCapitalInfo().currentLevel.commerce)} > <span class="text-green">${converThousand(getCapitalInfo().nextLevel.commerce)}</span></span>
         </div>
 
         <div class="subdiv">

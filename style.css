@@ -3,7 +3,9 @@
 :root {
     /* Main colors for layout */
 
-    /* Blue 
+    
+    /* Blue */
+    /*
     --clr-bgborder: #334;
     --clr-compbord: #779;
     --clr-compbg: #223;
@@ -14,8 +16,8 @@
     --clr-gray: #bbc;
     --clr-menutext: #bce; 
     */
-
     /* Red */
+    /*
     --clr-bgborder: #511;
     --clr-compbord: #922;
     --clr-compbg: #311;
@@ -25,8 +27,10 @@
     --clr-hover: #ffd;
     --clr-gray: #baa;
     --clr-menutext: #ecc;  
+    */
+
+    /* Grey */
     
-    /* Grey 
     --clr-bgborder: #333;
     --clr-compbord: #999;
     --clr-compbg: #222;
@@ -34,9 +38,9 @@
     --clr-hbg: #555;
     --clr-hbord: #999;
     --clr-hover: #fff;
-    --clr-gray: #bbb;
+    --clr-gray: #aaa;
     --clr-menutext: #ddd;  
-    */
+    
 
     /* Colors for building headers */
     --clr-bgyellow: #343;
@@ -362,7 +366,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    border: 2px solid var(--clr-bgborder);
+    border: 1px solid var(--clr-bgborder);
     box-shadow: 0 0 10px var(--clr-bgborder);
     border-radius: 0.25rem;
     height: 100%;
@@ -510,6 +514,7 @@ button {
 }
 
 button:hover {
+    font-weight: 400;
     color: var(--clr-hover);
     border-color: var(--clr-hover);
     box-shadow: 0 0 10px var(--clr-hover);
@@ -522,8 +527,8 @@ button:active {
 }
 
 .btnBuild {
-    width: 75%;
     font-weight: 700;
+    width: 75%;
     padding: 0.5rem 0;
 }
 
@@ -544,10 +549,7 @@ button:active {
 }
 
 .menuBtn:active {
-    font-weight: 700;
-    color: var(--clr-white);
-    text-shadow: 0 0 10px var(--clr-hover);
-    cursor: pointer;
+    transform: scale(0.95);
 }
 
 /* Typography */
