@@ -9,11 +9,6 @@ const buildings = document.getElementById('buildings')
 // decimal separator
 export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-// clears the message box
-export const clearMessages = (isNewMonth) => {
-    isNewMonth ? messages.innerHTML = '' : null
-}
-
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
 export const showPanel = (num) => {
     rightPanels.forEach(panel => panel.classList.add('none'))
@@ -34,6 +29,7 @@ export const printMessage = (text, type='info') => {
         msg.className = 'text-white'
     } 
     if (type==='gains') {
+        messages.innerHTML = ''
         msg.innerHTML = newMonthGains();
     }
 
@@ -54,7 +50,7 @@ export const displayActiveAlerts = () => {
     }
 }
 
-// Main fuction that changes text fields
+// Main fuction that generates markup
 export const printText = () => {
     let gameData = loadGame()
 
@@ -210,4 +206,11 @@ export const displayBuildDescr = (building) => {
     string = `${building.isUnique ? `Unique - ` : ``}${building.requireSpace ? `Requires space - ` : ``}${building.requireCapitalLevel ? `Requires capital level ${building.requireCapitalLevel} - ` : ``}`
     string = string.substring(0, string.length-3)
     return string
+}
+
+// prints messages at the beginning of the month
+export const printNewMonthMessages = () => {
+    let gameData = loadGame()
+    printMessage('', 'gains')
+    printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
 }

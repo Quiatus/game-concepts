@@ -1,5 +1,6 @@
-import { printText, clearMessages, printMessage, showPanel, displayActiveAlerts } from "./modules/domhelpers.js"
-import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
+import { printText, showPanel, displayActiveAlerts, printNewMonthMessages } from "./modules/domhelpers.js"
+import { checkIfNewGame } from "./modules/utilities.js"
+import { changeTax, applyCapitalBonuses, calculateHappiness } from "./modules/valuecalc.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 
@@ -26,120 +27,72 @@ document.addEventListener('readystatechange', (e) => {
 // initializes the app
 const initApp = () => {
     checkIfNewGame()
-    checkBeforeGains(false)
-    checkAfterGains(false)
-}
-
-// checks if any construction is ongoing.
-const checkConstruction = () => {
-    capital.progressBuild('buildingCapital')
-    house.progressBuild('buildingHouse')
-    farm.progressBuild('buildingFarm')
-    lumberyard.progressBuild('buildingLumberyard')
-    quarry.progressBuild('buildingQuarry')
-}
-
-// Calculate happines. Min 0, max 100. If reach 0 happines, riots will occur (generally pop will die and attack our army. If no army, gold will disappear)
-const calculateHappiness = () => {
-    let gameData = loadGame()
-    let calculatedHappiness = gameData.basicResources.baseHappiness // 50
-
-    // Positive gains
-    gameData.general.tax === 1 ? calculatedHappiness += 20 : null
-
-    // Negative gains
-    gameData.alerts.famine ? calculatedHappiness -= 10 : null
-    gameData.alerts.overpopulation ? calculatedHappiness -= 5 : null
-    gameData.general.tax === 3 ? calculatedHappiness -= 20 : null
-
-    // Happiness cannot go below 0 or above 100
-    calculatedHappiness < 0 ? calculatedHappiness = 0 : null
-    calculatedHappiness > 100 ? calculatedHappiness = 100 : null
-
-    gameData.tempData.happiness = calculatedHappiness
-
-    // checks if happiness is too low and prints / triggers adequate response
-    calculatedHappiness > 0 && calculatedHappiness < 20 ? printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning') : null
-    calculatedHappiness === 0 ? (
-        printMessage('Our population is rioting!', 'critical'),
-        gameData.alerts.riot = true
-    ) : null
-
-    saveGame(gameData)
-}
-
-// change tax index 
-const changeTax = (id) => {
-    let gameData = loadGame()
-
-    gameData.general.tax = id
-
-    saveGame(gameData)
-    printText()
-}
-
-// checks the current capital level and applies modifiers
-const applyCapitalBonuses = () => {
-    let gameData = loadGame()
-    const capitalLevel = gameData.general.capitalLevel
-    const values = gameData.capitalLevels[capitalLevel - 1]
-
-    gameData.basicResources.basicSpace = values.space
-    gameData.tempData.commerce = values.commerce
-    gameData.buildingHouse.maxSpace = values.houses
-
-    if (capitalLevel < 2) {
-        const nextValues = gameData.capitalLevels[capitalLevel]
-
-        gameData.buildingCapital.costTime = nextValues.costTime
-        gameData.buildingCapital.costGold = nextValues.costGold
-        gameData.buildingCapital.costWood = nextValues.costWood
-        gameData.buildingCapital.costStone = nextValues.costStone
-        gameData.buildingCapital.specialUnlock = nextValues.specialUnlock
-    }
-
-    saveGame(gameData)
+    checkBeforeResourceCalc(false)
+    checkAfterResourceCalc(false)
 }
 
 // check before gaining res or at the beginning of teh game
-const checkBeforeGains = (isNewMonth) => {
-    showPanel(0)
-    clearMessages(isNewMonth)
-    applyCapitalBonuses()
-    pop.calculateTotalSpace()
+const checkBeforeResourceCalc = (isNewMonth) => {
+    showPanel(0)  // show general panel
+    checkConstruction(isNewMonth) // progress construction
+    applyCapitalBonuses() // apply capital bonuses 
+    pop.calculateTotalSpace() // calculates max. available space for pop (from building, capital and settlements)
 }
 
 // checks various conditions after gaining resources and run events. Check for events before printing text
-const checkAfterGains = (isNewMonth) => {
-    pop.isMaxPop(isNewMonth)
-    food.checkIfEnoughFood(pop, isNewMonth)
-
-    // Should run at the end
-    calculateHappiness()
-    displayActiveAlerts()
-    printText()
+const checkAfterResourceCalc = (isNewMonth) => {
+    pop.isMaxPop(isNewMonth) // checks if there is a space for population, if not, shows warning
+    food.checkIfEnoughFood(pop, isNewMonth) // checks if there is enough food, if not, shows warning
+    calculateHappiness()  // calculates happiness based on the conditions calculaed before
+    displayActiveAlerts() // shows any active alerts
+    printText() // updates DOM
 }
 
-// progress month
-const incmnth = () => {
-    checkConstruction()
-    checkBeforeGains(true)
-    
-    // res gains
+// Calculate resources at teh beginning of month
+const calculateResources = () => {
     month.increaseMonth();
     gold.calculateGold();
     pop.calculatePop();
     food.calculateFood();
     wood.calculateWood();
     stone.calculateStone();
-    printMessage('', 'gains')
+}
 
-    // spendings
-    let gameData = loadGame()
-    printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
+// checks if any construction is ongoing.
+const checkConstruction = (isNewMonth) => {
+    if (isNewMonth) {
+        capital.progressBuild('buildingCapital')
+        house.progressBuild('buildingHouse')
+        farm.progressBuild('buildingFarm')
+        lumberyard.progressBuild('buildingLumberyard')
+        quarry.progressBuild('buildingQuarry')
+    }
+}
 
-    // events 
-    checkAfterGains(true)
+/*
+    Progress month:
+
+    1. Progress any active constructions or upgrades and update value accordingly
+    2. Apply bonuses from the capital based on the capital's level
+    3. Calculate available space for pops
+    4. Calculate resource gain / spend:
+        a. Increase month
+        b. Calculate gold gains / losses
+        c. Calculate pop gains / losses (except from events)
+        d. Calculate food gains / losses
+        e. Calculate other resource gains (wood, stone, metals, runes....)
+    5. Print resource gain / loss messages
+    6. Check if pop is at or above max space. If the same, triggers the appropriate alert
+    7. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
+    8. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
+    9. Displays all active alerts
+    10. Re-generate DOM with the updated values
+*/
+const progressGame = () => {
+    checkBeforeResourceCalc(true)    
+    calculateResources() 
+    printNewMonthMessages()
+    checkAfterResourceCalc(true) 
 }
 
 // Button event listeners
@@ -147,7 +100,7 @@ document.addEventListener('click', (e) => {
     const target = e.target.id
 
     // New month and reset buttons
-    target === 'btnNewMonth' ? incmnth() : null
+    target === 'btnNewMonth' ? progressGame() : null
     target === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
 
     // Menu buttons
