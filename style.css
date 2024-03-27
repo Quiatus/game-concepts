@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Carrois+Gothic&display=swap');
 
 :root {
-
     /* Main colors for layout */
 
-    /* Blue */
+    /* Blue 
     --clr-bgborder: #334;
     --clr-compbord: #779;
     --clr-compbg: #223;
@@ -14,19 +13,19 @@
     --clr-hover: #eef;
     --clr-gray: #bbc;
     --clr-menutext: #bce; 
-    
-    /* Red 
+    */
+
+    /* Red */
     --clr-bgborder: #511;
     --clr-compbord: #922;
     --clr-compbg: #311;
     --clr-bg: #100;
     --clr-hbg: #633;
     --clr-hbord: #944;
-    --clr-hover: #fee;
+    --clr-hover: #ffd;
     --clr-gray: #baa;
     --clr-menutext: #ecc;  
-    */
-
+    
     /* Grey 
     --clr-bgborder: #333;
     --clr-compbord: #999;
@@ -38,7 +37,6 @@
     --clr-gray: #bbb;
     --clr-menutext: #ddd;  
     */
-    
 
     /* Colors for building headers */
     --clr-bgyellow: #343;
@@ -97,31 +95,28 @@ main {
     gap: 1rem;
 }
 
-/* Main boxes */
+/* Right panels */
 
 .box-main {
     border-radius: 0.35rem;
     overflow: hidden;
-    padding: 1rem 1rem 0.5rem;
     border: 1px solid var(--clr-hbg);
     box-shadow: 0 0 5px var(--clr-hbord);
+    height: fit-content;
 }
 
-.box-main > h3 {
+.box-main h3 {
     background-color: var(--clr-hbg);
     color: var(--clr-menutext);
     line-height: 1;
-    margin: -1rem;
-    margin-bottom: 0.5rem;
     padding: 0.25rem 0 0.25rem 0.75rem;
     letter-spacing: 1px;
 }
 
-/* Sub boxes */
+/* Sub boxes - big */
 
 .box-sub {
     overflow: hidden;
-    padding: 1rem 1rem 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid var(--clr-bgborder);
     box-shadow: 0 0 5px var(--clr-bgborder);
@@ -132,19 +127,13 @@ main {
     background-color: var(--clr-bgborder);
     color: var(--clr-gray);
     line-height: 1;
-    margin: -1rem;
-    margin-bottom: 0.5rem;
     padding: 0.25rem 0.5rem;
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 1px;
 }
 
-.box-sub:last-of-type {
-    margin-bottom: 0;
-}
-
-/* Resource box */
+/* Resource panel */
 
 .resources {
     grid-area: 1/1/1/3;
@@ -187,7 +176,7 @@ main {
     width: 240px;
 }
 
-/* Menu box */
+/* Menu panel */
 
 .menu {
     grid-area: 2/1/2/1;
@@ -213,12 +202,29 @@ main {
     margin-bottom: 0;
 }
 
-/* General box */
+/* General panel */
 
 .general {
     grid-area: 2/2/4/2;
-    display: flex;
-    flex-direction: column;
+}
+
+.general-divs {
+    padding: 1rem 1rem 0;
+    display: grid;
+    grid-template-columns: 1000px auto;
+    column-gap: 1rem;
+}
+
+.messages {
+    grid-area: 1/1/1/2;
+}
+
+.events {
+    grid-area: 2/1/2/2;
+}
+
+.alerts {
+    grid-area: 1/2/3/2;
 }
 
 .message-div > p {
@@ -235,8 +241,15 @@ main {
 
 .management {
     grid-area: 2/2/4/2;
-    display: flex;
-    flex-direction: column;
+}
+
+.settings {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-template-rows: auto;
+    gap: 1rem;
+    justify-content: start;
 }
 
 #buildingCapital {
@@ -245,16 +258,6 @@ main {
 
 #taxBox {
     grid-area: 1/2/1/2;
-}
-
-/* Settings subbox */
-
-.settings {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    grid-template-rows: auto;
-    gap: 1rem;
-    justify-content: start;
 }
 
 .settings-stats {
@@ -281,15 +284,17 @@ main {
     margin: 0 0.5rem;
 }
 
-/* Statistics box */
+/* Statistics & economy panel */
 
 .stats {
     grid-area: 2/2/4/2;
-    display: flex;
-    flex-direction: column;
 }
 
-/* Statistics subbox */
+.stats-div {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem 0;
+}
 
 .statistics {
     display: grid;
@@ -311,8 +316,6 @@ main {
     margin-left: 1rem;
     font-size: 16px;
 }
-
-/* Economy subbox */
 
 .economy {
     display: grid;
@@ -346,6 +349,7 @@ main {
     grid-template-rows: auto;
     gap: 1rem;
     justify-content: start;
+    padding: 1rem;
 }
 
 .building-div,
@@ -404,9 +408,14 @@ main {
 
 .progress-bar {
     width: 100%;
-    border: 1px solid var(--clr-gray);
-    text-align: center;
-    border-radius: 0.25rem;
+    outline: 1px solid var(--clr-compbord);
+    border: 2px solid var(--clr-bg);
+    height: 16px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
 }
 
 .subdiv {
@@ -451,12 +460,12 @@ main {
 
 /* Utilities */
 
-.none {
-    display: none;
+.pad-s {
+    padding: 0.5rem;
 }
 
-.right-panel > h3 {
-    margin-bottom: 1rem;
+.none {
+    display: none;
 }
 
 #buildingFarm > h4,
