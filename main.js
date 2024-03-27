@@ -23,6 +23,13 @@ document.addEventListener('readystatechange', (e) => {
     }
 });
 
+// initializes the app
+const initApp = () => {
+    checkIfNewGame()
+    checkBeforeGains(false)
+    checkAfterGains(false)
+}
+
 // checks if any construction is ongoing.
 const checkConstruction = () => {
     capital.progressBuild('buildingCapital')
@@ -80,8 +87,6 @@ const applyCapitalBonuses = () => {
     gameData.basicResources.basicSpace = values.space
     gameData.tempData.commerce = values.commerce
     gameData.buildingHouse.maxSpace = values.houses
-    gameData.buildingHouse.space = values.houses - gameData.buildingHouse.amount
-
 
     if (capitalLevel < 2) {
         const nextValues = gameData.capitalLevels[capitalLevel]
@@ -115,13 +120,6 @@ const checkAfterGains = (isNewMonth) => {
     printText()
 }
 
-// initializes the app
-const initApp = () => {
-    checkIfNewGame()
-    checkBeforeGains(false)
-    checkAfterGains(false)
-}
-
 // progress month
 const incmnth = () => {
     checkConstruction()
@@ -139,6 +137,7 @@ const incmnth = () => {
     // spendings
     let gameData = loadGame()
     printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
+
     // events 
     checkAfterGains(true)
 }

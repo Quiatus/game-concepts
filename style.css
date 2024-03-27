@@ -4,7 +4,7 @@
 
     /* Main colors for layout */
 
-    /* Blue  */
+    /* Blue */
     --clr-bgborder: #334;
     --clr-compbord: #779;
     --clr-compbg: #223;
@@ -15,7 +15,6 @@
     --clr-gray: #bbc;
     --clr-menutext: #bce; 
     
-
     /* Red 
     --clr-bgborder: #511;
     --clr-compbord: #922;
@@ -95,7 +94,6 @@ main {
     grid-template-columns: 240px 1280px;
     grid-template-rows: auto;
     justify-content: center;
-    /* margin: 2rem; */
     gap: 1rem;
 }
 
@@ -173,7 +171,7 @@ main {
 }
 
 .hr {
-    border-left: 1px solid var(--clr-gray);
+    border-left: 1px solid var(--clr-compbord);
     padding-left: 1rem;
 }
 

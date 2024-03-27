@@ -101,7 +101,7 @@ export const initData = {
         costStone: 0,
         requireSpace: true,
         space: 0,
-        maxSpace: 1,
+        maxSpace: 0,
         effect: 100,
         info: 'Increases population capacity by #effect#.'
     },
@@ -120,8 +120,8 @@ export const initData = {
         costWood: 20,
         costStone: 5,
         requireSpace: true,
-        space: 1,
-        maxSpace: 1,
+        space: 0,
+        maxSpace: 2,
         effect: 10,
         info: 'Produces #effect# units of food per month.'
     },
@@ -140,7 +140,7 @@ export const initData = {
         costWood: 10,
         costStone: 0,
         requireSpace: true,
-        space: 1,
+        space: 0,
         maxSpace: 1,
         effect: 5,
         info: 'Produces #effect# units of wood per month.'
@@ -160,7 +160,7 @@ export const initData = {
         costWood: 100,
         costStone: 20,
         requireSpace: true,
-        space: 1,
+        space: 0,
         maxSpace: 1,
         effect: 10,
         info: 'Produces #effect# units of stone per month.'

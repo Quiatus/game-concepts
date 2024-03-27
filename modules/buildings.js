@@ -33,7 +33,7 @@ class Building {
             reason += 'Not enough stone, '
         }
 
-        if (building.amount === 1 && building.amount === true && building.name !== 'Capital') {
+        if (building.amount === 1 && building.isUnique === true && building.name !== 'Capital') {
             canBuild = false
             reason += 'We can only have one unique building, '
         }
@@ -47,21 +47,21 @@ class Building {
     }
 
     // start building construction
-    startConstruction(e, target) {
+    startConstruction(e, building) {
         let gameData = loadGame()
-        let building = gameData[target]
-       
+
+        gameData[building].space = gameData[building].maxSpace - gameData[building].amount
+
         // checks if construction is possible. Passes teh building object and resources
-        const checkRes = this.checkIfCanBuild(building, gameData)
+        const checkRes = this.checkIfCanBuild(gameData[building], gameData)
         
         // if check pass, start building
         if (checkRes[0]) {
-            building.isBeingBuilt = true;
-            building.requireSpace ? building.space -= 1 : null
-            
-            gameData.basicResources.gold -= building.costGold
-            gameData.basicResources.wood -= building.costWood
-            gameData.basicResources.stone -= building.costStone
+            gameData[building].isBeingBuilt = true
+           
+            gameData.basicResources.gold -= gameData[building].costGold
+            gameData.basicResources.wood -= gameData[building].costWood
+            gameData.basicResources.stone -= gameData[building].costStone
 
             saveGame(gameData)
             printText()
@@ -74,23 +74,23 @@ class Building {
     }
 
     // progresses the construction
-    progressBuild(target) {
+    progressBuild(building) {
         let gameData = loadGame()
-        let building = gameData[target]
         
         // if the last month passes, completes the construction
-        if (building.isBeingBuilt) {
-            if (building.buildProgress === (building.costTime - 1)) {  
-                building.isBeingBuilt = false;
-                building.buildProgress = 0;
-                if (building.name !== 'Capital') {
-                    building.amount++;
+        if (gameData[building].isBeingBuilt) {
+            if (gameData[building].buildProgress === (gameData[building].costTime - 1)) {  
+                gameData[building].isBeingBuilt = false;
+                gameData[building].buildProgress = 0;
+                if (gameData[building].name !== 'Capital') {
+                    gameData[building].amount++;
+                    
                 } else {
                     gameData.general.capitalLevel++
                 }      
                 
             } else {
-                building.buildProgress++
+                gameData[building].buildProgress++
             }
             saveGame(gameData)
         }
