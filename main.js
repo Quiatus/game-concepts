@@ -1,4 +1,4 @@
-import { printText, clearMessages, printMessage, showPanel, displayActiveAlerts, displayBuildingBox, buildingConstrProgress } from "./modules/domhelpers.js"
+import { printText, clearMessages, printMessage, showPanel, displayActiveAlerts } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
@@ -74,12 +74,24 @@ const changeTax = (id) => {
 // checks the current capital level and applies modifiers
 const applyCapitalBonuses = () => {
     let gameData = loadGame()
-    const capitalLevel = gameData.general.capitalLevel - 1
-    const values = gameData.capitalLevels[capitalLevel]
+    const capitalLevel = gameData.general.capitalLevel
+    const values = gameData.capitalLevels[capitalLevel - 1]
 
     gameData.basicResources.basicSpace = values.space
     gameData.tempData.commerce = values.commerce
+    gameData.buildingHouse.maxSpace = values.houses
     gameData.buildingHouse.space = values.houses - gameData.buildingHouse.amount
+
+
+    if (capitalLevel < 2) {
+        const nextValues = gameData.capitalLevels[capitalLevel]
+
+        gameData.buildingCapital.costTime = nextValues.costTime
+        gameData.buildingCapital.costGold = nextValues.costGold
+        gameData.buildingCapital.costWood = nextValues.costWood
+        gameData.buildingCapital.costStone = nextValues.costStone
+        gameData.buildingCapital.specialUnlock = nextValues.specialUnlock
+    }
 
     saveGame(gameData)
 }
@@ -88,10 +100,8 @@ const applyCapitalBonuses = () => {
 const checkBeforeGains = (isNewMonth) => {
     showPanel(0)
     clearMessages(isNewMonth)
-    buildingConstrProgress()
     applyCapitalBonuses()
-    pop.calculateTotalSpace() 
-    displayBuildingBox()
+    pop.calculateTotalSpace()
 }
 
 // checks various conditions after gaining resources and run events. Check for events before printing text
@@ -128,8 +138,7 @@ const incmnth = () => {
 
     // spendings
     let gameData = loadGame()
-    printMessage(`Our people have consumed <span class='text-bold text-yellow'>${gameData.tempData.consumedFood}</span> food.`, 'info')
-
+    printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
     // events 
     checkAfterGains(true)
 }
@@ -145,7 +154,8 @@ document.addEventListener('click', (e) => {
     // Menu buttons
     target == 'menuBtnGeneral' ? showPanel(0) : null
     target == 'menuBtnManagement' ? showPanel(1) : null
-    target == 'menuBtnBuildings' ? showPanel(2) : null
+    target == 'menuBtnBuildings' ? showPanel(3) : null
+    target == 'menuBtnStatistics' ? showPanel(2) : null
     
     // Tax buttons event listeners
     target === 'btnTaxLow' ? changeTax(1) : null
@@ -153,9 +163,9 @@ document.addEventListener('click', (e) => {
     target === 'btnTaxHigh' ? changeTax(3) : null
 
     // build buttons
-    target === 'btnCapital' ? capital.startConstruction(e, 'buildingCapital') : null
-    target === 'btnHouse' ? house.startConstruction(e, 'buildingHouse') : null
-    target === 'btnFarm' ? farm.startConstruction(e, 'buildingFarm') : null
-    target === 'btnLumberyard' ? lumberyard.startConstruction(e, 'buildingLumberyard') : null
-    target === 'btnQuarry' ? quarry.startConstruction(e, 'buildingQuarry') : null
+    target === 'btnbuildingCapital' ? capital.startConstruction(e, 'buildingCapital') : null
+    target === 'btnbuildingHouse' ? house.startConstruction(e, 'buildingHouse') : null
+    target === 'btnbuildingFarm' ? farm.startConstruction(e, 'buildingFarm') : null
+    target === 'btnbuildingLumberyard' ? lumberyard.startConstruction(e, 'buildingLumberyard') : null
+    target === 'btnbuildingQuarry' ? quarry.startConstruction(e, 'buildingQuarry') : null
 })

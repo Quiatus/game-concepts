@@ -1,11 +1,10 @@
 import { loadGame } from "./utilities.js"
-import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital } from "./domgenerators.js"
+import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
-const texts = document.querySelectorAll('span')
 const rightPanels = document.querySelectorAll('.right-panel')
 const alertsPanel = document.querySelector('.alert-div')
-const buildingBox = document.querySelectorAll('.building-div')
+const buildings = document.getElementById('buildings')
 
 // decimal separator
 export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -64,81 +63,54 @@ export const printText = () => {
     displayStatistics(gameData)
     displayEconomy(gameData)
     displayCapital(gameData)
-
-    texts.forEach(item => {
-        // Building - capital text
-
-
-        // Building - house text
-        item.id === 'building-house-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingHouse) : null
-        item.id === 'building-house-constrtime' ? item.textContent = `${converThousand(gameData.buildingHouse.costTime)} months` : null
-        item.id === 'building-house-amount' ? item.textContent = converThousand(gameData.buildingHouse.amount) : null
-        item.id === 'building-house-descr' ? item.textContent = converThousand(gameData.buildingHouse.effect) : null
-        item.id === 'building-house-space' ? item.textContent = converThousand(gameData.buildingHouse.space) : null
-
-        // Building - farm text
-        item.id === 'building-farm-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingFarm) : null
-        item.id === 'building-farm-constrtime' ? item.textContent = `${converThousand(gameData.buildingFarm.costTime)} months` : null
-        item.id === 'building-farm-amount' ? item.textContent = converThousand(gameData.buildingFarm.amount) : null
-        item.id === 'building-farm-descr' ? item.textContent = converThousand(gameData.buildingFarm.effect) : null
-        item.id === 'building-farm-space' ? item.textContent = converThousand(gameData.buildingFarm.space) : null
-
-        // Building - lumberyard text
-        item.id === 'building-lumber-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingLumberyard) : null
-        item.id === 'building-lumber-constrtime' ? item.textContent = `${converThousand(gameData.buildingLumberyard.costTime)} months` : null
-        item.id === 'building-lumber-amount' ? item.textContent = converThousand(gameData.buildingLumberyard.amount) : null
-        item.id === 'building-lumber-descr' ? item.textContent = converThousand(gameData.buildingLumberyard.effect) : null
-        item.id === 'building-lumber-space' ? item.textContent = converThousand(gameData.buildingLumberyard.space) : null
-
-        // Building - quarry text
-        item.id === 'building-quarry-cost' ? item.innerHTML = displayBuildCosts(gameData.buildingQuarry) : null
-        item.id === 'building-quarry-constrtime' ? item.textContent = `${converThousand(gameData.buildingQuarry.costTime)} months` : null
-        item.id === 'building-quarry-amount' ? item.textContent = converThousand(gameData.buildingQuarry.amount) : null
-        item.id === 'building-quarry-descr' ? item.textContent = converThousand(gameData.buildingQuarry.effect) : null
-        item.id === 'building-quarry-space' ? item.textContent = converThousand(gameData.buildingQuarry.space) : null
-
-    })
+    displayBuildings(gameData)
 }
 
-
-// Display unlocked buildings
-export const displayBuildingBox = () => {
-    let gameData = loadGame()
-
-    buildingBox.forEach(bb => {
-        bb.id === 'bdHouse' ? gameData.buildingHouse.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
-        bb.id === 'bdFarm' ? gameData.buildingFarm.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
-        bb.id === 'bdLumberyard' ? gameData.buildingLumberyard.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
-        bb.id === 'bdQuarry' ? gameData.buildingQuarry.isVisible ? bb.classList.remove('none') : bb.classList.add('none') : null
-    })
+// Shows every unlocked building
+const displayBuildings = (gameData) => {
+    buildings.innerHTML = ''
+    for (let i = 0; i < gameData.buildingList.length; i++) {
+        let building = gameData[gameData.buildingList[i]]
+        if (building.isVisible) {
+            const buildDiv = document.createElement('div')
+            buildDiv.innerHTML = generateBuildings(building)
+            buildings.append(buildDiv)
+        }
+    }    
 }
  
 // Displays active construction
-export const buildingConstrProgress = () => {
-    const gameData = loadGame()
-    buildingBox.forEach(item => {
-        const building = gameData[item.id]
-
-        // if the building is being built, hides the button, shows progress bar, calculates teh current progress
-        if (building.isBeingBuilt) {
-            const progress = 100 / building.costTime * building.buildProgress
-            item.lastElementChild.children[0].classList.add('none')
-            item.lastElementChild.children[1].classList.remove('none')
-            item.lastElementChild.children[1].children[1].textContent = `${building.buildProgress} / ${building.costTime}`
-            item.lastElementChild.children[1].children[1].style.background = `linear-gradient(90deg, var(--clr-darkgreen) ${progress}%, transparent ${progress}%)`
-        } else {
-            item.lastElementChild.children[0].classList.remove('none')
-            item.lastElementChild.children[1].classList.add('none')
-        }
-    })
+export const buildingConstrProgress = (building) => {
+    // if the building is being built, hides the button, shows progress bar, calculates teh current progress
+    if (!building.isBeingBuilt) {
+        return `<div class="build-buttons">
+            <span class="text-red error-text-build none"></span>
+            <button class="btnBuild" id="btn${building.id}">Upgrade ${building.name}</button>
+        </div>`
+    } else {
+        const progress = 100 / building.costTime * building.buildProgress
+        return `<div class="build-progress">
+            <span class="text-gray">Progress:</span>
+            <div class="progress-bar" style="background: linear-gradient(90deg, var(--clr-darkgreen) ${progress}%, transparent ${progress}%">${building.buildProgress} / ${building.costTime}</div>
+        </div>`
+    }
 }
-
 
 // displays building costs
 export const displayBuildCosts = (building) => {
-    return `<span class='text-gold'>${converThousand(building.costGold)}</span>
-     ${building.costWood > 0 ? ` • <span class='text-brown'>${converThousand(building.costWood)}</span>` : ``}
-     ${building.costStone > 0 ? ` • <span class='text-gray'>${converThousand(building.costStone)}</span>` : ``}`
+    
+    return `<div class="build-costs text-small">
+        <div class="building-cost">
+            <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(building.costGold)}</span></div>
+            ${building.costWood > 0 ? `<div><img class="img-s" src="media/wood.png"><span class="text-brown">${converThousand(building.costWood)}</span></div>` : ``}
+            ${building.costStone > 0 ? `<div><img class="img-s" src="media/stone.png"><span class="text-gray">${converThousand(building.costStone)}</span></div>` : ``}
+        </div>
+
+        <div class="building-cost">
+            <div><img class="img-s" src="media/month.png"><span>${converThousand(building.costTime)}</span></div>
+        </div>
+        
+    </div>`
 }
 
 // display beginning of month gains. Only shows positive gains
@@ -146,11 +118,11 @@ const newMonthGains = () => {
     let gameData = loadGame()
     let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
 
-    gameData.resourceGain.goldTotal > 0 ? addedGold = `<span class="text-gold text-bold"> ${converThousand(gameData.resourceGain.goldTotal)} </span> gold,` : null
-    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple text-bold"> ${converThousand(gameData.resourceGain.pop)} </span> people,` : null
-    gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow text-bold"> ${converThousand(gameData.resourceGain.food)} </span> food,` : null
-    gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown text-bold"> ${converThousand(gameData.resourceGain.wood)} </span> wood,` : null
-    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-gray text-bold"> ${converThousand(gameData.resourceGain.stone)} </span> stone,` : null
+    gameData.resourceGain.goldTotal > 0 ? addedGold = `<span class="text-gold"> ${converThousand(gameData.resourceGain.goldTotal)} </span> <img class='img-s' src='media/gold.png'>,` : null
+    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple"> ${converThousand(gameData.resourceGain.pop)} </span> <img class='img-s' src='media/pop.png'>,` : null
+    gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow"> ${converThousand(gameData.resourceGain.food)} </span> <img class='img-s' src='media/food.png'>,` : null
+    gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown"> ${converThousand(gameData.resourceGain.wood)} </span> <img class='img-s' src='media/wood.png'>,` : null
+    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-gray"> ${converThousand(gameData.resourceGain.stone)} </span> <img class='img-s' src='media/stone.png'>,` : null
 
     // cleanup functions - replaces last , with and removes commas
     let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.')
@@ -159,7 +131,6 @@ const newMonthGains = () => {
 
     return res
 }
-
 
 // changes the color of the happiness text
 export const changeHappinessColor = (happiness) => {
@@ -222,7 +193,21 @@ export const getCapitalInfo = () => {
         const capitalLevel = gameData.general.capitalLevel
         let nextLevel = 'max'
         const currentLevel = gameData.capitalLevels[capitalLevel - 1]
-        capitalLevel < 10 ? nextLevel = gameData.capitalLevels[capitalLevel] : null
+        capitalLevel < 2 ? nextLevel = gameData.capitalLevels[capitalLevel] : null
         
         return {currentLevel, nextLevel}
+}
+
+// grabs info about capital levels
+export const getArmyStatus = (gameData) => {
+    if (gameData.general.armyStatus) return `<span class='text-green'>Ready</span>`
+    return `<span class='text-orange'>Exhausted</span>`
+}
+
+// display building description
+export const displayBuildDescr = (building) => {
+    let string = ''
+    string = `${building.isUnique ? `Unique - ` : ``}${building.requireSpace ? `Requires space - ` : ``}${building.requireCapitalLevel ? `Requires capital level ${building.requireCapitalLevel} - ` : ``}`
+    string = string.substring(0, string.length-3)
+    return string
 }

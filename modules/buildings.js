@@ -64,12 +64,12 @@ class Building {
             gameData.basicResources.stone -= building.costStone
 
             saveGame(gameData)
-            buildingConstrProgress()
             printText()
         } else {
             // displaus the error message if construction not possible
             e.target.parentElement.children[0].textContent = checkRes[1]
-            setTimeout(() => {e.target.parentElement.children[0].textContent = ''}, 5000)
+            e.target.parentElement.children[0].classList.remove('none')
+            setTimeout(() => {e.target.parentElement.children[0].classList.add('none')}, 5000)
         }
     }
 

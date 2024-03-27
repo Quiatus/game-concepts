@@ -1,7 +1,8 @@
 export const initData = {
     general: {
         tax: 2,
-        capitalLevel: 1
+        capitalLevel: 1,
+        armyStatus: false
     },
     basicResources: {
         month: 0,
@@ -10,6 +11,7 @@ export const initData = {
         food: 50,
         wood: 20,
         stone: 5,
+        fame: 0,
         basicSpace: 0,
         baseHappiness: 50
     },
@@ -60,83 +62,107 @@ export const initData = {
         }
     ],
     buildingCapital: {
+        id: 'buildingCapital',
         name: 'Capital',
         amount: 1,
         isUnique: true,
         isVisible: true,
         isBeingBuilt: false,
         buildProgress: 0,
-        requireCapitalLevel: 1,
-        costTime: 20,
-        costGold: 20000,
-        costWood: 1000,
-        costStone: 200,
-        requireSpace: null,
+        requireCapitalLevel: false,
+        costTime: 0,
+        costGold: 0,
+        costWood: 0,
+        costStone: 0,
+        requireSpace: false,
         space: 0,
-        effect: null
+        effect: null,
+        specialUnlock: null,
     },
+    buildingList: [
+        'buildingHouse',
+        'buildingFarm',
+        'buildingLumberyard',
+        'buildingQuarry'
+    ],
     buildingHouse: {
+        id: 'buildingHouse',
         name: 'House',
+        buildingType: 'Population',
         amount: 0,
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
         buildProgress: 0,
-        requireCapitalLevel: 1,
+        requireCapitalLevel: false,
         costTime: 2,
         costGold: 250,
         costWood: 5,
         costStone: 0,
         requireSpace: true,
         space: 0,
-        effect: 100
+        maxSpace: 1,
+        effect: 100,
+        info: 'Increases population capacity by #effect#.'
     },
     buildingFarm: {
+        id: 'buildingFarm',
         name: 'Farm',
+        buildingType: 'Resource ',
         amount: 1,
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
         buildProgress: 0,
-        requireCapitalLevel: 1,
+        requireCapitalLevel: false,
         costTime: 5,
         costGold: 5000,
         costWood: 20,
         costStone: 5,
         requireSpace: true,
         space: 1,
-        effect: 10
+        maxSpace: 1,
+        effect: 10,
+        info: 'Produces #effect# units of food per month.'
     },
     buildingLumberyard: {
+        id: 'buildingLumberyard',
         name: 'Lumber yard',
+        buildingType: 'Resource ',
         amount: 0,
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
         buildProgress: 0,
-        requireCapitalLevel: 1,
+        requireCapitalLevel: false,
         costTime: 5,
         costGold: 500,
         costWood: 10,
         costStone: 0,
         requireSpace: true,
         space: 1,
-        effect: 5
+        maxSpace: 1,
+        effect: 5,
+        info: 'Produces #effect# units of wood per month.'
     },
     buildingQuarry: {
+        id: 'buildingQuarry',
         name: 'Quarry',
+        buildingType: 'Resource ',
         amount: 0,
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
         buildProgress: 0,
-        requireCapitalLevel: 1,
+        requireCapitalLevel: false,
         costTime: 20,
         costGold: 10000,
         costWood: 100,
         costStone: 20,
         requireSpace: true,
         space: 1,
-        effect: 10
+        maxSpace: 1,
+        effect: 10,
+        info: 'Produces #effect# units of stone per month.'
     }
 }
