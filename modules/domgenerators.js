@@ -17,8 +17,8 @@ export const displayResourceBox = (gameData) => {
     <div class="res res-nm"><img class='img-m' src='media/stone.png'><span class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
     <div class="res hr"><img class='img-m' src='media/fame.png'><span>${converThousand(gameData.basicResources.fame)}</span></div>
     <div class="res"> <img class='img-m' src='media/might.png'><span>0</span></div>
-    <div class="res res-sm"> <img class='img-m' src='media/might.png'><span>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
-    <div class="res res-nm"><img class='img-m' src='media/army.png'><span class="text-green">${getArmyStatus(gameData)}</span></div>`
+    <div class="res res-sm"> <img class='img-m' src='media/might.png'><span class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
+    <div class="res res-nm"><img class='img-m' src='media/army.png'><span class="text-bold">${getArmyStatus(gameData)}</span></div>`
 }
 
 // changes the tax level text
@@ -53,10 +53,10 @@ export const displayStatistics = (gameData) => {
     <div>
         <p class="stat-header">General:</p>
         <div class="stat-div">
-            <span class="text-gray">Fame:</span><span id="stat-gen-fame">0</span>
+            <span class="text-gray">Fame:</span><span id="stat-gen-fame">${converThousand(gameData.basicResources.fame)}</span>
             <span class="text-gray">Happiness:</span><span>${changeHappinessColor(gameData.tempData.happiness)}</span>
             <span class="text-gray">Might:</span><span id="stat-gen-might">0</span>
-            <span class="text-gray">Army:</span><span class="text-green" id="stat-gen-might">Ready</span>
+            <span class="text-gray">Army:</span><span>${getArmyStatus(gameData)}</span>
         </div>
     </div>
 

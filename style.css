@@ -4,23 +4,25 @@
 
     /* Main colors for layout */
 
-    /* Blue   */
+    /* Blue  */
     --clr-bgborder: #334;
     --clr-compbord: #779;
     --clr-compbg: #223;
     --clr-bg: #001;
-    --clr-hbg: #346;
+    --clr-hbg: #235;
+    --clr-hbord: #78A;
     --clr-hover: #eef;
     --clr-gray: #bbc;
     --clr-menutext: #bce; 
-   
+    
 
     /* Red 
     --clr-bgborder: #511;
     --clr-compbord: #922;
     --clr-compbg: #311;
     --clr-bg: #100;
-    --clr-hbg: #744;
+    --clr-hbg: #633;
+    --clr-hbord: #944;
     --clr-hover: #fee;
     --clr-gray: #baa;
     --clr-menutext: #ecc;  
@@ -32,6 +34,7 @@
     --clr-compbg: #222;
     --clr-bg: #111;
     --clr-hbg: #555;
+    --clr-hbord: #999;
     --clr-hover: #fff;
     --clr-gray: #bbb;
     --clr-menutext: #ddd;  
@@ -102,7 +105,8 @@ main {
     border-radius: 0.35rem;
     overflow: hidden;
     padding: 1rem 1rem 0.5rem;
-    box-shadow: 0 0 5px var(--clr-menutext);
+    border: 1px solid var(--clr-hbg);
+    box-shadow: 0 0 5px var(--clr-hbord);
 }
 
 .box-main > h3 {
@@ -152,7 +156,8 @@ main {
     background-color: var(--clr-bg);
     border-radius: 0.35rem;
     overflow: hidden;
-    box-shadow: 0 0 5px var(--clr-menutext);
+    border: 1px solid var(--clr-hbg);
+    box-shadow: 0 0 5px var(--clr-hbord);
     display: grid;
     grid-template-columns: repeat(10, auto);
     grid-template-rows: 1fr;
@@ -191,7 +196,8 @@ main {
     border-radius: 0.35rem;
     overflow: hidden;
     padding: 0.5rem;
-    box-shadow: 0 0 5px var(--clr-menutext);
+    border: 1px solid var(--clr-hbg);
+    box-shadow: 0 0 5px var(--clr-hbord);
     display: flex;
     flex-direction: column;
     align-items: center;
