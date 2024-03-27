@@ -192,20 +192,20 @@ main {
     text-transform: capitalize;
 }
 
-/* Statistics box */
-
-.stats {
-    grid-area: 2/2/4/2;
-    display: flex;
-    flex-direction: column;
-}
-
 /* Management box */
 
 .management {
     grid-area: 2/2/4/2;
     display: flex;
     flex-direction: column;
+}
+
+#buildingCapital {
+    grid-area: 1/1/3/1;
+}
+
+#taxBox {
+    grid-area: 1/2/1/2;
 }
 
 /* Settings subbox */
@@ -216,28 +216,6 @@ main {
     grid-template-rows: auto;
     gap: 1rem;
     justify-content: start;
-}
-
-.settings-div {
-    background-color: var(--clr-bgblue);
-    width: 280px;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 0 10px var(--clr-bgblue);
-    border-radius: 0.25rem;
-    height: fit-content;
-}
-
-.settings-div > h4 {
-    background-color: var(--clr-compbg);
-    width: 100%;
-    text-align: center;
-    padding: 0.25rem 0;
-    box-shadow: 0 0 5px var(--clr-compbg);
-    border-radius: 0.25rem;
 }
 
 .settings-stats {
@@ -261,14 +239,12 @@ main {
     border: none;
 }
 
-/* Settings */
+/* Statistics box */
 
-#buildingCapital {
-    grid-area: 1/1/3/1;
-}
-
-#taxBox {
-    grid-area: 1/2/1/2;
+.stats {
+    grid-area: 2/2/4/2;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Statistics subbox */
@@ -316,13 +292,6 @@ main {
     grid-column-end: 3;
 }
 
-.ml {
-    margin-left: 0.5rem;
-}
-
-.mb {
-    margin-bottom: 0.25rem;
-}
 /* Building box */
 
 .building {
@@ -338,26 +307,32 @@ main {
 }
 
 .building-div,
-.building-capital {
-    background-color: var(--clr-bgblue);
+.building-capital,
+.settings-div {
+    background-color: var(--clr-bg);
     width: 295px;
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    border: 2px solid var(--clr-bgblue);
     box-shadow: 0 0 10px var(--clr-bgblue);
     border-radius: 0.25rem;
     height: 100%;
 }
 
  h4 {
-    background-color: var(--clr-compbg);
+    background-color: var(--clr-bgblue);
     width: 100%;
     text-align: center;
     padding: 0.25rem 0;
-    box-shadow: 0 0 5px var(--clr-compbg);
+    box-shadow: 0 0 5px var(--clr-bgblue);
     border-radius: 0.25rem;
+}
+
+.build-amount {
+    margin: 0.5rem 0;
 }
 
 .build-stats {
@@ -460,6 +435,14 @@ main {
     background-color: var(--clr-bggrey);
 }
 
+.ml {
+    margin-left: 0.5rem;
+}
+
+.mb {
+    margin-bottom: 0.25rem;
+}
+
 /* Buttons */
 
 button {
@@ -521,7 +504,7 @@ button:active {
     font-style: italic;
     font-size: 14px;
     text-align: center;
-    margin-bottom: 0.5rem;
+    /* margin-bottom: 0.5rem; */
 }
 
 .text-big {

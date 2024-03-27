@@ -85,7 +85,7 @@ export const buildingConstrProgress = (building) => {
     if (!building.isBeingBuilt) {
         return `<div class="build-buttons">
             <span class="text-red error-text-build none"></span>
-            <button class="btnBuild" id="btn${building.id}">Upgrade ${building.name}</button>
+            <button class="btnBuild" id="btn${building.id}">Build ${building.name}</button>
         </div>`
     } else {
         const progress = 100 / building.costTime * building.buildProgress

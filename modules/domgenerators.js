@@ -35,7 +35,7 @@ export const displayTaxBox = (gameData) => {
     <div class="build-description">
         <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes has opposite effect.</p>
     </div>
-    <div class="settings-stats">
+    <div class="settings-stats build-amount">
         <span class="text-gray">Current tax:</span> <span>${taxText}</span>
         <span class="text-gray">Gold p. 100 pop.:</span><span>${gameData.general.tax * 5}</span>
     </div>
@@ -188,7 +188,6 @@ export const displayCapital = (gameData) => {
             <p>Capital city of our empire.</p>
         </div>
         <span class="text-bold text-orange">Level ${getCapitalInfo().currentLevel.level}</span>
-
         <div class="settings-stats">
             <span class="text-gray">Space:</span><span>${converThousand(getCapitalInfo().currentLevel.space)}</span>
             <span class="text-gray">Max. houses:</span><span>${converThousand(getCapitalInfo().currentLevel.houses)}</span>
@@ -221,22 +220,20 @@ export const displayCapital = (gameData) => {
 
 export const generateBuildings = (building) => {
     return `
-    <div class="building-div" id="${building.id}">
+    <div class="building-div text-small" id="${building.id}">
         <h4 class="text-big">${building.name}</h4>
         <div class="build-description">
             <p class="text-gray mb">${building.buildingType} building</p>
             <p>${building.info.replace('#effect#', `<span class='text-bold'>${building.effect}</span>`)}</p>
             <p class="text-orange">${displayBuildDescr(building)}</p> 
         </div>
-
-        <div class="build-stats">
-            <span class="text-gray">Built:</span> <span class="text-bold">${building.amount}<span class="text-small"> / ${building.maxSpace}</span></span>
-        </div>
-
+        
+        <div class='build-amount'><span class="text-big">${building.amount}<span class="text-small"> / ${building.maxSpace}</span></span></div>
+        
         ${displayBuildCosts(building)}
 
         <div class="subdiv">
-        ${buildingConstrProgress(building)}
+            ${buildingConstrProgress(building)}
         </div>
     </div>`
 }
