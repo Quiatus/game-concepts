@@ -85,7 +85,7 @@ export const buildingConstrProgress = (building) => {
     if (!building.isBeingBuilt) {
         return `<div class="build-buttons">
             <span class="text-red error-text-build none"></span>
-            <button class="btnBuild" id="btn${building.id}">Build ${building.name}</button>
+            <button class="btnBuild" id="btn${building.id}">${building.name === 'Capital' ? `Upgrade` : `Build`} ${building.name}</button>
         </div>`
     } else {
         const progress = 100 / building.costTime * building.buildProgress
@@ -103,7 +103,7 @@ export const displayBuildCosts = (building) => {
         <div class="building-cost">
             <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(building.costGold)}</span></div>
             ${building.costWood > 0 ? `<div><img class="img-s" src="media/wood.png"><span class="text-brown">${converThousand(building.costWood)}</span></div>` : ``}
-            ${building.costStone > 0 ? `<div><img class="img-s" src="media/stone.png"><span class="text-gray">${converThousand(building.costStone)}</span></div>` : ``}
+            ${building.costStone > 0 ? `<div><img class="img-s" src="media/stone.png"><span class="text-darkgray">${converThousand(building.costStone)}</span></div>` : ``}
         </div>
 
         <div class="building-cost">
@@ -122,7 +122,7 @@ const newMonthGains = () => {
     gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple"> ${converThousand(gameData.resourceGain.pop)} </span> <img class='img-s' src='media/pop.png'>,` : null
     gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow"> ${converThousand(gameData.resourceGain.food)} </span> <img class='img-s' src='media/food.png'>,` : null
     gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown"> ${converThousand(gameData.resourceGain.wood)} </span> <img class='img-s' src='media/wood.png'>,` : null
-    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-gray"> ${converThousand(gameData.resourceGain.stone)} </span> <img class='img-s' src='media/stone.png'>,` : null
+    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-darkgray"> ${converThousand(gameData.resourceGain.stone)} </span> <img class='img-s' src='media/stone.png'>,` : null
 
     // cleanup functions - replaces last , with and removes commas
     let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.')
@@ -137,7 +137,7 @@ export const changeHappinessColor = (happiness) => {
     if (happiness < 20) {
         return `<span class="text-red">${happiness} %</span>`
     } else if (happiness >= 20 && happiness < 40) {
-        return `<span class="text-brown">${happiness} %</span>`
+        return `<span class="text-orange">${happiness} %</span>`
     } else if (happiness >= 40 && happiness < 60) {
         return `<span class="text-gold">${happiness} %</span>`
     } else if (happiness >= 60 && happiness < 80) {

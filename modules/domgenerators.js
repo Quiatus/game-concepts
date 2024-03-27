@@ -14,7 +14,7 @@ export const displayResourceBox = (gameData) => {
     <div class="res"><img class='img-m' src='media/gold.png'><span class='text-gold'>${converThousand(gameData.basicResources.gold)}</span></div>
     <div class="res"><img class='img-m' src='media/food.png'><span class='text-yellow'>${converThousand(gameData.basicResources.food)}</span></div>
     <div class="res res-nm"><img class='img-m' src='media/wood.png'><span class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
-    <div class="res res-nm"><img class='img-m' src='media/stone.png'><span class='text-gray'>${converThousand(gameData.basicResources.stone)}</span></div>
+    <div class="res res-nm"><img class='img-m' src='media/stone.png'><span class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
     <div class="res hr"><img class='img-m' src='media/fame.png'><span>${converThousand(gameData.basicResources.fame)}</span></div>
     <div class="res"> <img class='img-m' src='media/might.png'><span>0</span></div>
     <div class="res res-sm"> <img class='img-m' src='media/might.png'><span>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
@@ -33,7 +33,7 @@ export const displayTaxBox = (gameData) => {
     // markup
     return taxBox.innerHTML = `<h4 class="text-big">Taxes</h4>
     <div class="build-description">
-        <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes has opposite effect.</p>
+        <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes have the opposite effect.</p>
     </div>
     <div class="settings-stats build-amount">
         <span class="text-gray">Current tax:</span> <span>${taxText}</span>
@@ -223,7 +223,7 @@ export const generateBuildings = (building) => {
     <div class="building-div text-small" id="${building.id}">
         <h4 class="text-big">${building.name}</h4>
         <div class="build-description">
-            <p class="text-gray mb">${building.buildingType} building</p>
+            <p class="text-gray text-bold mb">${building.buildingType} building</p>
             <p>${building.info.replace('#effect#', `<span class='text-bold'>${building.effect}</span>`)}</p>
             <p class="text-orange">${displayBuildDescr(building)}</p> 
         </div>

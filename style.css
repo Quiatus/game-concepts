@@ -1,23 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Carrois+Gothic&display=swap');
 
 :root {
-    --clr-bgblue: #333;
+
+    /* Main colors for layout */
+
+    /* Blue   */
+    --clr-bgborder: #334;
+    --clr-compbord: #779;
+    --clr-compbg: #223;
+    --clr-bg: #001;
+    --clr-hbg: #346;
+    --clr-hover: #eef;
+    --clr-gray: #bbc;
+    --clr-menutext: #bce; 
+   
+
+    /* Red 
+    --clr-bgborder: #511;
+    --clr-compbord: #922;
+    --clr-compbg: #311;
+    --clr-bg: #100;
+    --clr-hbg: #744;
+    --clr-hover: #fee;
+    --clr-gray: #baa;
+    --clr-menutext: #ecc;  
+    */
+
+    /* Grey 
+    --clr-bgborder: #333;
+    --clr-compbord: #999;
     --clr-compbg: #222;
     --clr-bg: #111;
-    --clr-bgyellow: #443;
+    --clr-hbg: #555;
+    --clr-hover: #fff;
+    --clr-gray: #bbb;
+    --clr-menutext: #ddd;  
+    */
+    
+
+    /* Colors for building headers */
+    --clr-bgyellow: #343;
     --clr-bgpurp: #434;
     --clr-bgbrown: #420;
-    --clr-bggrey: #444;
+    --clr-bggray: #444;
 
+    /* Text colors */
     --clr-white: #eee;
-    --clr-gray: #aaa;
-
+    --clr-darkgray: #aaa;
     --clr-yellow: #f5deb3;
     --clr-red: #E00000;
-    --clr-orange: #e1a500;
+    --clr-orange: #e18700;
     --clr-green: #00D000;
     --clr-blue: #0080d0;
-    --clr-purple: #9370db;
+    --clr-purple: #A380eb;
     --clr-gold: #ffd700;
     --clr-brown: #C15710; 
     --clr-darkgreen: #008000;
@@ -67,12 +102,12 @@ main {
     border-radius: 0.35rem;
     overflow: hidden;
     padding: 1rem 1rem 0.5rem;
-    box-shadow: 0 0 5px var(--clr-gray);
+    box-shadow: 0 0 5px var(--clr-menutext);
 }
 
 .box-main > h3 {
-    background-color: var(--clr-gray);
-    color: var(--clr-bg);
+    background-color: var(--clr-hbg);
+    color: var(--clr-menutext);
     line-height: 1;
     margin: -1rem;
     margin-bottom: 0.5rem;
@@ -86,13 +121,13 @@ main {
     overflow: hidden;
     padding: 1rem 1rem 0.5rem;
     margin-bottom: 1rem;
-    border: 1px solid var(--clr-bgblue);
-    box-shadow: 0 0 5px var(--clr-bgblue);
+    border: 1px solid var(--clr-bgborder);
+    box-shadow: 0 0 5px var(--clr-bgborder);
     border-radius: 0.25rem;
 }
 
 .box-sub > h3 {
-    background-color: var(--clr-bgblue);
+    background-color: var(--clr-bgborder);
     color: var(--clr-gray);
     line-height: 1;
     margin: -1rem;
@@ -117,7 +152,7 @@ main {
     background-color: var(--clr-bg);
     border-radius: 0.35rem;
     overflow: hidden;
-    box-shadow: 0 0 5px var(--clr-gray);
+    box-shadow: 0 0 5px var(--clr-menutext);
     display: grid;
     grid-template-columns: repeat(10, auto);
     grid-template-rows: 1fr;
@@ -156,7 +191,7 @@ main {
     border-radius: 0.35rem;
     overflow: hidden;
     padding: 0.5rem;
-    box-shadow: 0 0 5px var(--clr-gray);
+    box-shadow: 0 0 5px var(--clr-menutext);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -223,6 +258,7 @@ main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
+    padding: 0 0.5rem;
 }
 
 .settings-buttons {
@@ -230,13 +266,15 @@ main {
     flex-direction: row;
     width: 100%;
     justify-content: space-evenly;
+    padding: 0 0.5rem;
 }
 
 .subdiv-separator {
-    width: 100%;
-    background-color: var(--clr-white);
+    width: calc(100% - 1rem);
+    background-color: var(--clr-compbord);
     height: 1px;
     border: none;
+    margin: 0 0.5rem;
 }
 
 /* Statistics box */
@@ -311,24 +349,24 @@ main {
 .settings-div {
     background-color: var(--clr-bg);
     width: 295px;
-    padding: 0.5rem;
+    padding: 0 0 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    border: 2px solid var(--clr-bgblue);
-    box-shadow: 0 0 10px var(--clr-bgblue);
+    border: 2px solid var(--clr-bgborder);
+    box-shadow: 0 0 10px var(--clr-bgborder);
     border-radius: 0.25rem;
     height: 100%;
+    overflow: hidden;
 }
 
  h4 {
-    background-color: var(--clr-bgblue);
+    background-color: var(--clr-bgborder);
     width: 100%;
     text-align: center;
     padding: 0.25rem 0;
-    box-shadow: 0 0 5px var(--clr-bgblue);
-    border-radius: 0.25rem;
+    box-shadow: 0 0 5px var(--clr-bgborder);
 }
 
 .build-amount {
@@ -340,7 +378,7 @@ main {
     display: grid;
     grid-template-columns: 1fr 1.25fr;
     grid-template-rows: auto;
-    padding-left: 0.5rem;
+    padding: 0 0.5rem;
     margin-bottom: 0.5rem;
 }
 
@@ -368,6 +406,7 @@ main {
 }
 
 .subdiv {
+    padding: 0 0.5rem;
     width: 100%;
     height: 48px;
     display: flex;
@@ -378,11 +417,12 @@ main {
     position: absolute;
     top: -48px;
     background-color: var(--clr-compbg);
-    border: 1px solid var(--clr-gray);
+    border: 1px solid var(--clr-compbord);
     padding: 0.25rem;
 }
 
 .build-costs {
+    padding: 0 0.5rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -402,7 +442,7 @@ main {
     flex-wrap: nowrap;
     align-items: center;
     gap: 0.25rem;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 }
 
 /* Utilities */
@@ -432,7 +472,7 @@ main {
 
 #buildingQuarry > h4,
 .bggrey {
-    background-color: var(--clr-bggrey);
+    background-color: var(--clr-bggray);
 }
 
 .ml {
@@ -449,17 +489,18 @@ button {
     font: inherit;
     background-color: var(--clr-compbg);
     color: var(--clr-white);
-    border: 1px solid var(--clr-white);
+    border: 1px solid var(--clr-compbord);
     line-height: 1;
     padding: 0.25rem 0.75rem;
     border-radius: 0.25rem;
+    transition: all 0.1s;
 }
 
 button:hover {
-    color: var(--clr-yellow);
-    border-color: var(--clr-yellow);
-    box-shadow: 0 0 10px var(--clr-yellow);
-    text-shadow: 0 0 10px var(--clr-yellow);
+    color: var(--clr-hover);
+    border-color: var(--clr-hover);
+    box-shadow: 0 0 10px var(--clr-hover);
+    text-shadow: 0 0 10px var(--clr-hover);
     cursor: pointer;
 }
 
@@ -474,23 +515,25 @@ button:active {
 }
 
 .menuBtn {
+    color: var(--clr-menutext);
     user-select: none;
     letter-spacing: 1px;
     line-height: 1;
     font-size: 18px;
+    transition: all 0.1s;
 }
 
 .menuBtn:hover {
     font-weight: 700;
-    color: var(--clr-yellow);
-    text-shadow: 0 0 10px var(--clr-yellow);
+    color: var(--clr-hover);
+    text-shadow: 0 0 10px var(--clr-hover);
     cursor: pointer;
 }
 
 .menuBtn:active {
     font-weight: 700;
     color: var(--clr-white);
-    text-shadow: 0 0 10px var(--clr-yellow);
+    text-shadow: 0 0 10px var(--clr-hover);
     cursor: pointer;
 }
 
@@ -548,6 +591,10 @@ button:active {
 
 .text-gray {
     color: var(--clr-gray);
+}
+
+.text-darkgray {
+    color: var(--clr-darkgray);
 }
 
 .text-purple {
