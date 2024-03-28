@@ -33,6 +33,7 @@ const initApp = () => {
 
 // check before gaining res or at the beginning of teh game
 const checkBeforeResourceCalc = (isNewMonth) => {
+    clearMessages(isNewMonth)
     showPanel(0)  // show general panel
     checkConstruction(isNewMonth) // progress construction
     applyCapitalBonuses() // apply capital bonuses 
@@ -72,25 +73,28 @@ const checkConstruction = (isNewMonth) => {
 /*
     Progress month:
 
-    0. Clear message box
-    1. Progress any active constructions or upgrades and update value accordingly
-    2. Apply bonuses from the capital based on the capital's level
-    3. Calculate available space for pops
-    4. Calculate resource gain / spend:
+    1. Clear message box
+    2. Progress any active constructions and update value accordingly
+    3. Apply bonuses from the capital based on the capital's level
+    4. Calculate available space for pops
+
+    5. Calculate resource gain / spend:
         a. Increase month
         b. Calculate gold gains / losses
         c. Calculate pop gains / losses (except from events)
         d. Calculate food gains / losses
         e. Calculate other resource gains (wood, stone, metals, runes....)
-    5. Print resource gain / loss messages
-    6. Check if pop is at or above max space. If the same, triggers the appropriate alert
-    7. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
-    8. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
-    9. Displays all active alerts
-    10. Re-generate DOM with the updated values
+
+    6. Print resource gain / loss messages
+
+    7. Check if pop is at or above max space. If the same, triggers the appropriate alert
+    8. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
+    9. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
+    10. Displays all active alerts
+    11. Re-generate DOM with the updated values
 */
+
 const progressGame = () => {
-    clearMessages()
     checkBeforeResourceCalc(true)    
     calculateResources() 
     printNewMonthMessages()

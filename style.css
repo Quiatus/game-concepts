@@ -38,7 +38,7 @@
     */
 
     /* Colors for building headers */
-    --clr-bgyellow: #343;
+    --clr-bgyellow: #443;
     --clr-bgpurp: #434;
     --clr-bgbrown: #420;
     --clr-bggray: #444;
@@ -400,11 +400,12 @@ main {
 
 .error-text-build {
     position: absolute;
-    top: -30px;
+    top: -40px;
     background-color: var(--clr-compbg);
-    border: 1px solid var(--clr-compbord);
+    /* border: 1px solid var(--clr-compbord); */
     padding: 0.25rem;
     font-size: 16px;
+    width: 100%;
 }
 
 .build-costs {
