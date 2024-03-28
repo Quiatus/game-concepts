@@ -1,4 +1,4 @@
-import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages } from "./modules/domhelpers.js"
+import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
 import { changeTax, applyCapitalBonuses, calculateHappiness } from "./modules/valuecalc.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
@@ -72,6 +72,7 @@ const checkConstruction = (isNewMonth) => {
 /*
     Progress month:
 
+    0. Clear message box
     1. Progress any active constructions or upgrades and update value accordingly
     2. Apply bonuses from the capital based on the capital's level
     3. Calculate available space for pops
@@ -89,6 +90,7 @@ const checkConstruction = (isNewMonth) => {
     10. Re-generate DOM with the updated values
 */
 const progressGame = () => {
+    clearMessages()
     checkBeforeResourceCalc(true)    
     calculateResources() 
     printNewMonthMessages()

@@ -1,4 +1,4 @@
-import { generateMarkup } from "./domhelpers.js"
+import { generateMarkup, printMessage } from "./domhelpers.js"
 import { saveGame, loadGame } from "./utilities.js"
 
 class Building {
@@ -64,7 +64,7 @@ class Building {
             gameData.basicResources.stone -= gameData[building].costStone
 
             saveGame(gameData)
-            generateMarkup('buildings')
+            gameData[building].name === 'Capital' ? generateMarkup('management') : generateMarkup('buildings')
         } else {
             // displaus the error message if construction not possible
             e.target.parentElement.children[0].textContent = checkRes[1]
@@ -84,9 +84,10 @@ class Building {
                 gameData[building].buildProgress = 0;
                 if (gameData[building].name !== 'Capital') {
                     gameData[building].amount++;
-                    
+                    printMessage(`A new <span class='text-gray text-bold'>${gameData[building].name}</span> has been built.`)
                 } else {
                     gameData.general.capitalLevel++
+                    printMessage(`Our capital has been upgraded to <span class='text-orange'>level ${gameData.general.capitalLevel}</span>.`)
                 }      
                 
             } else {

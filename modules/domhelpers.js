@@ -9,6 +9,10 @@ const buildings = document.getElementById('buildings')
 // decimal separator
 export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
+export const clearMessages = () => {
+    messages.innerHTML = ''
+}
+
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
 export const showPanel = (num) => {
     rightPanels.forEach(panel => panel.classList.add('none'))
@@ -31,7 +35,6 @@ export const printMessage = (text, type='info') => {
         msg.className = 'text-white'
     } 
     if (type==='gains') {
-        messages.innerHTML = ''
         msg.innerHTML = newMonthGains();
     }
 
