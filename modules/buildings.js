@@ -1,4 +1,4 @@
-import { printText, buildingConstrProgress } from "./domhelpers.js"
+import { generateMarkup } from "./domhelpers.js"
 import { saveGame, loadGame } from "./utilities.js"
 
 class Building {
@@ -64,7 +64,7 @@ class Building {
             gameData.basicResources.stone -= gameData[building].costStone
 
             saveGame(gameData)
-            printText()
+            generateMarkup('buildings')
         } else {
             // displaus the error message if construction not possible
             e.target.parentElement.children[0].textContent = checkRes[1]

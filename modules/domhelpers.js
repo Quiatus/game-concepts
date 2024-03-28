@@ -13,6 +13,8 @@ export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3}
 export const showPanel = (num) => {
     rightPanels.forEach(panel => panel.classList.add('none'))
     rightPanels[num].classList.remove('none')
+    let panels = ['','management','statistics','buildings']
+    generateMarkup(panels[num])
 }
 
 // prints various messages 
@@ -50,16 +52,25 @@ export const displayActiveAlerts = () => {
     }
 }
 
-// Main fuction that generates markup
-export const printText = () => {
+// Main fuction that generates markup based on which panel is shown
+export const generateMarkup = (panel=null) => {
     let gameData = loadGame()
 
     displayResourceBox(gameData)
-    displayTaxBox(gameData)
-    displayStatistics(gameData)
-    displayEconomy(gameData)
-    displayCapital(gameData)
-    displayBuildings(gameData)
+
+    if (panel === 'statistics') {
+        displayStatistics(gameData)
+        displayEconomy(gameData)
+    }
+
+    if (panel === 'management') {
+        displayTaxBox(gameData)
+        displayCapital(gameData)
+    }
+
+    if (panel === 'buildings') {
+        displayBuildings(gameData)
+    }
 }
 
 // Shows every unlocked building
@@ -87,7 +98,7 @@ export const buildingConstrProgress = (building) => {
         const progress = 100 / building.costTime * building.buildProgress
         return `<div class="build-progress">
             <span class="text-gray">Progress:</span>
-            <div class="progress-bar" style="background: linear-gradient(90deg, var(--clr-blue) ${progress}%, transparent ${progress}%">${building.buildProgress} / ${building.costTime}</div>
+            <div class="progress-bar" style="background: linear-gradient(90deg, var(--clr-progress) ${progress}%, transparent ${progress}%">${building.buildProgress} / ${building.costTime}</div>
         </div>`
     }
 }

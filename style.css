@@ -5,35 +5,36 @@
 
     /* Blue */
     
-    --clr-bgborder: #223;
+    --clr-bgborder: #334;
     --clr-compbord: #445;
     --clr-compbg: #223;
     --clr-bg: #000;
     --clr-hover: #eef;
     --clr-gray: #99b;
     --clr-menutext: #cce; 
+    --clr-progress: #55a;
     
     /* Red */
-    
-    /*
+   /*
     --clr-bgborder: #511;
     --clr-compbord: #922;
     --clr-compbg: #311;
     --clr-bg: #100;
     --clr-hover: #fee;
-    --clr-gray: #baa;
+    --clr-gray: #b99;
     --clr-menutext: #ecc;  
+    --clr-progress: #900;
     */
-
-    /* Grey 
-    
+    /* Grey */
+    /*
     --clr-bgborder: #333;
-    --clr-compbord: #999;
+    --clr-compbord: #666;
     --clr-compbg: #222;
-    --clr-bg: #111;
+    --clr-bg: #000;
     --clr-hover: #fff;
     --clr-gray: #aaa;
-    --clr-menutext: #ddd;  
+    --clr-menutext: #ccc;
+    --clr-progress: #282;
     */
 
     /* Colors for building headers */

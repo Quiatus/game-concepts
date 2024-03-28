@@ -1,4 +1,4 @@
-import { printText, printMessage } from "./domhelpers.js"
+import { generateMarkup, printMessage } from "./domhelpers.js"
 import { loadGame, saveGame } from "./utilities.js"
 
 // Calculate happines. Min 0, max 100. If reach 0 happines, riots will occur (generally pop will die and attack our army. If no army, gold will disappear)
@@ -37,7 +37,7 @@ export const changeTax = (id) => {
     gameData.general.tax = id
 
     saveGame(gameData)
-    printText()
+    generateMarkup('management')
 }
 
 // checks the current capital level and applies modifiers

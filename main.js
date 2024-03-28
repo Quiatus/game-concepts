@@ -1,4 +1,4 @@
-import { printText, showPanel, displayActiveAlerts, printNewMonthMessages } from "./modules/domhelpers.js"
+import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
 import { changeTax, applyCapitalBonuses, calculateHappiness } from "./modules/valuecalc.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
@@ -45,7 +45,7 @@ const checkAfterResourceCalc = (isNewMonth) => {
     food.checkIfEnoughFood(pop, isNewMonth) // checks if there is enough food, if not, shows warning
     calculateHappiness()  // calculates happiness based on the conditions calculaed before
     displayActiveAlerts() // shows any active alerts
-    printText() // updates DOM
+    generateMarkup() // updates DOM
 }
 
 // Calculate resources at teh beginning of month
