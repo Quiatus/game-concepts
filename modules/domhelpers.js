@@ -83,20 +83,39 @@ const displayBuildings = (gameData) => {
         let building = gameData[gameData.buildingList[i]]
         if (building.isVisible) {
             const buildDiv = document.createElement('div')
-            buildDiv.innerHTML = generateBuildings(building)
+            buildDiv.innerHTML = generateBuildings(building, gameData.general.capitalLevel)
             buildings.append(buildDiv)
         }
     }    
 }
  
 // Displays active construction
-export const buildingConstrProgress = (building) => {
+export const buildingConstrProgress = (building, level=null) => {
     // if the building is being built, hides the button, shows progress bar, calculates teh current progress
+    // If we cannot built due to missing space / unqiue building, shows the message instead of the button
     if (!building.isBeingBuilt) {
-        return `<div class="build-buttons">
+        // Check if the unique building is already built
+        if (building.amount === 1 && building.isUnique === true && building.name !== 'Capital') {
+            return `<div class="build-buttons">
+            <span class="text-orange text-big">We can build only one ${building.name}</span>
+            </div>`
+        // Check if capital level is high enough
+        } else if (building.requireCapitalLevel > level) {
+            return `<div class="build-buttons">
+            <span class="text-orange text-big">Upgrade Capital to level ${building.requireCapitalLevel}</span>
+            </div>`
+        // Check if there is enough space to built
+        } else if (building.requireSpace === true && building.maxSpace === building.amount && building.name !== 'Capital') {
+            return `<div class="build-buttons">
+            <span class="text-orange text-big">We don't have space to built more ${building.name}s</span>
+            </div>`
+        // If all conditions are met, displays build button
+        } else {
+            return `<div class="build-buttons">
             <span class="text-red error-text-build none"></span>
             <button class="btnBuild" id="btn${building.id}">${building.name === 'Capital' ? `Upgrade` : `Build`} ${building.name}</button>
-        </div>`
+            </div>`
+        }
     } else {
         const progress = 100 / building.costTime * building.buildProgress
         return `<div class="build-progress">

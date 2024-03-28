@@ -218,7 +218,7 @@ export const displayCapital = (gameData) => {
         }`
 }
 
-export const generateBuildings = (building) => {
+export const generateBuildings = (building, level) => {
     return `
     <div class="box text-small" id="${building.id}">
         <h4 class="text-big">${building.name}</h4>
@@ -233,7 +233,7 @@ export const generateBuildings = (building) => {
         ${displayBuildCosts(building)}
 
         <div class="subdiv">
-            ${buildingConstrProgress(building)}
+            ${buildingConstrProgress(building,level)}
         </div>
     </div>`
 }

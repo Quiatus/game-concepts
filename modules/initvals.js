@@ -94,7 +94,7 @@ export const initData = {
         isVisible: true,
         isBeingBuilt: false,
         buildProgress: 0,
-        requireCapitalLevel: false,
+        requireCapitalLevel: null,
         costTime: 2,
         costGold: 250,
         costWood: 5,

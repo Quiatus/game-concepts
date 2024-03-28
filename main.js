@@ -99,27 +99,27 @@ const progressGame = () => {
 
 // Button event listeners
 document.addEventListener('click', (e) => {
-    const target = e.target.id
+    const button = e.target.id
 
     // New month and reset buttons
-    target === 'btnNewMonth' ? progressGame() : null
-    target === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
+    button === 'btnNewMonth' ? progressGame() : null
+    button === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
 
     // Menu buttons
-    target == 'menuBtnGeneral' ? showPanel(0) : null
-    target == 'menuBtnManagement' ? showPanel(1) : null
-    target == 'menuBtnBuildings' ? showPanel(3) : null
-    target == 'menuBtnStatistics' ? showPanel(2) : null
+    button == 'menuBtnGeneral' ? showPanel(0) : null
+    button == 'menuBtnManagement' ? showPanel(1) : null
+    button == 'menuBtnBuildings' ? showPanel(3) : null
+    button == 'menuBtnStatistics' ? showPanel(2) : null
     
     // Tax buttons event listeners
-    target === 'btnTaxLow' ? changeTax(1) : null
-    target === 'btnTaxBalanced' ? changeTax(2) : null
-    target === 'btnTaxHigh' ? changeTax(3) : null
+    button === 'btnTaxLow' ? changeTax(1) : null
+    button === 'btnTaxBalanced' ? changeTax(2) : null
+    button === 'btnTaxHigh' ? changeTax(3) : null
 
     // build buttons
-    target === 'btnbuildingCapital' ? capital.startConstruction(e, 'buildingCapital') : null
-    target === 'btnbuildingHouse' ? house.startConstruction(e, 'buildingHouse') : null
-    target === 'btnbuildingFarm' ? farm.startConstruction(e, 'buildingFarm') : null
-    target === 'btnbuildingLumberyard' ? lumberyard.startConstruction(e, 'buildingLumberyard') : null
-    target === 'btnbuildingQuarry' ? quarry.startConstruction(e, 'buildingQuarry') : null
+    button === 'btnbuildingCapital' ? capital.startConstruction(e, 'buildingCapital') : null
+    button === 'btnbuildingHouse' ? house.startConstruction(e, 'buildingHouse') : null
+    button === 'btnbuildingFarm' ? farm.startConstruction(e, 'buildingFarm') : null
+    button === 'btnbuildingLumberyard' ? lumberyard.startConstruction(e, 'buildingLumberyard') : null
+    button === 'btnbuildingQuarry' ? quarry.startConstruction(e, 'buildingQuarry') : null
 })

@@ -4,44 +4,25 @@ import { saveGame, loadGame } from "./utilities.js"
 class Building {
 
     // checks for various conditions and concatinate each that is not met
-    checkIfCanBuild(building, gameData) {
+    checkIfEnoughResources(building, gameData) {
         let canBuild = true
-        let reason = ''
-
-        if (building.isBeingBuilt === true) {
-            canBuild = false
-            reason += 'Construction already in progress, '
-        }
-
-        if (building.requireCapitalLevel > gameData.general.capitalLevel) {
-            canBuild = false
-            reason += 'Capital level too low, '
-        }
+        let reason = 'Not enough '
 
         if (building.costGold > gameData.basicResources.gold) {
             canBuild = false
-            reason += 'Not enough gold, '
+            reason += 'gold, '
         }
 
         if (building.costWood > gameData.basicResources.wood) {
             canBuild = false
-            reason += 'Not enough wood, '
+            reason += 'wood, '
         }
 
         if (building.costStone > gameData.basicResources.stone) {
             canBuild = false
-            reason += 'Not enough stone, '
+            reason += 'stone, '
         }
 
-        if (building.amount === 1 && building.isUnique === true && building.name !== 'Capital') {
-            canBuild = false
-            reason += 'We can only have one unique building, '
-        }
-
-        if (building.requireSpace === true && building.space === 0 && building.name !== 'Capital') {
-            canBuild = false
-            reason += 'No available space, '
-        }
         reason = reason.substring(0, reason.length - 2)
         return [canBuild, reason] // bool, string
     }
@@ -52,8 +33,8 @@ class Building {
 
         gameData[building].space = gameData[building].maxSpace - gameData[building].amount
 
-        // checks if construction is possible. Passes teh building object and resources
-        const checkRes = this.checkIfCanBuild(gameData[building], gameData)
+        // checks if enough resources to build
+        const checkRes = this.checkIfEnoughResources(gameData[building], gameData)
         
         // if check pass, start building
         if (checkRes[0]) {
