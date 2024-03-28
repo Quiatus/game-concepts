@@ -3,44 +3,38 @@
 :root {
     /* Main colors for layout */
 
-    
     /* Blue */
-    /*
-    --clr-bgborder: #334;
-    --clr-compbord: #779;
+    
+    --clr-bgborder: #223;
+    --clr-compbord: #445;
     --clr-compbg: #223;
-    --clr-bg: #001;
-    --clr-hbg: #235;
-    --clr-hbord: #78A;
+    --clr-bg: #000;
     --clr-hover: #eef;
-    --clr-gray: #bbc;
-    --clr-menutext: #bce; 
-    */
+    --clr-gray: #99b;
+    --clr-menutext: #cce; 
+    
     /* Red */
+    
     /*
     --clr-bgborder: #511;
     --clr-compbord: #922;
     --clr-compbg: #311;
     --clr-bg: #100;
-    --clr-hbg: #633;
-    --clr-hbord: #944;
-    --clr-hover: #ffd;
+    --clr-hover: #fee;
     --clr-gray: #baa;
     --clr-menutext: #ecc;  
     */
 
-    /* Grey */
+    /* Grey 
     
     --clr-bgborder: #333;
     --clr-compbord: #999;
     --clr-compbg: #222;
     --clr-bg: #111;
-    --clr-hbg: #555;
-    --clr-hbord: #999;
     --clr-hover: #fff;
     --clr-gray: #aaa;
     --clr-menutext: #ddd;  
-    
+    */
 
     /* Colors for building headers */
     --clr-bgyellow: #343;
@@ -56,7 +50,7 @@
     --clr-orange: #e18700;
     --clr-green: #00D000;
     --clr-blue: #0080d0;
-    --clr-purple: #A380eb;
+    --clr-purple: #9370eb;
     --clr-gold: #ffd700;
     --clr-brown: #C15710; 
     --clr-darkgreen: #008000;
@@ -66,17 +60,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-.img-m {
-    width: 32px;
-    height: auto;
-    display: block;
-}
-
-.img-s {
-    width: 24px;
-    height: auto;
 }
 
 html {
@@ -93,35 +76,37 @@ body {
 
 main {
     display: grid;
-    grid-template-columns: 240px 1280px;
+    grid-template-columns: 260px 1320px;
     grid-template-rows: auto;
     justify-content: center;
     gap: 1rem;
 }
 
-/* Right panels */
-
-.box-main {
-    border-radius: 0.35rem;
-    overflow: hidden;
-    border: 1px solid var(--clr-hbg);
-    box-shadow: 0 0 5px var(--clr-hbord);
-    height: fit-content;
+.img-m {
+    width: 32px;
+    height: auto;
+    display: block;
 }
 
-.box-main h3 {
-    background-color: var(--clr-hbg);
+.img-s {
+    width: 24px;
+    height: auto;
+}
+
+/* Right panels */
+
+.right-panel > h3 {
     color: var(--clr-menutext);
-    line-height: 1;
-    padding: 0.25rem 0 0.25rem 0.75rem;
-    letter-spacing: 1px;
+    letter-spacing: 3px;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 /* Sub boxes - big */
 
 .box-sub {
     overflow: hidden;
-    margin-bottom: 1rem;
     border: 1px solid var(--clr-bgborder);
     box-shadow: 0 0 5px var(--clr-bgborder);
     border-radius: 0.25rem;
@@ -131,10 +116,34 @@ main {
     background-color: var(--clr-bgborder);
     color: var(--clr-gray);
     line-height: 1;
-    padding: 0.25rem 0.5rem;
+    padding: 0.2rem 0.5rem;
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 1px;
+}
+
+/* Sub boxes - small */
+
+.box {
+    background-color: var(--clr-bg);
+    width: 295px;
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--clr-bgborder);
+    box-shadow: 0 0 10px var(--clr-bgborder);
+    border-radius: 0.25rem;
+    height: 100%;
+    overflow: hidden;
+}
+
+ h4 {
+    background-color: var(--clr-bgborder);
+    width: 100%;
+    text-align: center;
+    padding: 0.25rem 0;
 }
 
 /* Resource panel */
@@ -145,10 +154,12 @@ main {
     top: 0;
     opacity: 0.95;
     background-color: var(--clr-bg);
-    border-radius: 0.35rem;
+    border-bottom-left-radius: 0.35rem;
+    border-bottom-right-radius: 0.35rem;
     overflow: hidden;
-    border: 1px solid var(--clr-hbg);
-    box-shadow: 0 0 5px var(--clr-hbord);
+    border: 1px solid var(--clr-compbord);
+    border-top: none;
+    box-shadow: 0 0 4px var(--clr-compbord);
     display: grid;
     grid-template-columns: repeat(10, auto);
     grid-template-rows: 1fr;
@@ -183,15 +194,12 @@ main {
 /* Menu panel */
 
 .menu {
-    grid-area: 2/1/2/1;
-    border-radius: 0.35rem;
-    overflow: hidden;
-    padding: 0.5rem;
-    border: 1px solid var(--clr-hbg);
-    box-shadow: 0 0 5px var(--clr-hbord);
+    grid-area: 2/1/3/1;
+    border-right: 1px solid var(--clr-compbord);
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 0.5rem;
 }
 
 .menu-buttons-section {
@@ -202,10 +210,6 @@ main {
     margin-bottom: 1rem;
 }
 
-.menu-buttons-section:last-of-type {
-    margin-bottom: 0;
-}
-
 /* General panel */
 
 .general {
@@ -213,10 +217,10 @@ main {
 }
 
 .general-divs {
-    padding: 1rem 1rem 0;
     display: grid;
     grid-template-columns: 1000px auto;
-    column-gap: 1rem;
+    gap: 1rem;
+    padding-left: 1rem;
 }
 
 .messages {
@@ -248,11 +252,11 @@ main {
 }
 
 .settings {
-    padding: 1rem;
+    padding-left: 1rem;
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-template-rows: auto;
-    gap: 1rem;
+    gap: 2rem;
     justify-content: start;
 }
 
@@ -285,7 +289,6 @@ main {
     background-color: var(--clr-compbord);
     height: 1px;
     border: none;
-    margin: 0 0.5rem;
 }
 
 /* Statistics & economy panel */
@@ -297,13 +300,13 @@ main {
 .stats-div {
     display: flex;
     flex-direction: column;
-    padding: 1rem 1rem 0;
+    padding-left: 1rem;
 }
 
 .statistics {
     display: grid;
-    grid-template-columns: repeat(4, 250px);
-    gap: 1.5rem 2rem;
+    grid-template-columns: repeat(4, 260px);
+    gap: 2rem;
 }
 
 .stat-header {
@@ -323,8 +326,8 @@ main {
 
 .economy {
     display: grid;
-    grid-template-columns: repeat(5, 200px);
-    gap: 1.5rem 2rem;
+    grid-template-columns: repeat(5, 220px);
+    gap: 2rem;
 }
 
 .economy-div {
@@ -351,34 +354,9 @@ main {
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-template-rows: auto;
-    gap: 1rem;
+    gap: 2rem;
     justify-content: start;
-    padding: 1rem;
-}
-
-.building-div,
-.building-capital,
-.settings-div {
-    background-color: var(--clr-bg);
-    width: 295px;
-    padding: 0 0 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    border: 1px solid var(--clr-bgborder);
-    box-shadow: 0 0 10px var(--clr-bgborder);
-    border-radius: 0.25rem;
-    height: 100%;
-    overflow: hidden;
-}
-
- h4 {
-    background-color: var(--clr-bgborder);
-    width: 100%;
-    text-align: center;
-    padding: 0.25rem 0;
-    box-shadow: 0 0 5px var(--clr-bgborder);
+    padding-left: 1rem;
 }
 
 .build-amount {
@@ -414,8 +392,8 @@ main {
     width: 100%;
     outline: 1px solid var(--clr-compbord);
     border: 2px solid var(--clr-bg);
-    height: 16px;
-    font-size: 12px;
+    height: 18px;
+    font-size: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -425,7 +403,7 @@ main {
 .subdiv {
     padding: 0 0.5rem;
     width: 100%;
-    height: 48px;
+    height: 42px;
     display: flex;
     align-items: center;
 }
@@ -460,6 +438,17 @@ main {
     align-items: center;
     gap: 0.25rem;
     margin-right: 0.5rem;
+}
+
+.build-buttons span {
+    font-size: 14px;
+}
+
+.build-description {
+    font-style: italic;
+    font-size: 14px;
+    text-align: center;
+    padding: 0 0.5rem ;
 }
 
 /* Utilities */
@@ -500,6 +489,10 @@ main {
     margin-bottom: 0.25rem;
 }
 
+.mbb {
+    margin-bottom: 1rem;
+}
+
 /* Buttons */
 
 button {
@@ -514,7 +507,6 @@ button {
 }
 
 button:hover {
-    font-weight: 400;
     color: var(--clr-hover);
     border-color: var(--clr-hover);
     box-shadow: 0 0 10px var(--clr-hover);
@@ -527,9 +519,7 @@ button:active {
 }
 
 .btnBuild {
-    font-weight: 700;
-    width: 75%;
-    padding: 0.5rem 0;
+    padding: 0.35rem 1.5rem;
 }
 
 .menuBtn {
@@ -553,17 +543,6 @@ button:active {
 }
 
 /* Typography */
-
-.build-buttons span {
-    font-size: 14px;
-}
-
-.build-description {
-    font-style: italic;
-    font-size: 14px;
-    text-align: center;
-    /* margin-bottom: 0.5rem; */
-}
 
 .text-big {
     font-weight: 700;

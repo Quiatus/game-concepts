@@ -87,7 +87,7 @@ export const buildingConstrProgress = (building) => {
         const progress = 100 / building.costTime * building.buildProgress
         return `<div class="build-progress">
             <span class="text-gray">Progress:</span>
-            <div class="progress-bar" style="background: linear-gradient(90deg, var(--clr-darkgreen) ${progress}%, transparent ${progress}%">${building.buildProgress} / ${building.costTime}</div>
+            <div class="progress-bar" style="background: linear-gradient(90deg, var(--clr-blue) ${progress}%, transparent ${progress}%">${building.buildProgress} / ${building.costTime}</div>
         </div>`
     }
 }

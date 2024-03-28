@@ -220,7 +220,7 @@ export const displayCapital = (gameData) => {
 
 export const generateBuildings = (building) => {
     return `
-    <div class="building-div text-small" id="${building.id}">
+    <div class="box text-small" id="${building.id}">
         <h4 class="text-big">${building.name}</h4>
         <div class="build-description">
             <p class="text-gray text-bold mb">${building.buildingType} building</p>
