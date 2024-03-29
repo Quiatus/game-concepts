@@ -1,7 +1,6 @@
 export const initData = {
     general: {
         tax: 2,
-        capitalLevel: 1,
         armyStatus: false
     },
     basicResources: {
@@ -37,30 +36,6 @@ export const initData = {
         popLeft: 0,
         popDied: 0
     },
-    capitalLevels: [
-        {
-            level: 1,
-            space: 1000,
-            houses: 20,
-            commerce: 0,
-            costTime: 0,
-            costGold: 0,
-            costWood: 0,
-            costStone: 0,
-            specialUnlock: false
-        },
-        {
-            level: 2,
-            space: 2000,
-            houses: 50,
-            commerce: 100,
-            costTime: 20,
-            costGold: 20000,
-            costWood: 1000,
-            costStone: 200,
-            specialUnlock: false
-        }
-    ],
     buildingCapital: {
         id: 'buildingCapital',
         name: 'Capital',
@@ -68,16 +43,44 @@ export const initData = {
         isUnique: true,
         isVisible: true,
         isBeingBuilt: false,
+        isUpgradeable: true,
+        currentLevel: 1,
+        maxLevel: 2,
         buildProgress: 0,
         requireCapitalLevel: false,
         costTime: 0,
         costGold: 0,
         costWood: 0,
         costStone: 0,
-        requireSpace: false,
-        space: 0,
+        requireSpace: true,
+        space: 1,
+        maxSpace: 1,
         effect: null,
         specialUnlock: null,
+        levels: [
+            {
+                level: 1,
+                space: 1000,
+                houses: 20,
+                commerce: 0,
+                costTime: 0,
+                costGold: 0,
+                costWood: 0,
+                costStone: 0,
+                specialUnlock: false
+            },
+            {
+                level: 2,
+                space: 2000,
+                houses: 50,
+                commerce: 100,
+                costTime: 20,
+                costGold: 200,
+                costWood: 10,
+                costStone: 2,
+                specialUnlock: false
+            }
+        ]
     },
     buildingList: [
         'buildingHouse',
@@ -93,6 +96,9 @@ export const initData = {
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
+        isUpgradeable: false,
+        currentLevel: null,
+        maxLevel: null,
         buildProgress: 0,
         requireCapitalLevel: null,
         costTime: 2,
@@ -113,6 +119,9 @@ export const initData = {
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
+        isUpgradeable: false,
+        currentLevel: null,
+        maxLevel: null,
         buildProgress: 0,
         requireCapitalLevel: false,
         costTime: 5,
@@ -133,6 +142,9 @@ export const initData = {
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
+        isUpgradeable: false,
+        currentLevel: null,
+        maxLevel: null,
         buildProgress: 0,
         requireCapitalLevel: false,
         costTime: 5,
@@ -153,6 +165,9 @@ export const initData = {
         isUnique: false,
         isVisible: true,
         isBeingBuilt: false,
+        isUpgradeable: false,
+        currentLevel: null,
+        maxLevel: null,
         buildProgress: 0,
         requireCapitalLevel: false,
         costTime: 20,
@@ -163,6 +178,6 @@ export const initData = {
         space: 0,
         maxSpace: 1,
         effect: 10,
-        info: 'Produces #effect# units of stone per month.'
+        info: 'Produces #effect# units of stone per month.',
     }
 }

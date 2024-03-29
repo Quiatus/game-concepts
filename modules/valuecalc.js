@@ -43,22 +43,48 @@ export const changeTax = (id) => {
 // checks the current capital level and applies modifiers
 export const applyCapitalBonuses = () => {
     let gameData = loadGame()
-    const capitalLevel = gameData.general.capitalLevel
-    const values = gameData.capitalLevels[capitalLevel - 1]
+    const capital = gameData.buildingCapital
 
-    gameData.basicResources.basicSpace = values.space
-    gameData.tempData.commerce = values.commerce
-    gameData.buildingHouse.maxSpace = values.houses
+    gameData.basicResources.basicSpace = capital.levels[capital.currentLevel - 1].space
+    gameData.tempData.commerce = capital.levels[capital.currentLevel - 1].commerce
+    gameData.buildingHouse.maxSpace = capital.levels[capital.currentLevel - 1].houses 
 
-    if (capitalLevel < 2) {
-        const nextValues = gameData.capitalLevels[capitalLevel]
-
-        gameData.buildingCapital.costTime = nextValues.costTime
-        gameData.buildingCapital.costGold = nextValues.costGold
-        gameData.buildingCapital.costWood = nextValues.costWood
-        gameData.buildingCapital.costStone = nextValues.costStone
-        gameData.buildingCapital.specialUnlock = nextValues.specialUnlock
+    if (capital.currentLevel < capital.maxLevel) {
+        gameData.buildingCapital.costTime = capital.levels[capital.currentLevel].costTime
+        gameData.buildingCapital.costGold = capital.levels[capital.currentLevel].costGold
+        gameData.buildingCapital.costWood = capital.levels[capital.currentLevel].costWood
+        gameData.buildingCapital.costStone = capital.levels[capital.currentLevel].costStone
+        gameData.buildingCapital.specialUnlock = capital.levels[capital.currentLevel].specialUnlock
     }
+    
+    saveGame(gameData)
+}
 
+// Updates the current building cost for any upgradeable building
+export const updateBuildCost = () => {
+    let gameData = loadGame()
+
+    for (let i = 0; i < gameData.buildingList.length; i++) {
+        const building = gameData.buildingList[i]
+        const cl = gameData[building].currentLevel
+        const ml = gameData[building].maxLevel
+
+        if (gameData[building].isUpgradeable) {
+            gameData[building].effect = gameData[building].levels[cl-1].effect
+
+            // if buliding is not constructed, grabs costs of lvl1, otherwise, grabs costs of the next level
+            if (gameData[building].amount === 0) {
+                gameData[building].costTime = gameData[building].levels[0].costTime
+                gameData[building].costGold = gameData[building].levels[0].costGold
+                gameData[building].costWood = gameData[building].levels[0].costWood
+                gameData[building].costStone = gameData[building].levels[0].costStone
+            } else if (gameData[building].amount === 1 && cl < ml) {
+                gameData[building].costTime = gameData[building].levels[cl].costTime
+                gameData[building].costGold = gameData[building].levels[cl].costGold
+                gameData[building].costWood = gameData[building].levels[cl].costWood
+                gameData[building].costStone = gameData[building].levels[cl].costStone
+            }
+        }  
+    }
     saveGame(gameData)
 }

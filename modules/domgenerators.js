@@ -1,4 +1,4 @@
-import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, getCapitalInfo, buildingConstrProgress, getArmyStatus, displayBuildDescr } from "./domhelpers.js"
+import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr } from "./domhelpers.js"
 
 const resourcesText = document.getElementById('resourceBox')
 const taxBox = document.getElementById('taxBox')
@@ -9,16 +9,16 @@ const capital = document.getElementById('buildingCapital')
 // Generates resource box
 export const displayResourceBox = (gameData) => {    
     return resourcesText.innerHTML =
-    `<div class="res res-nm"><img class='img-m' src='media/month.png'><span class='text-bold'>${converThousand(gameData.basicResources.month)}</span></div>
-    <div class="res res-b"><img class='img-m' src='media/pop.png'><span class='text-purple'>${popText(gameData.basicResources.pop, gameData.tempData.totalSpace)}</span></div>
-    <div class="res"><img class='img-m' src='media/gold.png'><span class='text-gold'>${converThousand(gameData.basicResources.gold)}</span></div>
-    <div class="res"><img class='img-m' src='media/food.png'><span class='text-yellow'>${converThousand(gameData.basicResources.food)}</span></div>
-    <div class="res res-nm"><img class='img-m' src='media/wood.png'><span class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
-    <div class="res res-nm"><img class='img-m' src='media/stone.png'><span class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
-    <div class="res hr"><img class='img-m' src='media/fame.png'><span>${converThousand(gameData.basicResources.fame)}</span></div>
-    <div class="res"> <img class='img-m' src='media/army.png'><span>0</span></div>
-    <div class="res res-sm"> <img class='img-m' src='media/fame.png'><span class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
-    <div class="res res-nm"><img class='img-m' src='media/fame.png'><span class="text-bold">${getArmyStatus(gameData)}</span></div>`
+    `<div class="res res-nm"><img class='img-m' src='media/month.png' title='Month'><span title='Month' class='text-bold'>${converThousand(gameData.basicResources.month)}</span></div>
+    <div class="res res-b"><img title='Current population / Max population' class='img-m' src='media/pop.png'><span title='Current population / Max population' class='text-purple'>${popText(gameData.basicResources.pop, gameData.tempData.totalSpace)}</span></div>
+    <div class="res"><img title='Gold' class='img-m' src='media/gold.png'><span title='Gold' class='text-gold'>${converThousand(gameData.basicResources.gold)}</span></div>
+    <div class="res"><img title='Food' class='img-m' src='media/food.png'><span title='Food' class='text-yellow'>${converThousand(gameData.basicResources.food)}</span></div>
+    <div class="res res-nm"><img title='Wood' class='img-m' src='media/wood.png'><span title='Wood' class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
+    <div class="res res-nm"><img title='Stone' class='img-m' src='media/stone.png'><span title='Stone' class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
+    <div class="res hr"><img title='Fame' class='img-m' src='media/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
+    <div class="res"> <img title='Might' class='img-m' src='media/army.png'><span title='Might'>0</span></div>
+    <div class="res res-sm"> <img title='Happiness' class='img-m' src='media/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
+    <div class="res res-nm"><img title='Army status' class='img-m' src='media/fame.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
 }
 
 // changes the tax level text
@@ -182,34 +182,37 @@ export const displayEconomy = (gameData) => {
 }
 
 export const displayCapital = (gameData) => {
+    // helper vars for level array index
+    const cl = gameData.buildingCapital.currentLevel - 1
+    const nl = gameData.buildingCapital.currentLevel
+    const ml = gameData.buildingCapital.maxLevel
     return capital.innerHTML =
         `<h4 class="text-big">Capital</h4>
         <div class="build-description">
             <p>Capital city of our empire.</p>
         </div>
-        <span class="text-bold text-orange">Level ${getCapitalInfo().currentLevel.level}</span>
+        <span class="text-bold text-orange">Level ${nl}</span>
         <div class="settings-stats">
-            <span class="text-gray">Space:</span><span>${converThousand(getCapitalInfo().currentLevel.space)}</span>
-            <span class="text-gray">Max. houses:</span><span>${converThousand(getCapitalInfo().currentLevel.houses)}</span>
-            ${getCapitalInfo().currentLevel.commerce > 0 ? ` <span class="text-gray">Commerce:</span><span>${converThousand(getCapitalInfo().currentLevel.commerce)}</span>` : ``}
+            <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)}</span>
+            <span class="text-gray">Max. houses:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)}</span>
+            ${gameData.buildingCapital.levels[cl].commerce > 0 ? ` <span class="text-gray">Commerce:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)}</span>` : ``}
         </div>
         <hr class="subdiv-separator">
+        ${nl === ml ? `<span class="text-bold text-orange">Capital is at max level.</span>` : 
         
-        ${getCapitalInfo().nextLevel === 'max' ?  `<span class="text-bold">Capital is at max level.</span>` : 
-        
-       ` <span>Upgrade to <span class="text-orange">level ${getCapitalInfo().nextLevel.level}</span></span>
+       ` <span>Upgrade to <span class="text-orange">level ${nl + 1}</span></span>
 
        ${displayBuildCosts(gameData.buildingCapital)}
-       ${getCapitalInfo().nextLevel.specialUnlock ? `
+       ${gameData.buildingCapital.levels[nl].specialUnlock ? `
        <div class="settings-stats">
-           <span class="text-gray">Special costs:</span><span>${getCapitalInfo().nextLevel.specialUnlock}</span>
+       <span class="text-gray">Special costs:</span><span>${gameData.buildingCapital.levels[nl].specialUnlock}</span>
        </div>` : ``}
 
-       <span>Upgrade bonuses:</span>
+       <span class='mt'>Upgrade bonuses:</span>
         <div class="settings-stats">
-            <span class="text-gray">Space:</span><span>${converThousand(getCapitalInfo().currentLevel.space)} > <span class="text-green">${converThousand(getCapitalInfo().nextLevel.space)}</span></span>
-            <span class="text-gray">Max. houses:</span><span>${converThousand(getCapitalInfo().currentLevel.houses)} > <span class="text-green">${converThousand(getCapitalInfo().nextLevel.houses)}</span></span>
-            <span class="text-gray">Gold from trade:</span><span>${converThousand(getCapitalInfo().currentLevel.commerce)} > <span class="text-green">${converThousand(getCapitalInfo().nextLevel.commerce)}</span></span>
+            <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].space)}</span></span>
+            <span class="text-gray">Max. houses:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].houses)}</span></span>
+            <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].commerce)}</span></span>
         </div>
 
         <div class="subdiv">
@@ -219,6 +222,8 @@ export const displayCapital = (gameData) => {
 }
 
 export const generateBuildings = (building, level) => {
+    const cl = building.currentLevel
+    const ml = building.maxLevel
     return `
     <div class="box text-small" id="${building.id}">
         <h4 class="text-big">${building.name}</h4>
@@ -227,13 +232,20 @@ export const generateBuildings = (building, level) => {
             <p>${building.info.replace('#effect#', `<span class='text-bold'>${building.effect}</span>`)}</p>
             <p class="text-orange">${displayBuildDescr(building)}</p> 
         </div>
-        
-        <div class='build-amount'><span class="text-big">${building.amount}<span class="text-small"> / ${building.maxSpace}</span></span></div>
-        
-        ${displayBuildCosts(building)}
 
-        <div class="subdiv">
-            ${buildingConstrProgress(building,level)}
+        <div class='build-amount'>
+        ${(building.isUpgradeable && building.amount === 1) 
+            ? `<span class="text-bold text-orange text-big">Level ${building.currentLevel}</span>` 
+            : `<span title='Current amount / Max amount' class="text-big">${building.amount}<span class="text-small"> / ${building.maxSpace}</span></span>`}
         </div>
+
+        <hr class="subdiv-separator">
+
+        ${(cl === ml && building.isUpgradeable) ? `<div class="subdiv">${buildingConstrProgress(building,level)}</div>` : `
+        ${building.isUpgradeable && building.amount === 1 ? `<span>Upgrade to <span class="text-orange">level ${cl+1}</span></span>
+        
+        <p class='build-description'>${building.info.replace('#effect#', `<span class='text-bold'>${building.levels[cl].effect}</span>`)}</p>` : ``} 
+        ${displayBuildCosts(building)}
+        <div class="subdiv">${buildingConstrProgress(building,level)}</div>` }
     </div>`
 }

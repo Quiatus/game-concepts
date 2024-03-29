@@ -83,7 +83,7 @@ const displayBuildings = (gameData) => {
         let building = gameData[gameData.buildingList[i]]
         if (building.isVisible) {
             const buildDiv = document.createElement('div')
-            buildDiv.innerHTML = generateBuildings(building, gameData.general.capitalLevel)
+            buildDiv.innerHTML = generateBuildings(building, gameData.buildingCapital.currentLevel)
             buildings.append(buildDiv)
         }
     }    
@@ -95,25 +95,30 @@ export const buildingConstrProgress = (building, level=null) => {
     // If we cannot built due to missing space / unqiue building, shows the message instead of the button
     if (!building.isBeingBuilt) {
         // Check if the unique building is already built
-        if (building.amount === 1 && building.isUnique === true && building.name !== 'Capital') {
+        if (building.amount === 1 && building.isUnique && !building.isUpgradeable) {
             return `<div class="build-buttons">
-            <span class="text-orange text-big">We can build only one ${building.name}</span>
+            <span class="text-bold text-xs">We can build only one ${building.name}</span>
             </div>`
-        // Check if capital level is high enough
-        } else if (building.requireCapitalLevel > level) {
+        // Check if upgradeable builsing is at max level
+        } else if (building.currentLevel === building.maxLevel && building.isUpgradeable) {
             return `<div class="build-buttons">
-            <span class="text-orange text-big">Upgrade Capital to level ${building.requireCapitalLevel}</span>
+            <span class="text-bold ">${building.name} is at max level</span>
             </div>`
         // Check if there is enough space to built
-        } else if (building.requireSpace === true && building.maxSpace === building.amount && building.name !== 'Capital') {
+        }else if (building.requireCapitalLevel > level) {
             return `<div class="build-buttons">
-            <span class="text-orange text-big">We don't have space to built more ${building.name}s</span>
+            <span class="text-bold text-xs">Upgrade Capital to level ${building.requireCapitalLevel}</span>
+            </div>`
+        // Check if there is enough space to built
+        } else if (building.requireSpace && building.maxSpace === building.amount && !building.isUpgradeable) {
+            return `<div class="build-buttons">
+            <span class="text-bold text-xs">We don't have space to built more ${building.name}s</span>
             </div>`
         // If all conditions are met, displays build button
         } else {
             return `<div class="build-buttons">
             <span class="text-red error-text-build none"></span>
-            <button class="btnBuild" id="btn${building.id}">${building.name === 'Capital' ? `Upgrade` : `Build`} ${building.name}</button>
+            <button class="btnBuild" id="btn${building.id}">${(building.isUpgradeable && building.amount === 1) ? `Upgrade` : `Build`} ${building.name}</button>
             </div>`
         }
     } else {
@@ -126,8 +131,7 @@ export const buildingConstrProgress = (building, level=null) => {
 }
 
 // displays building costs
-export const displayBuildCosts = (building) => {
-    
+export const displayBuildCosts = (building) => {    
     return `<div class="build-costs text-small">
         <div class="building-cost">
             <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(building.costGold)}</span></div>
@@ -217,17 +221,6 @@ export const calcEconomy = (econType) => {
 }
 
 // grabs info about capital levels
-export const getCapitalInfo = () => {
-        let gameData = loadGame()
-        const capitalLevel = gameData.general.capitalLevel
-        let nextLevel = 'max'
-        const currentLevel = gameData.capitalLevels[capitalLevel - 1]
-        capitalLevel < 2 ? nextLevel = gameData.capitalLevels[capitalLevel] : null
-        
-        return {currentLevel, nextLevel}
-}
-
-// grabs info about capital levels
 export const getArmyStatus = (gameData) => {
     if (gameData.general.armyStatus) return `<span class='text-green'>Ready</span>`
     return `<span class='text-orange'>Exhausted</span>`
@@ -236,7 +229,7 @@ export const getArmyStatus = (gameData) => {
 // display building description
 export const displayBuildDescr = (building) => {
     let string = ''
-    string = `${building.isUnique ? `Unique - ` : ``}${building.requireSpace ? `Requires space - ` : ``}${building.requireCapitalLevel ? `Requires capital level ${building.requireCapitalLevel} - ` : ``}`
+    string = `${building.isUnique ? `Unique - ` : ``}${building.requireSpace ? `Requires space - ` : ``}${building.isUpgradeable ? `Can be upgraded - ` : ``}`
     string = string.substring(0, string.length-3)
     return string
 }

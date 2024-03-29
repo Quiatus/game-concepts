@@ -96,6 +96,10 @@ main {
 
 /* Right panels */
 
+.right-panel {
+    user-select: none;
+}
+
 .right-panel > h3 {
     color: var(--clr-menutext);
     letter-spacing: 3px;
@@ -165,6 +169,7 @@ main {
     grid-template-columns: repeat(10, auto);
     grid-template-rows: 1fr;
     padding: 0.5rem;
+    user-select: none;
 }
 
 .res {
@@ -393,14 +398,15 @@ main {
 .subdiv {
     padding: 0 0.5rem;
     width: 100%;
-    height: 42px;
+    min-height: 42px;
     display: flex;
     align-items: center;
+    flex-grow: 1;
 }
 
 .error-text-build {
     position: absolute;
-    top: -40px;
+    top: -38px;
     background-color: var(--clr-compbg);
     /* border: 1px solid var(--clr-compbord); */
     padding: 0.25rem;
@@ -430,10 +436,6 @@ main {
     align-items: center;
     gap: 0.25rem;
     margin-right: 0.5rem;
-}
-
-.build-buttons span {
-    font-size: 14px;
 }
 
 .build-description {
@@ -475,6 +477,10 @@ main {
 
 .ml {
     margin-left: 0.5rem;
+}
+
+.mt {
+    margin-top: 0.5rem;
 }
 
 .mb {
@@ -549,6 +555,11 @@ button:active {
 .text-small {
     font-weight: 400;
     font-size: 16px;
+}
+
+.text-xs {
+    font-weight: 400;
+    font-size: 14px;
 }
 
 .text-bold {

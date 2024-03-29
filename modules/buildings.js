@@ -63,12 +63,14 @@ class Building {
             if (gameData[building].buildProgress === (gameData[building].costTime - 1)) {  
                 gameData[building].isBeingBuilt = false;
                 gameData[building].buildProgress = 0;
-                if (gameData[building].name !== 'Capital') {
+
+                
+                if (!gameData[building].isUpgradeable || (gameData[building].isUpgradeable && gameData[building].amount === 0)) {
                     gameData[building].amount++;
                     printMessage(`A new <span class='text-gray text-bold'>${gameData[building].name}</span> has been built.`)
                 } else {
-                    gameData.general.capitalLevel++
-                    printMessage(`Our capital has been upgraded to <span class='text-orange'>level ${gameData.general.capitalLevel}</span>.`)
+                    gameData[building].currentLevel++
+                    printMessage(`The ${gameData[building].name} has been upgraded to <span class='text-orange'>level ${gameData[building].currentLevel}</span>.`)
                 }      
                 
             } else {
