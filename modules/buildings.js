@@ -70,7 +70,7 @@ class Building {
                     printMessage(`A new <span class='text-gray text-bold'>${gameData[building].name}</span> has been built.`)
                 } else {
                     gameData[building].currentLevel++
-                    printMessage(`The ${gameData[building].name} has been upgraded to <span class='text-orange'>level ${gameData[building].currentLevel}</span>.`)
+                    printMessage(`<span class='text-gray text-bold'>${gameData[building].name}</span> has been upgraded to <span class='text-orange'>level ${gameData[building].currentLevel}</span>.`)
                 }      
                 
             } else {
