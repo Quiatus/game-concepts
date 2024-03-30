@@ -31,7 +31,7 @@ export const displayTaxBox = (gameData) => {
     else taxText = '<span class="text-red">High</span>'
 
     // markup
-    return taxBox.innerHTML = `<h4 class="text-big">Taxes</h4>
+    return taxBox.innerHTML = `<h2 class="text-big">Taxes</h2>
     <div class="build-description">
         <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes have the opposite effect.</p>
     </div>
@@ -187,7 +187,7 @@ export const displayCapital = (gameData) => {
     const nl = gameData.buildingCapital.currentLevel
     const ml = gameData.buildingCapital.maxLevel
     return capital.innerHTML =
-        `<h4 class="text-big">Capital</h4>
+        `<h2 class="text-big">Capital</h2>
         <div class="build-description">
             <p>Capital city of our empire.</p>
         </div>
@@ -226,7 +226,7 @@ export const generateBuildings = (building, level) => {
     const ml = building.maxLevel
     return `
     <div class="box text-small" id="${building.id}">
-        <h4 class="text-big">${building.name}</h4>
+        <h2 class="text-big">${building.name}</h2>
         <div class="build-description">
             <p class="text-gray text-bold mb">${building.buildingType} building</p>
             <p>${building.info.replace('#effect#', `<span class='text-bold'>${building.effect}</span>`)}</p>

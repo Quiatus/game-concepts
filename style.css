@@ -100,7 +100,7 @@ main {
     user-select: none;
 }
 
-.right-panel > h3 {
+.right-panel > h1 {
     color: var(--clr-menutext);
     letter-spacing: 3px;
     text-align: center;
@@ -144,7 +144,7 @@ main {
     overflow: hidden;
 }
 
- h4 {
+ h2 {
     background-color: var(--clr-bgborder);
     width: 100%;
     text-align: center;
@@ -451,22 +451,22 @@ main {
     display: none;
 }
 
-#buildingFarm > h4,
+#buildingFarm > h2,
 .bgyellow {
     background-color: var(--clr-bgyellow);
 }
 
-#buildingHouse > h4,
+#buildingHouse > h2,
 .bgpurple {
     background-color: var(--clr-bgpurp);
 }
 
-#buildingLumberyard > h4,
+#buildingLumberyard > h2,
 .bgbrown {
     background-color: var(--clr-bgbrown);
 }
 
-#buildingQuarry > h4,
+#buildingQuarry > h2,
 .bggrey {
     background-color: var(--clr-bggray);
 }

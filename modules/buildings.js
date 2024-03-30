@@ -50,7 +50,7 @@ class Building {
             // displaus the error message if construction not possible
             e.target.parentElement.children[0].textContent = checkRes[1]
             e.target.parentElement.children[0].classList.remove('none')
-            setTimeout(() => {e.target.parentElement.children[0].classList.add('none')}, 5000)
+            setTimeout(() => {e.target.parentElement.children[0].classList.add('none')}, 2000)
         }
     }
 
@@ -67,10 +67,10 @@ class Building {
                 
                 if (!gameData[building].isUpgradeable || (gameData[building].isUpgradeable && gameData[building].amount === 0)) {
                     gameData[building].amount++;
-                    printMessage(`A new <span class='text-gray text-bold'>${gameData[building].name}</span> has been built.`)
+                    printMessage(`A new <span class='${gameData[building].textColor}'>${gameData[building].name}</span> has been built.`)
                 } else {
                     gameData[building].currentLevel++
-                    printMessage(`<span class='text-gray text-bold'>${gameData[building].name}</span> has been upgraded to <span class='text-orange'>level ${gameData[building].currentLevel}</span>.`)
+                    printMessage(`<span class='${gameData[building].textColor}'>${gameData[building].name}</span> has been upgraded to <span class='text-orange'>level ${gameData[building].currentLevel}</span>.`)
                 }      
                 
             } else {

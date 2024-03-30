@@ -36,9 +36,16 @@ export const initData = {
         popLeft: 0,
         popDied: 0
     },
+    buildingList: [
+        'buildingHouse',
+        'buildingFarm',
+        'buildingLumberyard',
+        'buildingQuarry'
+    ],
     buildingCapital: {
         id: 'buildingCapital',
         name: 'Capital',
+        textColor: 'text-gray',
         amount: 1,
         isUnique: true,
         isVisible: true,
@@ -75,23 +82,18 @@ export const initData = {
                 houses: 50,
                 commerce: 100,
                 costTime: 20,
-                costGold: 200,
-                costWood: 10,
-                costStone: 2,
+                costGold: 20000,
+                costWood: 1000,
+                costStone: 200,
                 specialUnlock: false
             }
         ]
     },
-    buildingList: [
-        'buildingHouse',
-        'buildingFarm',
-        'buildingLumberyard',
-        'buildingQuarry'
-    ],
     buildingHouse: {
         id: 'buildingHouse',
         name: 'House',
         buildingType: 'Population',
+        textColor: 'text-purple',
         amount: 0,
         isUnique: false,
         isVisible: true,
@@ -115,6 +117,7 @@ export const initData = {
         id: 'buildingFarm',
         name: 'Farm',
         buildingType: 'Resource ',
+        textColor: 'text-yellow',
         amount: 1,
         isUnique: false,
         isVisible: true,
@@ -138,6 +141,7 @@ export const initData = {
         id: 'buildingLumberyard',
         name: 'Lumber yard',
         buildingType: 'Resource ',
+        textColor: 'text-brown',
         amount: 0,
         isUnique: false,
         isVisible: true,
@@ -161,6 +165,7 @@ export const initData = {
         id: 'buildingQuarry',
         name: 'Quarry',
         buildingType: 'Resource ',
+        textColor: 'text-darkgray',
         amount: 0,
         isUnique: false,
         isVisible: true,

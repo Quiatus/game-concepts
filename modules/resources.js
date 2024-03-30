@@ -70,16 +70,29 @@ export class Pop {
         let gameData = loadGame()
         let amount = 0
         const pop = gameData.basicResources.pop
-        const alert = gameData.alerts.overpopulation
+        let alert = false
         const totalSpace = gameData.tempData.totalSpace 
+        const happiness = gameData.tempData.happiness
 
         // base increase from births
-        const baseGain = this.increasePop(pop) 
+        let baseGain = this.increasePop(pop) 
+
+        // apply happiness modifier to basic pop gain
+        if (happiness < 20) {
+            baseGain = Math.floor(baseGain * 0.5)
+        } else if (happiness > 80) {
+            baseGain = Math.floor(baseGain * 1.5)
+        }
 
         gameData.resourceGain.pop = baseGain // need to put this here as this can be affected by space
         amount = baseGain
 
-        // checks if overpopulation is active, if so, no pops are generated. Then checks if there is space, if not, no pops are added
+        // check if any alert is active
+        if (gameData.alerts.overpopulation || gameData.alerts.riot) {
+            alert = true
+        }
+
+        // checks if any alert affecting pop gain is active, if so, no pops are generated. Then checks if there is space, if not, no pops are added
         if (!alert) {
             if (pop + amount >= totalSpace) {
                 gameData.resourceGain.pop = totalSpace - pop
@@ -134,9 +147,9 @@ export class Pop {
         let removedAmount = 0
 
         if (reason === 'famine') {
-            // calculates the amount of pops that did not receive food and kills that amount +- 25% 
+            // calculates the amount of pops that did not receive food and kills 25% - 75% of that amount
             let diff = (gameData.tempData.consumedFood - gameData.resourceGain.food) * 100
-            removedAmount = Math.floor(Math.random() * (diff * 1.25 - diff * 0.75) + diff * 0.75)   
+            removedAmount = Math.floor(Math.random() * (diff * 0.75 - diff * 0.25) + diff * 0.25)   
             gameData.tempData.popDied = removedAmount     
         } else if (reason === 'overpopulation') {
             // When overpopulated, between 5 - 15% of people will leave every month
