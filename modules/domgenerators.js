@@ -1,3 +1,4 @@
+'use strict';
 import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr } from "./domhelpers.js"
 
 const resourcesText = document.getElementById('resourceBox')

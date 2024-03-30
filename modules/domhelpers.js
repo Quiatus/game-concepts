@@ -1,3 +1,4 @@
+'use strict';
 import { loadGame } from "./utilities.js"
 import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings } from "./domgenerators.js"
 

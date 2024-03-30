@@ -1,3 +1,5 @@
+'use strict';
+
 import { generateMarkup, printMessage } from "./domhelpers.js"
 import { saveGame, loadGame } from "./utilities.js"
 

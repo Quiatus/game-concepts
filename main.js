@@ -1,3 +1,5 @@
+'use strict';
+
 import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
 import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost } from "./modules/valuecalc.js";
