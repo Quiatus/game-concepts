@@ -4,7 +4,6 @@
     /* Main colors for layout */
 
     /* Blue */
-    
     --clr-bgborder: #334;
     --clr-compbord: #445;
     --clr-compbg: #223;
@@ -14,8 +13,7 @@
     --clr-menutext: #cce; 
     --clr-progress: #55a;
     
-    /* Red */
-   /*
+    /* Red 
     --clr-bgborder: #511;
     --clr-compbord: #922;
     --clr-compbg: #311;
@@ -25,8 +23,7 @@
     --clr-menutext: #ecc;  
     --clr-progress: #900;
     */
-    /* Grey */
-    /*
+    /* Grey
     --clr-bgborder: #333;
     --clr-compbord: #666;
     --clr-compbg: #222;
@@ -237,7 +234,8 @@ main {
     gap: 1rem;
 }
 
-.message-div > p {
+.message-div > p,
+.event-div > p {
     display: flex;
     align-items: center;
     gap: 0.75ch;
@@ -540,6 +538,16 @@ button:active {
     transform: scale(0.95);
 }
 
+#btnNewMonth {
+    border: none;
+    background-color: inherit;
+    outline: none;
+}
+
+#btnNewMonth:hover {
+    box-shadow: none;
+}
+
 /* Typography */
 
 .text-big {
@@ -559,6 +567,11 @@ button:active {
 
 .text-xs {
     font-weight: 400;
+    font-size: 14px;
+}
+
+.text-it {
+    font-style: italic;
     font-size: 14px;
 }
 

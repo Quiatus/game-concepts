@@ -16,11 +16,15 @@ export const initData = {
     },
     resourceGain: {
         goldTax: 0,
+        goldEvents: 0,
         goldTotal: 0,
         pop: 0,
         food: 0,
+        foodEvents: 0,
         wood: 0,
-        stone: 0
+        woodEvents: 0,
+        stone: 0,
+        stoneEvents: 0
     },
     alerts: {
         famine: false,
@@ -36,6 +40,105 @@ export const initData = {
         popLeft: 0,
         popDied: 0
     },
+
+// === EVENTS ===============================================================================================
+    events: [
+        {
+            name: 'testevent',
+            description: ['testevent'],
+            type: '',
+            rarity: 1,
+            unlocked: false,
+            active: false,
+            timed: true,
+            remainingTime: 10,
+            effect: 0,
+            isRandom: true,
+            random: {
+                val: 'remainingTime',
+                min: 5,
+                max: 15
+            }
+        },
+        {
+            name: 'gainGoldExplSmall',
+            description: [
+                'Our scouts have found a small pouch. It contained #effect#.',
+                'While found an old merchant cart next to the road. There was some goods left worth #effect#.'
+                ],
+            type: 'gainGold',
+            rarity: 1,
+            unlocked: true,
+            active: false,
+            timed: false,
+            effect: 0,
+            isRandom: true,
+            random: {
+                val: 'effect',
+                min: 50,
+                max: 100
+            }
+        },
+        {
+            name: 'gainStoneExplSmall',
+            description: [
+                'Our scouts have discovered an old mine. We gained #effect#.',
+                'We discovered a small quarry. We were able to gain #effect#.'
+                ],
+            type: 'gainStone',
+            rarity: 1,
+            unlocked: true,
+            active: false,
+            timed: false,
+            effect: 0,
+            isRandom: true,
+            random: {
+                val: 'effect',
+                min: 2,
+                max: 5
+            }
+        },
+        {
+            name: 'gainWoodExplSmall',
+            description: [
+                'Our scouts have disovered an abandoned lumber camp. We gained #effect#.',
+                'We discovered a ruined settlement. Most of the valuables were already scavanged, but we found some wood. Gained #effect#.'
+                ],
+            type: 'gainWood',
+            rarity: 1,
+            unlocked: true,
+            active: false,
+            timed: false,
+            effect: 0,
+            isRandom: true,
+            random: {
+                val: 'effect',
+                min: 1,
+                max: 10
+            }
+        },
+        {
+            name: 'gainFoodExplSmall',
+            description: [
+                'We have discovered a small camp. Whoever was here had to leave in hurry and left the supplies behind. We gained #effect#.',
+                'Our scouts have discovered an old farm. We gained #effect#.'
+                ],
+            type: 'gainFood',
+            rarity: 1,
+            unlocked: true,
+            active: false,
+            timed: false,
+            effect: 0,
+            isRandom: true,
+            random: {
+                val: 'effect',
+                min: 5,
+                max: 10
+            }
+        },
+    ],
+
+// === BUILDINGS ===============================================================================================
     buildingList: [
         'buildingHouse',
         'buildingFarm',

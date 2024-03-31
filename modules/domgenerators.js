@@ -121,6 +121,7 @@ export const displayEconomy = (gameData) => {
         <span class="text-white spread">Income</span>
         <span class="text-gray ml">Taxes:</span><span class="text-green">${converThousand(gameData.resourceGain.goldTax)}</span>
         <span class="text-gray ml">Trade:</span><span class="text-green">${converThousand(gameData.tempData.commerce)}</span>
+        <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.goldEvents)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('g')[0])}</span>
     </div>
     <div class="economy-div">
@@ -137,6 +138,7 @@ export const displayEconomy = (gameData) => {
     <div class="economy-div">
         <span class="text-white spread">Gains</span>
         <span class="text-gray ml">Farms:</span><span class="text-green">${converThousand(gameData.resourceGain.food)}</span>
+        <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.foodEvents)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('f')[0])}</span>
     </div>
     <div class="economy-div">
@@ -154,6 +156,7 @@ export const displayEconomy = (gameData) => {
     <div class="economy-div">
         <span class="text-white spread">Gains</span>
         <span class="text-gray ml">Lumber yard:</span><span class="text-green">${converThousand(gameData.resourceGain.wood)}</span>
+        <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.woodEvents)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(gameData.resourceGain.wood)}</span>
     </div>
     <div class="economy-div">
@@ -170,6 +173,7 @@ export const displayEconomy = (gameData) => {
     <div class="economy-div">
         <span class="text-white spread">Gains</span>
         <span class="text-gray ml">Quarries:</span><span class="text-green">${converThousand(gameData.resourceGain.stone)}</span>
+        <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.stoneEvents)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('s')[0])}</span>
     </div>
     <div class="economy-div">

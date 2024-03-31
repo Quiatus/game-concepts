@@ -1,8 +1,8 @@
 'use strict';
 
-import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages } from "./modules/domhelpers.js"
+import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
-import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost } from "./modules/valuecalc.js";
+import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost, generateEvent } from "./modules/valuecalc.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 
@@ -41,6 +41,8 @@ const checkBeforeResourceCalc = (isNewMonth) => {
     applyCapitalBonuses() // apply capital bonuses 
     updateBuildCost() // Updates the current building cost for any upgradeable building
     pop.calculateTotalSpace() // calculates max. available space for pop (from building, capital and settlements)
+    generateEvent(isNewMonth) // generates random event at the beginning of the month
+    displayActiveEvents() // displays any active events
 }
 
 // checks various conditions after gaining resources and run events. Check for events before printing text
@@ -81,21 +83,22 @@ const checkConstruction = (isNewMonth) => {
     3. Apply bonuses from the capital based on the capital's level
     4. Updates the current building cost for any upgradeable building
     5. Calculate available space for pops
+    6. Generate and display events
 
-    6. Calculate resource gain / spend:
+    7. Calculate resource gain / spend:
         a. Increase month
         b. Calculate gold gains / losses
         c. Calculate pop gains / losses (except from events)
         d. Calculate food gains / losses
         e. Calculate other resource gains (wood, stone, metals, runes....)
 
-    7. Print resource gain / loss messages
+    8. Print resource gain / loss messages
 
-    8. Check if pop is at or above max space. If the same, triggers the appropriate alert
-    9. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
-    10. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
-    11. Displays all active alerts
-    12. Re-generate DOM with the updated values
+    9. Check if pop is at or above max space. If the same, triggers the appropriate alert
+    10. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
+    11. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
+    12. Displays all active alerts
+    13. Re-generate DOM with the updated values
 */
 
 const progressGame = () => {

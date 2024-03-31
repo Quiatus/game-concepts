@@ -1,4 +1,5 @@
 'use strict';
+
 import { generateMarkup, printMessage } from "./domhelpers.js"
 import { loadGame, saveGame } from "./utilities.js"
 
@@ -87,5 +88,87 @@ export const updateBuildCost = () => {
             }
         }  
     }
+    saveGame(gameData)
+}
+
+// generates events at the beginning of the month
+export const generateEvent = (isNewMonth) => {
+    if (isNewMonth) {
+        
+        //determine how many events are genereated (0 - 3)
+        let genEvents = 0
+        const rnd = Math.floor(Math.random() * 100) + 1
+
+        if (rnd === 0) {
+            genEvents = 3
+        } else if (rnd > 0 && rnd <= 5) {
+            genEvents = 2
+        } else if (rnd > 5 && rnd <= 15) {
+            genEvents = 1
+        } else {
+            genEvents = 0
+        }
+
+        // disable active events from previous month or decrease timed events
+        actionActiveEvents()
+
+        if (genEvents > 0) {
+            let gameData = loadGame()
+            const totalEvents = gameData.events.length 
+
+            // generate events
+            while (genEvents > 0) {
+                let gameData = loadGame()
+                const eventNumber = Math.floor(Math.random() * totalEvents)
+
+                // if the event is already active and is unlocked, it won't generate it again
+                if (!gameData.events[eventNumber].active && gameData.events[eventNumber].unlocked) {
+                    // uses rarity modifier
+                    const rarity = Math.floor(Math.random() * gameData.events[eventNumber].rarity)
+                    if (rarity === 0) {
+                        gameData.events[eventNumber].active = true
+                        // if the event has random value, generates it
+                        if (gameData.events[eventNumber].isRandom) {
+                            const min = gameData.events[eventNumber].random.min
+                            const max = gameData.events[eventNumber].random.max
+                            const val = gameData.events[eventNumber].random.val
+                            const value = Math.floor(Math.random() * (max - min) + min)
+                            gameData.events[eventNumber][val] = value
+                        }
+                        genEvents--
+                    }
+                
+                }   
+
+                saveGame(gameData)
+            }  
+        }
+    }
+}
+
+//check active events, then disable active events from previous month or decrease timed events
+const actionActiveEvents = () => {
+    let gameData = loadGame()
+    const totalEvents = gameData.events.length
+
+    for (let i = 0; i < totalEvents; i++) {
+        // look for active  event
+        if (gameData.events[i].active) {
+            // check if the event is timed
+            if (gameData.events[i].timed) {
+                // if event is timed and the timer is larger than 0, decrease timer by 1
+                if (gameData.events[i].remainingTime > 1) {
+                    gameData.events[i].remainingTime -= 1
+                } else {
+                    // when timer reaches 0, disable teh event
+                    gameData.events[i].active = false
+                }
+            // if event is not timed, just disable it 
+            } else {
+                gameData.events[i].active = false
+            }
+        }
+    }
+
     saveGame(gameData)
 }

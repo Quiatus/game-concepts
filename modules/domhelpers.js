@@ -3,6 +3,7 @@ import { loadGame } from "./utilities.js"
 import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
+const events = document.querySelector('.event-div')
 const rightPanels = document.querySelectorAll('.right-panel')
 const alertsPanel = document.querySelector('.alert-div')
 const buildings = document.getElementById('buildings')
@@ -200,14 +201,14 @@ export const calcEconomy = (econType) => {
         results[0] = gameData.resourceGain.pop 
         results[1] = gameData.tempData.popDied + gameData.tempData.popLeft
     } else if (econType === 'g') {
-        results[0] = gameData.resourceGain.goldTotal
+        results[0] = gameData.resourceGain.goldTotal + gameData.resourceGain.goldEvents
     } else if (econType === 'f') {
-        results[0] = gameData.resourceGain.food 
+        results[0] = gameData.resourceGain.food + gameData.resourceGain.foodEvents
         results[1] = gameData.tempData.consumedFood
     } else if (econType === 'w') {
-        results[0] = gameData.resourceGain.wood 
+        results[0] = gameData.resourceGain.wood + gameData.resourceGain.woodEvents
     } else if (econType === 's') {
-        results[0] = gameData.resourceGain.stone 
+        results[0] = gameData.resourceGain.stone + gameData.resourceGain.stoneEvents
     }
 
     // calculate total
@@ -240,4 +241,52 @@ export const printNewMonthMessages = () => {
     let gameData = loadGame()
     printMessage('', 'gains')
     printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
+}
+
+// displays active events
+export const displayActiveEvents = () => {
+    events.innerHTML = ''
+    const gameData = loadGame()
+    const totalEvents = gameData.events.length
+
+    // searches for active events
+    for (let i = 0; i < totalEvents; i++) {
+        if (gameData.events[i].active) {
+            events.append(generateEventMessage(gameData.events[i]))
+        }
+    }
+}
+
+// generates the event message based on the event type
+const generateEventMessage = (event) => {
+    let message = document.createElement('p');
+    const descrID = Math.floor(Math.random() * event.description.length)
+    if (event.timed) {
+        message.innerHTML = `${event.description[descrID]} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>`
+    } else {
+        if (event.isRandom) {
+            message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))}` 
+        }
+        else {
+            message.textContent = event.description[descrID]
+        }
+    }
+
+    return message
+}
+
+// adds icon if the event is a resource
+const eventText = (event) => {
+    if (event.type === 'gainGold') {
+        return `<span class="text-gold"> ${converThousand(event.effect)} </span><img class="img-s" src="media/gold.png">`
+    } 
+    if (event.type === 'gainStone') {
+        return `<span class="text-darkgray"> ${converThousand(event.effect)} </span><img class="img-s" src="media/stone.png">`
+    }
+    if (event.type === 'gainWood') {
+        return `<span class="text-brown"> ${converThousand(event.effect)} </span><img class="img-s" src="media/wood.png">`
+    }
+    if (event.type === 'gainFood') {
+        return `<span class="text-yellow"> ${converThousand(event.effect)} </span><img class="img-s" src="media/food.png">`
+    }
 }

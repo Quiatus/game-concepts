@@ -17,19 +17,32 @@ export class Gold{
         let amount = 0
         const pop = gameData.basicResources.pop
         const tax = gameData.general.tax
-        const commerce = gameData.tempData.commerce // gained from higher capital levels. Will create random function
+        const commerce = gameData.tempData.commerce // gained from higher capital levels. Will create function that randomizes the amount
+        const eventGain = this.getGoldFromEvents(gameData.events)
 
         //base income from pop * tax multiplier
         const baseIncome = Math.round(this.getGoldFromPop(pop) * this.addTaxes(tax))
         
-        amount = baseIncome + commerce
-        gameData.resourceGain.goldTotal = amount
+        amount = baseIncome + commerce + eventGain
+
+        gameData.resourceGain.goldTotal = baseIncome + commerce // this is so that the regural gains are separated from the event gains in the overview
         gameData.resourceGain.goldTax = baseIncome
+        gameData.resourceGain.goldEvents = eventGain
 
         gameData.basicResources.gold += amount
         gameData.basicResources.gold < 0 ? gameData.basicResources.gold = 0 : null
 
         saveGame(gameData)
+    }
+
+    // generates gold from events
+    getGoldFromEvents(events) {
+        const totalEvents = events.length
+        let amount = 0
+        for (let i = 0; i < totalEvents; i++) {
+            if (events[i].active && events[i].type === 'gainGold') amount += events[i].effect
+        }
+        return amount
     }
 
     // add tax multiplier
@@ -170,6 +183,7 @@ export class Food{
      calculateFood() {
         let gameData = loadGame()
         let amount = 0
+        const eventGain = this.getFoodFromEvents(gameData.events)
 
         // base income from farms
         const baseGain = this.gainFood(gameData)
@@ -177,10 +191,12 @@ export class Food{
         // consumtion from pops
         const consumed = this.consumeFood(gameData.basicResources.pop)
 
-        amount = baseGain - consumed
+        amount = baseGain + eventGain - consumed
 
         gameData.resourceGain.food = baseGain
         gameData.tempData.consumedFood = consumed
+        gameData.resourceGain.foodEvents = eventGain
+
         gameData.basicResources.food += amount
         gameData.basicResources.food < 0 ? gameData.basicResources.food = 0 : null
     
@@ -197,6 +213,16 @@ export class Food{
     consumeFood(pop) {
         const consumedFood = Math.floor(pop / 100);
         return consumedFood
+    }
+
+    // generates stone from events
+    getFoodFromEvents(events) {
+        const totalEvents = events.length
+        let amount = 0
+        for (let i = 0; i < totalEvents; i++) {
+            if (events[i].active && events[i].type === 'gainFood') amount += events[i].effect
+        }
+        return amount
     }
 
     // checks if we have enough food, if not, triggers famine event
@@ -236,17 +262,30 @@ export class Wood{
      calculateWood() {
         let gameData = loadGame()
         let amount = 0
+        const eventGain = this.getWoodFromEvents(gameData.events)
 
         // base gain from lumberyard
         const baseGain = this.gainWood(gameData)
     
-        amount = baseGain
+        amount = baseGain + eventGain
 
         gameData.resourceGain.wood = baseGain
+        gameData.resourceGain.woodEvents = eventGain
+
         gameData.basicResources.wood += amount
         gameData.basicResources.wood < 0 ? gameData.basicResources.wood = 0 : null
 
         saveGame(gameData)
+    }
+
+    // generates stone from events
+    getWoodFromEvents(events) {
+        const totalEvents = events.length
+        let amount = 0
+        for (let i = 0; i < totalEvents; i++) {
+            if (events[i].active && events[i].type === 'gainWood') amount += events[i].effect
+        }
+        return amount
     }
 
     // calucaltes base gain from lumberyard
@@ -261,17 +300,30 @@ export class Stone{
      calculateStone() {
         let gameData = loadGame()
         let amount = 0
+        const eventGain = this.getStoneFromEvents(gameData.events)
 
         // base gain from quarries
         const baseGain = this.gainStone(gameData)
 
-        amount = baseGain
+        amount = baseGain + eventGain
 
         gameData.resourceGain.stone = baseGain
+        gameData.resourceGain.stoneEvents = eventGain
+
         gameData.basicResources.stone += amount
         gameData.basicResources.stone < 0 ? gameData.basicResources.stone = 0 : null
 
         saveGame(gameData)
+    }
+
+    // generates stone from events
+    getStoneFromEvents(events) {
+        const totalEvents = events.length
+        let amount = 0
+        for (let i = 0; i < totalEvents; i++) {
+            if (events[i].active && events[i].type === 'gainStone') amount += events[i].effect
+        }
+        return amount
     }
 
     // calucaltes base gain from quarries
