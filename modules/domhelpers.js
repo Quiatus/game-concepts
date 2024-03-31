@@ -245,7 +245,7 @@ export const displayActiveEvents = (isNewMonth) => {
 const generateEventMessage = (event) => {
     let message = document.createElement('p');
     const descrID = Math.floor(Math.random() * event.description.length)
-    if (event.isTimed) message.innerHTML = `${event.description[descrID]} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>`
+    if (event.isTimed) message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>.`
     else message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))}` 
     return message
 }
@@ -256,7 +256,7 @@ const eventText = (event) => {
     if (event.type === 'gainStone') return `<span class="text-darkgray"> ${converThousand(event.effect)} </span><img class="img-s" src="media/stone.png">`
     if (event.type === 'gainWood') return `<span class="text-brown"> ${converThousand(event.effect)} </span><img class="img-s" src="media/wood.png">`
     if (event.type === 'gainFood') return `<span class="text-yellow"> ${converThousand(event.effect)} </span><img class="img-s" src="media/food.png">`
-    if (event.type === 'gainFarmSpace') return `<span class="text-yellow text-bold"> Farm </span>`
-    if (event.type === 'gainLumberSpace') return `<span class="text-brown text-bold"> Lumber yard </span>`
-    if (event.type === 'gainQuarrySpace') return `<span class="text-darkgray text-bold"> Quarry </span>`
+    if (event.type === 'gainFarmSpace') return `<span class="text-yellow"> Farm </span>`
+    if (event.type === 'gainLumberSpace') return `<span class="text-brown"> Lumber yard </span>`
+    if (event.type === 'gainQuarrySpace') return `<span class="text-darkgray"> Quarry </span>`
 }

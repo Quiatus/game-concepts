@@ -191,11 +191,11 @@ export class Food{
         // consumtion from pops
         const consumed = this.consumeFood(gameData.basicResources.pop)
 
-        amount = baseGain + eventGain - consumed
+        amount = (baseGain + eventGain[0]) * eventGain[1] - consumed
 
-        gameData.resourceGain.food = baseGain
+        gameData.resourceGain.food = baseGain * eventGain[1]
         gameData.tempData.consumedFood = consumed
-        gameData.resourceGain.foodEvents = eventGain
+        gameData.resourceGain.foodEvents = eventGain[0]
 
         gameData.basicResources.food += amount
         gameData.basicResources.food < 0 ? gameData.basicResources.food = 0 : null
@@ -218,12 +218,16 @@ export class Food{
     // generates stone from events
     getFoodFromEvents(events) {
         const totalEvents = events.length
-        let amount = 0
+        let additive = 0
+        let multiplicative = 1
         for (let i = 0; i < totalEvents; i++) {
-            if (events[i].active && events[i].type === 'gainFood') amount += events[i].effect
+            if (events[i].active && events[i].type === 'gainFood') additive += events[i].effect
+            if (events[i].active && events[i].type === 'foodGainMultiplier') multiplicative *= events[i].effect
         }
-        return amount
+        return [additive, multiplicative]
     }
+
+
 
     // checks if we have enough food, if not, triggers famine event
     checkIfEnoughFood(pop, isNewMonth=true) {

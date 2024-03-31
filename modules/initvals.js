@@ -45,9 +45,9 @@ export const initData = {
 // === EVENTS ===============================================================================================
     events: [
         {
-            name: 'testevent',
-            description: ['testevent'],
-            type: '',
+            name: 'incFoodProduction',
+            description: ['Thanks to the favourable weather, our <span class="text-yellow">farms</span> produce <span class="text-green">20%</span> more <img class="img-s" src="media/food.png">'],
+            type: 'foodGainMultiplier',
             rarity: 1,
             isMission: false,
             unlocked: false,
@@ -60,7 +60,7 @@ export const initData = {
             active: false,
             isTimed: true,
             remainingTime: 10,
-            effect: 0,
+            effect: 1.2,
             isRandom: true,
             random: {
                 val: 'remainingTime',
