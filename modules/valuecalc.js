@@ -94,6 +94,12 @@ export const updateBuildCost = () => {
 // generates events at the beginning of the month
 export const generateEvent = (isNewMonth) => {
     if (isNewMonth) {
+
+        // checks if any events are unlocked
+        unlockEvents()
+
+        // disable active events from previous month or decrease timed events
+        actionActiveEvents()
         
         //determine how many events are genereated (0 - 3)
         let genEvents = 0
@@ -102,9 +108,6 @@ export const generateEvent = (isNewMonth) => {
         else if (rnd > 0 && rnd <= 3) genEvents = 2
         else if (rnd > 3 && rnd <= 13) genEvents = 1
         else  genEvents = 0
-
-        // disable active events from previous month or decrease timed events
-        actionActiveEvents()
 
         // check if any event is generated
         if (genEvents > 0) {
@@ -175,6 +178,34 @@ const calculateBuildSpace = () => {
     const totalEvents = gameData.events.length
     for (let i = 0; i < totalEvents; i++) {
         if (gameData.events[i].active && gameData.events[i].type === 'gainFarmSpace') gameData.buildingFarm.maxSpace++
+        if (gameData.events[i].active && gameData.events[i].type === 'gainLumberSpace') gameData.buildingLumberyard.maxSpace++
+        if (gameData.events[i].active && gameData.events[i].type === 'gainQuarrySpace') gameData.buildingQuarry.maxSpace++
     }
+    saveGame(gameData)
+}
+
+// unlock or locks events
+const unlockEvents = () => {
+    let gameData = loadGame()
+    const totalEvents = gameData.events.length
+    const month = gameData.basicResources.month
+    const fame = gameData.basicResources.fame
+    const might = gameData.tempData.might
+
+    for (let i = 0; i < totalEvents; i++) {
+        if (!gameData.events[i].unlocked) {
+            // checks if month, fame, might or special condition is met, if so, unlocks the event, otherwise locks it.
+            if (month >= gameData.events[i].unlockConditions.month  
+                && fame >= gameData.events[i].unlockConditions.fame
+                && might >= gameData.events[i].unlockConditions.might
+                && gameData.events[i].unlockConditions.special) {
+                    gameData.events[i].unlocked = true
+                }
+            else {
+                gameData.events[i].unlocked = false
+            }
+        }
+    }
+
     saveGame(gameData)
 }

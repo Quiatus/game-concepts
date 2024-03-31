@@ -38,7 +38,8 @@ export const initData = {
         consumedFood: 0,
         happiness: 0, 
         popLeft: 0,
-        popDied: 0
+        popDied: 0,
+        might: 0,
     },
 
 // === EVENTS ===============================================================================================
@@ -50,6 +51,12 @@ export const initData = {
             rarity: 1,
             isMission: false,
             unlocked: false,
+            unlockConditions: {
+                month: 100,
+                fame: 0,
+                might: 0,
+                special: true  // if false, the special condition was not met, if true, it was met. A specific function will control this
+            },
             active: false,
             isTimed: true,
             remainingTime: 10,
@@ -155,6 +162,34 @@ export const initData = {
             effect: 1,
             isRandom: false,
         },
+        {
+            name: 'gainLumberSpace',
+            description: [
+                'We have discovered a large forest, with wood ideal for construction. We can build a #effect# here.'
+                ],
+            type: 'gainLumberSpace',
+            rarity: 7,
+            isMission: false,
+            unlocked: true,
+            active: false,
+            isTimed: false,
+            effect: 1,
+            isRandom: false,
+        },
+        {
+            name: 'gainQuarrySpace',
+            description: [
+                'Our scouts have discovered a large stone deposite. We can built a new #effect#.'
+                ],
+            type: 'gainQuarrySpace',
+            rarity: 10,
+            isMission: false,
+            unlocked: true,
+            active: false,
+            isTimed: false,
+            effect: 1,
+            isRandom: false,
+        }
     ],
 
 // === BUILDINGS ===============================================================================================
@@ -304,7 +339,7 @@ export const initData = {
         requireSpace: true,
         space: 0,
         maxSpace: 1,
-        effect: 10,
+        effect: 2,
         info: 'Produces #effect# units of stone per month.',
     }
 }
