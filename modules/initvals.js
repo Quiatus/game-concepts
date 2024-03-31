@@ -48,9 +48,10 @@ export const initData = {
             description: ['testevent'],
             type: '',
             rarity: 1,
+            isMission: false,
             unlocked: false,
             active: false,
-            timed: true,
+            isTimed: true,
             remainingTime: 10,
             effect: 0,
             isRandom: true,
@@ -64,13 +65,14 @@ export const initData = {
             name: 'gainGoldExplSmall',
             description: [
                 'Our scouts have found a small pouch. It contained #effect#.',
-                'While found an old merchant cart next to the road. There was some goods left worth #effect#.'
+                'We found an old merchant cart next to the road. Most of the goods were broken, but we were able to salvage some. #effect#.'
                 ],
             type: 'gainGold',
             rarity: 1,
+            isMission: false,
             unlocked: true,
             active: false,
-            timed: false,
+            isTimed: false,
             effect: 0,
             isRandom: true,
             random: {
@@ -87,9 +89,10 @@ export const initData = {
                 ],
             type: 'gainStone',
             rarity: 1,
+            isMission: false,
             unlocked: true,
             active: false,
-            timed: false,
+            isTimed: false,
             effect: 0,
             isRandom: true,
             random: {
@@ -106,9 +109,10 @@ export const initData = {
                 ],
             type: 'gainWood',
             rarity: 1,
+            isMission: false,
             unlocked: true,
             active: false,
-            timed: false,
+            isTimed: false,
             effect: 0,
             isRandom: true,
             random: {
@@ -125,9 +129,10 @@ export const initData = {
                 ],
             type: 'gainFood',
             rarity: 1,
+            isMission: false,
             unlocked: true,
             active: false,
-            timed: false,
+            isTimed: false,
             effect: 0,
             isRandom: true,
             random: {
@@ -135,6 +140,20 @@ export const initData = {
                 min: 5,
                 max: 10
             }
+        },
+        {
+            name: 'gainFarmSpace',
+            description: [
+                'We have discovered a fertile land. We can build a #effect# here.'
+                ],
+            type: 'gainFarmSpace',
+            rarity: 5,
+            isMission: false,
+            unlocked: true,
+            active: false,
+            isTimed: false,
+            effect: 1,
+            isRandom: false,
         },
     ],
 

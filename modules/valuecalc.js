@@ -98,20 +98,15 @@ export const generateEvent = (isNewMonth) => {
         //determine how many events are genereated (0 - 3)
         let genEvents = 0
         const rnd = Math.floor(Math.random() * 100) + 1
-
-        if (rnd === 0) {
-            genEvents = 3
-        } else if (rnd > 0 && rnd <= 5) {
-            genEvents = 2
-        } else if (rnd > 5 && rnd <= 15) {
-            genEvents = 1
-        } else {
-            genEvents = 0
-        }
+        if (rnd === 0) genEvents = 3
+        else if (rnd > 0 && rnd <= 3) genEvents = 2
+        else if (rnd > 3 && rnd <= 13) genEvents = 1
+        else  genEvents = 0
 
         // disable active events from previous month or decrease timed events
         actionActiveEvents()
 
+        // check if any event is generated
         if (genEvents > 0) {
             let gameData = loadGame()
             const totalEvents = gameData.events.length 
@@ -137,11 +132,12 @@ export const generateEvent = (isNewMonth) => {
                         }
                         genEvents--
                     }
-                
                 }   
-
                 saveGame(gameData)
             }  
+
+            // if any event granted build space, add it to max. avalilable space
+            calculateBuildSpace()
         }
     }
 }
@@ -155,7 +151,7 @@ const actionActiveEvents = () => {
         // look for active  event
         if (gameData.events[i].active) {
             // check if the event is timed
-            if (gameData.events[i].timed) {
+            if (gameData.events[i].isTimed) {
                 // if event is timed and the timer is larger than 0, decrease timer by 1
                 if (gameData.events[i].remainingTime > 1) {
                     gameData.events[i].remainingTime -= 1
@@ -170,5 +166,15 @@ const actionActiveEvents = () => {
         }
     }
 
+    saveGame(gameData)
+}
+
+// if any event granted build space, add it to max. avalilable space
+const calculateBuildSpace = () => {
+    let gameData = loadGame()
+    const totalEvents = gameData.events.length
+    for (let i = 0; i < totalEvents; i++) {
+        if (gameData.events[i].active && gameData.events[i].type === 'gainFarmSpace') gameData.buildingFarm.maxSpace++
+    }
     saveGame(gameData)
 }

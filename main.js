@@ -21,9 +21,7 @@ const quarry = new Quarry();
 
 // initiates app once page is fully loaded
 document.addEventListener('readystatechange', (e) => {
-    if (e.target.readyState === "complete") {
-        initApp();
-    }
+    if (e.target.readyState === "complete") initApp();
 });
 
 // initializes the app
@@ -42,7 +40,7 @@ const checkBeforeResourceCalc = (isNewMonth) => {
     updateBuildCost() // Updates the current building cost for any upgradeable building
     pop.calculateTotalSpace() // calculates max. available space for pop (from building, capital and settlements)
     generateEvent(isNewMonth) // generates random event at the beginning of the month
-    displayActiveEvents() // displays any active events
+    displayActiveEvents(isNewMonth) // displays any active events
 }
 
 // checks various conditions after gaining resources and run events. Check for events before printing text

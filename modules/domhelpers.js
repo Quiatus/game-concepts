@@ -27,18 +27,10 @@ export const showPanel = (num) => {
 export const printMessage = (text, type='info') => {
     const msg = document.createElement('p');
     msg.innerHTML = text
-    if (type==='critical') {
-        msg.className = 'text-red'
-    } 
-    if (type==='warning') {
-        msg.className = 'text-orange'
-    } 
-    if (type==='info') {
-        msg.className = 'text-white'
-    } 
-    if (type==='gains') {
-        msg.innerHTML = newMonthGains();
-    }
+    if (type==='critical')  msg.className = 'text-red'
+    if (type==='warning') msg.className = 'text-orange'
+    if (type==='info') msg.className = 'text-white'
+    if (type==='gains') msg.innerHTML = newMonthGains()
 
     messages.appendChild(msg)
 }
@@ -169,24 +161,16 @@ const newMonthGains = () => {
 
 // changes the color of the happiness text
 export const changeHappinessColor = (happiness) => {
-    if (happiness < 20) {
-        return `<span class="text-red">${happiness} %</span>`
-    } else if (happiness >= 20 && happiness < 40) {
-        return `<span class="text-orange">${happiness} %</span>`
-    } else if (happiness >= 40 && happiness < 60) {
-        return `<span class="text-gold">${happiness} %</span>`
-    } else if (happiness >= 60 && happiness < 80) {
-        return `<span class="text-green">${happiness} %</span>`
-    } else if (happiness >= 80) {
-        return `<span class="text-darkgreen">${happiness} %</span>`
-    }
+    if (happiness < 20) return `<span class="text-red">${happiness} %</span>`
+    else if (happiness >= 20 && happiness < 40) return `<span class="text-orange">${happiness} %</span>`
+    else if (happiness >= 40 && happiness < 60) return `<span class="text-gold">${happiness} %</span>`
+    else if (happiness >= 60 && happiness < 80) return `<span class="text-green">${happiness} %</span>`
+    else if (happiness >= 80) return `<span class="text-darkgreen">${happiness} %</span>`
 }
 
 // changes the color of the pop text
 export const popText = (pop, space) => {
-    if (pop >= space) {
-        return `<span class="text-red">${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
-    }
+    if (pop >= space)  return `<span class="text-red">${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
     return `<span>${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
 }
 
@@ -244,15 +228,15 @@ export const printNewMonthMessages = () => {
 }
 
 // displays active events
-export const displayActiveEvents = () => {
+export const displayActiveEvents = (isNewMonth) => {
     events.innerHTML = ''
     const gameData = loadGame()
     const totalEvents = gameData.events.length
-
     // searches for active events
     for (let i = 0; i < totalEvents; i++) {
         if (gameData.events[i].active) {
-            events.append(generateEventMessage(gameData.events[i]))
+            if (isNewMonth) events.append(generateEventMessage(gameData.events[i]))
+            if (!isNewMonth && gameData.events[i].isTimed) events.append(generateEventMessage(gameData.events[i]))
         }
     }
 }
@@ -261,32 +245,18 @@ export const displayActiveEvents = () => {
 const generateEventMessage = (event) => {
     let message = document.createElement('p');
     const descrID = Math.floor(Math.random() * event.description.length)
-    if (event.timed) {
-        message.innerHTML = `${event.description[descrID]} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>`
-    } else {
-        if (event.isRandom) {
-            message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))}` 
-        }
-        else {
-            message.textContent = event.description[descrID]
-        }
-    }
-
+    if (event.isTimed) message.innerHTML = `${event.description[descrID]} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>`
+    else message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))}` 
     return message
 }
 
 // adds icon if the event is a resource
 const eventText = (event) => {
-    if (event.type === 'gainGold') {
-        return `<span class="text-gold"> ${converThousand(event.effect)} </span><img class="img-s" src="media/gold.png">`
-    } 
-    if (event.type === 'gainStone') {
-        return `<span class="text-darkgray"> ${converThousand(event.effect)} </span><img class="img-s" src="media/stone.png">`
-    }
-    if (event.type === 'gainWood') {
-        return `<span class="text-brown"> ${converThousand(event.effect)} </span><img class="img-s" src="media/wood.png">`
-    }
-    if (event.type === 'gainFood') {
-        return `<span class="text-yellow"> ${converThousand(event.effect)} </span><img class="img-s" src="media/food.png">`
-    }
+    if (event.type === 'gainGold') return `<span class="text-gold"> ${converThousand(event.effect)} </span><img class="img-s" src="media/gold.png">`
+    if (event.type === 'gainStone') return `<span class="text-darkgray"> ${converThousand(event.effect)} </span><img class="img-s" src="media/stone.png">`
+    if (event.type === 'gainWood') return `<span class="text-brown"> ${converThousand(event.effect)} </span><img class="img-s" src="media/wood.png">`
+    if (event.type === 'gainFood') return `<span class="text-yellow"> ${converThousand(event.effect)} </span><img class="img-s" src="media/food.png">`
+    if (event.type === 'gainFarmSpace') return `<span class="text-yellow text-bold"> Farm </span>`
+    if (event.type === 'gainLumberSpace') return `<span class="text-brown text-bold"> Lumber yard </span>`
+    if (event.type === 'gainQuarrySpace') return `<span class="text-darkgray text-bold"> Quarry </span>`
 }
