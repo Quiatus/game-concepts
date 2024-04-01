@@ -102,6 +102,7 @@ const unlockEvents = () => {
 
     for (let i = 0; i < totalEvents; i++) {
         if (!gameData.events[i].unlocked) {
+            gameData.events[i].unlockConditions.special = specialUnlock(gameData.events[i], gameData)
             // checks if month, fame, might or special condition is met, if so, unlocks the event, otherwise locks it.
             if (month >= gameData.events[i].unlockConditions.month  
                 && fame >= gameData.events[i].unlockConditions.fame
@@ -124,4 +125,13 @@ const generateRandomNumber = (event) => {
     const max = event.random.max
     const value = Math.floor(Math.random() * (max - min) + min)
     return value
+}
+
+// check if special unlock condition are met
+const specialUnlock = (event, gameData) => {
+    if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness >= 60) {
+        return true
+    } else if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness < 60) {
+        return false
+    }
 }

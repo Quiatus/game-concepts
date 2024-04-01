@@ -87,6 +87,7 @@ export class Pop {
         let alert = false
         const totalSpace = gameData.tempData.totalSpace 
         const happiness = gameData.tempData.happiness
+        const eventGain = this.getPopFromEvents(gameData.events)
 
         // base increase from births
         let baseGain = this.increasePop(pop) 
@@ -97,6 +98,9 @@ export class Pop {
         } else if (happiness > 80) {
             baseGain = Math.floor(baseGain * 1.5)
         }
+
+        // apply event bonus
+        baseGain = Math.floor(baseGain * eventGain[1])
 
         gameData.resourceGain.pop = baseGain // need to put this here as this can be affected by space
         amount = baseGain
@@ -131,6 +135,17 @@ export class Pop {
 
         const addPop = Math.floor(Math.random() * (max - min) + min) + lowPopCompensator;
         return addPop
+    }
+
+    // generates stone from events
+    getPopFromEvents(events) {
+        const totalEvents = events.length
+        let additive = 0
+        let multiplicative = 1
+        for (let i = 0; i < totalEvents; i++) {
+            if (events[i].active && events[i].type === 'popHappyGainMultiplier') multiplicative *= events[i].effect
+        }
+        return [additive, multiplicative]
     }
 
     // checks if max space is reached, if so, shows warning. If more pops than space, triggers overpopulation event

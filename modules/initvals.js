@@ -71,15 +71,15 @@ export const initData = {
         {
             name: 'incPopProduction',
             description: ['Our people are happy. <img class="img-s" src="media/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
-            type: 'popGainMultiplier',
+            type: 'popHappyGainMultiplier',
             rarity: 1,
             isMission: false,
             unlocked: false,
             unlockConditions: {
-                month: 100,
+                month: 0,
                 fame: 0,
                 might: 0,
-                special: true  // if false, the special condition was not met, if true, it was met. A specific function will control this
+                special: false  
             },
             active: false,
             isTimed: true,
