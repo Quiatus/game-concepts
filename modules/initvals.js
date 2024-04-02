@@ -1,7 +1,8 @@
 export const initData = {
     general: {
         tax: 2,
-        armyStatus: false
+        armyStatus: false,
+        maxMissions: 6,
     },
     basicResources: {
         month: 0,
@@ -40,12 +41,14 @@ export const initData = {
         popLeft: 0,
         popDied: 0,
         might: 0,
+        activeMissions: 0
     },
+    //activeMissions: [],
 
 // === EVENTS ===============================================================================================
     events: [
         {
-            name: 'incFoodProduction',
+            id: 1,
             description: ['Thanks to the favourable weather, our <span class="text-yellow">farms</span> produce <span class="text-green">20%</span> more <img class="img-s" src="media/food.png">'],
             type: 'foodGainMultiplier',
             rarity: 1,
@@ -59,17 +62,13 @@ export const initData = {
             },
             active: false,
             isTimed: true,
-            remainingTime: 10,
+            remainingTime: 0,
             effect: 1.2,
             isRandom: true,
-            random: {
-                val: 'remainingTime',
-                min: 5,
-                max: 15
-            }
+            random: [['remainingTime', 5, 15]]
         },
         {
-            name: 'incPopProduction',
+            id: 2,
             description: ['Our people are happy. <img class="img-s" src="media/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
             type: 'popHappyGainMultiplier',
             rarity: 1,
@@ -83,17 +82,39 @@ export const initData = {
             },
             active: false,
             isTimed: true,
-            remainingTime: 10,
+            remainingTime: 0,
             effect: 1.25,
             isRandom: true,
-            random: {
-                val: 'remainingTime',
-                min: 6,
-                max: 12
-            }
+            random: [['remainingTime', 6, 12]]
         },
+
         {
-            name: 'gainGoldExplSmall',
+            id: 3,
+            description: ['A group of refugess has arrived and seeks asylum. Do we want to accept them?'],
+            type: 'missionRefugeesSmall',
+            rarity: 1,
+            isMission: true,
+            missionType: 'General',
+            isDisplayed: false,
+            missionDescription: {
+                name: 'Refugees',
+                objective: 'Accept refugees',
+                description: 'A group of refugess are waiting in front of our gates. If we accept them, they will be added to our population. They also brought some supplies with them.',
+                success: 'We welcomed the refugees to our clan!',
+                failure: 'We sent the refugees away!'
+            },
+            rewards: [['pop', 0, 50, 250],['gold', 0, 250, 750],['food', 0, 50, 150]],
+            unlocked: true,
+            active: false,
+            isTimed: true,
+            remainingTime: 0,
+            effect: 0,
+            isRandom: true,
+            random: [['remainingTime', 5, 20]]
+        },
+
+        {
+            id: 4,
             description: [
                 'Our scouts have found a small pouch. It contained #effect#.',
                 'We found an old merchant cart next to the road. Most of the goods were broken, but we were able to salvage some. #effect#.'
@@ -106,14 +127,10 @@ export const initData = {
             isTimed: false,
             effect: 0,
             isRandom: true,
-            random: {
-                val: 'effect',
-                min: 50,
-                max: 100
-            }
+            random: [['effect', 50, 100]]
         },
         {
-            name: 'gainStoneExplSmall',
+            id: 5,
             description: [
                 'Our scouts have discovered an old mine. We gained #effect#.',
                 'We discovered a small quarry. We were able to gain #effect#.'
@@ -126,14 +143,10 @@ export const initData = {
             isTimed: false,
             effect: 0,
             isRandom: true,
-            random: {
-                val: 'effect',
-                min: 2,
-                max: 5
-            }
+            random: [['effect', 2, 5]]
         },
         {
-            name: 'gainWoodExplSmall',
+            id: 6,
             description: [
                 'Our scouts have disovered an abandoned lumber camp. We gained #effect#.',
                 'We discovered a ruined settlement. Most of the valuables were already scavanged, but we found some wood. Gained #effect#.'
@@ -146,14 +159,10 @@ export const initData = {
             isTimed: false,
             effect: 0,
             isRandom: true,
-            random: {
-                val: 'effect',
-                min: 1,
-                max: 10
-            }
+            random: [['effect', 1, 10]]
         },
         {
-            name: 'gainFoodExplSmall',
+            id: 7,
             description: [
                 'We have discovered a small camp. Whoever was here had to leave in hurry and left the supplies behind. We gained #effect#.',
                 'Our scouts have discovered an old farm. We gained #effect#.'
@@ -166,14 +175,10 @@ export const initData = {
             isTimed: false,
             effect: 0,
             isRandom: true,
-            random: {
-                val: 'effect',
-                min: 5,
-                max: 10
-            }
+            random: [['effect', 5, 10]]
         },
         {
-            name: 'gainFarmSpace',
+            id: 8,
             description: [
                 'We have discovered a fertile land. We can build a #effect# here.'
                 ],
@@ -187,7 +192,7 @@ export const initData = {
             isRandom: false,
         },
         {
-            name: 'gainLumberSpace',
+            id: 9,
             description: [
                 'We have discovered a large forest, with wood ideal for construction. We can build a #effect# here.'
                 ],
@@ -201,7 +206,7 @@ export const initData = {
             isRandom: false,
         },
         {
-            name: 'gainQuarrySpace',
+            id: 10,
             description: [
                 'Our scouts have discovered a large stone deposite. We can built a new #effect#.'
                 ],

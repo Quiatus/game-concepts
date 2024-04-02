@@ -1,12 +1,14 @@
 'use strict';
 import { loadGame } from "./utilities.js"
-import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings } from "./domgenerators.js"
+import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
 const events = document.querySelector('.event-div')
 const rightPanels = document.querySelectorAll('.right-panel')
 const alertsPanel = document.querySelector('.alert-div')
 const buildings = document.getElementById('buildings')
+const menuBtnMissions = document.getElementById('menuBtnMissions')
+const missions = document.getElementById('missions')
 
 // decimal separator
 export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -15,11 +17,16 @@ export const clearMessages = (isNewMonth) => {
     if (isNewMonth) messages.innerHTML = ''
 }
 
+export const showMissionNumber = () => {
+    let gameData = loadGame()
+    menuBtnMissions.textContent = `Missions (${gameData.tempData.activeMissions})`
+}
+
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
 export const showPanel = (num) => {
     rightPanels.forEach(panel => panel.classList.add('none'))
     rightPanels[num].classList.remove('none')
-    let panels = ['','management','statistics','buildings']
+    let panels = ['','management','buildings','missions', 'statistics']
     generateMarkup(panels[num])
 }
 
@@ -55,11 +62,6 @@ export const generateMarkup = (panel=null) => {
 
     displayResourceBox(gameData)
 
-    if (panel === 'statistics') {
-        displayStatistics(gameData)
-        displayEconomy(gameData)
-    }
-
     if (panel === 'management') {
         displayTaxBox(gameData)
         displayCapital(gameData)
@@ -67,6 +69,15 @@ export const generateMarkup = (panel=null) => {
 
     if (panel === 'buildings') {
         displayBuildings(gameData)
+    }
+
+    if (panel === 'missions') {
+        displayMissions(gameData)
+    }
+
+    if (panel === 'statistics') {
+        displayStatistics(gameData)
+        displayEconomy(gameData)
     }
 }
 
@@ -82,7 +93,29 @@ const displayBuildings = (gameData) => {
         }
     }    
 }
- 
+
+// Shows active missions
+const displayMissions = (gameData) => {
+    const totalEvents = gameData.events.length
+
+    missions.innerHTML = `<p class='mbb'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
+
+    const missionSubdiv = document.createElement('div')
+    missionSubdiv.classList = 'missions-subdiv'
+    
+    for (let i = 0; i < totalEvents; i++) {
+        if (gameData.events[i].active && gameData.events[i].isMission) {
+            const missionDiv = document.createElement('div')
+            const mission = gameData.events[i]
+            missionDiv.innerHTML = generateMissions(mission)
+            missionSubdiv.append(missionDiv)
+        }
+    }  
+
+    missions.append(missionSubdiv)
+}
+
+
 // Displays active construction
 export const buildingConstrProgress = (building, level=null) => {
     // if the building is being built, hides the button, shows progress bar, calculates teh current progress
@@ -245,7 +278,9 @@ export const displayActiveEvents = (isNewMonth) => {
 const generateEventMessage = (event) => {
     let message = document.createElement('p');
     const descrID = Math.floor(Math.random() * event.description.length)
-    if (event.isTimed) message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>.`
+    if (event.isTimed && !event.isMission) message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>.`
+    else if (event.isMission && event.isDisplayed) message.innerHTML = `<span class='text-orange text-bold'>Misson: </span>${event.description[descrID].replace('#effect#', eventText(event))}`
+    else if (event.isMission && !event.isDisplayed) message.innerHTML = ``
     else message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))}` 
     return message
 }
@@ -259,4 +294,31 @@ const eventText = (event) => {
     if (event.type === 'gainFarmSpace') return `<span class="text-yellow"> Farm </span>`
     if (event.type === 'gainLumberSpace') return `<span class="text-brown"> Lumber yard </span>`
     if (event.type === 'gainQuarrySpace') return `<span class="text-darkgray"> Quarry </span>`
+}
+
+// shows approx. time left of the mission
+export const displayRemainingTimeMission = (time) => {
+    if (time > 50) return `50 > <img class='img-s' src='media/month.png'>`
+    if (time > 40 && time <= 50) return `40 - 50 <img class='img-s' src='media/month.png'>`
+    if (time > 30 && time <= 40) return `30 - 40 <img class='img-s' src='media/month.png'>`
+    if (time > 20 && time <= 30) return `20 - 30 <img class='img-s' src='media/month.png'>`
+    if (time > 10 && time <= 20) return `10 - 20 <img class='img-s' src='media/month.png'>`
+    if (time <= 10 ) return `< 10 <img class='img-s' src='media/month.png'>`
+}
+
+// displays building costs
+export const displayMissionReward = (rewards) => { 
+    let div = document.createElement('div')
+
+    for (let i = 0; i < rewards.length; i++) {
+        let sub = document.createElement('div')
+        
+        if (rewards[i][0] === 'pop') sub.innerHTML = `<img class="img-s" src="media/pop.png"><span class="text-purple">${converThousand(rewards[i][1])}</span>`
+        if (rewards[i][0] === 'gold') sub.innerHTML = `<img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(rewards[i][1])}</span>`
+        if (rewards[i][0] === 'food') sub.innerHTML = `<img class="img-s" src="media/food.png"><span class="text-yellow">${converThousand(rewards[i][1])}</span>`
+
+        div.append(sub)
+    }
+    
+    return div.innerHTML
 }

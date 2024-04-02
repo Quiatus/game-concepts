@@ -1,11 +1,11 @@
 'use strict';
 
-import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents } from "./modules/domhelpers.js"
+import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
 import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost } from "./modules/valuecalc.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
-import { generateEvent } from "./modules/events.js";
+import { generateEvent, removeMission } from "./modules/events.js";
 
 // instantiate classes
 const gold = new Gold();
@@ -42,6 +42,7 @@ const checkBeforeResourceCalc = (isNewMonth) => {
     pop.calculateTotalSpace() // calculates max. available space for pop (from building, capital and settlements)
     generateEvent(isNewMonth) // generates random event at the beginning of the month
     displayActiveEvents(isNewMonth) // displays any active events
+    showMissionNumber()
 }
 
 // checks various conditions after gaining resources and run events. Check for events before printing text
@@ -118,8 +119,9 @@ document.addEventListener('click', (e) => {
     // Menu buttons
     button == 'menuBtnGeneral' ? showPanel(0) : null
     button == 'menuBtnManagement' ? showPanel(1) : null
-    button == 'menuBtnBuildings' ? showPanel(3) : null
-    button == 'menuBtnStatistics' ? showPanel(2) : null
+    button == 'menuBtnBuildings' ? showPanel(2) : null
+    button == 'menuBtnMissions' ? showPanel(3) : null
+    button == 'menuBtnStatistics' ? showPanel(4) : null
     
     // Tax buttons event listeners
     button === 'btnTaxLow' ? changeTax(1) : null
@@ -132,4 +134,8 @@ document.addEventListener('click', (e) => {
     button === 'btnbuildingFarm' ? farm.startConstruction(e, 'buildingFarm') : null
     button === 'btnbuildingLumberyard' ? lumberyard.startConstruction(e, 'buildingLumberyard') : null
     button === 'btnbuildingQuarry' ? quarry.startConstruction(e, 'buildingQuarry') : null
+
+    // missions
+    button === 'btnAcceptMission' ? removeMission(e.target.parentNode.parentNode.id, true) : null
+    button === 'btnRejectMission' ? removeMission(e.target.parentNode.parentNode.id, false) : null
 })

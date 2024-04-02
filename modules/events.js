@@ -1,6 +1,7 @@
 'use strict';
 
 import { loadGame, saveGame } from "./utilities.js"
+import { showPanel, showMissionNumber, printMessage } from "./domhelpers.js"
 
 // generates events at the beginning of the month
 export const generateEvent = (isNewMonth) => {
@@ -22,35 +23,66 @@ export const generateEvent = (isNewMonth) => {
 
         // check if any event is generated
         if (eventNum > 0) {
-            let gameData = loadGame()
-            const totalEvents = gameData.events.length 
 
-            // generate events
+            // generate events 
             while (eventNum > 0) {
-                let gameData = loadGame()
-                const id = Math.floor(Math.random() * totalEvents)
-
-                // if the event is already active and is unlocked, it won't generate it again
-                if (!gameData.events[id].active && gameData.events[id].unlocked) {
-                    // uses rarity modifier
-                    const rarity = Math.floor(Math.random() * gameData.events[id].rarity)
-                    if (rarity === 0) {
-                        gameData.events[id].active = true
-                        // if the event has random value, generates it
-                        if (gameData.events[id].isRandom) {
-                            const val = gameData.events[id].random.val
-                            gameData.events[id][val] = generateRandomNumber(gameData.events[id])
-                        }
-                        eventNum--
-                    }
-                }   
-                saveGame(gameData)
+                let generated = false
+                generated = checkIfEventIsGenerated()
+                if (generated) eventNum--
             }  
-
-            // if any event granted build space, add it to max. avalilable space
-            calculateBuildSpace()
         }
+
+        // if any event granted build space, add it to max. avalilable space
+        calculateBuildSpace()
     }
+}
+
+// check various condition to determine if the event can be generated or not
+const checkIfEventIsGenerated = () => {
+    let gameData = loadGame()
+    const totalEvents = gameData.events.length
+    const id = Math.floor(Math.random() * totalEvents)
+
+    // if the event is already active and is unlocked, it won't generate it again
+    if (!gameData.events[id].active && gameData.events[id].unlocked) {
+        // uses rarity modifier
+        const rarity = Math.floor(Math.random() * gameData.events[id].rarity)
+        if (rarity === 0) {
+            gameData.events[id].active = true
+            // generates random number for the random events
+            if (gameData.events[id].isRandom) {
+                for (let i = 0; i < gameData.events[id].random.length; i++) {
+                    const min = gameData.events[id].random[i][1]
+                    const max = gameData.events[id].random[i][2]
+                    const val = gameData.events[id].random[i][0]
+                    const value = Math.floor(Math.random() * (max - min) + min)
+                    gameData.events[id][val] = value
+                }
+            }
+
+            // check if the event is a mission and whether the mission log is full
+            if (gameData.events[id].isMission && gameData.tempData.activeMissions < gameData.general.maxMissions) {
+                gameData.events[id].rewards = generateRewards(gameData.events[id].rewards)
+                gameData.tempData.activeMissions++
+                gameData.events[id].isDisplayed = true
+                
+            } else if (gameData.events[id].isMission && gameData.tempData.activeMissions === gameData.general.maxMissions) {
+                return false
+            }
+            
+            saveGame(gameData)
+            return true
+        }
+    }   
+    return false
+}
+
+// generate rewards for missions
+const generateRewards = (rewards) => {
+    for (let i = 0; i < rewards.length; i++) {
+        rewards[i][1] = Math.floor(Math.random() * (rewards[i][3] - rewards[i][2]) + rewards[i][2])
+    }
+    return rewards
 }
 
 //check active events, then disable active events from previous month or decrease timed events
@@ -62,13 +94,19 @@ const actionActiveEvents = () => {
         // look for active  event
         if (gameData.events[i].active) {
             // check if the event is timed
+            gameData.events[i].isDisplayed = false
             if (gameData.events[i].isTimed) {
                 // if event is timed and the timer is larger than 0, decrease timer by 1
                 if (gameData.events[i].remainingTime > 1) {
                     gameData.events[i].remainingTime -= 1
                 } else {
-                    // when timer reaches 0, disable teh event
+                    // when timer reaches 0, disable the event
                     gameData.events[i].active = false
+                    if (gameData.events[i].isMission) {
+                        //gameData.activeMissions = gameData.activeMissions.filter(item => item.id !== gameData.events[i].id)
+                        gameData.tempData.activeMissions--
+                        printMessage(`A mission <span class='text-bold'>${gameData.events[i].missionDescription.name}</span> has expired!`,'warning')
+                    }
                 }
             // if event is not timed, just disable it 
             } else {
@@ -119,14 +157,6 @@ const unlockEvents = () => {
     saveGame(gameData)
 }
 
-// generates random number for the random events
-const generateRandomNumber = (event) => {
-    const min = event.random.min
-    const max = event.random.max
-    const value = Math.floor(Math.random() * (max - min) + min)
-    return value
-}
-
 // check if special unlock condition are met
 const specialUnlock = (event, gameData) => {
     if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness >= 60) {
@@ -134,4 +164,47 @@ const specialUnlock = (event, gameData) => {
     } else if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness < 60) {
         return false
     }
+}
+
+// adds reward from mission
+const addMissionReward = (mission) => {
+    let gameData = loadGame()
+
+    if (mission.missionType === 'General') {
+        for (let i = 0; i < mission.rewards.length; i++) {
+            if (mission.rewards[i][0] === 'pop') gameData.basicResources.pop += mission.rewards[i][1]
+            if (mission.rewards[i][0] === 'gold') gameData.basicResources.gold += mission.rewards[i][1]
+            if (mission.rewards[i][0] === 'food') gameData.basicResources.food += mission.rewards[i][1]
+        }
+    }
+
+    saveGame(gameData)
+
+}
+
+// removes mission from the log after accept / reject 
+export const removeMission = (mission, status) => {
+    let gameData = loadGame()
+    let id = Number(mission.slice(7))
+    const totalEvents = gameData.events.length
+
+    //gameData.activeMissions = gameData.activeMissions.filter(item => item.id !== id)
+    gameData.tempData.activeMissions--
+
+    for (let i = 0; i < totalEvents; i++) {
+        if (gameData.events[i].id === id) {
+            gameData.events[i].active = false
+            saveGame(gameData)
+            if (!status) {
+                printMessage(gameData.events[i].missionDescription.failure, 'warning')
+            } else if (status) {
+                printMessage(gameData.events[i].missionDescription.success, 'info')
+                addMissionReward(gameData.events[i])
+            }
+             
+        }
+    }
+
+    showPanel(0)
+    showMissionNumber()
 }

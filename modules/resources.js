@@ -167,6 +167,9 @@ export class Pop {
             gameData.alerts.overpopulation = true
             saveGame(gameData)
             printMessage(`People have nowhere to live. Build more housing or conquer more settlements!`, 'critical')
+        } else {
+            gameData.alerts.overpopulation = false
+            saveGame(gameData)
         }
     }
 

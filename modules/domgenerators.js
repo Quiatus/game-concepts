@@ -1,5 +1,5 @@
 'use strict';
-import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr } from "./domhelpers.js"
+import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward } from "./domhelpers.js"
 
 const resourcesText = document.getElementById('resourceBox')
 const taxBox = document.getElementById('taxBox')
@@ -253,4 +253,31 @@ export const generateBuildings = (building, level) => {
         ${displayBuildCosts(building)}
         <div class="subdiv">${buildingConstrProgress(building,level)}</div>` }
     </div>`
+}
+
+export const generateMissions = (mission) => {
+    return `
+    <div class="box text-small" id="mission${mission.id}">
+        <h2 class="mission-header">${mission.missionDescription.name}</h2>
+        <div class="mission-description">
+            <p class="text-gray text-bold tc">${mission.missionType} mission</p>
+            <p><span class='text-gray'>Objective:</span> ${mission.missionDescription.objective}</p>
+            <p class="text-it">${mission.missionDescription.description}</p>
+            <p class="timer"><span class='text-gray'>Expires:</span> ${displayRemainingTimeMission(mission.remainingTime)}</p>
+        </div>
+        
+
+        <hr class="subdiv-separator">
+        Reward
+        <div class='mission-reward'>
+        ${displayMissionReward(mission.rewards)}
+        </div>
+
+        <hr class="subdiv-separator">
+        <div class="mission-buttons">
+            <button class="btnBuild" id="btnAcceptMission">Accept</button>
+            <button class="btnBuild" id="btnRejectMission">Reject</button>
+        </div>
+        
+    </div>  `
 }
