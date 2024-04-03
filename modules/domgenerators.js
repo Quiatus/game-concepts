@@ -34,7 +34,7 @@ export const displayTaxBox = (gameData) => {
     // markup
     return taxBox.innerHTML = `<h2 class="text-big">Taxes</h2>
     <div class="build-description">
-        <p>Important source of <span class="text-gold text-bold">gold</span>. Increased taxes will negatively affect happiness. Decreased taxes have the opposite effect.</p>
+        <p>Important source of <span class="text-gold text-bold">gold</span>. High taxes negatively affect happiness. Low taxes have the opposite effect.</p>
     </div>
     <div class="settings-stats build-amount">
         <span class="text-gray">Current tax:</span> <span>${taxText}</span>

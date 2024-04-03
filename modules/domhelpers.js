@@ -310,11 +310,10 @@ const eventText = (event) => {
 
 // shows approx. time left of the mission
 export const displayRemainingTimeMission = (time) => {
-    if (time > 50) return `50 > <img class='img-s' src='media/month.png'>`
-    if (time > 40 && time <= 50) return `40 - 50 <img class='img-s' src='media/month.png'>`
-    if (time > 30 && time <= 40) return `30 - 40 <img class='img-s' src='media/month.png'>`
-    if (time > 20 && time <= 30) return `20 - 30 <img class='img-s' src='media/month.png'>`
-    if (time > 10 && time <= 20) return `10 - 20 <img class='img-s' src='media/month.png'>`
+    if (time > 100) return `100 > <img class='img-s' src='media/month.png'>`
+    if (time > 50 && time <= 100) return `50 - 100 <img class='img-s' src='media/month.png'>`
+    if (time > 25 && time <= 50) return `25 - 50 <img class='img-s' src='media/month.png'>`
+    if (time > 10 && time <= 25) return `10 - 25 <img class='img-s' src='media/month.png'>`
     if (time <= 10 ) return `< 10 <img class='img-s' src='media/month.png'>`
 }
 

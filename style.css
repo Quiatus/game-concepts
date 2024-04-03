@@ -63,6 +63,7 @@
 html {
     font-family: "Carrois Gothic", sans-serif; 
     font-size: 1.2rem;
+    user-select: none;
 }
 
 /* General */
@@ -92,10 +93,6 @@ main {
 }
 
 /* Right panels */
-
-.right-panel {
-    user-select: none;
-}
 
 .right-panel > h1 {
     color: var(--clr-menutext);
@@ -166,7 +163,6 @@ main {
     grid-template-columns: repeat(10, auto);
     grid-template-rows: 1fr;
     padding: 0.5rem;
-    user-select: none;
 }
 
 .res {
@@ -591,7 +587,6 @@ button:active {
 
 .menuBtn {
     color: var(--clr-menutext);
-    user-select: none;
     letter-spacing: 1px;
     line-height: 1;
     font-size: 18px;

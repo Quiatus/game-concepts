@@ -17,8 +17,8 @@ export const generateEvent = (isNewMonth) => {
         let eventNum = 0
         const rnd = Math.floor(Math.random() * 100)
         if (rnd === 0) eventNum = 3
-        else if (rnd > 0 && rnd <= 3) eventNum = 2
-        else if (rnd > 3 && rnd <= 13) eventNum = 1
+        else if (rnd > 0 && rnd <= 2) eventNum = 2
+        else if (rnd > 2 && rnd <= 12) eventNum = 1
         else  eventNum = 0
 
         // check if any event is generated
