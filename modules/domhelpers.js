@@ -1,5 +1,5 @@
 'use strict';
-import { loadGame } from "./utilities.js"
+import { loadGame, saveGame } from "./utilities.js"
 import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
@@ -48,11 +48,10 @@ export const displayActiveAlerts = () => {
     alertsPanel.innerHTML = ''
 
     for (let alert in gameData.alerts) {
-        if (gameData.alerts[alert]) {
-            const span = document.createElement('span')
-            span.textContent = alert
-            alertsPanel.append(span)
-        }
+        const span = document.createElement('span')
+        span.textContent = alert
+        if (gameData.alerts[alert]) span.classList.add('text-red', 'text-bold')
+        alertsPanel.append(span)
     }
 }
 
@@ -316,6 +315,7 @@ export const displayMissionReward = (rewards) => {
         if (rewards[i][0] === 'pop') sub.innerHTML = `<img class="img-s" src="media/pop.png"><span class="text-purple">${converThousand(rewards[i][1])}</span>`
         if (rewards[i][0] === 'gold') sub.innerHTML = `<img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(rewards[i][1])}</span>`
         if (rewards[i][0] === 'food') sub.innerHTML = `<img class="img-s" src="media/food.png"><span class="text-yellow">${converThousand(rewards[i][1])}</span>`
+        if (rewards[i][0] === 'fame') sub.innerHTML = `<img class="img-s" src="media/fame.png"><span class="text-white">${converThousand(rewards[i][1])}</span>`
 
         div.append(sub)
     }

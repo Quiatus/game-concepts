@@ -88,6 +88,7 @@ export class Pop {
         const totalSpace = gameData.tempData.totalSpace 
         const happiness = gameData.tempData.happiness
         const eventGain = this.getPopFromEvents(gameData.events)
+        gameData.resourceGain.pop = 0
 
         // base increase from births
         let baseGain = this.increasePop(pop) 
@@ -102,9 +103,6 @@ export class Pop {
         // apply event bonus
         baseGain = Math.floor(baseGain * eventGain[1])
 
-        gameData.resourceGain.pop = baseGain // need to put this here as this can be affected by space
-        amount = baseGain
-
         // check if any alert is active
         if (gameData.alerts.overpopulation || gameData.alerts.riot) {
             alert = true
@@ -112,7 +110,11 @@ export class Pop {
 
         // checks if any alert affecting pop gain is active, if so, no pops are generated. Then checks if there is space, if not, no pops are added
         if (!alert) {
-            if (pop + amount >= totalSpace) {
+
+            gameData.resourceGain.pop = baseGain 
+            amount = baseGain
+
+            if (amount >= totalSpace - pop) {
                 gameData.resourceGain.pop = totalSpace - pop
                 gameData.basicResources.pop = totalSpace
             } else {

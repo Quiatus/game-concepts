@@ -15,7 +15,7 @@ export const generateEvent = (isNewMonth) => {
         
         //determine how many events are genereated (0 - 3)
         let eventNum = 0
-        const rnd = Math.floor(Math.random() * 100) + 1
+        const rnd = Math.floor(Math.random() * 100)
         if (rnd === 0) eventNum = 3
         else if (rnd > 0 && rnd <= 3) eventNum = 2
         else if (rnd > 3 && rnd <= 13) eventNum = 1
@@ -159,11 +159,8 @@ const unlockEvents = () => {
 
 // check if special unlock condition are met
 const specialUnlock = (event, gameData) => {
-    if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness >= 60) {
-        return true
-    } else if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness < 60) {
-        return false
-    }
+    if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness < 60) return false
+    return true
 }
 
 // adds reward from mission
@@ -175,11 +172,14 @@ const addMissionReward = (mission) => {
             if (mission.rewards[i][0] === 'pop') gameData.basicResources.pop += mission.rewards[i][1]
             if (mission.rewards[i][0] === 'gold') gameData.basicResources.gold += mission.rewards[i][1]
             if (mission.rewards[i][0] === 'food') gameData.basicResources.food += mission.rewards[i][1]
+            if (mission.rewards[i][0] === 'fame') gameData.basicResources.fame += mission.rewards[i][1]
         }
     }
 
-    saveGame(gameData)
+    // in case pop is added, check if pop > space and if so, triggers overpopulation
+    if (gameData.basicResources.pop > gameData.tempData.totalSpace) gameData.alerts.overpopulation = true
 
+    saveGame(gameData)
 }
 
 // removes mission from the log after accept / reject 

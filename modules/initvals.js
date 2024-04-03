@@ -30,7 +30,10 @@ export const initData = {
     alerts: {
         famine: false,
         overpopulation: false,
-        riot: false
+        riot: false,
+        plague: false,
+        siege: false,
+        desertion: false
     },
     tempData: {
         houseSpace: 0,
@@ -43,7 +46,6 @@ export const initData = {
         might: 0,
         activeMissions: 0
     },
-    //activeMissions: [],
 
 // === EVENTS ===============================================================================================
     events: [
@@ -92,7 +94,7 @@ export const initData = {
             id: 3,
             description: ['A group of refugess has arrived and seeks asylum. Do we want to accept them?'],
             type: 'missionRefugeesSmall',
-            rarity: 1,
+            rarity: 5,
             isMission: true,
             missionType: 'General',
             isDisplayed: false,
@@ -103,7 +105,7 @@ export const initData = {
                 success: 'We welcomed the refugees to our clan!',
                 failure: 'We sent the refugees away!'
             },
-            rewards: [['pop', 0, 50, 250],['gold', 0, 250, 750],['food', 0, 50, 150]],
+            rewards: [['pop', 0, 50, 250],['gold', 0, 250, 750],['food', 0, 50, 150],['fame', 0, 20, 20]],
             unlocked: true,
             active: false,
             isTimed: true,
