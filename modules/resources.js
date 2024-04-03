@@ -211,7 +211,7 @@ export class Food{
         // consumtion from pops
         const consumed = this.consumeFood(gameData.basicResources.pop)
 
-        amount = (baseGain + eventGain[0]) * eventGain[1] - consumed
+        amount = Math.floor((baseGain * eventGain[1])) + eventGain[0] - consumed
 
         gameData.resourceGain.food = baseGain * eventGain[1]
         gameData.tempData.consumedFood = consumed

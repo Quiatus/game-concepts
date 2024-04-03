@@ -1,5 +1,5 @@
 'use strict';
-import { loadGame, saveGame } from "./utilities.js"
+import { loadGame } from "./utilities.js"
 import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
@@ -10,17 +10,27 @@ const buildings = document.getElementById('buildings')
 const menuBtnMissions = document.getElementById('menuBtnMissions')
 const missions = document.getElementById('missions')
 
+// === UTILITIES ===================================================================================================
+
 // decimal separator
 export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-export const clearMessages = (isNewMonth) => {
-    if (isNewMonth) messages.innerHTML = ''
+// changes the color of the happiness text
+export const changeHappinessColor = (happiness) => {
+    if (happiness < 20) return `<span class="text-red">${happiness} %</span>`
+    else if (happiness >= 20 && happiness < 40) return `<span class="text-orange">${happiness} %</span>`
+    else if (happiness >= 40 && happiness < 60) return `<span class="text-gold">${happiness} %</span>`
+    else if (happiness >= 60 && happiness < 80) return `<span class="text-green">${happiness} %</span>`
+    else if (happiness >= 80) return `<span class="text-darkgreen">${happiness} %</span>`
 }
 
-export const showMissionNumber = () => {
-    let gameData = loadGame()
-    menuBtnMissions.textContent = `Missions (${gameData.tempData.activeMissions})`
+// changes the color of the pop text
+export const popText = (pop, space) => {
+    if (pop >= space)  return `<span class="text-red">${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
+    return `<span>${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
 }
+
+// === GENERAL =====================================================================================================
 
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
 export const showPanel = (num) => {
@@ -30,17 +40,6 @@ export const showPanel = (num) => {
     generateMarkup(panels[num])
 }
 
-// prints various messages 
-export const printMessage = (text, type='info') => {
-    const msg = document.createElement('p');
-    msg.innerHTML = text
-    if (type==='critical')  msg.className = 'text-red'
-    if (type==='warning') msg.className = 'text-orange'
-    if (type==='info') msg.className = 'text-white'
-    if (type==='gains') msg.innerHTML = newMonthGains()
-
-    messages.appendChild(msg)
-}
 
 // loops over alerts and checks which are active, then displays those
 export const displayActiveAlerts = () => {
@@ -80,6 +79,93 @@ export const generateMarkup = (panel=null) => {
     }
 }
 
+// === MESSAGES ====================================================================================================================
+
+export const clearMessages = (isNewMonth) => {
+    if (isNewMonth) messages.innerHTML = ''
+}
+
+// display beginning of month gains. Only shows positive gains
+const newMonthGains = () => {
+    let gameData = loadGame()
+    let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
+
+    gameData.resourceGain.goldTotal > 0 ? addedGold = `<span class="text-gold"> ${converThousand(gameData.resourceGain.goldTotal)} </span> <img class='img-s' src='media/gold.png'>,` : null
+    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple"> ${converThousand(gameData.resourceGain.pop)} </span> <img class='img-s' src='media/pop.png'>,` : null
+    gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow"> ${converThousand(gameData.resourceGain.food)} </span> <img class='img-s' src='media/food.png'>,` : null
+    gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown"> ${converThousand(gameData.resourceGain.wood)} </span> <img class='img-s' src='media/wood.png'>,` : null
+    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-darkgray"> ${converThousand(gameData.resourceGain.stone)} </span> <img class='img-s' src='media/stone.png'>,` : null
+
+    // cleanup functions - replaces last , with and removes commas
+    let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.')
+    const repl = res.lastIndexOf(',')
+    repl > 0 ? res = res.substring(0, repl) + ' and ' + res.substring(repl+1) : null
+
+    return res
+}
+
+// prints messages at the beginning of the month
+export const printNewMonthMessages = () => {
+    let gameData = loadGame()
+    printMessage('', 'gains')
+    printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
+}
+
+// prints various messages 
+export const printMessage = (text, type='info') => {
+    const msg = document.createElement('p');
+    msg.innerHTML = text
+    if (type==='critical')  msg.className = 'text-red'
+    if (type==='warning') msg.className = 'text-orange'
+    if (type==='info') msg.className = 'text-white'
+    if (type==='gains') msg.innerHTML = newMonthGains()
+
+    messages.appendChild(msg)
+}
+
+// === STATISTICS ================================================================================================================
+
+// helper function to display economy stats. Calculates gains and losses and totals the amounts
+export const calcEconomy = (econType) => {
+    let gameData = loadGame()
+    let results = [0, 0, ``]
+    let total = 0
+
+    // calculate gains and losses
+    if (econType === 'p') {
+        results[0] = gameData.resourceGain.pop 
+        results[1] = gameData.tempData.popDied + gameData.tempData.popLeft
+    } else if (econType === 'g') {
+        results[0] = gameData.resourceGain.goldTotal + gameData.resourceGain.goldEvents
+    } else if (econType === 'f') {
+        results[0] = gameData.resourceGain.food + gameData.resourceGain.foodEvents
+        results[1] = gameData.tempData.consumedFood
+    } else if (econType === 'w') {
+        results[0] = gameData.resourceGain.wood + gameData.resourceGain.woodEvents
+    } else if (econType === 's') {
+        results[0] = gameData.resourceGain.stone + gameData.resourceGain.stoneEvents
+    }
+
+    // calculate total
+    total = results[0] - results[1]
+
+    // changes the text color of total depending wheter the total is gain or loss
+    if (total > 0) results[2] = `<span class='text-green'>+ ${total}</span>`
+    else if (total < 0) results[2] = `<span class='text-red'>${total}</span>`
+    else results[2] = `<span class='text-white'>0</span>`
+
+    return results
+}
+
+// grabs info about capital levels
+export const getArmyStatus = (gameData) => {
+    if (gameData.general.armyStatus) return `<span class='text-green'>Ready</span>`
+    return `<span class='text-orange'>Exhausted</span>`
+}
+
+
+// === BUILDINGS =================================================================================================================
+
 // Shows every unlocked building
 const displayBuildings = (gameData) => {
     buildings.innerHTML = ''
@@ -92,28 +178,6 @@ const displayBuildings = (gameData) => {
         }
     }    
 }
-
-// Shows active missions
-const displayMissions = (gameData) => {
-    const totalEvents = gameData.events.length
-
-    missions.innerHTML = `<p class='mbb'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
-
-    const missionSubdiv = document.createElement('div')
-    missionSubdiv.classList = 'missions-subdiv'
-    
-    for (let i = 0; i < totalEvents; i++) {
-        if (gameData.events[i].active && gameData.events[i].isMission) {
-            const missionDiv = document.createElement('div')
-            const mission = gameData.events[i]
-            missionDiv.innerHTML = generateMissions(mission)
-            missionSubdiv.append(missionDiv)
-        }
-    }  
-
-    missions.append(missionSubdiv)
-}
-
 
 // Displays active construction
 export const buildingConstrProgress = (building, level=null) => {
@@ -172,78 +236,6 @@ export const displayBuildCosts = (building) => {
     </div>`
 }
 
-// display beginning of month gains. Only shows positive gains
-const newMonthGains = () => {
-    let gameData = loadGame()
-    let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
-
-    gameData.resourceGain.goldTotal > 0 ? addedGold = `<span class="text-gold"> ${converThousand(gameData.resourceGain.goldTotal)} </span> <img class='img-s' src='media/gold.png'>,` : null
-    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple"> ${converThousand(gameData.resourceGain.pop)} </span> <img class='img-s' src='media/pop.png'>,` : null
-    gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow"> ${converThousand(gameData.resourceGain.food)} </span> <img class='img-s' src='media/food.png'>,` : null
-    gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown"> ${converThousand(gameData.resourceGain.wood)} </span> <img class='img-s' src='media/wood.png'>,` : null
-    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-darkgray"> ${converThousand(gameData.resourceGain.stone)} </span> <img class='img-s' src='media/stone.png'>,` : null
-
-    // cleanup functions - replaces last , with and removes commas
-    let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.')
-    const repl = res.lastIndexOf(',')
-    repl > 0 ? res = res.substring(0, repl) + ' and ' + res.substring(repl+1) : null
-
-    return res
-}
-
-// changes the color of the happiness text
-export const changeHappinessColor = (happiness) => {
-    if (happiness < 20) return `<span class="text-red">${happiness} %</span>`
-    else if (happiness >= 20 && happiness < 40) return `<span class="text-orange">${happiness} %</span>`
-    else if (happiness >= 40 && happiness < 60) return `<span class="text-gold">${happiness} %</span>`
-    else if (happiness >= 60 && happiness < 80) return `<span class="text-green">${happiness} %</span>`
-    else if (happiness >= 80) return `<span class="text-darkgreen">${happiness} %</span>`
-}
-
-// changes the color of the pop text
-export const popText = (pop, space) => {
-    if (pop >= space)  return `<span class="text-red">${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
-    return `<span>${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
-}
-
-// helper function to display economy stats. Calculates gains and losses and totals the amounts
-export const calcEconomy = (econType) => {
-    let gameData = loadGame()
-    let results = [0, 0, ``]
-    let total = 0
-
-    // calculate gains and losses
-    if (econType === 'p') {
-        results[0] = gameData.resourceGain.pop 
-        results[1] = gameData.tempData.popDied + gameData.tempData.popLeft
-    } else if (econType === 'g') {
-        results[0] = gameData.resourceGain.goldTotal + gameData.resourceGain.goldEvents
-    } else if (econType === 'f') {
-        results[0] = gameData.resourceGain.food + gameData.resourceGain.foodEvents
-        results[1] = gameData.tempData.consumedFood
-    } else if (econType === 'w') {
-        results[0] = gameData.resourceGain.wood + gameData.resourceGain.woodEvents
-    } else if (econType === 's') {
-        results[0] = gameData.resourceGain.stone + gameData.resourceGain.stoneEvents
-    }
-
-    // calculate total
-    total = results[0] - results[1]
-
-    // changes the text color of total depending wheter the total is gain or loss
-    if (total > 0) results[2] = `<span class='text-green'>+ ${total}</span>`
-    else if (total < 0) results[2] = `<span class='text-red'>${total}</span>`
-    else results[2] = `<span class='text-white'>0</span>`
-
-    return results
-}
-
-// grabs info about capital levels
-export const getArmyStatus = (gameData) => {
-    if (gameData.general.armyStatus) return `<span class='text-green'>Ready</span>`
-    return `<span class='text-orange'>Exhausted</span>`
-}
-
 // display building description
 export const displayBuildDescr = (building) => {
     let string = ''
@@ -252,11 +244,32 @@ export const displayBuildDescr = (building) => {
     return string
 }
 
-// prints messages at the beginning of the month
-export const printNewMonthMessages = () => {
+// === EVENT & MISSION ===========================================================================================================
+
+export const showMissionNumber = () => {
     let gameData = loadGame()
-    printMessage('', 'gains')
-    printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
+    menuBtnMissions.textContent = `Missions (${gameData.tempData.activeMissions})`
+}
+
+// Shows active missions
+const displayMissions = (gameData) => {
+    const totalEvents = gameData.events.length
+
+    missions.innerHTML = `<p class='mbb'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
+
+    const missionSubdiv = document.createElement('div')
+    missionSubdiv.classList = 'missions-subdiv'
+    
+    for (let i = 0; i < totalEvents; i++) {
+        if (gameData.events[i].active && gameData.events[i].isMission) {
+            const missionDiv = document.createElement('div')
+            const mission = gameData.events[i]
+            missionDiv.innerHTML = generateMissions(mission)
+            missionSubdiv.append(missionDiv)
+        }
+    }  
+
+    missions.append(missionSubdiv)
 }
 
 // displays active events
@@ -305,7 +318,7 @@ export const displayRemainingTimeMission = (time) => {
     if (time <= 10 ) return `< 10 <img class='img-s' src='media/month.png'>`
 }
 
-// displays building costs
+// displays mission rewards
 export const displayMissionReward = (rewards) => { 
     let div = document.createElement('div')
 
