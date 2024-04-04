@@ -71,7 +71,7 @@ export const initData = {
         },
         {
             id: 2,
-            description: ['Our people are happy. <img class="img-s" src="media/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
+            description: ['Our people are happy with our rule. <img class="img-s" src="media/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
             type: 'popHappyGainMultiplier',
             rarity: 1,
             isMission: false,
