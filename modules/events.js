@@ -182,7 +182,7 @@ const addMissionReward = (mission) => {
     saveGame(gameData)
 }
 
-// removes mission from the log after accept / reject 
+// removes mission from the log after accept / reject / completed
 export const removeMission = (mission, status) => {
     let gameData = loadGame()
     let id = Number(mission.slice(7))

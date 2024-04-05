@@ -120,7 +120,8 @@ document.addEventListener('click', (e) => {
     button == 'menuBtnManagement' ? showPanel(1) : null
     button == 'menuBtnBuildings' ? showPanel(2) : null
     button == 'menuBtnMissions' ? showPanel(3) : null
-    button == 'menuBtnStatistics' ? showPanel(4) : null
+    button == 'menuBtnRecruitment' ? showPanel(4) : null
+    button == 'menuBtnStatistics' ? showPanel(5) : null
     
     // Tax buttons event listeners
     button === 'btnTaxLow' ? changeTax(1) : null

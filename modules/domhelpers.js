@@ -36,7 +36,7 @@ export const popText = (pop, space) => {
 export const showPanel = (num) => {
     rightPanels.forEach(panel => panel.classList.add('none'))
     rightPanels[num].classList.remove('none')
-    let panels = ['','management','buildings','missions', 'statistics']
+    let panels = ['','management','buildings','missions', 'recruitment' ,'statistics']
     generateMarkup(panels[num])
 }
 

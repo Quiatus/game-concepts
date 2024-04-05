@@ -31,9 +31,11 @@ export const initData = {
         famine: false,
         overpopulation: false,
         riot: false,
-        plague: false,
+        pestilence: false,
         siege: false,
-        desertion: false
+        desertion: false,
+        dragonplague: false,
+        etherstorm: false
     },
     tempData: {
         houseSpace: 0,
