@@ -26,8 +26,8 @@ export const changeHappinessColor = (happiness) => {
 
 // changes the color of the pop text
 export const popText = (pop, space) => {
-    if (pop >= space)  return `<span class="text-red">${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
-    return `<span>${converThousand(pop)}<span class="text-small"> / ${converThousand(space)}</span></span>`
+    if (pop >= space)  return `<span class="text-red">${converThousand(pop)}<span class="text-normal"> / ${converThousand(space)}</span></span>`
+    return `<span>${converThousand(pop)}<span class="text-normal"> / ${converThousand(space)}</span></span>`
 }
 
 // === GENERAL =====================================================================================================
@@ -187,7 +187,7 @@ export const buildingConstrProgress = (building, level=null) => {
         // Check if the unique building is already built
         if (building.amount === 1 && building.isUnique && !building.isUpgradeable) {
             return `<div class="build-buttons">
-            <span class="text-bold text-xs">We can build only one ${building.name}</span>
+            <span class="text-bold text-small">We can build only one ${building.name}</span>
             </div>`
         // Check if upgradeable builsing is at max level
         } else if (building.currentLevel === building.maxLevel && building.isUpgradeable) {
@@ -197,12 +197,12 @@ export const buildingConstrProgress = (building, level=null) => {
         // Check if there is enough space to built
         }else if (building.requireCapitalLevel > level) {
             return `<div class="build-buttons">
-            <span class="text-bold text-xs">Upgrade Capital to level ${building.requireCapitalLevel}</span>
+            <span class="text-bold text-small">Upgrade Capital to level ${building.requireCapitalLevel}</span>
             </div>`
         // Check if there is enough space to built
         } else if (building.requireSpace && building.maxSpace === building.amount && !building.isUpgradeable) {
             return `<div class="build-buttons">
-            <span class="text-bold text-xs">We don't have space to built more ${building.name}s</span>
+            <span class="text-bold text-small">We don't have space to built more ${building.name}s</span>
             </div>`
         // If all conditions are met, displays build button
         } else {
@@ -222,7 +222,7 @@ export const buildingConstrProgress = (building, level=null) => {
 
 // displays building costs
 export const displayBuildCosts = (building) => {    
-    return `<div class="build-costs text-small">
+    return `<div class="build-costs">
         <div class="building-cost">
             <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(building.costGold)}</span></div>
             ${building.costWood > 0 ? `<div><img class="img-s" src="media/wood.png"><span class="text-brown">${converThousand(building.costWood)}</span></div>` : ``}
@@ -255,7 +255,7 @@ export const showMissionNumber = () => {
 const displayMissions = (gameData) => {
     const totalEvents = gameData.events.length
 
-    missions.innerHTML = `<p class='mbb'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
+    missions.innerHTML = `<p class='mbb text-big'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
 
     const missionSubdiv = document.createElement('div')
     missionSubdiv.classList = 'missions-subdiv'

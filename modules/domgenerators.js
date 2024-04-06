@@ -65,7 +65,7 @@ export const displayStatistics = (gameData) => {
         <p class="stat-header">Space:</p>
         <div class="stat-div">
             <span class="text-gray">Capital:</span><span>${converThousand(gameData.basicResources.basicSpace)}</span>
-            <span class="text-gray">Houses:</span><span>${converThousand(gameData.tempData.houseSpace)}</span>
+            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.tempData.houseSpace)}</span>
             <span class="text-gray">Settlements:</span><span id="stat-space-settlement">0</span>
             <span class="text-gray">Total space:</span><span>${converThousand(gameData.tempData.totalSpace)}</span>
             <span class="text-gray">Free space:</span><span>${converThousand(gameData.tempData.totalSpace - gameData.basicResources.pop)}</span>
@@ -75,7 +75,7 @@ export const displayStatistics = (gameData) => {
     <div>
         <p class="stat-header">Buildings:</p>
         <div class="stat-div">
-            <span class="text-gray">Houses:</span><span>${converThousand(gameData.buildingHouse.amount)}</span>
+            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingHouse.amount)}</span>
             <span class="text-gray">Farms:</span><span>${converThousand(gameData.buildingFarm.amount)}</span>
             <span class="text-gray">Lumber yards:</span><span>${converThousand(gameData.buildingLumberyard.amount)}</span>
             <span class="text-gray">Quarries:</span><span>${converThousand(gameData.buildingQuarry.amount)}</span>
@@ -233,7 +233,7 @@ export const generateBuildings = (building, level) => {
     const cl = building.currentLevel
     const ml = building.maxLevel
     return `
-    <div class="box text-small" id="${building.id}">
+    <div class="box" id="${building.id}">
         <h2>${building.name}</h2>
         <div class="build-description">
             <p class="text-gray text-bold mb">${building.buildingType} building</p>
@@ -243,8 +243,8 @@ export const generateBuildings = (building, level) => {
 
         <div class='build-amount'>
         ${(building.isUpgradeable && building.amount === 1) 
-            ? `<span class="text-bold text-orange text-big">Level ${building.currentLevel}</span>` 
-            : `<span title='Current amount / Max amount' class="text-big">${building.amount}<span class="text-small"> / ${building.maxSpace}</span></span>`}
+            ? `<span class="text-bold text-orange text-xl">Level ${building.currentLevel}</span>` 
+            : `<span title='Current amount / Max amount' class=" text-bold text-xl">${building.amount}<span class="text-normal"> / ${building.maxSpace}</span></span>`}
         </div>
 
         <hr class="subdiv-separator">
@@ -260,10 +260,10 @@ export const generateBuildings = (building, level) => {
 
 export const generateMissions = (mission) => {
     return `
-    <div class="box text-small" id="mission${mission.id}">
+    <div class="box" id="mission${mission.id}">
         <h2 class="mission-header">${mission.missionDescription.name}</h2>
         <div class="mission-description">
-            <p class="text-gray text-bold tc">${mission.missionType} mission</p>
+            <p class="text-gray text-bold text-it text-center">${mission.missionType} mission</p>
             <p><span class='text-gray'>Objective:</span> ${mission.missionDescription.objective}</p>
             <p class="text-it">${mission.missionDescription.description}</p>
             <p class="timer"><span class='text-gray'>Expires:</span> ${displayRemainingTimeMission(mission.remainingTime)}</p>

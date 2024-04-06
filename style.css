@@ -62,7 +62,6 @@
 
 html {
     font-family: "Carrois Gothic", sans-serif; 
-    font-size: 1.2rem;
     user-select: none;
 }
 
@@ -94,12 +93,16 @@ main {
 
 /* Right panels */
 
+.right-panel {
+    grid-area: 2/2/4/2;
+}
+
 .right-panel > h1 {
     color: var(--clr-menutext);
     letter-spacing: 3px;
     text-align: center;
-    font-size: 1.5rem;
     margin-bottom: 1rem;
+    font-size: 24px;
 }
 
 /* Sub boxes - big */
@@ -109,6 +112,7 @@ main {
     border: 1px solid var(--clr-bgborder);
     box-shadow: 0 0 5px var(--clr-bgborder);
     border-radius: 0.25rem;
+    margin-bottom: 1rem;
 }
 
 .box-sub > h3 {
@@ -116,9 +120,9 @@ main {
     color: var(--clr-gray);
     line-height: 1;
     padding: 0.2rem 0.5rem;
-    font-size: 18px;
     font-weight: 700;
     letter-spacing: 1px;
+    font-size: 18px;
 }
 
 /* Sub boxes - small */
@@ -144,7 +148,7 @@ main {
     text-align: center;
     padding: 0.25rem 0;
     letter-spacing: 1px;
-    font-size: 1rem;
+    font-size: 18px;
 }
 
 /* Resource panel */
@@ -208,6 +212,7 @@ main {
     flex-direction: row;
     flex-wrap: wrap;
     column-gap: 1rem;
+    padding: 0.5rem;
 }
 
 .menu {
@@ -229,14 +234,9 @@ main {
 
 /* General panel */
 
-.general {
-    grid-area: 2/2/4/2;
-}
-
 .general-divs {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 }
 
 .message-div > p,
@@ -246,11 +246,12 @@ main {
     gap: 0.75ch;
 }
 
-/* Management box */
-
-.management {
-    grid-area: 2/2/4/2;
+.message-div, 
+.event-div {
+    padding: 0.5rem;
 }
+
+/* Management box */
 
 .settings {
     display: grid;
@@ -293,10 +294,6 @@ main {
 
 /* Statistics & economy panel */
 
-.stats {
-    grid-area: 2/2/4/2;
-}
-
 .stats-div {
     display: flex;
     flex-direction: column;
@@ -306,13 +303,13 @@ main {
     display: grid;
     grid-template-columns: repeat(4, 260px);
     gap: 2rem;
+    padding: 0.5rem;
 }
 
 .stat-header {
     font-weight: 700;
     border-bottom: 1px solid var(--clr-white);
     margin-bottom: 0.25rem;
-    font-size: 16px;
 }
 
 .stat-div {
@@ -320,13 +317,13 @@ main {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     margin-left: 1rem;
-    font-size: 16px;
 }
 
 .economy {
     display: grid;
     grid-template-columns: repeat(5, 220px);
     gap: 2rem;
+    padding: 0.5rem;
 }
 
 .economy-div {
@@ -335,7 +332,6 @@ main {
     grid-template-rows: auto;
     margin-left: 1rem;
     margin-bottom: 0.5rem;
-    font-size: 16px;
 }
 
 .spread {
@@ -344,10 +340,6 @@ main {
 }
 
 /* Building box */
-
-.building {
-    grid-area: 2/2/4/2;
-}
 
 .buildings {
     display: grid;
@@ -411,9 +403,7 @@ main {
     position: absolute;
     top: -38px;
     background-color: var(--clr-compbg);
-    /* border: 1px solid var(--clr-compbord); */
     padding: 0.25rem;
-    font-size: 16px;
     width: 100%;
 }
 
@@ -449,10 +439,6 @@ main {
 }
 
 /* Missions */
-
-.mission {
-    grid-area: 2/2/4/2;
-}
 
 .missions-subdiv {
     display: grid;
@@ -513,16 +499,7 @@ main {
 
 /* Recruitment */
 
-.recruitment {
-    grid-area: 2/2/4/2;
-}
-
 /* Army */
-
-.arm {
-    grid-area: 2/2/4/2;
-}
-
 
 /* Utilities */
 
@@ -548,10 +525,6 @@ main {
 #buildingQuarry > h2,
 .bggrey {
     background-color: var(--clr-bggray);
-}
-
-.pad-s {
-    padding: 0.5rem;
 }
 
 .ml {
@@ -630,31 +603,25 @@ button:active {
 
 /* Typography */
 
-.tc {
+.text-center {
     width: 100%;
     text-align: center;
-    font-size: 14px;
-    font-style: italic;
 }
 
 .text-big {
-    font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 19px;
 }
 
-.text-sb {
-    font-weight: 700;
-    font-size: 18px;
+.text-xl {
+    font-size: 22px;
 }
 
 .text-small {
-    font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
 }
 
-.text-xs {
-    font-weight: 400;
-    font-size: 14px;
+.text-normal {
+    font-size: 16px;
 }
 
 .text-it {
