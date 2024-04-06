@@ -517,6 +517,11 @@ main {
     grid-area: 2/2/4/2;
 }
 
+/* Army */
+
+.arm {
+    grid-area: 2/2/4/2;
+}
 
 
 /* Utilities */

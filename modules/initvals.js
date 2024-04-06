@@ -242,7 +242,7 @@ export const initData = {
         isBeingBuilt: false,
         isUpgradeable: true,
         currentLevel: 1,
-        maxLevel: 2,
+        maxLevel: 3,
         buildProgress: 0,
         requireCapitalLevel: false,
         costTime: 0,
@@ -258,8 +258,9 @@ export const initData = {
             {
                 level: 1,
                 space: 1000,
-                houses: 20,
+                houses: 4,
                 commerce: 0,
+                militiaRecruit: 10,
                 costTime: 0,
                 costGold: 0,
                 costWood: 0,
@@ -269,20 +270,33 @@ export const initData = {
             {
                 level: 2,
                 space: 2000,
-                houses: 50,
+                houses: 10,
                 commerce: 100,
+                militiaRecruit: 25,
                 costTime: 20,
                 costGold: 20000,
                 costWood: 1000,
                 costStone: 200,
+                specialUnlock: false
+            },
+            {
+                level: 3,
+                space: 5000,
+                houses: 25,
+                commerce: 1000,
+                militiaRecruit: 100,
+                costTime: 50,
+                costGold: 100000,
+                costWood: 5000,
+                costStone: 1500,
                 specialUnlock: false
             }
         ]
     },
     buildingHouse: {
         id: 'buildingHouse',
-        name: 'House',
-        buildingType: 'Population',
+        name: 'Living district',
+        buildingType: 'General',
         textColor: 'text-purple',
         amount: 0,
         isUnique: false,
@@ -293,14 +307,14 @@ export const initData = {
         maxLevel: null,
         buildProgress: 0,
         requireCapitalLevel: null,
-        costTime: 2,
-        costGold: 250,
-        costWood: 5,
+        costTime: 10,
+        costGold: 2500,
+        costWood: 50,
         costStone: 0,
         requireSpace: true,
         space: 0,
         maxSpace: 0,
-        effect: 100,
+        effect: 500,
         info: 'Increases population capacity by #effect#.'
     },
     buildingFarm: {
@@ -325,7 +339,7 @@ export const initData = {
         space: 0,
         maxSpace: 2,
         effect: 10,
-        info: 'Produces #effect# units of food per month.'
+        info: 'Produces #effect# units of <span class="text-yellow">food</span> per month.'
     },
     buildingLumberyard: {
         id: 'buildingLumberyard',
@@ -349,7 +363,7 @@ export const initData = {
         space: 0,
         maxSpace: 1,
         effect: 5,
-        info: 'Produces #effect# units of wood per month.'
+        info: 'Produces #effect# units of <span class="text-brown">wood</span> per month.'
     },
     buildingQuarry: {
         id: 'buildingQuarry',
@@ -373,6 +387,31 @@ export const initData = {
         space: 0,
         maxSpace: 1,
         effect: 2,
-        info: 'Produces #effect# units of stone per month.',
+        info: 'Produces #effect# units of <span class="text-darkgray">stone</span> per month.',
+    },
+// === UNITS ===============================================================================================
+    unitMilitia: {
+        name: 'Militia',
+        amount: 0,
+        attack: 2,
+        defense: 1,
+        hp: 5,
+        speed: 5,
+        attackType: 4, // 1 - heavy, 2 - range, 3 - support, 4 - melee
+        pay: 1,
+        value: 5,
+        isRecruitable: true,
+        recrutpm: 0,
+        recruitCost: {
+            gold: 1,
+            pop: 1
+        },
+        equipment: {
+            weapon: null,
+            armor: null,
+            trinket: null
+        },
+        magic: false
+        
     }
 }

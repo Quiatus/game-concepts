@@ -199,8 +199,9 @@ export const displayCapital = (gameData) => {
         <span class="text-bold text-orange">Level ${nl}</span>
         <div class="settings-stats">
             <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)}</span>
-            <span class="text-gray">Max. houses:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)}</span>
-            ${gameData.buildingCapital.levels[cl].commerce > 0 ? ` <span class="text-gray">Commerce:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)}</span>` : ``}
+            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)}</span>
+            <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildingCapital.levels[cl].militiaRecruit)}</span>
+            ${gameData.buildingCapital.levels[cl].commerce > 0 ? ` <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)}</span>` : ``}
         </div>
         <hr class="subdiv-separator">
         ${nl === ml ? `<span class="text-bold text-orange">Capital is at max level.</span>` : 
@@ -216,8 +217,10 @@ export const displayCapital = (gameData) => {
        <span class='mt'>Upgrade bonuses:</span>
         <div class="settings-stats">
             <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].space)}</span></span>
-            <span class="text-gray">Max. houses:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].houses)}</span></span>
+            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].houses)}</span></span>
+            <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildingCapital.levels[cl].militiaRecruit)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].militiaRecruit)}</span></span>
             <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].commerce)}</span></span>
+            
         </div>
 
         <div class="subdiv">

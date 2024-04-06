@@ -50,6 +50,7 @@ export const applyCapitalBonuses = () => {
     gameData.basicResources.basicSpace = capital.levels[capital.currentLevel - 1].space
     gameData.tempData.commerce = capital.levels[capital.currentLevel - 1].commerce
     gameData.buildingHouse.maxSpace = capital.levels[capital.currentLevel - 1].houses 
+    gameData.unitMilitia.recrutpm = capital.levels[capital.currentLevel - 1].militiaRecruit 
 
     if (capital.currentLevel < capital.maxLevel) {
         gameData.buildingCapital.costTime = capital.levels[capital.currentLevel].costTime
