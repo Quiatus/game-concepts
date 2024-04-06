@@ -36,10 +36,10 @@ class Building {
         gameData[building].space = gameData[building].maxSpace - gameData[building].amount
 
         // checks if enough resources to build
-        const checkRes = this.checkIfEnoughResources(gameData[building], gameData)
+        const [check, reason] = this.checkIfEnoughResources(gameData[building], gameData)
         
         // if check pass, start building
-        if (checkRes[0]) {
+        if (check) {
             gameData[building].isBeingBuilt = true
            
             gameData.basicResources.gold -= gameData[building].costGold
@@ -49,8 +49,8 @@ class Building {
             saveGame(gameData)
             gameData[building].name === 'Capital' ? generateMarkup('management') : generateMarkup('buildings')
         } else {
-            // displaus the error message if construction not possible
-            e.target.parentElement.children[0].textContent = checkRes[1]
+            // displays the error message if construction not possible
+            e.target.parentElement.children[0].textContent = reason
             e.target.parentElement.children[0].classList.remove('none')
             setTimeout(() => {e.target.parentElement.children[0].classList.add('none')}, 2000)
         }

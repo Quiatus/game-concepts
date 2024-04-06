@@ -36,12 +36,12 @@ export const displayTaxBox = (gameData) => {
     <div class="build-description">
         <p>Important source of <span class="text-gold text-bold">gold</span>. High taxes negatively affect happiness. Low taxes have the opposite effect.</p>
     </div>
-    <div class="settings-stats build-amount">
+    <div class="box-stats mtb">
         <span class="text-gray">Current tax:</span> <span>${taxText}</span>
         <span class="text-gray">Gold p. 100 pop.:</span><span>${gameData.general.tax * 5}</span>
     </div>
     <span>Set tax level:</span>
-    <div class="settings-buttons">
+    <div class="buttons-box">
         <button class="btnTax" id="btnTaxLow">Low</button>
         <button class="btnTax" id="btnTaxBalanced">Balanced</button>
         <button class="btnTax" id="btnTaxHigh">High</button>
@@ -197,25 +197,25 @@ export const displayCapital = (gameData) => {
             <p>Capital city of our empire.</p>
         </div>
         <span class="text-bold text-orange">Level ${nl}</span>
-        <div class="settings-stats">
+        <div class="box-stats">
             <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)}</span>
             <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)}</span>
             <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildingCapital.levels[cl].militiaRecruit)}</span>
             ${gameData.buildingCapital.levels[cl].commerce > 0 ? ` <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)}</span>` : ``}
         </div>
-        <hr class="subdiv-separator">
+        <hr class="separator">
         ${nl === ml ? `<span class="text-bold text-orange">Capital is at max level.</span>` : 
         
        ` <span>Upgrade to <span class="text-orange">level ${nl + 1}</span></span>
 
        ${displayBuildCosts(gameData.buildingCapital)}
        ${gameData.buildingCapital.levels[nl].specialUnlock ? `
-       <div class="settings-stats">
+       <div class="box-stats">
        <span class="text-gray">Special costs:</span><span>${gameData.buildingCapital.levels[nl].specialUnlock}</span>
        </div>` : ``}
 
        <span class='mt'>Upgrade bonuses:</span>
-        <div class="settings-stats">
+        <div class="box-stats">
             <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].space)}</span></span>
             <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].houses)}</span></span>
             <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildingCapital.levels[cl].militiaRecruit)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].militiaRecruit)}</span></span>
@@ -241,13 +241,13 @@ export const generateBuildings = (building, level) => {
             <p class="text-orange">${displayBuildDescr(building)}</p> 
         </div>
 
-        <div class='build-amount'>
+        <div class='mtb'>
         ${(building.isUpgradeable && building.amount === 1) 
             ? `<span class="text-bold text-orange text-xl">Level ${building.currentLevel}</span>` 
             : `<span title='Current amount / Max amount' class=" text-bold text-xl">${building.amount}<span class="text-normal"> / ${building.maxSpace}</span></span>`}
         </div>
 
-        <hr class="subdiv-separator">
+        <hr class="separator">
 
         ${(cl === ml && building.isUpgradeable) ? `<div class="subdiv">${buildingConstrProgress(building,level)}</div>` : `
         ${building.isUpgradeable && building.amount === 1 ? `<span>Upgrade to <span class="text-orange">level ${cl+1}</span></span>
@@ -261,7 +261,7 @@ export const generateBuildings = (building, level) => {
 export const generateMissions = (mission) => {
     return `
     <div class="box" id="mission${mission.id}">
-        <h2 class="mission-header">${mission.missionDescription.name}</h2>
+        <h2 class='text-left'>${mission.missionDescription.name}</h2>
         <div class="mission-description">
             <p class="text-gray text-bold text-it text-center">${mission.missionType} mission</p>
             <p><span class='text-gray'>Objective:</span> ${mission.missionDescription.objective}</p>
@@ -270,14 +270,15 @@ export const generateMissions = (mission) => {
         </div>
         
 
-        <hr class="subdiv-separator">
+        <hr class="separator">
         Reward
-        <div class='mission-reward'>
+        <div class='resource-box width100'>
         ${displayMissionReward(mission.rewards)}
         </div>
 
-        <hr class="subdiv-separator">
-        <div class="mission-buttons">
+        <hr class="separator">
+
+        <div class="buttons-box">
             <button class="btnBuild" id="btnAcceptMission">Accept</button>
             <button class="btnBuild" id="btnRejectMission">Reject</button>
         </div>

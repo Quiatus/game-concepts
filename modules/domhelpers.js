@@ -187,22 +187,22 @@ export const buildingConstrProgress = (building, level=null) => {
         // Check if the unique building is already built
         if (building.amount === 1 && building.isUnique && !building.isUpgradeable) {
             return `<div class="build-buttons">
-            <span class="text-bold text-small">We can build only one ${building.name}</span>
+            <span class="text-bold text-small text-75">We can build only one ${building.name}</span>
             </div>`
         // Check if upgradeable builsing is at max level
         } else if (building.currentLevel === building.maxLevel && building.isUpgradeable) {
             return `<div class="build-buttons">
-            <span class="text-bold ">${building.name} is at max level</span>
+            <span class="text-bold text-orange text-75">${building.name} is at max level</span>
             </div>`
         // Check if there is enough space to built
         }else if (building.requireCapitalLevel > level) {
             return `<div class="build-buttons">
-            <span class="text-bold text-small">Upgrade Capital to level ${building.requireCapitalLevel}</span>
+            <span class="text-bold text-small text-75">Capital level ${building.requireCapitalLevel} required.</span>
             </div>`
         // Check if there is enough space to built
         } else if (building.requireSpace && building.maxSpace === building.amount && !building.isUpgradeable) {
             return `<div class="build-buttons">
-            <span class="text-bold text-small">We don't have space to built more ${building.name}s</span>
+            <span class="text-bold text-small text-75">We don't have space to built more ${building.name}s</span>
             </div>`
         // If all conditions are met, displays build button
         } else {
@@ -223,13 +223,13 @@ export const buildingConstrProgress = (building, level=null) => {
 // displays building costs
 export const displayBuildCosts = (building) => {    
     return `<div class="build-costs">
-        <div class="building-cost">
+        <div class="resource-box">
             <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(building.costGold)}</span></div>
             ${building.costWood > 0 ? `<div><img class="img-s" src="media/wood.png"><span class="text-brown">${converThousand(building.costWood)}</span></div>` : ``}
             ${building.costStone > 0 ? `<div><img class="img-s" src="media/stone.png"><span class="text-darkgray">${converThousand(building.costStone)}</span></div>` : ``}
         </div>
 
-        <div class="building-cost">
+        <div class="resource-box">
             <div><img class="img-s" src="media/month.png"><span>${converThousand(building.costTime)}</span></div>
         </div>
         
@@ -258,7 +258,7 @@ const displayMissions = (gameData) => {
     missions.innerHTML = `<p class='mbb text-big'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
 
     const missionSubdiv = document.createElement('div')
-    missionSubdiv.classList = 'missions-subdiv'
+    missionSubdiv.classList = 'smallBoxDiv'
     
     for (let i = 0; i < totalEvents; i++) {
         if (gameData.events[i].active && gameData.events[i].isMission) {
@@ -320,6 +320,7 @@ export const displayRemainingTimeMission = (time) => {
 // displays mission rewards
 export const displayMissionReward = (rewards) => { 
     let div = document.createElement('div')
+
 
     for (let i = 0; i < rewards.length; i++) {
         let sub = document.createElement('div')
