@@ -1,11 +1,12 @@
 'use strict';
-import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward } from "./domhelpers.js"
+import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, generateArmy } from "./domhelpers.js"
 
 const resourcesText = document.getElementById('resourceBox')
 const taxBox = document.getElementById('taxBox')
 const statistics = document.getElementById('statistics')
 const economy = document.getElementById('economy')
-const capital = document.getElementById('buildingCapital')
+const capital = document.getElementById('buildingCapital') 
+const army = document.getElementById('army') 
 
 // Generates resource box
 export const displayResourceBox = (gameData) => {    
@@ -18,7 +19,7 @@ export const displayResourceBox = (gameData) => {
     <div class="res res-nm"><img title='Stone' class='img-m' src='media/stone.png'><span title='Stone' class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
     <div class="res hr"><img title='Fame' class='img-m' src='media/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
     <div class="res"> <img title='Might' class='img-m' src='media/army.png'><span title='Might'>0</span></div>
-    <div class="res res-sm"> <img title='Happiness' class='img-m' src='media/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
+    <div class="res res-nm"> <img title='Happiness' class='img-m' src='media/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
     <div class="res res-nm"><img title='Army status' class='img-m' src='media/fame.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
 }
 
@@ -65,7 +66,7 @@ export const displayStatistics = (gameData) => {
         <p class="stat-header">Space:</p>
         <div class="stat-div">
             <span class="text-gray">Capital:</span><span>${converThousand(gameData.basicResources.basicSpace)}</span>
-            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.tempData.houseSpace)}</span>
+            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.tempData.houseSpace)}</span>
             <span class="text-gray">Settlements:</span><span id="stat-space-settlement">0</span>
             <span class="text-gray">Total space:</span><span>${converThousand(gameData.tempData.totalSpace)}</span>
             <span class="text-gray">Free space:</span><span>${converThousand(gameData.tempData.totalSpace - gameData.basicResources.pop)}</span>
@@ -75,7 +76,7 @@ export const displayStatistics = (gameData) => {
     <div>
         <p class="stat-header">Buildings:</p>
         <div class="stat-div">
-            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingHouse.amount)}</span>
+            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildingHouse.amount)}</span>
             <span class="text-gray">Farms:</span><span>${converThousand(gameData.buildingFarm.amount)}</span>
             <span class="text-gray">Lumber yards:</span><span>${converThousand(gameData.buildingLumberyard.amount)}</span>
             <span class="text-gray">Quarries:</span><span>${converThousand(gameData.buildingQuarry.amount)}</span>
@@ -199,7 +200,7 @@ export const displayCapital = (gameData) => {
         <span class="text-bold text-orange">Level ${nl}</span>
         <div class="box-stats">
             <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)}</span>
-            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)}</span>
+            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)}</span>
             <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildingCapital.levels[cl].militiaRecruit)}</span>
             ${gameData.buildingCapital.levels[cl].commerce > 0 ? ` <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)}</span>` : ``}
         </div>
@@ -217,7 +218,7 @@ export const displayCapital = (gameData) => {
        <span class='mt'>Upgrade bonuses:</span>
         <div class="box-stats">
             <span class="text-gray">Space:</span><span>${converThousand(gameData.buildingCapital.levels[cl].space)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].space)}</span></span>
-            <span class="text-gray">Living districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].houses)}</span></span>
+            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildingCapital.levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].houses)}</span></span>
             <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildingCapital.levels[cl].militiaRecruit)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].militiaRecruit)}</span></span>
             <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildingCapital.levels[cl].commerce)} > <span class="text-green">${converThousand(gameData.buildingCapital.levels[nl].commerce)}</span></span>
             
@@ -284,4 +285,25 @@ export const generateMissions = (mission) => {
         </div>
         
     </div>  `
+}
+
+export const displayArmy = (gameData) => {
+    return army.innerHTML = `
+    <div class='army-border'>
+        <div class='army-header'>
+            <span>Name</span>
+            <span>Amount</span>
+            <span>Attack</span>
+            <span>Defense</span>
+            <span>HP</span>
+            <span>Speed</span>
+            <span>Type</span>
+            <span>Might</span>
+            <span>Pay</span>
+            <span>Magic</span>
+            <span>Equipment</span>
+        </div>
+        ${generateArmy(gameData)}
+    </div>
+    `
 }

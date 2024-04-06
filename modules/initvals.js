@@ -295,7 +295,7 @@ export const initData = {
     },
     buildingHouse: {
         id: 'buildingHouse',
-        name: 'Living district',
+        name: 'Housing district',
         buildingType: 'General',
         textColor: 'text-purple',
         amount: 0,
@@ -337,7 +337,7 @@ export const initData = {
         costStone: 5,
         requireSpace: true,
         space: 0,
-        maxSpace: 2,
+        maxSpace: 1,
         effect: 10,
         info: 'Produces #effect# units of <span class="text-yellow">food</span> per month.'
     },
@@ -361,7 +361,7 @@ export const initData = {
         costStone: 0,
         requireSpace: true,
         space: 0,
-        maxSpace: 1,
+        maxSpace: 0,
         effect: 5,
         info: 'Produces #effect# units of <span class="text-brown">wood</span> per month.'
     },
@@ -385,33 +385,60 @@ export const initData = {
         costStone: 20,
         requireSpace: true,
         space: 0,
-        maxSpace: 1,
+        maxSpace: 0,
         effect: 2,
         info: 'Produces #effect# units of <span class="text-darkgray">stone</span> per month.',
     },
 // === UNITS ===============================================================================================
-    unitMilitia: {
-        name: 'Militia',
-        amount: 0,
-        attack: 2,
-        defense: 1,
-        hp: 5,
-        speed: 5,
-        attackType: 4, // 1 - heavy, 2 - range, 3 - support, 4 - melee
-        pay: 1,
-        value: 5,
-        isRecruitable: true,
-        recrutpm: 0,
-        recruitCost: {
-            gold: 1,
-            pop: 1
+    units: [
+        {
+            name: 'Militia',
+            amount: 1,
+            attack: 2,
+            defense: 1,
+            hp: 5,
+            speed: 5,
+            attackType: 4, // 1 - heavy, 2 - range, 3 - support, 4 - melee
+            pay: 1,
+            might: 7,
+            isRecruitable: true,
+            recrutpm: 0,
+            recruitCost: {
+                gold: 1,
+                pop: 1
+            },
+            equipment: {
+                weapon: null,
+                armor: null,
+                trinket: null
+            },
+            magic: false
+            
         },
-        equipment: {
-            weapon: null,
-            armor: null,
-            trinket: null
-        },
-        magic: false
+        {
+            name: 'Archer',
+            amount: 1,
+            attack: 3,
+            defense: 1,
+            hp: 3,
+            speed: 6,
+            attackType: 2, // 1 - heavy, 2 - range, 3 - support, 4 - melee
+            pay: 2,
+            might: 10,
+            isRecruitable: false,
+            recrutpm: 0,
+            recruitCost: {
+                gold: 1,
+                pop: 1
+            },
+            equipment: {
+                weapon: null,
+                armor: null,
+                trinket: null
+            },
+            magic: false
+            
+        }
+    ]
         
-    }
 }

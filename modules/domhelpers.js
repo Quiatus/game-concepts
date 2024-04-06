@@ -1,6 +1,6 @@
 'use strict';
 import { loadGame } from "./utilities.js"
-import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions } from "./domgenerators.js"
+import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, displayArmy } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
 const events = document.querySelector('.event-div')
@@ -71,6 +71,10 @@ export const generateMarkup = (panel=null) => {
 
     if (panel === 'missions') {
         displayMissions(gameData)
+    }
+
+    if (panel === 'army') {
+        displayArmy(gameData)
     }
 
     if (panel === 'statistics') {
@@ -333,5 +337,34 @@ export const displayMissionReward = (rewards) => {
         div.append(sub)
     }
     
+    return div.innerHTML
+}
+
+// === ARMY ==================================================================================================================
+
+export const generateArmy = (gameData) => {
+    let div = document.createElement('div')
+
+    for (let i = 0; i < gameData.units.length; i++) {
+        if (gameData.units[i].amount) {
+            let line = document.createElement('div')
+            line.classList = 'army-line'
+            line.innerHTML = `
+            <span>${gameData.units[i].name}</span>
+            <span>${gameData.units[i].amount}</span>
+            <span>${gameData.units[i].attack}</span>
+            <span>${gameData.units[i].defense}</span>
+            <span>${gameData.units[i].hp}</span>
+            <span>${gameData.units[i].speed}</span>
+            <span>${gameData.units[i].attackType}</span>
+            <span>${gameData.units[i].pay}</span>
+            <span>${gameData.units[i].might}</span>
+            <span>${gameData.units[i].magic}</span>
+            <span></span>
+            `
+            div.append(line)
+        }
+    }
+
     return div.innerHTML
 }

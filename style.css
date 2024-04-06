@@ -9,7 +9,7 @@
     --clr-compbg: #223;
     --clr-bg: #000;
     --clr-hover: #eef;
-    --clr-gray: #99b;
+    --clr-gray: #aab;
     --clr-menutext: #cce; 
     --clr-progress: #55a;
     
@@ -22,16 +22,6 @@
     --clr-gray: #b99;
     --clr-menutext: #ecc;  
     --clr-progress: #900;
-    */
-    /* Grey
-    --clr-bgborder: #333;
-    --clr-compbord: #666;
-    --clr-compbg: #222;
-    --clr-bg: #000;
-    --clr-hover: #fff;
-    --clr-gray: #aaa;
-    --clr-menutext: #ccc;
-    --clr-progress: #282;
     */
 
     /* Colors for building headers */
@@ -114,14 +104,14 @@ h1 {
 
 .box-sub {
     overflow: hidden;
-    border: 1px solid var(--clr-bgborder);
-    box-shadow: 0 0 5px var(--clr-bgborder);
+    border: 1px solid var(--clr-compbg);
+    box-shadow: 0 0 5px var(--clr-compbg);
     border-radius: 0.25rem;
     margin-bottom: 1rem;
 }
 
 h3 {
-    background-color: var(--clr-bgborder);
+    background-color: var(--clr-compbg);
     color: var(--clr-gray);
     line-height: 1;
     padding: 0.25rem 0.5rem;
@@ -242,10 +232,6 @@ h3 {
     width: 120px;
 }
 
-.res-sm {
-    width: 100px;
-}
-
 .res-b {
     width: 240px;
 }
@@ -288,17 +274,17 @@ h3 {
 
 /* General panel */
 
+.message-div, 
+.event-div {
+    padding: 0.5rem;
+}
+
 .message-div > p,
 .event-div > p,
 .timer {
     display: flex;
     align-items: center;
     gap: 0.75ch;
-}
-
-.message-div, 
-.event-div {
-    padding: 0.5rem;
 }
 
 /* Management box */
@@ -429,6 +415,48 @@ h3 {
 /* Recruitment */
 
 /* Army */
+
+.army-border {
+    border-radius: 0.25rem;
+    overflow: hidden;
+    border: 1px solid var(--clr-compbg);
+    box-shadow: 0 0 5px var(--clr-compbg);
+    display: flex;
+    flex-direction: column;
+}
+
+.army-header {
+    background-color: var(--clr-compbg);
+    color: var(--clr-gray);
+    font-weight: 700;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(11, 120px);
+    padding: 0.25rem 0;
+}
+
+.army-line {
+    color: var(--clr-white);
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(11, 120px);
+    border-bottom: 1px solid var(--clr-compbord);
+    padding: 0.25rem 0;
+}
+
+.army-line:last-of-type {
+    border-bottom: none;
+}
+
+.army-header span,
+.army-line span  {
+    text-align: center;
+    border-right: 1px solid var(--clr-compbord);
+}
+
+.army-header span:last-child {
+    border-right: none;
+}
 
 /* Utilities */
 
@@ -571,6 +599,7 @@ button:active {
 
 .text-normal {
     font-size: 16px;
+    font-weight: 400;
 }
 
 .text-it {
@@ -631,5 +660,5 @@ button:active {
 }
 
 .text-disabled {
-    color: #444;
+    color: var(--clr-bggray);
 }
