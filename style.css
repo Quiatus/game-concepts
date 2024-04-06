@@ -416,46 +416,24 @@ h3 {
 
 /* Army */
 
-.army-border {
-    border-radius: 0.25rem;
-    overflow: hidden;
-    border: 1px solid var(--clr-compbg);
-    box-shadow: 0 0 5px var(--clr-compbg);
+.unit-stats {
+    display: grid;
+    grid-template-columns: 1fr 1.75fr;
+    width: 100%;
+}
+
+.unit-stat {
     display: flex;
     flex-direction: column;
+    padding: 0 0.5rem;
+    gap: 0.25rem;
 }
 
-.army-header {
-    background-color: var(--clr-compbg);
-    color: var(--clr-gray);
-    font-weight: 700;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(11, 120px);
-    padding: 0.25rem 0;
-}
-
-.army-line {
-    color: var(--clr-white);
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(11, 120px);
-    border-bottom: 1px solid var(--clr-compbord);
-    padding: 0.25rem 0;
-}
-
-.army-line:last-of-type {
-    border-bottom: none;
-}
-
-.army-header span,
-.army-line span  {
-    text-align: center;
-    border-right: 1px solid var(--clr-compbord);
-}
-
-.army-header span:last-child {
-    border-right: none;
+.unit-stat div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 /* Utilities */

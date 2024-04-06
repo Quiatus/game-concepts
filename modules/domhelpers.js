@@ -1,6 +1,6 @@
 'use strict';
 import { loadGame } from "./utilities.js"
-import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, displayArmy } from "./domgenerators.js"
+import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, generateArmy } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
 const events = document.querySelector('.event-div')
@@ -9,6 +9,7 @@ const alertsPanel = document.querySelector('.alert-div')
 const buildings = document.getElementById('buildings')
 const menuBtnMissions = document.getElementById('menuBtnMissions')
 const missions = document.getElementById('missions')
+const army = document.getElementById('army') 
 
 // === UTILITIES ===================================================================================================
 
@@ -113,6 +114,7 @@ export const printNewMonthMessages = () => {
     let gameData = loadGame()
     printMessage('', 'gains')
     printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
+    if (gameData.tempData.milPay > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.milPay}</span> <img class='img-s' src='media/gold.png'>.`, 'info')
 }
 
 // prints various messages 
@@ -141,6 +143,7 @@ export const calcEconomy = (econType) => {
         results[1] = gameData.tempData.popDied + gameData.tempData.popLeft
     } else if (econType === 'g') {
         results[0] = gameData.resourceGain.goldTotal + gameData.resourceGain.goldEvents
+        results[1] = gameData.tempData.milPay
     } else if (econType === 'f') {
         results[0] = gameData.resourceGain.food + gameData.resourceGain.foodEvents
         results[1] = gameData.tempData.consumedFood
@@ -340,31 +343,35 @@ export const displayMissionReward = (rewards) => {
     return div.innerHTML
 }
 
-// === ARMY ==================================================================================================================
+// === ARMY =================================================================================================================
 
-export const generateArmy = (gameData) => {
-    let div = document.createElement('div')
-
+// generate unit box for each unit that amount is bigger than 0
+const displayArmy = (gameData) => {
+    army.innerHTML = ''
     for (let i = 0; i < gameData.units.length; i++) {
         if (gameData.units[i].amount) {
-            let line = document.createElement('div')
-            line.classList = 'army-line'
-            line.innerHTML = `
-            <span>${gameData.units[i].name}</span>
-            <span>${gameData.units[i].amount}</span>
-            <span>${gameData.units[i].attack}</span>
-            <span>${gameData.units[i].defense}</span>
-            <span>${gameData.units[i].hp}</span>
-            <span>${gameData.units[i].speed}</span>
-            <span>${gameData.units[i].attackType}</span>
-            <span>${gameData.units[i].pay}</span>
-            <span>${gameData.units[i].might}</span>
-            <span>${gameData.units[i].magic}</span>
-            <span></span>
-            `
-            div.append(line)
+            const unitDiv = document.createElement('div')
+            unitDiv.innerHTML = generateArmy(gameData.units[i])
+            army.append(unitDiv)
         }
-    }
+    }    
+}
 
-    return div.innerHTML
+// generate unit description
+export const displayUnitDescription = (unit) => {
+    let magical = 'Non-magical'
+    let type = ''
+    let element = 'General'
+
+
+    if (unit.magic) magical = `<span class='text-blue'>Magical</span>`
+
+    if (unit.attackType === 1) type = 'Heavy'
+    else if (unit.attackType === 2) type = 'Range'
+    else if (unit.attackType === 3) type = 'Support'
+    else if (unit.attackType === 4) type = 'Melee'
+
+
+
+    return `${type} - ${element} - ${magical}`
 }

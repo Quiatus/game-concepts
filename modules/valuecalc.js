@@ -91,3 +91,19 @@ export const updateBuildCost = () => {
     }
     saveGame(gameData)
 }
+
+
+// calculate might
+export const calculateMight = () => {
+    let gameData = loadGame()
+    let might = 0
+
+    for (let i = 0; i < gameData.units.length; i++) {
+        if (gameData.units[i].amount) {
+            might += gameData.units[i].might * gameData.units[i].amount
+        }
+    }
+
+    gameData.tempData.might = might
+    saveGame(gameData)
+}

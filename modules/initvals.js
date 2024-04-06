@@ -46,7 +46,8 @@ export const initData = {
         popLeft: 0,
         popDied: 0,
         might: 0,
-        activeMissions: 0
+        activeMissions: 0,
+        milPay: 0
     },
 
 // === EVENTS ===============================================================================================
@@ -393,16 +394,17 @@ export const initData = {
     units: [
         {
             name: 'Militia',
-            amount: 1,
-            attack: 2,
-            defense: 1,
+            amount: 0,
+            attack: 3,
+            defense: 2,
             hp: 5,
-            speed: 5,
+            speed: 5, // higher is better
             attackType: 4, // 1 - heavy, 2 - range, 3 - support, 4 - melee
-            pay: 1,
-            might: 7,
+            pay: 0.2,
+            might: 7,  // attack + (0.5 * (def + hp)) * (0.5 * speed) * atT coef
             isRecruitable: true,
             recrutpm: 0,
+            queue: 0,
             recruitCost: {
                 gold: 1,
                 pop: 1
@@ -412,21 +414,22 @@ export const initData = {
                 armor: null,
                 trinket: null
             },
+            element: false,
             magic: false
-            
         },
         {
             name: 'Archer',
-            amount: 1,
-            attack: 3,
+            amount: 0,
+            attack: 4,
             defense: 1,
             hp: 3,
             speed: 6,
-            attackType: 2, // 1 - heavy, 2 - range, 3 - support, 4 - melee
-            pay: 2,
+            attackType: 2, 
+            pay: 0.5,
             might: 10,
             isRecruitable: false,
             recrutpm: 0,
+            queue: 0,
             recruitCost: {
                 gold: 1,
                 pop: 1
@@ -436,6 +439,7 @@ export const initData = {
                 armor: null,
                 trinket: null
             },
+            element: false,
             magic: false
             
         }

@@ -1,12 +1,11 @@
 'use strict';
-import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, generateArmy } from "./domhelpers.js"
+import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, displayUnitDescription } from "./domhelpers.js"
 
 const resourcesText = document.getElementById('resourceBox')
 const taxBox = document.getElementById('taxBox')
 const statistics = document.getElementById('statistics')
 const economy = document.getElementById('economy')
 const capital = document.getElementById('buildingCapital') 
-const army = document.getElementById('army') 
 
 // Generates resource box
 export const displayResourceBox = (gameData) => {    
@@ -18,7 +17,7 @@ export const displayResourceBox = (gameData) => {
     <div class="res res-nm"><img title='Wood' class='img-m' src='media/wood.png'><span title='Wood' class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
     <div class="res res-nm"><img title='Stone' class='img-m' src='media/stone.png'><span title='Stone' class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
     <div class="res hr"><img title='Fame' class='img-m' src='media/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
-    <div class="res"> <img title='Might' class='img-m' src='media/army.png'><span title='Might'>0</span></div>
+    <div class="res"> <img title='Might' class='img-m' src='media/army.png'><span title='Might'>${converThousand(gameData.tempData.might)}</span></div>
     <div class="res res-nm"> <img title='Happiness' class='img-m' src='media/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
     <div class="res res-nm"><img title='Army status' class='img-m' src='media/fame.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
 }
@@ -55,9 +54,9 @@ export const displayStatistics = (gameData) => {
     <div>
         <p class="stat-header">General:</p>
         <div class="stat-div">
-            <span class="text-gray">Fame:</span><span id="stat-gen-fame">${converThousand(gameData.basicResources.fame)}</span>
+            <span class="text-gray">Fame:</span><span>${converThousand(gameData.basicResources.fame)}</span>
             <span class="text-gray">Happiness:</span><span>${changeHappinessColor(gameData.tempData.happiness)}</span>
-            <span class="text-gray">Might:</span><span id="stat-gen-might">0</span>
+            <span class="text-gray">Might:</span><span>${converThousand(gameData.tempData.might)}</span>
             <span class="text-gray">Army:</span><span>${getArmyStatus(gameData)}</span>
         </div>
     </div>
@@ -66,8 +65,8 @@ export const displayStatistics = (gameData) => {
         <p class="stat-header">Space:</p>
         <div class="stat-div">
             <span class="text-gray">Capital:</span><span>${converThousand(gameData.basicResources.basicSpace)}</span>
-            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.tempData.houseSpace)}</span>
-            <span class="text-gray">Settlements:</span><span id="stat-space-settlement">0</span>
+            <span class="text-gray">Housing distr:</span><span>${converThousand(gameData.tempData.houseSpace)}</span>
+            <span class="text-gray">Settlements:</span><span>0</span>
             <span class="text-gray">Total space:</span><span>${converThousand(gameData.tempData.totalSpace)}</span>
             <span class="text-gray">Free space:</span><span>${converThousand(gameData.tempData.totalSpace - gameData.basicResources.pop)}</span>
         </div>
@@ -76,7 +75,7 @@ export const displayStatistics = (gameData) => {
     <div>
         <p class="stat-header">Buildings:</p>
         <div class="stat-div">
-            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildingHouse.amount)}</span>
+            <span class="text-gray">Housing distr:</span><span>${converThousand(gameData.buildingHouse.amount)}</span>
             <span class="text-gray">Farms:</span><span>${converThousand(gameData.buildingFarm.amount)}</span>
             <span class="text-gray">Lumber yards:</span><span>${converThousand(gameData.buildingLumberyard.amount)}</span>
             <span class="text-gray">Quarries:</span><span>${converThousand(gameData.buildingQuarry.amount)}</span>
@@ -127,6 +126,7 @@ export const displayEconomy = (gameData) => {
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Expenditures</span>
+        <span class="text-gray ml">Army upkeep:</span><span class="text-red">${converThousand(gameData.tempData.milPay)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('g')[1])}</span>
     </div>
     <div class="economy-div">
@@ -287,23 +287,40 @@ export const generateMissions = (mission) => {
     </div>  `
 }
 
-export const displayArmy = (gameData) => {
-    return army.innerHTML = `
-    <div class='army-border'>
-        <div class='army-header'>
-            <span>Name</span>
-            <span>Amount</span>
-            <span>Attack</span>
-            <span>Defense</span>
-            <span>HP</span>
-            <span>Speed</span>
-            <span>Type</span>
-            <span>Might</span>
-            <span>Pay</span>
-            <span>Magic</span>
-            <span>Equipment</span>
+export const generateArmy = (unit) => {
+    return `
+    <div class="box" id="unit${unit.name}">
+        <h2 class='text-left'>${unit.name}</h2>
+        <p class="text-bold text-it text-center">${displayUnitDescription(unit)}</p>
+        <p class="text-big">${converThousand(unit.amount)}</p>
+
+        <div class='unit-stats'>
+            <div class='unit-stat'>
+                <div><img class="img-s" src="media/army.png"><span>${converThousand(unit.attack)}</span></div>
+                <div><img class="img-s" src="media/defense.png"><span>${converThousand(unit.defense)}</span></div>
+                <div><img class="img-s" src="media/health.png"><span>${converThousand(unit.hp)}</span></div>
+            </div>
+
+            <div class='unit-stat'>
+                <div><img class="img-s" src="media/gold.png"><span>${converThousand(unit.speed)}</span></div>
+                <div><img class="img-s" src="media/fame.png"><span>${converThousand(unit.might)}</span><span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/gold.png"><span>${converThousand(unit.pay)}</span><span class='text-gray'>(${converThousand(unit.pay * unit.amount)})</span></div>
+            </div>
         </div>
-        ${generateArmy(gameData)}
-    </div>
-    `
+
+        <hr class="separator">
+        <div>
+            Equipment
+        </div>
+
+        
+        <div>
+            Spells
+        </div>
+
+        <hr class="separator">
+        <div>
+            Dismiss
+        </div>
+    </div>  `
 }

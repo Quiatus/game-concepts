@@ -19,15 +19,17 @@ export class Gold{
         const tax = gameData.general.tax
         const commerce = gameData.tempData.commerce // gained from higher capital levels. Will create function that randomizes the amount
         const eventGain = this.getGoldFromEvents(gameData.events)
+        const armyPay = this.armyWage(gameData.units)
 
         //base income from pop * tax multiplier
         const baseIncome = Math.round(this.getGoldFromPop(pop) * this.addTaxes(tax))
         
-        amount = baseIncome + commerce + eventGain
+        amount = baseIncome + commerce + eventGain - armyPay
 
         gameData.resourceGain.goldTotal = baseIncome + commerce // this is so that the regural gains are separated from the event gains in the overview
         gameData.resourceGain.goldTax = baseIncome
         gameData.resourceGain.goldEvents = eventGain
+        gameData.tempData.milPay = armyPay
 
         gameData.basicResources.gold += amount
         gameData.basicResources.gold < 0 ? gameData.basicResources.gold = 0 : null
@@ -62,6 +64,18 @@ export class Gold{
         const max = Math.floor(pop * 0.125);  
         const addGold = Math.floor(Math.random() * (max - min) + min);
         return addGold;
+    }
+
+    // deduct army pay
+    armyWage(units) {
+        let amount = 0
+        for (let i = 0; i < units.length; i++) {
+            if (units[i].amount) {
+                amount += Math.floor(units[i].pay * units[i].amount)
+            }
+        }
+
+        return amount
     }
 }
 

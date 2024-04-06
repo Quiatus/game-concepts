@@ -2,7 +2,7 @@
 
 import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
-import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost } from "./modules/valuecalc.js";
+import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost, calculateMight } from "./modules/valuecalc.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
@@ -50,6 +50,7 @@ const checkAfterResourceCalc = (isNewMonth) => {
     pop.isMaxPop(isNewMonth) // checks if there is a space for population, if not, shows warning
     food.checkIfEnoughFood(pop, isNewMonth) // checks if there is enough food, if not, shows warning
     calculateHappiness()  // calculates happiness based on the conditions calculaed before
+    calculateMight() // calculate might
     displayActiveAlerts() // shows any active alerts
     generateMarkup() // updates DOM
 }
@@ -96,8 +97,9 @@ const checkConstruction = (isNewMonth) => {
     9. Check if pop is at or above max space. If the same, triggers the appropriate alert
     10. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
     11. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
-    12. Displays all active alerts
-    13. Re-generate DOM with the updated values
+    12. Calculate total might 
+    13. Displays all active alerts
+    14. Re-generate DOM with the updated values
 */
 
 const progressGame = () => {
