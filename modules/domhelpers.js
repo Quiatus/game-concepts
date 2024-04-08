@@ -1,6 +1,6 @@
 'use strict';
 import { loadGame } from "./utilities.js"
-import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, generateArmy } from "./domgenerators.js"
+import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, generateArmy, generateRecruits } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
 const events = document.querySelector('.event-div')
@@ -10,6 +10,7 @@ const buildings = document.getElementById('buildings')
 const menuBtnMissions = document.getElementById('menuBtnMissions')
 const missions = document.getElementById('missions')
 const army = document.getElementById('army') 
+const recruitment = document.getElementById('recruitment') 
 
 // === UTILITIES ===================================================================================================
 
@@ -77,6 +78,11 @@ export const generateMarkup = (panel=null) => {
     if (panel === 'army') {
         displayArmy(gameData)
     }
+
+    if (panel === 'recruitment') {
+        displayRecruits(gameData)
+    }
+
 
     if (panel === 'statistics') {
         displayStatistics(gameData)
@@ -297,10 +303,10 @@ export const displayActiveEvents = (isNewMonth) => {
 const generateEventMessage = (event) => {
     let message = document.createElement('p');
     const descrID = Math.floor(Math.random() * event.description.length)
-    if (event.isTimed && !event.isMission) message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>.`
+    if (event.isTimed && !event.isMission) message.innerHTML = `<span class='text-orange text-bold'>Event: </span>${event.description[descrID].replace('#effect#', eventText(event))} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>.`
     else if (event.isMission && event.isDisplayed) message.innerHTML = `<span class='text-orange text-bold'>Misson: </span>${event.description[descrID].replace('#effect#', eventText(event))}`
     else if (event.isMission && !event.isDisplayed) message.innerHTML = ``
-    else message.innerHTML = `${event.description[descrID].replace('#effect#', eventText(event))}` 
+    else message.innerHTML = `<span class='text-orange text-bold'>Discovery: </span>${event.description[descrID].replace('#effect#', eventText(event))}` 
     return message
 }
 
@@ -374,4 +380,18 @@ export const displayUnitDescription = (unit) => {
 
 
     return `${type} - ${element} - ${magical}`
+}
+
+// === RECRUITMENT ============================================================================================================
+
+// generate unit box for each unit that is recruitable
+const displayRecruits = (gameData) => {
+    recruitment.innerHTML = ''
+    for (let i = 0; i < gameData.units.length; i++) {
+        if (gameData.units[i].isRecruitable) {
+            const unitDiv = document.createElement('div')
+            unitDiv.innerHTML = generateRecruits(gameData.units[i])
+            recruitment.append(unitDiv)
+        }
+    }    
 }

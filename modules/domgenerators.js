@@ -1,5 +1,6 @@
 'use strict';
 import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, displayUnitDescription } from "./domhelpers.js"
+import { calcMaxUnit } from "./valuecalc.js"
 
 const resourcesText = document.getElementById('resourceBox')
 const taxBox = document.getElementById('taxBox')
@@ -321,6 +322,38 @@ export const generateArmy = (unit) => {
         <hr class="separator">
         <div>
             Dismiss
+        </div>
+    </div>  `
+}
+
+export const generateRecruits = (unit) => {
+    return `
+    <div class="box" id="rec${unit.name}">
+        <h2 class='text-left'>${unit.name}</h2>
+
+        <div class='recruit-info'>
+        <span class='text-gray'>In queue: </span>
+        <span class='text-white'>${converThousand(unit.queue)}</span>
+        </div>
+
+        <hr class="separator">
+
+        <div class='recruit-stats'>
+            <div class='resource-box'>
+                <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(unit.recruitCost.gold)}</span></div>
+                <div><img class="img-s" src="media/pop.png"><span class="text-purple">${converThousand(unit.recruitCost.pop)}</span></div>
+            </div>
+            <div class='resource-box'>
+                <div><img class="img-s" src="media/month.png"><span class="text-white">${converThousand(unit.recrutpm)}</span></div>
+            </div>
+        </div>
+
+        <div class="add-form">
+            <div>
+                <input id=recAmn} type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
+                <span class="text-it text-gray">(Max ${converThousand(calcMaxUnit(unit))})</span>
+            </div>
+            <button id="btnRecruit">Recruit</button>
         </div>
     </div>  `
 }
