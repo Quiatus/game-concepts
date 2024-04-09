@@ -179,10 +179,10 @@ export const getArmyStatus = (gameData) => {
 // Shows every unlocked building
 const displayBuildings = (gameData) => {
     buildings.innerHTML = ''
-    for (let building of gameData.buildingList) {
-        if (gameData[building].isVisible) {
+    for (let building of gameData.buildings) {
+        if (building.isVisible && building.id !== 'buildingCapital') {
             const buildDiv = document.createElement('div')
-            buildDiv.innerHTML = generateBuildings(gameData[building], gameData.buildingCapital.currentLevel)
+            buildDiv.innerHTML = generateBuildings(building, gameData.buildings[0].currentLevel)
             buildings.append(buildDiv)
         }
     }    
@@ -217,7 +217,7 @@ export const buildingConstrProgress = (building, level=null) => {
         } else {
             return `<div class="build-buttons">
             <span class="text-red error-text-build none"></span>
-            <button class="btnBuild" id="btn${building.id}">${(building.isUpgradeable && building.amount === 1) ? `Upgrade` : `Build`} ${building.name}</button>
+            <button class="btnBuild" id="${building.id}">${(building.isUpgradeable && building.amount === 1) ? `Upgrade` : `Build`} ${building.name}</button>
             </div>`
         }
     } else {

@@ -83,7 +83,7 @@ export class Pop {
     calculateTotalSpace() {
         let gameData = loadGame()
         const basicSpace = gameData.basicResources.basicSpace
-        const houseSpace = gameData.buildingHouse.amount * gameData.buildingHouse.effect
+        const houseSpace = gameData.buildings[1].amount * gameData.buildings[1].effect
         const totalSpace = basicSpace + houseSpace
 
         gameData.tempData.houseSpace = houseSpace
@@ -237,7 +237,7 @@ export class Food{
 
     // calculate food gain from farms
     gainFood(gameData) {
-        const gain = gameData.buildingFarm.amount * gameData.buildingFarm.effect
+        const gain = gameData.buildings[2].amount * gameData.buildings[2].effect
         return gain
     }
 
@@ -322,7 +322,7 @@ export class Wood{
 
     // calucaltes base gain from lumberyard
     gainWood(gameData) {
-        const gain = gameData.buildingLumberyard.amount * gameData.buildingLumberyard.effect
+        const gain = gameData.buildings[3].amount * gameData.buildings[3].effect
         return gain
     }
 }
@@ -359,7 +359,7 @@ export class Stone{
 
     // calucaltes base gain from quarries
     gainStone(gameData) {
-        const gain = gameData.buildingQuarry.amount * gameData.buildingQuarry.effect
+        const gain = gameData.buildings[4].amount * gameData.buildings[4].effect
         return gain
     }
 }

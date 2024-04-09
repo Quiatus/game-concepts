@@ -118,9 +118,9 @@ const actionActiveEvents = () => {
 const calculateBuildSpace = () => {
     let gameData = loadGame()
     for (let event of gameData.events) {
-        if (event.active && event.type === 'gainFarmSpace') gameData.buildingFarm.maxSpace++
-        if (event.active && event.type === 'gainLumberSpace') gameData.buildingLumberyard.maxSpace++
-        if (event.active && event.type === 'gainQuarrySpace') gameData.buildingQuarry.maxSpace++
+        if (event.active && event.type === 'gainFarmSpace') gameData.buildings[2].maxSpace++
+        if (event.active && event.type === 'gainLumberSpace') gameData.buildings[3].maxSpace++
+        if (event.active && event.type === 'gainQuarrySpace') gameData.buildings[4].maxSpace++
     }
     saveGame(gameData)
 }

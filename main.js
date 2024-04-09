@@ -2,8 +2,8 @@
 
 import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
-import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost } from "./modules/generalcalcs.js";
-import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
+import { changeTax, calculateHappiness } from "./modules/generalcalcs.js";
+import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
 import { dismissUnits, calculateMight } from "./modules/units.js"
@@ -15,11 +15,6 @@ const month = new Month();
 const food = new Food();
 const wood = new Wood();
 const stone = new Stone();
-const capital = new Capital();
-const house = new House();
-const farm = new Farm();
-const lumberyard = new Lumberyard();
-const quarry = new Quarry();
 
 // initiates app once page is fully loaded
 document.addEventListener('readystatechange', (e) => {
@@ -37,7 +32,7 @@ const initApp = () => {
 const checkBeforeResourceCalc = (isNewMonth) => {
     clearMessages(isNewMonth)
     showPanel('overviewPanel')  // show general panel
-    checkConstruction(isNewMonth) // progress construction
+    progressBuild(isNewMonth) // progress construction
     applyCapitalBonuses() // apply capital bonuses 
     updateBuildCost() // Updates the current building cost for any upgradeable building
     pop.calculateTotalSpace() // calculates max. available space for pop (from building, capital and settlements)
@@ -66,17 +61,6 @@ const calculateResources = () => {
     stone.calculateStone();
 }
 
-// checks if any construction is ongoing.
-const checkConstruction = (isNewMonth) => {
-    if (isNewMonth) {
-        capital.progressBuild('buildingCapital')
-        house.progressBuild('buildingHouse')
-        farm.progressBuild('buildingFarm')
-        lumberyard.progressBuild('buildingLumberyard')
-        quarry.progressBuild('buildingQuarry')
-    }
-}
-
 const progressGame = () => {
     checkBeforeResourceCalc(true)    
     calculateResources() 
@@ -93,23 +77,12 @@ document.addEventListener('click', (e) => {
     button === 'btnNewMonth' ? progressGame() : null
     button === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
 
-    // Menu buttons
     btnClass.includes('menuPanel') ? showPanel(e.target.id) : null
-    
-    // Tax buttons event listeners
     btnClass === 'btnTax' ? changeTax(e.target.id) : null
-
-    // build buttons
-    button === 'btnbuildingCapital' ? capital.startConstruction(e, 'buildingCapital') : null
-    button === 'btnbuildingHouse' ? house.startConstruction(e, 'buildingHouse') : null
-    button === 'btnbuildingFarm' ? farm.startConstruction(e, 'buildingFarm') : null
-    button === 'btnbuildingLumberyard' ? lumberyard.startConstruction(e, 'buildingLumberyard') : null
-    button === 'btnbuildingQuarry' ? quarry.startConstruction(e, 'buildingQuarry') : null
+    btnClass === 'btnBuild' ? startConstruction(e) : null
+    btnClass == 'btnDismiss' ? dismissUnits(e.target.id) : null
 
     // missions
     button === 'btnAcceptMission' ? removeMission(e.target.parentNode.parentNode.id, true) : null
     button === 'btnRejectMission' ? removeMission(e.target.parentNode.parentNode.id, false) : null
-
-    // army
-    btnClass == 'btnDismiss' ? dismissUnits(e.target.id) : null
 })
