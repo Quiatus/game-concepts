@@ -297,15 +297,15 @@ export const generateArmy = (unit) => {
 
         <div class='unit-stats'>
             <div class='unit-stat'>
-                <div><img class="img-s" src="media/army.png"><span>${converThousand(unit.attack)}</span></div>
-                <div><img class="img-s" src="media/defense.png"><span>${converThousand(unit.defense)}</span></div>
-                <div><img class="img-s" src="media/health.png"><span>${converThousand(unit.hp)}</span></div>
+                <div><img class="img-s" src="media/army.png" title="Attack"><span>${converThousand(unit.attack)}</span></div>
+                <div><img class="img-s" src="media/defense.png" title="Defense"><span>${converThousand(unit.defense)}</span></div>
+                <div><img class="img-s" src="media/health.png" title="HP"><span>${converThousand(unit.hp)}</span></div>
             </div>
 
             <div class='unit-stat'>
-                <div><img class="img-s" src="media/gold.png"><span>${converThousand(unit.speed)}</span></div>
-                <div><img class="img-s" src="media/fame.png"><span>${converThousand(unit.might)}</span><span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
-                <div><img class="img-s" src="media/gold.png"><span>${converThousand(unit.pay)}</span><span class='text-gray'>(${converThousand(unit.pay * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/gold.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
+                <div><img class="img-s" src="media/fame.png" title="Might (total)"><span>${converThousand(unit.might)}</span><span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span><span class='text-gray'>(${converThousand(unit.pay * unit.amount)})</span></div>
             </div>
         </div>
 

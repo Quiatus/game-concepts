@@ -182,11 +182,10 @@ export const getArmyStatus = (gameData) => {
 // Shows every unlocked building
 const displayBuildings = (gameData) => {
     buildings.innerHTML = ''
-    for (let i = 0; i < gameData.buildingList.length; i++) {
-        let building = gameData[gameData.buildingList[i]]
-        if (building.isVisible) {
+    for (let building of gameData.buildingList) {
+        if (gameData[building].isVisible) {
             const buildDiv = document.createElement('div')
-            buildDiv.innerHTML = generateBuildings(building, gameData.buildingCapital.currentLevel)
+            buildDiv.innerHTML = generateBuildings(gameData[building], gameData.buildingCapital.currentLevel)
             buildings.append(buildDiv)
         }
     }    
@@ -266,17 +265,14 @@ export const showMissionNumber = () => {
 
 // Shows active missions
 const displayMissions = (gameData) => {
-    const totalEvents = gameData.events.length
-
     missions.innerHTML = `<p class='mbb text-big'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
-
     const missionSubdiv = document.createElement('div')
     missionSubdiv.classList = 'smallBoxDiv'
     
-    for (let i = 0; i < totalEvents; i++) {
-        if (gameData.events[i].active && gameData.events[i].isMission) {
+    for (let event of gameData.events) {
+        if (event.active && event.isMission) {
             const missionDiv = document.createElement('div')
-            const mission = gameData.events[i]
+            const mission = event
             missionDiv.innerHTML = generateMissions(mission)
             missionSubdiv.append(missionDiv)
         }
@@ -289,12 +285,11 @@ const displayMissions = (gameData) => {
 export const displayActiveEvents = (isNewMonth) => {
     events.innerHTML = ''
     const gameData = loadGame()
-    const totalEvents = gameData.events.length
     // searches for active events
-    for (let i = 0; i < totalEvents; i++) {
-        if (gameData.events[i].active) {
-            if (isNewMonth) events.append(generateEventMessage(gameData.events[i]))
-            if (!isNewMonth && gameData.events[i].isTimed) events.append(generateEventMessage(gameData.events[i]))
+    for (let event of gameData.events) {
+        if (event.active) {
+            if (isNewMonth) events.append(generateEventMessage(event))
+            if (!isNewMonth && event.isTimed) events.append(generateEventMessage(event))
         }
     }
 }
@@ -334,14 +329,13 @@ export const displayRemainingTimeMission = (time) => {
 export const displayMissionReward = (rewards) => { 
     let div = document.createElement('div')
 
-
-    for (let i = 0; i < rewards.length; i++) {
+    for (let [reward, amount] of rewards) {
         let sub = document.createElement('div')
         
-        if (rewards[i][0] === 'pop') sub.innerHTML = `<img class="img-s" src="media/pop.png"><span class="text-purple">${converThousand(rewards[i][1])}</span>`
-        if (rewards[i][0] === 'gold') sub.innerHTML = `<img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(rewards[i][1])}</span>`
-        if (rewards[i][0] === 'food') sub.innerHTML = `<img class="img-s" src="media/food.png"><span class="text-yellow">${converThousand(rewards[i][1])}</span>`
-        if (rewards[i][0] === 'fame') sub.innerHTML = `<img class="img-s" src="media/fame.png"><span class="text-white">${converThousand(rewards[i][1])}</span>`
+        if (reward === 'pop') sub.innerHTML = `<img class="img-s" src="media/pop.png"><span class="text-purple">${converThousand(amount)}</span>`
+        if (reward === 'gold') sub.innerHTML = `<img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(amount)}</span>`
+        if (reward === 'food') sub.innerHTML = `<img class="img-s" src="media/food.png"><span class="text-yellow">${converThousand(amount)}</span>`
+        if (reward === 'fame') sub.innerHTML = `<img class="img-s" src="media/fame.png"><span class="text-white">${converThousand(amount)}</span>`
 
         div.append(sub)
     }
@@ -354,10 +348,10 @@ export const displayMissionReward = (rewards) => {
 // generate unit box for each unit that amount is bigger than 0
 const displayArmy = (gameData) => {
     army.innerHTML = ''
-    for (let i = 0; i < gameData.units.length; i++) {
-        if (gameData.units[i].amount) {
+    for (let unit of gameData.units) {
+        if (unit.amount) {
             const unitDiv = document.createElement('div')
-            unitDiv.innerHTML = generateArmy(gameData.units[i])
+            unitDiv.innerHTML = generateArmy(unit)
             army.append(unitDiv)
         }
     }    
@@ -369,15 +363,12 @@ export const displayUnitDescription = (unit) => {
     let type = ''
     let element = 'General'
 
-
     if (unit.magic) magical = `<span class='text-blue'>Magical</span>`
 
     if (unit.attackType === 1) type = 'Heavy'
     else if (unit.attackType === 2) type = 'Range'
     else if (unit.attackType === 3) type = 'Support'
     else if (unit.attackType === 4) type = 'Melee'
-
-
 
     return `${type} - ${element} - ${magical}`
 }
@@ -387,10 +378,10 @@ export const displayUnitDescription = (unit) => {
 // generate unit box for each unit that is recruitable
 const displayRecruits = (gameData) => {
     recruitment.innerHTML = ''
-    for (let i = 0; i < gameData.units.length; i++) {
-        if (gameData.units[i].isRecruitable) {
+    for (let unit of gameData.units) {
+        if (unit.isRecruitable) {
             const unitDiv = document.createElement('div')
-            unitDiv.innerHTML = generateRecruits(gameData.units[i])
+            unitDiv.innerHTML = generateRecruits(unit)
             recruitment.append(unitDiv)
         }
     }    

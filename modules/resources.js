@@ -39,10 +39,9 @@ export class Gold{
 
     // generates gold from events
     getGoldFromEvents(events) {
-        const totalEvents = events.length
         let amount = 0
-        for (let i = 0; i < totalEvents; i++) {
-            if (events[i].active && events[i].type === 'gainGold') amount += events[i].effect
+        for (let event of events) {
+            if (event.active && event.type === 'gainGold') amount += event.effect
         }
         return amount
     }
@@ -69,9 +68,9 @@ export class Gold{
     // deduct army pay
     armyWage(units) {
         let amount = 0
-        for (let i = 0; i < units.length; i++) {
-            if (units[i].amount) {
-                amount += Math.floor(units[i].pay * units[i].amount)
+        for (let unit of units) {
+            if (unit.amount) {
+                amount += Math.floor(unit.pay * unit.amount)
             }
         }
 
@@ -97,8 +96,8 @@ export class Pop {
     calculatePop() {
         let gameData = loadGame()
         let amount = 0
-        const pop = gameData.basicResources.pop
         let alert = false
+        const pop = gameData.basicResources.pop
         const totalSpace = gameData.tempData.totalSpace 
         const happiness = gameData.tempData.happiness
         const eventGain = this.getPopFromEvents(gameData.events)
@@ -153,13 +152,12 @@ export class Pop {
         return addPop
     }
 
-    // generates stone from events
+    // generates pop from events
     getPopFromEvents(events) {
-        const totalEvents = events.length
         let additive = 0
         let multiplicative = 1
-        for (let i = 0; i < totalEvents; i++) {
-            if (events[i].active && events[i].type === 'popHappyGainMultiplier') multiplicative *= events[i].effect
+        for (let event of events) {
+            if (event.active && event.type === 'popHappyGainMultiplier') multiplicative *= event.effect
         }
         return [additive, multiplicative]
     }
@@ -249,19 +247,16 @@ export class Food{
         return consumedFood
     }
 
-    // generates stone from events
+    // generates food from events
     getFoodFromEvents(events) {
-        const totalEvents = events.length
         let additive = 0
         let multiplicative = 1
-        for (let i = 0; i < totalEvents; i++) {
-            if (events[i].active && events[i].type === 'gainFood') additive += events[i].effect
-            if (events[i].active && events[i].type === 'foodGainMultiplier') multiplicative *= events[i].effect
+        for (let event of events) {
+            if (event.active && event.type === 'gainFood') additive += event.effect
+            if (event.active && event.type === 'foodGainMultiplier') multiplicative *= event.effect
         }
         return [additive, multiplicative]
     }
-
-
 
     // checks if we have enough food, if not, triggers famine event
     checkIfEnoughFood(pop, isNewMonth=true) {
@@ -316,12 +311,11 @@ export class Wood{
         saveGame(gameData)
     }
 
-    // generates stone from events
+    // generates wood from events
     getWoodFromEvents(events) {
-        const totalEvents = events.length
         let amount = 0
-        for (let i = 0; i < totalEvents; i++) {
-            if (events[i].active && events[i].type === 'gainWood') amount += events[i].effect
+        for (let event of events) {
+            if (event.active && event.type === 'gainWood') amount += event.effect
         }
         return amount
     }
@@ -356,10 +350,9 @@ export class Stone{
 
     // generates stone from events
     getStoneFromEvents(events) {
-        const totalEvents = events.length
         let amount = 0
-        for (let i = 0; i < totalEvents; i++) {
-            if (events[i].active && events[i].type === 'gainStone') amount += events[i].effect
+        for (let event of events) {
+            if (event.active && event.type === 'gainStone') amount += event.effect
         }
         return amount
     }

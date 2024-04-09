@@ -15,11 +15,11 @@ export const generateEvent = (isNewMonth) => {
         
         //determine how many events are genereated (0 - 3)
         let eventNum = 0
-        const rnd = Math.floor(Math.random() * 100)
-        if (rnd === 0) eventNum = 3
-        else if (rnd > 0 && rnd <= 2) eventNum = 2
-        else if (rnd > 2 && rnd <= 12) eventNum = 1
-        else  eventNum = 0
+        const rnd = Math.floor(Math.random() * 200)
+        if (rnd >= 0 && rnd < 177) eventNum = 0
+        else if (rnd === 177) eventNum = 3
+        else if (rnd > 177 && rnd <= 180) eventNum = 2
+        else eventNum = 1
 
         // check if any event is generated
         if (eventNum > 0) {
@@ -39,34 +39,31 @@ export const generateEvent = (isNewMonth) => {
 
 // check various condition to determine if the event can be generated or not
 const checkIfEventIsGenerated = () => {
-    let gameData = loadGame()
-    const totalEvents = gameData.events.length
-    const id = Math.floor(Math.random() * totalEvents)
+    let gameData = loadGame() 
+    const id = Math.floor(Math.random() * gameData.events.length)
+    let event = gameData.events[id]
 
     // if the event is already active and is unlocked, it won't generate it again
-    if (!gameData.events[id].active && gameData.events[id].unlocked) {
+    if (!event.active && event.unlocked) {
         // uses rarity modifier
-        const rarity = Math.floor(Math.random() * gameData.events[id].rarity)
+        const rarity = Math.floor(Math.random() * event.rarity)
         if (rarity === 0) {
-            gameData.events[id].active = true
+            event.active = true
             // generates random number for the random events
-            if (gameData.events[id].isRandom) {
-                for (let i = 0; i < gameData.events[id].random.length; i++) {
-                    const min = gameData.events[id].random[i][1]
-                    const max = gameData.events[id].random[i][2]
-                    const val = gameData.events[id].random[i][0]
+            if (event.isRandom) {
+                for (let item of event.random) {
+                    const [val, min, max] = item
                     const value = Math.floor(Math.random() * (max - min) + min)
-                    gameData.events[id][val] = value
+                    event[val] = value
                 }
             }
 
             // check if the event is a mission and whether the mission log is full
-            if (gameData.events[id].isMission && gameData.tempData.activeMissions < gameData.general.maxMissions) {
-                gameData.events[id].rewards = generateRewards(gameData.events[id].rewards)
+            if (event.isMission && gameData.tempData.activeMissions < gameData.general.maxMissions) {
+                event.rewards = generateRewards(event.rewards)
                 gameData.tempData.activeMissions++
-                gameData.events[id].isDisplayed = true
-                
-            } else if (gameData.events[id].isMission && gameData.tempData.activeMissions === gameData.general.maxMissions) {
+                event.isDisplayed = true
+            } else if (event.isMission && gameData.tempData.activeMissions === gameData.general.maxMissions) {
                 return false
             }
             
@@ -79,8 +76,9 @@ const checkIfEventIsGenerated = () => {
 
 // generate rewards for missions
 const generateRewards = (rewards) => {
-    for (let i = 0; i < rewards.length; i++) {
-        rewards[i][1] = Math.floor(Math.random() * (rewards[i][3] - rewards[i][2]) + rewards[i][2])
+    for (let reward of rewards) {
+        // reward, max, min, multiplier
+        reward[1] = Math.floor(Math.random() * (reward[3] - reward[2]) + reward[2]) * reward[4]
     }
     return rewards
 }
@@ -88,29 +86,27 @@ const generateRewards = (rewards) => {
 //check active events, then disable active events from previous month or decrease timed events
 const actionActiveEvents = () => {
     let gameData = loadGame()
-    const totalEvents = gameData.events.length
 
-    for (let i = 0; i < totalEvents; i++) {
+    for (let event of gameData.events) {
         // look for active  event
-        if (gameData.events[i].active) {
+        if (event.active) {
             // check if the event is timed
-            gameData.events[i].isDisplayed = false
-            if (gameData.events[i].isTimed) {
+            event.isDisplayed = false
+            if (event.isTimed) {
                 // if event is timed and the timer is larger than 0, decrease timer by 1
-                if (gameData.events[i].remainingTime > 1) {
-                    gameData.events[i].remainingTime -= 1
+                if (event.remainingTime > 1) {
+                    event.remainingTime -= 1
                 } else {
                     // when timer reaches 0, disable the event
-                    gameData.events[i].active = false
-                    if (gameData.events[i].isMission) {
-                        //gameData.activeMissions = gameData.activeMissions.filter(item => item.id !== gameData.events[i].id)
+                    event.active = false
+                    if (event.isMission) {
                         gameData.tempData.activeMissions--
-                        printMessage(`A mission <span class='text-bold'>${gameData.events[i].missionDescription.name}</span> has expired!`,'warning')
+                        printMessage(`A mission <span class='text-bold'>${event.missionDescription.name}</span> has expired!`,'warning')
                     }
                 }
             // if event is not timed, just disable it 
             } else {
-                gameData.events[i].active = false
+                event.active = false
             }
         }
     }
@@ -121,11 +117,10 @@ const actionActiveEvents = () => {
 // if any event granted build space, add it to max. avalilable space
 const calculateBuildSpace = () => {
     let gameData = loadGame()
-    const totalEvents = gameData.events.length
-    for (let i = 0; i < totalEvents; i++) {
-        if (gameData.events[i].active && gameData.events[i].type === 'gainFarmSpace') gameData.buildingFarm.maxSpace++
-        if (gameData.events[i].active && gameData.events[i].type === 'gainLumberSpace') gameData.buildingLumberyard.maxSpace++
-        if (gameData.events[i].active && gameData.events[i].type === 'gainQuarrySpace') gameData.buildingQuarry.maxSpace++
+    for (let event of gameData.events) {
+        if (event.active && event.type === 'gainFarmSpace') gameData.buildingFarm.maxSpace++
+        if (event.active && event.type === 'gainLumberSpace') gameData.buildingLumberyard.maxSpace++
+        if (event.active && event.type === 'gainQuarrySpace') gameData.buildingQuarry.maxSpace++
     }
     saveGame(gameData)
 }
@@ -133,23 +128,22 @@ const calculateBuildSpace = () => {
 // unlock or locks events
 const unlockEvents = () => {
     let gameData = loadGame()
-    const totalEvents = gameData.events.length
     const month = gameData.basicResources.month
     const fame = gameData.basicResources.fame
     const might = gameData.tempData.might
 
-    for (let i = 0; i < totalEvents; i++) {
-        if (!gameData.events[i].unlocked) {
-            gameData.events[i].unlockConditions.special = specialUnlock(gameData.events[i], gameData)
+    for (let event of gameData.events) {
+        if (!event.unlocked) {
+            event.unlockConditions.special = specialUnlock(event, gameData)
             // checks if month, fame, might or special condition is met, if so, unlocks the event, otherwise locks it.
-            if (month >= gameData.events[i].unlockConditions.month  
-                && fame >= gameData.events[i].unlockConditions.fame
-                && might >= gameData.events[i].unlockConditions.might
-                && gameData.events[i].unlockConditions.special) {
-                    gameData.events[i].unlocked = true
+            if (month >= event.unlockConditions.month  
+                && fame >= event.unlockConditions.fame
+                && might >= event.unlockConditions.might
+                && event.unlockConditions.special) {
+                    event.unlocked = true
                 }
             else {
-                gameData.events[i].unlocked = false
+                event.unlocked = false
             }
         }
     }
@@ -168,11 +162,11 @@ const addMissionReward = (mission) => {
     let gameData = loadGame()
 
     if (mission.missionType === 'General') {
-        for (let i = 0; i < mission.rewards.length; i++) {
-            if (mission.rewards[i][0] === 'pop') gameData.basicResources.pop += mission.rewards[i][1]
-            if (mission.rewards[i][0] === 'gold') gameData.basicResources.gold += mission.rewards[i][1]
-            if (mission.rewards[i][0] === 'food') gameData.basicResources.food += mission.rewards[i][1]
-            if (mission.rewards[i][0] === 'fame') gameData.basicResources.fame += mission.rewards[i][1]
+        for (let [reward, amount] of mission.rewards) {
+            if (reward === 'pop') gameData.basicResources.pop += amount
+            if (reward === 'gold') gameData.basicResources.gold += amount
+            if (reward === 'food') gameData.basicResources.food += amount
+            if (reward === 'fame') gameData.basicResources.fame += amount
         }
     }
 
@@ -186,20 +180,18 @@ const addMissionReward = (mission) => {
 export const removeMission = (mission, status) => {
     let gameData = loadGame()
     let id = Number(mission.slice(7))
-    const totalEvents = gameData.events.length
 
-    //gameData.activeMissions = gameData.activeMissions.filter(item => item.id !== id)
     gameData.tempData.activeMissions--
 
-    for (let i = 0; i < totalEvents; i++) {
-        if (gameData.events[i].id === id) {
-            gameData.events[i].active = false
+    for (let event of gameData.events) {
+        if (event.id === id) {
+            event.active = false
             saveGame(gameData)
             if (!status) {
-                printMessage(gameData.events[i].missionDescription.failure, 'warning')
+                printMessage(event.missionDescription.failure, 'warning')
             } else if (status) {
-                printMessage(gameData.events[i].missionDescription.success, 'info')
-                addMissionReward(gameData.events[i])
+                printMessage(event.missionDescription.success, 'info')
+                addMissionReward(event)
             }
              
         }

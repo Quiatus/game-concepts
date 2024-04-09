@@ -74,7 +74,7 @@ export const initData = {
         },
         {
             id: 2,
-            description: ['Our people are happy with our rule. <img class="img-s" src="media/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
+            description: ['Our people are happy with our leadership. <img class="img-s" src="media/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
             type: 'popHappyGainMultiplier',
             rarity: 1,
             isMission: false,
@@ -108,7 +108,7 @@ export const initData = {
                 success: 'We welcomed the refugees to our clan!',
                 failure: 'We sent the refugees away!'
             },
-            rewards: [['pop', 0, 50, 250],['gold', 0, 250, 750],['food', 0, 50, 150],['fame', 0, 20, 20]],
+            rewards: [['pop', 0, 5, 25, 10],['gold', 0, 25, 75, 10],['food', 0, 5, 15, 10],['fame', 0, 20, 20, 1]],
             unlocked: true,
             active: false,
             isTimed: true,
@@ -121,8 +121,9 @@ export const initData = {
         {
             id: 4,
             description: [
-                'Our scouts have found a small pouch. It contained #effect#.',
-                'We found an old merchant cart next to the road. Most of the goods were broken, but we were able to salvage some. #effect#.'
+                'While exploring woods, our scouts discovered a small, partly buried wooden box. It contained #effect#.',
+                'We found an abandoned merchant cart. It looks like whoever attack it, stole most of the goods, but we noticed a few gold pieces scattered around. Gained #effect#.',
+                'While crossing a river, our explorers noticed a crate floating in the stream. They were able to pull it out and look inside. It contained #effect#'
                 ],
             type: 'gainGold',
             rarity: 1,
@@ -137,8 +138,8 @@ export const initData = {
         {
             id: 5,
             description: [
-                'Our scouts have discovered an old mine. We gained #effect#.',
-                'We discovered a small quarry. We were able to gain #effect#.'
+                'Our scouts have discovered an old quarry. While almost depleted, we were able to found some viable stone. We gained #effect#.',
+                'Our scouts discovered a burnt village. We were able to salvage some building materials. Gained #effect#.'
                 ],
             type: 'gainStone',
             rarity: 1,
@@ -153,7 +154,7 @@ export const initData = {
         {
             id: 6,
             description: [
-                'Our scouts have disovered an abandoned lumber camp. We gained #effect#.',
+                'Our scouts have disovered an abandoned lumber yard. Gained #effect#.',
                 'We discovered a ruined settlement. Most of the valuables were already scavanged, but we found some wood. Gained #effect#.'
                 ],
             type: 'gainWood',
