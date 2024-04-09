@@ -2,10 +2,11 @@
 
 import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
-import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost, calculateMight } from "./modules/generalcalcs.js";
+import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost } from "./modules/generalcalcs.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
+import { dismissUnits, calculateMight } from "./modules/units.js"
 
 // instantiate classes
 const gold = new Gold();
@@ -35,7 +36,7 @@ const initApp = () => {
 // check before gaining res or at the beginning of teh game
 const checkBeforeResourceCalc = (isNewMonth) => {
     clearMessages(isNewMonth)
-    showPanel(0)  // show general panel
+    showPanel('overviewPanel')  // show general panel
     checkConstruction(isNewMonth) // progress construction
     applyCapitalBonuses() // apply capital bonuses 
     updateBuildCost() // Updates the current building cost for any upgradeable building
@@ -76,32 +77,6 @@ const checkConstruction = (isNewMonth) => {
     }
 }
 
-/*
-    Progress month:
-
-    1. Clear message box
-    2. Progress any active constructions and update value accordingly
-    3. Apply bonuses from the capital based on the capital's level
-    4. Updates the current building cost for any upgradeable building
-    5. Calculate available space for pops
-    6. Generate and display events
-    
-    7. Calculate resource gain / spend:
-        a. Increase month
-        b. Calculate gold gains / losses
-        c. Calculate pop gains / losses (except from events)
-        d. Calculate food gains / losses
-        e. Calculate other resource gains (wood, stone, metals, runes....)
-
-    8. Print resource gain / loss messages
-    9. Check if pop is at or above max space. If the same, triggers the appropriate alert
-    10. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
-    11. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
-    12. Calculate total might 
-    13. Displays all active alerts
-    14. Re-generate DOM with the updated values
-*/
-
 const progressGame = () => {
     checkBeforeResourceCalc(true)    
     calculateResources() 
@@ -112,24 +87,17 @@ const progressGame = () => {
 // Button event listeners
 document.addEventListener('click', (e) => {
     const button = e.target.id
+    const btnClass = e.target.className
 
     // New month and reset buttons
     button === 'btnNewMonth' ? progressGame() : null
     button === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
 
     // Menu buttons
-    button == 'menuBtnGeneral' ? showPanel(0) : null
-    button == 'menuBtnManagement' ? showPanel(1) : null
-    button == 'menuBtnBuildings' ? showPanel(2) : null
-    button == 'menuBtnMissions' ? showPanel(3) : null
-    button == 'menuBtnRecruitment' ? showPanel(4) : null
-    button == 'menuBtnArmy' ? showPanel(5) : null
-    button == 'menuBtnStatistics' ? showPanel(6) : null
+    btnClass.includes('menuPanel') ? showPanel(e.target.id) : null
     
     // Tax buttons event listeners
-    button === 'btnTaxLow' ? changeTax(1) : null
-    button === 'btnTaxBalanced' ? changeTax(2) : null
-    button === 'btnTaxHigh' ? changeTax(3) : null
+    btnClass === 'btnTax' ? changeTax(e.target.id) : null
 
     // build buttons
     button === 'btnbuildingCapital' ? capital.startConstruction(e, 'buildingCapital') : null
@@ -141,4 +109,7 @@ document.addEventListener('click', (e) => {
     // missions
     button === 'btnAcceptMission' ? removeMission(e.target.parentNode.parentNode.id, true) : null
     button === 'btnRejectMission' ? removeMission(e.target.parentNode.parentNode.id, false) : null
+
+    // army
+    btnClass == 'btnDismiss' ? dismissUnits(e.target.id) : null
 })

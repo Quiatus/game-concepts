@@ -7,7 +7,7 @@ const events = document.querySelector('.event-div')
 const rightPanels = document.querySelectorAll('.right-panel')
 const alertsPanel = document.querySelector('.alert-div')
 const buildings = document.getElementById('buildings')
-const menuBtnMissions = document.getElementById('menuBtnMissions')
+const menuBtnMissions = document.getElementById('missionsPanel')
 const missions = document.getElementById('missions')
 const army = document.getElementById('army') 
 const recruitment = document.getElementById('recruitment') 
@@ -35,11 +35,9 @@ export const popText = (pop, space) => {
 // === GENERAL =====================================================================================================
 
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
-export const showPanel = (num) => {
-    rightPanels.forEach(panel => panel.classList.add('none'))
-    rightPanels[num].classList.remove('none')
-    let panels = ['','management','buildings','missions', 'recruitment', 'army', 'statistics']
-    generateMarkup(panels[num])
+export const showPanel = (panelName) => {
+    rightPanels.forEach(panel => panel.id === panelName ? panel.classList.remove('none') : panel.classList.add('none'))
+    generateMarkup(panelName)
 }
 
 
@@ -62,29 +60,28 @@ export const generateMarkup = (panel=null) => {
 
     displayResourceBox(gameData)
 
-    if (panel === 'management') {
+    if (panel === 'empireManagementPanel') {
         displayTaxBox(gameData)
         displayCapital(gameData)
     }
 
-    if (panel === 'buildings') {
+    if (panel === 'buildingsPanel') {
         displayBuildings(gameData)
     }
 
-    if (panel === 'missions') {
+    if (panel === 'missionsPanel') {
         displayMissions(gameData)
     }
 
-    if (panel === 'army') {
+    if (panel === 'armyManagementPanel') {
         displayArmy(gameData)
     }
 
-    if (panel === 'recruitment') {
+    if (panel === 'recruitmentPanel') {
         displayRecruits(gameData)
     }
 
-
-    if (panel === 'statistics') {
+    if (panel === 'statisticsPanel') {
         displayStatistics(gameData)
         displayEconomy(gameData)
     }

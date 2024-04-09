@@ -36,10 +36,12 @@ export const calculateHappiness = () => {
 export const changeTax = (id) => {
     let gameData = loadGame()
 
-    gameData.general.tax = id
+    if (id === 'taxLow') gameData.general.tax = 1
+    if (id === 'taxBalanced') gameData.general.tax = 2
+    if (id === 'taxHigh') gameData.general.tax = 3
 
     saveGame(gameData)
-    generateMarkup('management')
+    generateMarkup('empireManagementPanel')
 }
 
 // checks the current capital level and applies modifiers
@@ -89,18 +91,5 @@ export const updateBuildCost = () => {
             }
         }  
     }
-    saveGame(gameData)
-}
-
-// calculate might
-export const calculateMight = () => {
-    let gameData = loadGame()
-    let might = 0
-
-    for (let unit of gameData.units) {
-        if (unit.amount) might += unit.might * unit.amount
-    }
-
-    gameData.tempData.might = might
     saveGame(gameData)
 }

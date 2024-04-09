@@ -197,6 +197,6 @@ export const removeMission = (mission, status) => {
         }
     }
 
-    showPanel(0)
+    showPanel('overviewPanel')
     showMissionNumber()
 }

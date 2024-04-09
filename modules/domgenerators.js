@@ -43,9 +43,9 @@ export const displayTaxBox = (gameData) => {
     </div>
     <span>Set tax level:</span>
     <div class="buttons-box">
-        <button class="btnTax" id="btnTaxLow">Low</button>
-        <button class="btnTax" id="btnTaxBalanced">Balanced</button>
-        <button class="btnTax" id="btnTaxHigh">High</button>
+        <button class="btnTax" id="taxLow">Low</button>
+        <button class="btnTax" id="taxBalanced">Balanced</button>
+        <button class="btnTax" id="taxHigh">High</button>
     </div>`
 }
 
@@ -281,8 +281,8 @@ export const generateMissions = (mission) => {
         <hr class="separator">
 
         <div class="buttons-box">
-            <button class="btnBuild" id="btnAcceptMission">Accept</button>
-            <button class="btnBuild" id="btnRejectMission">Reject</button>
+            <button id="btnAcceptMission">Accept</button>
+            <button id="btnRejectMission">Reject</button>
         </div>
         
     </div>  `
@@ -313,15 +313,17 @@ export const generateArmy = (unit) => {
         <div>
             Equipment
         </div>
-
         
         <div>
             Spells
         </div>
 
         <hr class="separator">
-        <div>
-            Dismiss
+        <div class="add-form">
+            <span class="text-gray">Dismiss</span>
+            <input id="dismiss${unit.name}" type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
+            <span class="text-gray">units</span>
+            <button class="btnDismiss" id="${unit.name}" >Dismiss</button>
         </div>
     </div>  `
 }
@@ -349,8 +351,8 @@ export const generateRecruits = (unit) => {
         </div>
 
         <div class="add-form">
-            <input id=recAmn} type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
-            <span class="text-it text-gray">(Max ${converThousand(calcMaxUnit(unit))})</span>
+            <input id="recAmn" type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
+            <span class="text-it text-gray">(Max ${converThousand(calcMaxUnit(unit.recruitCost))})</span>
             <button id="btnRecruit">Recruit</button>
         </div>
     </div>  `

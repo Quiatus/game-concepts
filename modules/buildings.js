@@ -47,7 +47,7 @@ class Building {
             gameData.basicResources.stone -= gameData[building].costStone
 
             saveGame(gameData)
-            gameData[building].name === 'Capital' ? generateMarkup('management') : generateMarkup('buildings')
+            gameData[building].name === 'Capital' ? generateMarkup('buildingsPanel') : generateMarkup('empireManagementPanel')
         } else {
             // displays the error message if construction not possible
             e.target.parentElement.children[0].textContent = reason
