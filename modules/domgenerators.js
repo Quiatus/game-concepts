@@ -1,6 +1,6 @@
 'use strict';
 import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, displayUnitDescription } from "./domhelpers.js"
-import { calcMaxUnit } from "./valuecalc.js"
+import { calcMaxUnit } from "./units.js"
 
 const resourcesText = document.getElementById('resourceBox')
 const taxBox = document.getElementById('taxBox')
@@ -349,10 +349,8 @@ export const generateRecruits = (unit) => {
         </div>
 
         <div class="add-form">
-            <div>
-                <input id=recAmn} type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
-                <span class="text-it text-gray">(Max ${converThousand(calcMaxUnit(unit))})</span>
-            </div>
+            <input id=recAmn} type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
+            <span class="text-it text-gray">(Max ${converThousand(calcMaxUnit(unit))})</span>
             <button id="btnRecruit">Recruit</button>
         </div>
     </div>  `

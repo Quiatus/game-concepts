@@ -199,10 +199,13 @@ h3 {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     padding: 0 0.5rem;
     gap: 0.5rem;
     align-items: center;
+}
+
+.add-form span {
+    flex-grow: 1;
 }
 
 input[type="number"] {

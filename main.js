@@ -2,7 +2,7 @@
 
 import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
-import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost, calculateMight } from "./modules/valuecalc.js";
+import { changeTax, applyCapitalBonuses, calculateHappiness, updateBuildCost, calculateMight } from "./modules/generalcalcs.js";
 import { Capital, House, Farm, Lumberyard, Quarry } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
