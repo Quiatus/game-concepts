@@ -67,7 +67,7 @@ main {
     grid-template-columns: 260px 1320px;
     grid-template-rows: auto;
     justify-content: center;
-    gap: 1rem 2rem;
+    gap: 1rem;
 }
 
 .img-m {
@@ -124,7 +124,7 @@ h3 {
 
 .box {
     background-color: var(--clr-bg);
-    width: 295px;
+    width: 318px;
     padding-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -150,7 +150,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-template-rows: auto;
-    gap: 2rem;
+    gap: 1rem;
     justify-content: start;
 }
 
@@ -467,7 +467,7 @@ input::-webkit-inner-spin-button {
 
 .unit-stats {
     display: grid;
-    grid-template-columns: 1fr 1.75fr;
+    grid-template-columns: 1fr 1.5fr;
     width: 100%;
 }
 

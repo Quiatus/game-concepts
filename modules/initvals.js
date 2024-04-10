@@ -391,7 +391,7 @@ export const initData = {
     units: [
         {
             name: 'Militia',
-            amount: 10,
+            amount: 0,
             attack: 3,
             defense: 2,
             hp: 5,
