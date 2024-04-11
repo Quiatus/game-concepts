@@ -463,6 +463,21 @@ input::-webkit-inner-spin-button {
     padding: 0 0.5rem;
 }
 
+.add-max:hover {
+    cursor: pointer;
+    color: var(--clr-hover);
+}
+
+.error-text-recruit {
+    position: absolute;
+    top: -34px;
+    background-color: var(--clr-compbg);
+    padding: 0.25rem;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+}
+
 /* Army */
 
 .unit-stats {
@@ -533,6 +548,10 @@ input::-webkit-inner-spin-button {
 
 .mtb {
     margin: 0.5rem 0;
+}
+
+.relative {
+    position: relative;
 }
 
 /* Buttons */

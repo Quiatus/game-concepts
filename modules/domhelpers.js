@@ -127,6 +127,7 @@ export const printMessage = (text, type='info') => {
     if (type==='critical')  msg.className = 'text-red'
     if (type==='warning') msg.className = 'text-orange'
     if (type==='info') msg.className = 'text-white'
+    if (type==='recruit') msg.className = 'text-green'
     if (type==='gains') msg.innerHTML = newMonthGains()
 
     messages.appendChild(msg)

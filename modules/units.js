@@ -2,6 +2,7 @@
 
 import { loadGame, saveGame } from "./utilities.js"
 import { generateMarkup } from "./domhelpers.js"
+import { printMessage } from "./domhelpers.js"
 
 // calculate might
 export const calculateMight = () => {
@@ -49,11 +50,68 @@ export const dismissUnits = (unitName) => {
         if (unit.name === unitName) {
             unit.amount -= val
             if (unit.amount < 0) unit.amount = 0
-            console.log(unit.amount)
         }
     }
 
     saveGame(gameData)
     calculateMight()
     generateMarkup('armyManagementPanel')
+}
+
+// if units are recruitable and are in queue, add them to army.
+export const recruitUnits = (isNewMonth) => {
+    if (isNewMonth) {
+        let gameData = loadGame()
+
+        for (let unit of gameData.units) {
+            if (unit.isRecruitable && unit.queue) {
+                if (unit.queue >= unit.recrutpm) {
+                    unit.amount += unit.recrutpm
+                    unit.queue -= unit.recrutpm
+                    printMessage(unit.recruitMessage.replace('##amount##', unit.recrutpm), 'recruit')
+                } else {
+                    unit.amount += unit.queue
+                    printMessage(unit.recruitMessage.replace('##amount##', unit.queue), 'recruit')
+                    unit.queue = 0
+                }
+            }
+        }
+        saveGame(gameData)
+    }
+}
+
+// add selected amount of units to recruitment queue
+export const addRecruits = (unitName, e, max=false) => {
+    let gameData = loadGame()
+    let recruitAmount = 0
+    let val = Number(document.getElementById(`recruit${unitName}`).value)
+    let check = false
+
+    for (let unit of gameData.units) {
+        if (unit.name === unitName) {
+            const maxAmount = calcMaxUnit(unit.recruitCost)
+            if (max) {
+                recruitAmount = maxAmount
+                check = true
+            }
+            else {
+                if (!val) val = 0
+                if (val <= maxAmount) {
+                    recruitAmount = val
+                    check = true
+                }
+            }
+
+            if (check) {
+                unit.queue += recruitAmount
+                gameData.basicResources.gold -= (unit.recruitCost.gold * recruitAmount)
+                gameData.basicResources.pop -= (unit.recruitCost.pop * recruitAmount)
+                saveGame(gameData)
+                generateMarkup('recruitmentPanel')
+            } else {
+                e.target.parentElement.children[0].classList.remove('none')
+                setTimeout(() => {e.target.parentElement.children[0].classList.add('none')}, 2000)
+            }
+        }
+    }
 }

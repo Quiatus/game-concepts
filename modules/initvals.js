@@ -402,6 +402,7 @@ export const initData = {
             isRecruitable: true,
             recrutpm: 0,
             queue: 0,
+            recruitMessage: 'We trained <span class="text-bold">##amount##</span> milita.',
             recruitCost: {
                 gold: 1,
                 pop: 1

@@ -9,7 +9,7 @@ export const applyCapitalBonuses = () => {
     let capital = gameData.buildings[0]
 
     gameData.basicResources.basicSpace = capital.levels[capital.currentLevel - 1].space
-    gameData.tempData.commerce = capital.levels[capital.currentLevel - 1].commerce
+    //gameData.tempData.commerce = capital.levels[capital.currentLevel - 1].commerce
     gameData.buildings[1].maxSpace = capital.levels[capital.currentLevel - 1].houses 
     gameData.units[0].recrutpm = capital.levels[capital.currentLevel - 1].militiaRecruit 
     

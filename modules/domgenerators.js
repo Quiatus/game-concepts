@@ -304,8 +304,8 @@ export const generateArmy = (unit) => {
 
             <div class='unit-stat'>
                 <div><img class="img-s" src="media/gold.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
-                <div><img class="img-s" src="media/fame.png" title="Might (total)"><span>${converThousand(unit.might)}</span><span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
-                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span><span class='text-gray'>(${converThousand(unit.pay * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/fame.png" title="Might (total)"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.floor(unit.pay * unit.amount))})</span></div>
             </div>
         </div>
 
@@ -350,10 +350,11 @@ export const generateRecruits = (unit) => {
             </div>
         </div>
 
-        <div class="add-form">
-            <input id="recAmn" type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
-            <span class="text-it text-gray">(Max ${converThousand(calcMaxUnit(unit.recruitCost))})</span>
-            <button id="btnRecruit">Recruit</button>
+        <div class="add-form relative">
+            <span class="text-red error-text-recruit none">Not enough resources!</span>
+            <input id="recruit${unit.name}" type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
+            <span class="text-it text-gray add-max" id="${unit.name}">(Max ${converThousand(calcMaxUnit(unit.recruitCost))})</span>
+            <button class="btnRecruit" id="${unit.name}">Recruit</button>
         </div>
     </div>  `
 }
