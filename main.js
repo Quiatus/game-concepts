@@ -6,7 +6,7 @@ import { changeTax, calculateHappiness } from "./modules/generalcalcs.js";
 import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
-import { dismissUnits, calculateMight, recruitUnits, addRecruits, checkUpkeep } from "./modules/units.js"
+import { dismissUnits, calculateMight, recruitUnits, addRecruits, checkUpkeep, unlockUnits } from "./modules/units.js"
 
 // instantiate classes
 const gold = new Gold();
@@ -33,6 +33,7 @@ const checkBeforeResourceCalc = (isNewMonth) => {
     clearMessages(isNewMonth)
     showPanel('overviewPanel')  // show general panel
     progressBuild(isNewMonth) // progress construction
+    unlockUnits() // unlocks recruitable units
     applyCapitalBonuses() // apply capital bonuses 
     updateBuildCost() // Updates the current building cost for any upgradeable building
     pop.calculateTotalSpace() // calculates max. available space for pop (from building, capital and settlements)

@@ -1,7 +1,7 @@
 export const initData = {
     general: {
         tax: 2,
-        armyStatus: false,
+        armyStatus: true,
         maxMissions: 6,
     },
     basicResources: {
@@ -93,7 +93,6 @@ export const initData = {
             isRandom: true,
             random: [['remainingTime', 6, 12]]
         },
-
         {
             id: 3,
             description: ['A group of refugess has arrived and seeks asylum. Do we want to accept them?'],
@@ -318,7 +317,7 @@ export const initData = {
         {
             id: 'buildingFarm',  // 2
             name: 'Farm',
-            buildingType: 'Resource ',
+            buildingType: 'Resource',
             textColor: 'text-yellow',
             amount: 1,
             isUnique: false,
@@ -342,7 +341,7 @@ export const initData = {
         {
             id: 'buildingLumberyard',  // 3
             name: 'Lumber yard',
-            buildingType: 'Resource ',
+            buildingType: 'Resource',
             textColor: 'text-brown',
             amount: 0,
             isUnique: false,
@@ -366,7 +365,7 @@ export const initData = {
         {
             id: 'buildingQuarry',  // 4
             name: 'Quarry',
-            buildingType: 'Resource ',
+            buildingType: 'Resource',
             textColor: 'text-darkgray',
             amount: 0,
             isUnique: false,
@@ -386,6 +385,63 @@ export const initData = {
             maxSpace: 0,
             effect: 2,
             info: 'Produces #effect# units of <span class="text-darkgray">stone</span> per month.',
+        },
+        {
+            id: 'buildingArcheryRange',  // 5
+            name: 'Archery Range',
+            buildingType: 'Military',
+            unlocksUnit: 'Archer',
+            textColor: 'text-gray',
+            amount: 0,
+            isUnique: true,
+            isVisible: true,
+            isBeingBuilt: false,
+            isUpgradeable: true,
+            currentLevel: 1,
+            maxLevel: 3,
+            buildProgress: 0,
+            requireCapitalLevel: false,
+            costTime: 0,
+            costGold: 0,
+            costWood: 0,
+            costStone: 0,
+            requireSpace: false,
+            space: 1,
+            maxSpace: 1,
+            effect: 10,
+            info: 'Allows to train archers.',
+            levels: [
+                {
+                    level: 1,
+                    effect: 10,
+                    costTime: 20,
+                    costGold: 5000,
+                    costWood: 500,
+                    costStone: 10,
+                    requireCapitalLevel: false,
+                    info: 'Allows to train archers.'
+                },
+                {
+                    level: 2,
+                    effect: 20,
+                    costTime: 30,
+                    costGold: 10000,
+                    costWood: 1000,
+                    costStone: 20,
+                    requireCapitalLevel: 2,
+                    info: 'Increases monthy recruitment of archers to #effect#'
+                },
+                {
+                    level: 3,
+                    effect: 35,
+                    costTime: 50,
+                    costGold: 25000,
+                    costWood: 5000,
+                    costStone: 100,
+                    requireCapitalLevel: 3,
+                    info: 'Increases monthy recruitment of archers to #effect#'
+                },
+            ]
         }
     ],
 // === UNITS ===============================================================================================
@@ -419,18 +475,19 @@ export const initData = {
         {
             name: 'Archer',
             amount: 0,
-            attack: 4,
+            attack: 5,
             defense: 1,
             hp: 3,
             speed: 6,
             attackType: 2, 
             pay: 2,
-            might: 10,
+            might: 12,
             isRecruitable: false,
             recrutpm: 0,
             queue: 0,
+            recruitMessage: '<span class="text-bold">##amount##</span> new archers arrived from the archery range.',
             recruitCost: {
-                gold: 1,
+                gold: 15,
                 pop: 1
             },
             equipment: {

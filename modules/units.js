@@ -4,6 +4,25 @@ import { loadGame, saveGame } from "./utilities.js"
 import { generateMarkup } from "./domhelpers.js"
 import { printMessage } from "./domhelpers.js"
 
+// check if any building that allows recruitment is built and if so, unlock the appropriate unit or increases the recruitment
+export const unlockUnits = () => {
+    let gameData = loadGame()
+    
+    for (let building of gameData.buildings) {
+        if (building.buildingType === 'Military' && building.amount === 1) {
+            for (let unit of gameData.units) {
+                if (unit.name === building.unlocksUnit) {
+                    unit.isRecruitable = true
+                    unit.recrutpm = building.effect
+                    break
+                }
+            }
+        }
+    }
+
+    saveGame(gameData)
+}
+
 // calculate might
 export const calculateMight = () => {
     let gameData = loadGame()
@@ -121,7 +140,7 @@ export const checkUpkeep = (isNewMonth) => {
     if (isNewMonth) {
         let gameData = loadGame()
         gameData.alerts.desertion = false
-        
+
         if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold > 0) {
             printMessage('Our army upkeep is higher than our gold income. Increase gold production or dismiss some units.', 'warning')
         } else if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold === 0) {

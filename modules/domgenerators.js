@@ -238,7 +238,6 @@ export const generateBuildings = (building, level) => {
     <div class="box" id="${building.id}">
         <h2>${building.name}</h2>
         <div class="build-description">
-            <p class="text-gray text-bold mb">${building.buildingType} building</p>
             <p>${building.info.replace('#effect#', `<span class='text-bold'>${building.effect}</span>`)}</p>
             <p class="text-orange">${displayBuildDescr(building)}</p> 
         </div>
@@ -254,7 +253,7 @@ export const generateBuildings = (building, level) => {
         ${(cl === ml && building.isUpgradeable) ? `<div class="subdiv">${buildingConstrProgress(building,level)}</div>` : `
         ${building.isUpgradeable && building.amount === 1 ? `<span>Upgrade to <span class="text-orange">level ${cl+1}</span></span>
         
-        <p class='build-description'>${building.info.replace('#effect#', `<span class='text-bold'>${building.levels[cl].effect}</span>`)}</p>` : ``} 
+        <p class='build-description'>${building.levels[cl].info.replace('#effect#', `<span class='text-bold'>${building.levels[cl].effect}</span>`)}</p>` : ``} 
         ${displayBuildCosts(building)}
         <div class="subdiv">${buildingConstrProgress(building,level)}</div>` }
     </div>`

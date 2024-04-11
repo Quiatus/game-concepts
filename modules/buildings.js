@@ -31,8 +31,8 @@ export const updateBuildCost = () => {
             building.costGold = building.levels[cl].costGold
             building.costWood = building.levels[cl].costWood
             building.costStone = building.levels[cl].costStone
-            if (building.id === 'buildingCapital') building.specialUnlock = building.levels[cl].specialUnlock 
-            else building.effect = building.levels[cl-1].effect
+            building.requireCapitalLevel = building.levels[cl].requireCapitalLevel
+            if (building.id === 'buildingCapital') building.specialUnlock = building.levels[cl].specialUnlock  
         }  
     }
     saveGame(gameData)
@@ -107,12 +107,12 @@ export const progressBuild = (isNewMonth) => {
                     building.isBeingBuilt = false;
                     building.buildProgress = 0;
         
-                    
                     if (!building.isUpgradeable || (building.isUpgradeable && building.amount === 0)) {
                         building.amount++;
                         printMessage(`A new <span class='${building.textColor}'>${building.name}</span> has been built.`)
                     } else {
                         building.currentLevel++
+                        if (building.id !== 'buildingCapital') building.effect = building.levels[building.currentLevel-1].effect
                         printMessage(`<span class='${building.textColor}'>${building.name}</span> has been upgraded to <span class='text-orange'>level ${building.currentLevel}</span>.`)
                     }      
                     

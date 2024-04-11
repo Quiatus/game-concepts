@@ -179,14 +179,22 @@ export const getArmyStatus = (gameData) => {
 
 // Shows every unlocked building
 const displayBuildings = (gameData) => {
+    const buildingTypes = ['General', 'Resource', 'Military']
     buildings.innerHTML = ''
-    for (let building of gameData.buildings) {
-        if (building.isVisible && building.id !== 'buildingCapital') {
-            const buildDiv = document.createElement('div')
-            buildDiv.innerHTML = generateBuildings(building, gameData.buildings[0].currentLevel)
-            buildings.append(buildDiv)
-        }
-    }    
+    for (let item of buildingTypes) {
+        buildings.innerHTML += `<p class='mtbb text-big'>${item} buildings</p>`
+        let buildingSubdiv = document.createElement('div')
+        buildingSubdiv.classList = 'smallBoxDiv'
+    
+        for (let building of gameData.buildings) {
+            if (building.isVisible && building.buildingType === item) {
+                const buildDiv = document.createElement('div')
+                buildDiv.innerHTML = generateBuildings(building, gameData.buildings[0].currentLevel)
+                buildingSubdiv.append(buildDiv)
+            }
+        }    
+        buildings.append(buildingSubdiv)
+    }
 }
 
 // Displays active construction
