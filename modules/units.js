@@ -115,3 +115,34 @@ export const addRecruits = (unitName, e, max=false) => {
         }
     }
 }
+
+// check if there is enough gold to pay the army
+export const checkUpkeep = (isNewMonth) => {
+    if (isNewMonth) {
+        let gameData = loadGame()
+        gameData.alerts.desertion = false
+        
+        if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold > 0) {
+            printMessage('Our army upkeep is higher than our gold income. Increase gold production or dismiss some units.', 'warning')
+        } else if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold === 0) {
+            gameData.alerts.desertion = true
+            printMessage('We do not have enough gold to pay our army. Our units are deserting!', 'critical')
+            saveGame(gameData)
+            removeUnitsDesertion()
+        } else {
+            saveGame(gameData)
+        }
+    }
+    
+}
+
+// if there is not enough gold, remove 10% of units per month
+const removeUnitsDesertion = () => {
+    let gameData = loadGame()
+    for (let unit of gameData.units) {
+        if (unit.amount) {
+            unit.amount -= Math.floor(unit.amount * 0.1)
+        }
+    }
+    saveGame(gameData)
+}

@@ -19,7 +19,9 @@ export class Gold{
         const tax = gameData.general.tax
         let commerce = gameData.buildings[0].levels[gameData.buildings[0].currentLevel - 1].commerce // gained from higher capital levels. 
         const eventGain = this.getGoldFromEvents(gameData.events)
-        const armyPay = this.armyWage(gameData.units)
+        const armyUpkeep = this.armyUpkeep(gameData.units)
+        let totalIncome = 0
+        let totalLoss = 0
 
         //base income from pop * tax multiplier
         const baseIncome = Math.round(this.getGoldFromPop(pop) * this.addTaxes(tax))
@@ -27,16 +29,19 @@ export class Gold{
         // randomize commerce (amount +- 25%)
         if (commerce) commerce = Math.floor(Math.random() * ((commerce * 1.25) - (commerce * 0.75)) + (commerce * 0.75))
 
-        amount = baseIncome + commerce + eventGain - armyPay
+        totalIncome = baseIncome + commerce + eventGain 
+        totalLoss = armyUpkeep
+        amount = totalIncome - totalLoss
 
         gameData.resourceGain.goldTotal = baseIncome + commerce // this is so that the regural gains are separated from the event gains in the overview
         gameData.resourceGain.goldTax = baseIncome
         gameData.resourceGain.goldEvents = eventGain
-        gameData.tempData.milPay = armyPay
+        gameData.tempData.totalGoldGain = totalIncome
+        gameData.tempData.armyUpkeep = armyUpkeep
         gameData.tempData.commerce = commerce
-
         gameData.basicResources.gold += amount
-        gameData.basicResources.gold < 0 ? gameData.basicResources.gold = 0 : null
+
+        if (gameData.basicResources.gold < 0) gameData.basicResources.gold = 0
 
         saveGame(gameData)
     }
@@ -70,11 +75,11 @@ export class Gold{
     }
 
     // deduct army pay
-    armyWage(units) {
+    armyUpkeep(units) {
         let amount = 0
         for (let unit of units) {
             if (unit.amount) {
-                amount += Math.floor(unit.pay * unit.amount)
+                amount += unit.pay * unit.amount
             }
         }
 

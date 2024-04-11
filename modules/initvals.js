@@ -47,7 +47,8 @@ export const initData = {
         popDied: 0,
         might: 0,
         activeMissions: 0,
-        milPay: 0
+        armyUpkeep: 0,
+        totalGoldGain: 0
     },
 
 // === EVENTS ===============================================================================================
@@ -397,14 +398,14 @@ export const initData = {
             hp: 5,
             speed: 5, // higher is better
             attackType: 4, // 1 - heavy, 2 - range, 3 - support, 4 - melee
-            pay: 0.2,
+            pay: 1,
             might: 7,  // attack + (0.5 * (def + hp)) * (0.5 * speed) * atT coef
             isRecruitable: true,
             recrutpm: 0,
             queue: 0,
             recruitMessage: 'We trained <span class="text-bold">##amount##</span> milita.',
             recruitCost: {
-                gold: 1,
+                gold: 5,
                 pop: 1
             },
             equipment: {
@@ -423,7 +424,7 @@ export const initData = {
             hp: 3,
             speed: 6,
             attackType: 2, 
-            pay: 0.5,
+            pay: 2,
             might: 10,
             isRecruitable: false,
             recrutpm: 0,

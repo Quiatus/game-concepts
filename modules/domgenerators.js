@@ -127,7 +127,7 @@ export const displayEconomy = (gameData) => {
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Expenditures</span>
-        <span class="text-gray ml">Army upkeep:</span><span class="text-red">${converThousand(gameData.tempData.milPay)}</span>
+        <span class="text-gray ml">Army upkeep:</span><span class="text-red">${converThousand(gameData.tempData.armyUpkeep)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('g')[1])}</span>
     </div>
     <div class="economy-div">
@@ -293,7 +293,7 @@ export const generateArmy = (unit) => {
     <div class="box" id="unit${unit.name}">
         <h2 class='text-left'>${unit.name}</h2>
         <p class="text-bold text-it text-center">${displayUnitDescription(unit)}</p>
-        <p class="text-big">${converThousand(unit.amount)}</p>
+        <p class="text-bold text-xl" title="Amount">${converThousand(unit.amount)}</p>
 
         <div class='unit-stats'>
             <div class='unit-stat'>
@@ -305,7 +305,7 @@ export const generateArmy = (unit) => {
             <div class='unit-stat'>
                 <div><img class="img-s" src="media/gold.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
                 <div><img class="img-s" src="media/fame.png" title="Might (total)"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
-                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.floor(unit.pay * unit.amount))})</span></div>
+                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(unit.pay * unit.amount)})</span></div>
             </div>
         </div>
 

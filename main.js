@@ -6,7 +6,7 @@ import { changeTax, calculateHappiness } from "./modules/generalcalcs.js";
 import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
-import { dismissUnits, calculateMight, recruitUnits, addRecruits } from "./modules/units.js"
+import { dismissUnits, calculateMight, recruitUnits, addRecruits, checkUpkeep } from "./modules/units.js"
 
 // instantiate classes
 const gold = new Gold();
@@ -46,6 +46,7 @@ const checkAfterResourceCalc = (isNewMonth) => {
     pop.isMaxPop(isNewMonth) // checks if there is a space for population, if not, shows warning
     food.checkIfEnoughFood(pop, isNewMonth) // checks if there is enough food, if not, shows warning
     recruitUnits(isNewMonth) // recruit units
+    checkUpkeep(isNewMonth) // check if there is enough gold to pay the army
     calculateHappiness()  // calculates happiness based on the conditions calculaed before
     calculateMight() // calculate might
     displayActiveAlerts() // shows any active alerts

@@ -117,7 +117,7 @@ export const printNewMonthMessages = () => {
     let gameData = loadGame()
     printMessage('', 'gains')
     printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
-    if (gameData.tempData.milPay > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.milPay}</span> <img class='img-s' src='media/gold.png'>.`, 'info')
+    if (gameData.tempData.armyUpkeep > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.armyUpkeep}</span> <img class='img-s' src='media/gold.png'>.`, 'info')
 }
 
 // prints various messages 
@@ -146,8 +146,8 @@ export const calcEconomy = (econType) => {
         results[0] = gameData.resourceGain.pop 
         results[1] = gameData.tempData.popDied + gameData.tempData.popLeft
     } else if (econType === 'g') {
-        results[0] = gameData.resourceGain.goldTotal + gameData.resourceGain.goldEvents
-        results[1] = gameData.tempData.milPay
+        results[0] = gameData.tempData.totalGoldGain
+        results[1] = gameData.tempData.armyUpkeep
     } else if (econType === 'f') {
         results[0] = gameData.resourceGain.food + gameData.resourceGain.foodEvents
         results[1] = gameData.tempData.consumedFood
