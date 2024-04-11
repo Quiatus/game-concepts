@@ -161,7 +161,7 @@ const specialUnlock = (event, gameData) => {
 const addMissionReward = (mission) => {
     let gameData = loadGame()
 
-    if (mission.missionType === 'General') {
+    if (mission.missionType === 'Instant') {
         for (let [reward, amount] of mission.rewards) {
             if (reward === 'pop') gameData.basicResources.pop += amount
             if (reward === 'gold') gameData.basicResources.gold += amount

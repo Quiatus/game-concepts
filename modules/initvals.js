@@ -100,7 +100,7 @@ export const initData = {
             type: 'missionRefugeesSmall',
             rarity: 5,
             isMission: true,
-            missionType: 'General',
+            missionType: 'Instant',
             isDisplayed: false,
             missionDescription: {
                 name: 'Refugees',

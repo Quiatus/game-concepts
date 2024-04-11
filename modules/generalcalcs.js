@@ -9,13 +9,13 @@ export const calculateHappiness = () => {
     let calculatedHappiness = gameData.basicResources.baseHappiness // 50
 
     // Positive gains
-    gameData.general.tax === 1 ? calculatedHappiness += 20 : null
+    gameData.general.tax === 1 ? calculatedHappiness += 25 : null
     gameData.general.foodLevel === 3 ? calculatedHappiness += 25 : null
 
     // Negative gains
-    gameData.alerts.famine ? calculatedHappiness -= 20 : null
-    gameData.alerts.overpopulation ? calculatedHappiness -= 5 : null
-    gameData.general.tax === 3 ? calculatedHappiness -= 20 : null
+    gameData.alerts.famine ? calculatedHappiness -= 25 : null
+    gameData.alerts.overpopulation ? calculatedHappiness -= 10 : null
+    gameData.general.tax === 3 ? calculatedHappiness -= 25 : null
     gameData.general.foodLevel === 1 ? calculatedHappiness -= 25 : null
 
     // Happiness cannot go below 0 or above 100
@@ -27,7 +27,7 @@ export const calculateHappiness = () => {
     // checks if happiness is too low and prints / triggers adequate response
     calculatedHappiness > 0 && calculatedHappiness < 20 ? printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning') : null
     calculatedHappiness === 0 ? (
-        printMessage('Our population is rioting!', 'critical'),
+        printMessage('Our people are rioting! We had to deploy our army to try to establish control. There are casualties on both sides.', 'critical'),
         gameData.alerts.riot = true
     ) : null
 

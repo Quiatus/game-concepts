@@ -63,11 +63,11 @@ export const displayFoodBox = (gameData) => {
     // markup
     return foodBox.innerHTML = `<h2>Food rationing</h2>
     <div class="build-description">
-        <p>We can increase or decrease the <span class="text-yellow text-bold">food</span> rations for our people. Limited rations decrease happiness, generous rations increase happiness.</p>
+        <p>Increase or decrease the <span class="text-yellow text-bold">food</span> rations for our people. Limited rations decrease happiness, generous rations increase happiness.</p>
     </div>
     <div class="box-stats mtb">
         <span class="text-gray">Current rations:</span> <span>${foodLevel}</span>
-        <span class="text-gray">Consum p. 100 pop.:</span><span>${gameData.general.foodLevel * 0.5}</span>
+        <span class="text-gray">Food p. 100 pop.:</span><span>${gameData.general.foodLevel * 0.5}</span>
     </div>
     <hr class="separator">
     <span>Set rationing level:</span>
@@ -293,7 +293,6 @@ export const generateMissions = (mission) => {
     <div class="box" id="mission${mission.id}">
         <h2 class='text-left'>${mission.missionDescription.name}</h2>
         <div class="mission-description">
-            <p class="text-gray text-bold text-it text-center">${mission.missionType} mission</p>
             <p><span class='text-gray'>Objective:</span> ${mission.missionDescription.objective}</p>
             <p class="text-it">${mission.missionDescription.description}</p>
             <p class="timer"><span class='text-gray'>Expires:</span> ${displayRemainingTimeMission(mission.remainingTime)}</p>
