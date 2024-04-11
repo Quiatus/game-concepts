@@ -1,6 +1,7 @@
 export const initData = {
     general: {
         tax: 2,
+        foodLevel: 2,
         armyStatus: true,
         maxMissions: 6,
     },
@@ -454,7 +455,7 @@ export const initData = {
             hp: 5,
             speed: 5, // higher is better
             attackType: 4, // 1 - heavy, 2 - range, 3 - support, 4 - melee
-            pay: 1,
+            pay: 0.2,
             might: 7,  // attack + (0.5 * (def + hp)) * (0.5 * speed) * atT coef
             isRecruitable: true,
             recrutpm: 0,
@@ -480,7 +481,7 @@ export const initData = {
             hp: 3,
             speed: 6,
             attackType: 2, 
-            pay: 2,
+            pay: 0.5,
             might: 12,
             isRecruitable: false,
             recrutpm: 0,

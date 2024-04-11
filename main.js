@@ -2,7 +2,7 @@
 
 import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
-import { changeTax, calculateHappiness } from "./modules/generalcalcs.js";
+import { changeTax, calculateHappiness, changeFoodLevel } from "./modules/generalcalcs.js";
 import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
 import { Month, Gold, Pop, Food, Wood, Stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
@@ -82,6 +82,7 @@ document.addEventListener('click', (e) => {
 
     btnClass.includes('menuPanel') ? showPanel(e.target.id) : null
     btnClass === 'btnTax' ? changeTax(e.target.id) : null
+    btnClass === 'btnFood' ? changeFoodLevel(e.target.id) : null
     btnClass === 'btnBuild' ? startConstruction(e) : null
     btnClass == 'btnDismiss' ? dismissUnits(e.target.id) : null
     btnClass.includes('add-max') ? addRecruits(e.target.id, e, true) : null

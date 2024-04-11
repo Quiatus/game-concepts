@@ -4,6 +4,7 @@ import { calcMaxUnit } from "./units.js"
 
 const resourcesText = document.getElementById('resourceBox')
 const taxBox = document.getElementById('taxBox')
+const foodBox = document.getElementById('foodBox')
 const statistics = document.getElementById('statistics')
 const economy = document.getElementById('economy')
 const capital = document.getElementById('buildingCapital') 
@@ -41,11 +42,39 @@ export const displayTaxBox = (gameData) => {
         <span class="text-gray">Current tax:</span> <span>${taxText}</span>
         <span class="text-gray">Gold p. 100 pop.:</span><span>${gameData.general.tax * 5}</span>
     </div>
+    <hr class="separator">
     <span>Set tax level:</span>
     <div class="buttons-box">
         <button class="btnTax" id="taxLow">Low</button>
         <button class="btnTax" id="taxBalanced">Balanced</button>
         <button class="btnTax" id="taxHigh">High</button>
+    </div>`
+}
+
+// changes the food box
+export const displayFoodBox = (gameData) => {
+    let foodLevel = ''
+
+    // change the text base on food level
+    if (gameData.general.foodLevel === 1) foodLevel = '<span class="text-red">Limited</span>'
+    else if (gameData.general.foodLevel === 2) foodLevel = '<span class="text-yellow">Normal</span>'
+    else foodLevel = '<span class="text-green">Generous</span>'
+
+    // markup
+    return foodBox.innerHTML = `<h2>Food rationing</h2>
+    <div class="build-description">
+        <p>We can increase or decrease the <span class="text-yellow text-bold">food</span> rations for our people. Limited rations decrease happiness, generous rations increase happiness.</p>
+    </div>
+    <div class="box-stats mtb">
+        <span class="text-gray">Current rations:</span> <span>${foodLevel}</span>
+        <span class="text-gray">Consum p. 100 pop.:</span><span>${gameData.general.foodLevel * 0.5}</span>
+    </div>
+    <hr class="separator">
+    <span>Set rationing level:</span>
+    <div class="buttons-box">
+        <button class="btnFood" id="foodLow">Limited</button>
+        <button class="btnFood" id="foodBalanced">Normal</button>
+        <button class="btnFood" id="foodHigh">Generous</button>
     </div>`
 }
 
@@ -304,7 +333,7 @@ export const generateArmy = (unit) => {
             <div class='unit-stat'>
                 <div><img class="img-s" src="media/gold.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
                 <div><img class="img-s" src="media/fame.png" title="Might (total)"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
-                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(unit.pay * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.ceil(unit.pay * unit.amount))})</span></div>
             </div>
         </div>
 
@@ -319,10 +348,10 @@ export const generateArmy = (unit) => {
 
         <hr class="separator">
         <div class="add-form">
-            <span class="text-gray">Dismiss</span>
+            <button class="btnDismiss" id="${unit.name}" >Dismiss</button>
             <input id="dismiss${unit.name}" type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
             <span class="text-gray">units</span>
-            <button class="btnDismiss" id="${unit.name}" >Dismiss</button>
+            
         </div>
     </div>  `
 }
@@ -334,7 +363,7 @@ export const generateRecruits = (unit) => {
 
         <div class='recruit-info'>
         <span class='text-gray'>In queue: </span>
-        <span class='text-white'>${converThousand(unit.queue)}</span>
+        <span class='text-white text-bold'>${converThousand(unit.queue)}</span>
         </div>
 
         <hr class="separator">
@@ -351,9 +380,10 @@ export const generateRecruits = (unit) => {
 
         <div class="add-form relative">
             <span class="text-red error-text-recruit none">Not enough resources!</span>
+            <button class="btnRecruit" id="${unit.name}">Recruit</button>
             <input id="recruit${unit.name}" type="number" placeholder="0" min="0" onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
             <span class="text-it text-gray add-max" id="${unit.name}">(Max ${converThousand(calcMaxUnit(unit.recruitCost))})</span>
-            <button class="btnRecruit" id="${unit.name}">Recruit</button>
+            
         </div>
     </div>  `
 }

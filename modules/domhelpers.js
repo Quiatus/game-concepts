@@ -1,6 +1,6 @@
 'use strict';
 import { loadGame } from "./utilities.js"
-import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, generateArmy, generateRecruits } from "./domgenerators.js"
+import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, generateArmy, generateRecruits, displayFoodBox } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
 const events = document.querySelector('.event-div')
@@ -63,6 +63,7 @@ export const generateMarkup = (panel=null) => {
     if (panel === 'empireManagementPanel') {
         displayTaxBox(gameData)
         displayCapital(gameData)
+        displayFoodBox(gameData)
     }
 
     if (panel === 'buildingsPanel') {
@@ -271,7 +272,7 @@ export const showMissionNumber = () => {
 
 // Shows active missions
 const displayMissions = (gameData) => {
-    missions.innerHTML = `<p class='mbb text-big'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
+    missions.innerHTML = `<p class='mtbb text-big'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
     const missionSubdiv = document.createElement('div')
     missionSubdiv.classList = 'smallBoxDiv'
     

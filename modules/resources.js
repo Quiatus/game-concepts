@@ -79,7 +79,7 @@ export class Gold{
         let amount = 0
         for (let unit of units) {
             if (unit.amount) {
-                amount += unit.pay * unit.amount
+                amount += Math.ceil(unit.pay * unit.amount);
             }
         }
 
@@ -230,7 +230,7 @@ export class Food{
         const baseGain = this.gainFood(gameData)
 
         // consumtion from pops
-        const consumed = this.consumeFood(gameData.basicResources.pop)
+        const consumed = this.consumeFood(gameData.basicResources.pop, gameData.general.foodLevel)
 
         amount = Math.floor((baseGain * eventGain[1])) + eventGain[0] - consumed
 
@@ -251,8 +251,9 @@ export class Food{
     }
 
     // calucale amount of food eaten by pops
-    consumeFood(pop) {
-        const consumedFood = Math.floor(pop / 100);
+    consumeFood(pop, foodLevel) {
+        let consumedFood = Math.floor(pop / 100 * (foodLevel * 0.5));
+        if (consumedFood === 0) consumedFood = 1
         return consumedFood
     }
 

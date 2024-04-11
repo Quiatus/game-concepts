@@ -10,11 +10,13 @@ export const calculateHappiness = () => {
 
     // Positive gains
     gameData.general.tax === 1 ? calculatedHappiness += 20 : null
+    gameData.general.foodLevel === 3 ? calculatedHappiness += 25 : null
 
     // Negative gains
-    gameData.alerts.famine ? calculatedHappiness -= 10 : null
+    gameData.alerts.famine ? calculatedHappiness -= 20 : null
     gameData.alerts.overpopulation ? calculatedHappiness -= 5 : null
     gameData.general.tax === 3 ? calculatedHappiness -= 20 : null
+    gameData.general.foodLevel === 1 ? calculatedHappiness -= 25 : null
 
     // Happiness cannot go below 0 or above 100
     calculatedHappiness < 0 ? calculatedHappiness = 0 : null
@@ -39,6 +41,18 @@ export const changeTax = (id) => {
     if (id === 'taxLow') gameData.general.tax = 1
     if (id === 'taxBalanced') gameData.general.tax = 2
     if (id === 'taxHigh') gameData.general.tax = 3
+
+    saveGame(gameData)
+    generateMarkup('empireManagementPanel')
+}
+
+// change food ration
+export const changeFoodLevel = (id) => {
+    let gameData = loadGame()
+
+    if (id === 'foodLow') gameData.general.foodLevel = 1
+    if (id === 'foodBalanced') gameData.general.foodLevel = 2
+    if (id === 'foodHigh') gameData.general.foodLevel = 3
 
     saveGame(gameData)
     generateMarkup('empireManagementPanel')
