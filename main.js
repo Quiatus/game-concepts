@@ -48,7 +48,7 @@ const checkAfterResourceCalc = (isNewMonth) => {
     food.checkIfEnoughFood(pop, isNewMonth) // checks if there is enough food, if not, shows warning
     recruitUnits(isNewMonth) // recruit units
     checkUpkeep(isNewMonth) // check if there is enough gold to pay the army
-    calculateHappiness()  // calculates happiness based on the conditions calculaed before
+    calculateHappiness(isNewMonth)  // calculates happiness based on the conditions calculaed before
     calculateMight() // calculate might
     displayActiveAlerts() // shows any active alerts
     generateMarkup() // updates DOM

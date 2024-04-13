@@ -113,7 +113,7 @@ export class Pop {
         gameData.resourceGain.pop = 0
 
         // base increase from births
-        let baseGain = this.increasePop(pop) 
+        let baseGain = this.increasePop(pop, gameData.general.foodLevel) 
 
         // apply happiness modifier to basic pop gain
         if (happiness < 20) {
@@ -152,12 +152,17 @@ export class Pop {
 
     // Pop increase is between 0.1% - 0.5% per month
     // adds between 2 - 20 pop on the top of the base increase.
-    increasePop(pop) {
+    increasePop(pop, foodLevel) {
         const min = Math.floor(pop * 0.001)
         const max = Math.floor(pop * 0.005)
         const lowPopCompensator = Math.floor(Math.random() * 19 + 2)
+        let foodLevelMultiplier = 0
 
-        const addPop = Math.floor(Math.random() * (max - min) + min) + lowPopCompensator;
+        if (foodLevel === 1) foodLevelMultiplier = 0.75
+        if (foodLevel === 2) foodLevelMultiplier = 1
+        if (foodLevel === 3) foodLevelMultiplier = 1.25
+
+        const addPop = Math.floor((Math.random() * (max - min) + min) + lowPopCompensator) * foodLevelMultiplier;
         return addPop
     }
 

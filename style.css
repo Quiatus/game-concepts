@@ -134,7 +134,7 @@ h3 {
     border: 1px solid var(--clr-bgborder);
     box-shadow: 0 0 10px var(--clr-bgborder);
     border-radius: 0.25rem;
-    height: 100%;
+    height: fit-content;
     overflow: hidden;
 }
 

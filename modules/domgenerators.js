@@ -63,11 +63,14 @@ export const displayFoodBox = (gameData) => {
     // markup
     return foodBox.innerHTML = `<h2>Food rationing</h2>
     <div class="build-description">
-        <p>Increase or decrease the <span class="text-yellow text-bold">food</span> rations for our people. Limited rations decrease happiness, generous rations increase happiness.</p>
+        <p>Increase or decrease the <span class="text-yellow text-bold">food</span> rations for our population. Limited rations decrease happiness and population growth, generous rations increase happiness and population growth.</p>
     </div>
     <div class="box-stats mtb">
         <span class="text-gray">Current rations:</span> <span>${foodLevel}</span>
         <span class="text-gray">Food p. 100 pop.:</span><span>${gameData.general.foodLevel * 0.5}</span>
+        <span class="text-gray">Population growth:</span>${
+            gameData.general.foodLevel === 1 ? `<span class="text-red">75%</span>` : gameData.general.foodLevel === 2 ? `<span class="text-white">100%</span>` : `<span class="text-green">125%</span>`
+        }
     </div>
     <hr class="separator">
     <span>Set rationing level:</span>

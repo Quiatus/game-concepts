@@ -117,7 +117,7 @@ const newMonthGains = () => {
 export const printNewMonthMessages = () => {
     let gameData = loadGame()
     printMessage('', 'gains')
-    printMessage(`Our people have consumed <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
+    printMessage(`Our population is consuming <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
     if (gameData.tempData.armyUpkeep > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.armyUpkeep}</span> <img class='img-s' src='media/gold.png'>.`, 'info')
 }
 
