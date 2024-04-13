@@ -21,7 +21,7 @@ export const displayResourceBox = (gameData) => {
     <div class="res hr"><img title='Fame' class='img-m' src='media/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
     <div class="res"> <img title='Might' class='img-m' src='media/army.png'><span title='Might'>${converThousand(gameData.tempData.might)}</span></div>
     <div class="res res-nm"> <img title='Happiness' class='img-m' src='media/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
-    <div class="res res-nm"><img title='Army status' class='img-m' src='media/fame.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
+    <div class="res res-nm"><img title='Army status' class='img-m' src='media/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
 }
 
 // changes the tax level text
@@ -324,14 +324,14 @@ export const generateArmy = (unit) => {
 
         <div class='unit-stats'>
             <div class='unit-stat'>
-                <div><img class="img-s" src="media/army.png" title="Attack"><span>${converThousand(unit.attack)}</span></div>
+                <div><img class="img-s" src="media/might.png" title="Attack"><span>${converThousand(unit.attack)}</span></div>
                 <div><img class="img-s" src="media/defense.png" title="Defense"><span>${converThousand(unit.defense)}</span></div>
                 <div><img class="img-s" src="media/health.png" title="HP"><span>${converThousand(unit.hp)}</span></div>
             </div>
 
             <div class='unit-stat'>
-                <div><img class="img-s" src="media/gold.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
-                <div><img class="img-s" src="media/fame.png" title="Might (total)"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/speed.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
+                <div><img class="img-s" src="media/army.png" title="Might (total)"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
                 <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.ceil(unit.pay * unit.amount))})</span></div>
             </div>
         </div>
