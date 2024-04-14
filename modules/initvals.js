@@ -46,6 +46,7 @@ export const initData = {
         happiness: 0, 
         popLeft: 0,
         popDied: 0,
+        goldStolen: 0,
         might: 0,
         activeMissions: 0,
         armyUpkeep: 0,
@@ -65,7 +66,7 @@ export const initData = {
                 month: 100,
                 fame: 0,
                 might: 0,
-                special: true  // if false, the special condition was not met, if true, it was met. A specific function will control this
+                special: true
             },
             active: false,
             isTimed: true,
@@ -85,7 +86,7 @@ export const initData = {
                 month: 0,
                 fame: 0,
                 might: 0,
-                special: false  
+                special: false 
             },
             active: false,
             isTimed: true,
@@ -225,7 +226,27 @@ export const initData = {
             isTimed: false,
             effect: 1,
             isRandom: false,
-        }
+        },
+        {
+            id: 11,
+            description: ['Our people feel hopeless because of the recent riots. There is no population growth.'],
+            type: 'popGainRiot',
+            rarity: 1,
+            isMission: false,
+            unlocked: false,
+            unlockConditions: {
+                month: 0,
+                fame: 0,
+                might: 0,
+                special: false
+            },
+            active: false,
+            isTimed: true,
+            remainingTime: 0,
+            effect: null,
+            isRandom: true,
+            random: [['remainingTime', 6, 12]]
+        },
     ],
 
 // === BUILDINGS ===============================================================================================

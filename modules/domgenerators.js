@@ -160,6 +160,7 @@ export const displayEconomy = (gameData) => {
     <div class="economy-div">
         <span class=" text-white spread">Expenditures</span>
         <span class="text-gray ml">Army upkeep:</span><span class="text-red">${converThousand(gameData.tempData.armyUpkeep)}</span>
+        <span class="text-gray ml">Stolen:</span><span class="text-red">${converThousand(gameData.tempData.goldStolen)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('g')[1])}</span>
     </div>
     <div class="economy-div">

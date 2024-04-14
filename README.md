@@ -22,7 +22,7 @@ Progress month:
 11. Check if food status. If the food is low and consumption is equal or higher than production, trigger appropriate alert
 12. If there are units in queue, recruit them
 13. Check if enough gold to upkeep army. 
-14. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
-15. Calculate total might 
+14. Calculate total might 
+15. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
 16. Displays all active alerts
 17. Re-generate DOM with the updated values

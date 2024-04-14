@@ -133,7 +133,8 @@ const unlockEvents = () => {
     const might = gameData.tempData.might
 
     for (let event of gameData.events) {
-        if (!event.unlocked) {
+
+        if (event?.unlockConditions) {
             event.unlockConditions.special = specialUnlock(event, gameData)
             // checks if month, fame, might or special condition is met, if so, unlocks the event, otherwise locks it.
             if (month >= event.unlockConditions.month  
@@ -154,6 +155,7 @@ const unlockEvents = () => {
 // check if special unlock condition are met
 const specialUnlock = (event, gameData) => {
     if (event.type === 'popHappyGainMultiplier' && gameData.tempData.happiness < 60) return false
+    if (event.type === 'popGainRiot' && !gameData.alerts.riot) return false
     return true
 }
 
