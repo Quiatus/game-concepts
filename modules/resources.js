@@ -314,6 +314,18 @@ export class Food{
 
         saveGame(gameData)
     }
+
+    // removes x food per month based on active event
+    removeFood(food, reason) {
+        let removedAmount = 0
+
+        if (reason === 'riot') {
+            // When riot , between 8 - 12% of gold will be stolen every month
+            removedAmount = Math.floor(Math.random() * (food * 0.12 - food * 0.08) + food * 0.08)
+        }
+
+        return removedAmount
+    }
 }
 
 export class Wood{

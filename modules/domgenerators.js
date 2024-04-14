@@ -179,6 +179,7 @@ export const displayEconomy = (gameData) => {
     <div class="economy-div">
         <span class=" text-white spread">Loses</span>
         <span class="text-gray ml">People:</span><span class="text-red">${converThousand(gameData.tempData.consumedFood)}</span>
+        <span class="text-gray ml">Stolen:</span><span class="text-red">${converThousand(gameData.tempData.foodStolen)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('f')[1])}</span>
     </div>
     <div class="economy-div">

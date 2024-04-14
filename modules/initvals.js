@@ -47,6 +47,7 @@ export const initData = {
         popLeft: 0,
         popDied: 0,
         goldStolen: 0,
+        foodStolen: 0,
         might: 0,
         activeMissions: 0,
         armyUpkeep: 0,
@@ -216,7 +217,8 @@ export const initData = {
         {
             id: 10,
             description: [
-                'Our scouts have discovered a large stone deposite. We can built a new #effect#.'
+                'Our scouts have discovered a large stone deposit. We can built a new #effect#.',
+                'We found a ruined #effect#. We should be able to repair the equipment and resume the mining.'
                 ],
             type: 'gainQuarrySpace',
             rarity: 10,
@@ -229,7 +231,7 @@ export const initData = {
         },
         {
             id: 11,
-            description: ['Our people feel hopeless because of the recent riots. There is no population growth.'],
+            description: ['Because of the recent riots, our people feel no hope for the future. The population growth is 0.'],
             type: 'popGainRiot',
             rarity: 1,
             isMission: false,

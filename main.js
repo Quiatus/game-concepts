@@ -49,7 +49,7 @@ const checkAfterResourceCalc = (isNewMonth) => {
     recruitUnits(isNewMonth) // recruit units
     checkUpkeep(isNewMonth) // check if there is enough gold to pay the army
     calculateMight() // calculate might
-    calculateHappiness(isNewMonth, pop, gold)  // calculates happiness based on the conditions calculaed before
+    calculateHappiness(isNewMonth, pop, gold, food)  // calculates happiness based on the conditions calculaed before
     displayActiveAlerts() // shows any active alerts
     generateMarkup() // updates DOM
 }

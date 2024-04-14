@@ -151,7 +151,7 @@ export const calcEconomy = (econType) => {
         results[1] = gameData.tempData.armyUpkeep + gameData.tempData.goldStolen
     } else if (econType === 'f') {
         results[0] = gameData.resourceGain.food + gameData.resourceGain.foodEvents
-        results[1] = gameData.tempData.consumedFood
+        results[1] = gameData.tempData.consumedFood + gameData.tempData.foodStolen
     } else if (econType === 'w') {
         results[0] = gameData.resourceGain.wood + gameData.resourceGain.woodEvents
     } else if (econType === 's') {
