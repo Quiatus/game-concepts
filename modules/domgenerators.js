@@ -135,16 +135,16 @@ export const displayEconomy = (gameData) => {
     <div class="economy-div">
         <span class="text-white spread">Gains</span>
         <span class="text-gray ml">Births:</span><span class="text-green">${converThousand(gameData.resourceGain.pop)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('p')[0], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('p', gameData)[0])}</span>
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Loses</span>
         <span class="text-gray ml">Left:</span><span class="text-red">${converThousand(gameData.tempData.popLeft)}</span>
         <span class="text-gray ml">Deaths:</span><span class="text-red">${converThousand(gameData.tempData.popDied)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('p')[1], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('p', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('p')[2], gameData)}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('p', gameData)[2])}</span>
     </div>
 </div>
 
@@ -155,16 +155,16 @@ export const displayEconomy = (gameData) => {
         <span class="text-gray ml">Taxes:</span><span class="text-green">${converThousand(gameData.resourceGain.goldTax)}</span>
         <span class="text-gray ml">Trade:</span><span class="text-green">${converThousand(gameData.tempData.commerce)}</span>
         <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.goldEvents)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('g')[0], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('g', gameData)[0])}</span>
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Expenditures</span>
         <span class="text-gray ml">Army upkeep:</span><span class="text-red">${converThousand(gameData.tempData.armyUpkeep)}</span>
         <span class="text-gray ml">Stolen:</span><span class="text-red">${converThousand(gameData.tempData.goldStolen)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('g')[1], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('g', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('g')[2], gameData)}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('g', gameData)[2])}</span>
     </div>
 </div>
 
@@ -174,16 +174,16 @@ export const displayEconomy = (gameData) => {
         <span class="text-white spread">Gains</span>
         <span class="text-gray ml">Farms:</span><span class="text-green">${converThousand(gameData.resourceGain.food)}</span>
         <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.foodEvents)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('f')[0], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('f', gameData)[0])}</span>
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Loses</span>
         <span class="text-gray ml">People:</span><span class="text-red">${converThousand(gameData.tempData.consumedFood)}</span>
         <span class="text-gray ml">Stolen:</span><span class="text-red">${converThousand(gameData.tempData.foodStolen)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('f')[1], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('f', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('f')[2], gameData)}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('f', gameData)[2])}</span>
     </div>
 </div>
 
@@ -197,10 +197,10 @@ export const displayEconomy = (gameData) => {
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Loses</span>
-        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('w')[0], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('w', gameData)[0])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('w')[2], gameData)}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('w', gameData)[2])}</span>
     </div>
 </div>
 
@@ -210,14 +210,14 @@ export const displayEconomy = (gameData) => {
         <span class="text-white spread">Gains</span>
         <span class="text-gray ml">Quarries:</span><span class="text-green">${converThousand(gameData.resourceGain.stone)}</span>
         <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.stoneEvents)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('s')[0], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('s', gameData)[0])}</span>
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Loses</span>
-        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('s')[1], gameData)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('s', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('s')[2], gameData)}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('s', gameData)[2])}</span>
     </div>
 </div>`
 }
