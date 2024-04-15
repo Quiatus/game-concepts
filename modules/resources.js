@@ -1,19 +1,15 @@
 'use strict';
 import { printMessage, converThousand } from "./domhelpers.js"
-import { saveGame, loadGame } from "./utilities.js"
 
-export class Month{
-    increaseMonth() {
-        let gameData = loadGame()
+export const month = {
+    increaseMonth(gameData) {
         gameData.basicResources.month++
-        saveGame(gameData)
     }
 }
 
-export class Gold{
+export const gold = {
     // calculates gold at the beginning of month
-    calculateGold() {
-        let gameData = loadGame()
+    calculateGold(gameData) {
         let amount = 0
         const pop = gameData.basicResources.pop
         const tax = gameData.general.tax
@@ -42,9 +38,7 @@ export class Gold{
         gameData.basicResources.gold += amount
 
         if (gameData.basicResources.gold < 0) gameData.basicResources.gold = 0
-
-        saveGame(gameData)
-    }
+    },
 
     // generates gold from events
     getGoldFromEvents(events) {
@@ -53,7 +47,7 @@ export class Gold{
             if (event.active && event.type === 'gainGold') amount += event.effect
         }
         return amount
-    }
+    },
 
     // add tax multiplier
     addTaxes(tax) {
@@ -64,7 +58,7 @@ export class Gold{
         } else if (tax === 3) {
             return 1.5
         } 
-    }
+    },
 
     // each 10 pops generate 1 gold, +- 25%
     getGoldFromPop(pop) {  
@@ -72,7 +66,7 @@ export class Gold{
         const max = Math.floor(pop * 0.125);  
         const addGold = Math.floor(Math.random() * (max - min) + min);
         return addGold;
-    }
+    },
 
     // deduct army pay
     armyUpkeep(units) {
@@ -84,7 +78,7 @@ export class Gold{
         }
 
         return amount
-    }
+    },
 
     // removes x gold per month based on active event
     removeGold(gold, reason) {
@@ -99,23 +93,19 @@ export class Gold{
     }
 }
 
-export class Pop {
+export const pop = {
     // calculates total available space from houses, capital and settlements
-    calculateTotalSpace() {
-        let gameData = loadGame()
+    calculateTotalSpace(gameData) {
         const basicSpace = gameData.basicResources.basicSpace
         const houseSpace = gameData.buildings[1].amount * gameData.buildings[1].effect
         const totalSpace = basicSpace + houseSpace
 
         gameData.tempData.houseSpace = houseSpace
         gameData.tempData.totalSpace = totalSpace
-
-        saveGame(gameData)
-    }
+    },
 
     // calculates pops at the beginning of the month
-    calculatePop() {
-        let gameData = loadGame()
+    calculatePop(gameData) {
         let amount = 0
         let alert = false
         const pop = gameData.basicResources.pop
@@ -158,8 +148,8 @@ export class Pop {
 
         gameData.tempData.popDied = 0 
         gameData.tempData.popLeft = 0 
-        saveGame(gameData)
-    }
+        
+    },
 
     // Pop increase is between 0.1% - 0.5% per month
     // adds between 2 - 20 pop on the top of the base increase.
@@ -175,7 +165,7 @@ export class Pop {
 
         const addPop = Math.floor((Math.random() * (max - min) + min) + lowPopCompensator) * foodLevelMultiplier;
         return addPop
-    }
+    },
 
     // generates pop from events
     getPopFromEvents(events) {
@@ -187,11 +177,10 @@ export class Pop {
             if (event.active && event.type === 'popGainRiot') noGain = true
         }
         return [additive, multiplicative, noGain]
-    }
+    },
 
     // checks if max space is reached, if so, shows warning. If more pops than space, triggers overpopulation event
-    isMaxPop(isNewMonth=true) {
-        let gameData = loadGame()
+    isMaxPop(gameData) {
         let pop = gameData.basicResources.pop
         let totalSpace = gameData.tempData.totalSpace 
         gameData.alerts.overpopulation = false
@@ -199,25 +188,20 @@ export class Pop {
         // warning if people have nowhere to live
         if (pop === totalSpace) {
             printMessage('Population capacity reached. Build more housing or conquer more settlements!', 'warning')
-        } else if ((pop > totalSpace) && isNewMonth) {
+        } else if (pop > totalSpace) {
             // overpopulation
             gameData.alerts.overpopulation = true
-            const leftPop = this.removePops(pop, 'overpopulation') // removes pops 
+            const leftPop = this.removePops(gameData, 'overpopulation') // removes pops 
             gameData.basicResources.pop -= leftPop
             gameData.tempData.popLeft = leftPop 
             printMessage(`Our people have nowhere to live.<span class="text-bold">${converThousand(leftPop)}</span><img class='img-s' src='media/res/pop.png'> left. Build more housing or conquer more settlements!`, 'critical')
-        } else if ((pop > totalSpace) && !isNewMonth) {
-            // overpopulation (on game load)
-            gameData.alerts.overpopulation = true
-            printMessage(`Our people have nowhere to live. Build more housing or conquer more settlements!`, 'critical')
         } 
-
-        saveGame(gameData)
-    }
+    },
 
     // removes x pop per month based on active event
-    removePops(pop, reason) {
+    removePops(gameData, reason) {
         let removedAmount = 0
+        let pop = gameData.basicResources.pop
 
         if (reason === 'famine') {
             // calculates the amount of pops that did not receive food and kills 25% - 75% of that amount
@@ -235,10 +219,9 @@ export class Pop {
     }
 }
 
-export class Food{
+export const food = {
     // calculates food at the beginning of momth
-     calculateFood() {
-        let gameData = loadGame()
+     calculateFood(gameData) {
         let amount = 0
         const eventGain = this.getFoodFromEvents(gameData.events)
 
@@ -256,22 +239,20 @@ export class Food{
 
         gameData.basicResources.food += amount
         gameData.basicResources.food < 0 ? gameData.basicResources.food = 0 : null
-    
-        saveGame(gameData)
-    }
+    },
 
     // calculate food gain from farms
     gainFood(gameData) {
         const gain = gameData.buildings[2].amount * gameData.buildings[2].effect
         return gain
-    }
+    },
 
     // calucale amount of food eaten by pops
     consumeFood(pop, foodLevel) {
         let consumedFood = Math.floor(pop / 100 * (foodLevel * 0.5));
         if (consumedFood === 0) consumedFood = 1
         return consumedFood
-    }
+    },
 
     // generates food from events
     getFoodFromEvents(events) {
@@ -282,11 +263,10 @@ export class Food{
             if (event.active && event.type === 'foodGainMultiplier') multiplicative *= event.effect
         }
         return [additive, multiplicative]
-    }
+    },
 
     // checks if we have enough food, if not, triggers famine event
-    checkIfEnoughFood(pop, isNewMonth=true) {
-        let gameData = loadGame()
+    checkIfEnoughFood(gameData) {
         const food = gameData.basicResources.food
         const gainedFood = gameData.resourceGain.food
         const consumedFood = gameData.tempData.consumedFood
@@ -295,14 +275,10 @@ export class Food{
         if (((consumedFood - gainedFood) * 15 >= food) && food > 0) {
             // checks if food consumtions is lower than gain, then if food supplies will be depleted in 15 months. If so, triggers warning
             printMessage(`We are running low on food! Increase food production!`, 'warning')
-        } else if ((food === 0 && consumedFood > gainedFood) && !isNewMonth) {
-            // checks if famine is active at the game load
-            gameData.alerts.famine = true
-            printMessage(`Our clan is suffering from famine! Increase food production!`, 'critical')
-        } else if ((food === 0 && consumedFood > gainedFood) && isNewMonth) {
+        } else if (food === 0 && consumedFood > gainedFood) {
             // checks if famine is active at the beginnig of month, if so, kills pops
             gameData.alerts.famine = true
-            const deadPop = pop.removePops(gameData.basicResources.pop, 'famine')
+            const deadPop = pop.removePops(gameData, 'famine')
             gameData.basicResources.pop -= deadPop
             gameData.tempData.popDied = deadPop 
             printMessage(`Our clan is suffering from famine! <span class="text-bold">${converThousand(deadPop)}</span><img class='img-s' src='media/res/pop.png'> died from starvation! Increase food production! `, 'critical')
@@ -311,9 +287,7 @@ export class Food{
             gameData.alerts.famine = true
             printMessage(`Our food reserves are empty! Our population will die of starvation. Increase food production! `, 'critical')
         } 
-
-        saveGame(gameData)
-    }
+    },
 
     // removes x food per month based on active event
     removeFood(food, reason) {
@@ -328,10 +302,9 @@ export class Food{
     }
 }
 
-export class Wood{
+export const wood = {
     // calculates wood at the beginning of momth
-     calculateWood() {
-        let gameData = loadGame()
+     calculateWood(gameData) {
         let amount = 0
         const eventGain = this.getWoodFromEvents(gameData.events)
 
@@ -345,9 +318,7 @@ export class Wood{
 
         gameData.basicResources.wood += amount
         gameData.basicResources.wood < 0 ? gameData.basicResources.wood = 0 : null
-
-        saveGame(gameData)
-    }
+    },
 
     // generates wood from events
     getWoodFromEvents(events) {
@@ -356,7 +327,7 @@ export class Wood{
             if (event.active && event.type === 'gainWood') amount += event.effect
         }
         return amount
-    }
+    },
 
     // calucaltes base gain from lumberyard
     gainWood(gameData) {
@@ -365,10 +336,9 @@ export class Wood{
     }
 }
 
-export class Stone{
+export const stone = {
     // calculates stone at the beginning of momth
-     calculateStone() {
-        let gameData = loadGame()
+     calculateStone(gameData) {
         let amount = 0
         const eventGain = this.getStoneFromEvents(gameData.events)
 
@@ -383,8 +353,7 @@ export class Stone{
         gameData.basicResources.stone += amount
         gameData.basicResources.stone < 0 ? gameData.basicResources.stone = 0 : null
 
-        saveGame(gameData)
-    }
+    },
 
     // generates stone from events
     getStoneFromEvents(events) {
@@ -393,7 +362,7 @@ export class Stone{
             if (event.active && event.type === 'gainStone') amount += event.effect
         }
         return amount
-    }
+    },
 
     // calucaltes base gain from quarries
     gainStone(gameData) {

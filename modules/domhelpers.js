@@ -1,5 +1,5 @@
 'use strict';
-import { loadGame } from "./utilities.js"
+
 import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, generateArmy, generateRecruits, displayFoodBox } from "./domgenerators.js"
 
 const messages = document.querySelector('.message-div')
@@ -36,14 +36,13 @@ export const popText = (pop, space) => {
 // === GENERAL =====================================================================================================
 
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
-export const showPanel = (panelName) => {
+export const showPanel = (panelName, gameData) => {
     rightPanels.forEach(panel => panel.id === panelName ? panel.classList.remove('none') : panel.classList.add('none'))
-    generateMarkup(panelName)
+    generateMarkup(panelName, gameData)
 }
 
 // show menu buttons for unlocked features
-export const showMenuButtons = () => {
-    let gameData = loadGame()
+export const showMenuButtons = (gameData) => {
     let buttons = null
 
     let newDiv = document.createElement('div')
@@ -62,8 +61,7 @@ export const showMenuButtons = () => {
 }
 
 // loops over alerts and checks which are active, then displays those
-export const displayActiveAlerts = () => {
-    let gameData = loadGame()
+export const displayActiveAlerts = (gameData) => {
     alertsPanel.innerHTML = ''
 
     for (let alert in gameData.alerts) {
@@ -75,9 +73,7 @@ export const displayActiveAlerts = () => {
 }
 
 // Main fuction that generates markup based on which panel is shown
-export const generateMarkup = (panel=null) => {
-    let gameData = loadGame()
-
+export const generateMarkup = (panel=null, gameData) => {
     displayResourceBox(gameData)
 
     if (panel === 'empireManagementPanel') {
@@ -111,12 +107,11 @@ export const generateMarkup = (panel=null) => {
 // === MESSAGES ====================================================================================================================
 
 export const clearMessages = (isNewMonth) => {
-    if (isNewMonth) messages.innerHTML = ''
+    messages.innerHTML = ''
 }
 
 // display beginning of month gains. Only shows positive gains
-const newMonthGains = () => {
-    let gameData = loadGame()
+const newMonthGains = (gameData) => {
     let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
 
     gameData.resourceGain.goldTotal > 0 ? addedGold = `<span class="text-gold"> ${converThousand(gameData.resourceGain.goldTotal)} </span> <img class='img-s' src='media/res/gold.png'>,` : null
@@ -134,22 +129,21 @@ const newMonthGains = () => {
 }
 
 // prints messages at the beginning of the month
-export const printNewMonthMessages = () => {
-    let gameData = loadGame()
-    printMessage('', 'gains')
-    printMessage(`Our population is consuming <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/res/food.png'>.`, 'info')
-    if (gameData.tempData.armyUpkeep > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.armyUpkeep}</span> <img class='img-s' src='media/res/gold.png'>.`, 'info')
+export const printNewMonthMessages = (gameData) => {
+    printMessage('', 'gains', gameData)
+    printMessage(`Our population is consuming <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/res/food.png'>.`, 'info', gameData)
+    if (gameData.tempData.armyUpkeep > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.armyUpkeep}</span> <img class='img-s' src='media/res/gold.png'>.`, 'info', gameData)
 }
 
 // prints various messages 
-export const printMessage = (text, type='info') => {
+export const printMessage = (text, type='info', gameData={}) => {
     const msg = document.createElement('p');
     msg.innerHTML = text
     if (type==='critical')  msg.className = 'text-red'
     if (type==='warning') msg.className = 'text-orange'
     if (type==='info') msg.className = 'text-white'
     if (type==='recruit') msg.className = 'text-green'
-    if (type==='gains') msg.innerHTML = newMonthGains()
+    if (type==='gains') msg.innerHTML = newMonthGains(gameData)
 
     messages.appendChild(msg)
 }
@@ -157,8 +151,7 @@ export const printMessage = (text, type='info') => {
 // === STATISTICS ================================================================================================================
 
 // helper function to display economy stats. Calculates gains and losses and totals the amounts
-export const calcEconomy = (econType) => {
-    let gameData = loadGame()
+export const calcEconomy = (econType, gameData) => {
     let results = [0, 0, ``]
     let total = 0
 
@@ -285,8 +278,7 @@ export const displayBuildDescr = (building) => {
 
 // === EVENT & MISSION ===========================================================================================================
 
-export const showMissionNumber = () => {
-    let gameData = loadGame()
+export const showMissionNumber = (gameData) => {
     menuBtnMissions.textContent = `Missions (${gameData.tempData.activeMissions})`
 }
 
@@ -309,9 +301,8 @@ const displayMissions = (gameData) => {
 }
 
 // displays active events
-export const displayActiveEvents = (isNewMonth) => {
+export const displayActiveEvents = (isNewMonth, gameData) => {
     events.innerHTML = ''
-    const gameData = loadGame()
     // searches for active events
     for (let event of gameData.events) {
         if (event.active) {
@@ -408,7 +399,7 @@ const displayRecruits = (gameData) => {
     for (let unit of gameData.units) {
         if (unit.isRecruitable) {
             const unitDiv = document.createElement('div')
-            unitDiv.innerHTML = generateRecruits(unit)
+            unitDiv.innerHTML = generateRecruits(unit, gameData)
             recruitment.append(unitDiv)
         }
     }    

@@ -1,25 +1,17 @@
 'use strict';
 
 import { generateMarkup, printMessage } from "./domhelpers.js"
-import { saveGame, loadGame } from "./utilities.js"
+import { saveGame } from "./utilities.js"
 
 // checks the current capital level and applies modifiers
-export const applyCapitalBonuses = () => {
-    let gameData = loadGame()
-    let capital = gameData.buildings[0]
-
-    gameData.basicResources.basicSpace = capital.levels[capital.currentLevel - 1].space
-    //gameData.tempData.commerce = capital.levels[capital.currentLevel - 1].commerce
-    gameData.buildings[1].maxSpace = capital.levels[capital.currentLevel - 1].houses 
-    gameData.units[0].recrutpm = capital.levels[capital.currentLevel - 1].militiaRecruit 
-    
-    saveGame(gameData)
+export const applyCapitalBonuses = (gameData) => {
+    gameData.basicResources.basicSpace = gameData.buildings[0].levels[gameData.buildings[0].currentLevel - 1].space
+    gameData.buildings[1].maxSpace = gameData.buildings[0].levels[gameData.buildings[0].currentLevel - 1].houses 
+    gameData.units[0].recrutpm = gameData.buildings[0].levels[gameData.buildings[0].currentLevel - 1].militiaRecruit 
 }
 
 // Updates the current building cost for any upgradeable building
-export const updateBuildCost = () => {
-    let gameData = loadGame()
-
+export const updateBuildCost = (gameData) => {
     for (let building of gameData.buildings) {
         let cl = building.currentLevel
         const ml = building.maxLevel
@@ -35,7 +27,6 @@ export const updateBuildCost = () => {
             if (building.id === 'buildingCapital') building.specialUnlock = building.levels[cl].specialUnlock  
         }  
     }
-    saveGame(gameData)
 }
 
 // checks for various conditions and concatinate each that is not met
@@ -63,8 +54,7 @@ const checkIfEnoughResources = (building, gameData) => {
 }
 
 // start building construction
-export const startConstruction = (e) => {
-    let gameData = loadGame()
+export const startConstruction = (e, gameData) => {
     let buildingName = e.target.id
 
     for (let building of gameData.buildings) {
@@ -83,7 +73,7 @@ export const startConstruction = (e) => {
                 gameData.basicResources.stone -= building.costStone
         
                 saveGame(gameData)
-                building.name === 'Capital' ? generateMarkup('empireManagementPanel') : generateMarkup('buildingsPanel')
+                building.name === 'Capital' ? generateMarkup('empireManagementPanel', gameData) : generateMarkup('buildingsPanel', gameData)
             } else {
                 // displays the error message if construction not possible
                 e.target.parentElement.children[0].textContent = reason
@@ -95,31 +85,25 @@ export const startConstruction = (e) => {
 }
 
 // progresses the construction
-export const progressBuild = (isNewMonth) => {
-    let gameData = loadGame()
-    
+export const progressBuild = (gameData) => {
     // if the last month passes, completes the construction
-
-    if (isNewMonth) {
-        for (let building of gameData.buildings) {
-            if (building.isBeingBuilt) {
-                if (building.buildProgress === (building.costTime - 1)) {  
-                    building.isBeingBuilt = false;
-                    building.buildProgress = 0;
-        
-                    if (!building.isUpgradeable || (building.isUpgradeable && building.amount === 0)) {
-                        building.amount++;
-                        printMessage(`A new <span class='${building.textColor}'>${building.name}</span> has been built.`)
-                    } else {
-                        building.currentLevel++
-                        if (building.id !== 'buildingCapital') building.effect = building.levels[building.currentLevel-1].effect
-                        printMessage(`<span class='${building.textColor}'>${building.name}</span> has been upgraded to <span class='text-orange'>level ${building.currentLevel}</span>.`)
-                    }      
-                    
+    for (let building of gameData.buildings) {
+        if (building.isBeingBuilt) {
+            if (building.buildProgress === (building.costTime - 1)) {  
+                building.isBeingBuilt = false;
+                building.buildProgress = 0;
+    
+                if (!building.isUpgradeable || (building.isUpgradeable && building.amount === 0)) {
+                    building.amount++;
+                    printMessage(`A new <span class='${building.textColor}'>${building.name}</span> has been built.`)
                 } else {
-                    building.buildProgress++
-                }
-                saveGame(gameData)
+                    building.currentLevel++
+                    if (building.id !== 'buildingCapital') building.effect = building.levels[building.currentLevel-1].effect
+                    printMessage(`<span class='${building.textColor}'>${building.name}</span> has been upgraded to <span class='text-orange'>level ${building.currentLevel}</span>.`)
+                }      
+                
+            } else {
+                building.buildProgress++
             }
         }
     }

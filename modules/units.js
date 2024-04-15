@@ -1,13 +1,11 @@
 'use strict';
 
-import { loadGame, saveGame } from "./utilities.js"
+import { saveGame } from "./utilities.js"
 import { generateMarkup } from "./domhelpers.js"
 import { printMessage } from "./domhelpers.js"
 
 // check if any building that allows recruitment is built and if so, unlock the appropriate unit or increases the recruitment
-export const unlockUnits = () => {
-    let gameData = loadGame()
-    
+export const unlockUnits = (gameData) => {
     for (let building of gameData.buildings) {
         if (building.buildingType === 'Military' && building.amount === 1) {
             for (let unit of gameData.units) {
@@ -19,13 +17,10 @@ export const unlockUnits = () => {
             }
         }
     }
-
-    saveGame(gameData)
 }
 
 // calculate might
-export const calculateMight = () => {
-    let gameData = loadGame()
+export const calculateMight = (gameData) => {
     let might = 0
 
     for (let unit of gameData.units) {
@@ -33,12 +28,10 @@ export const calculateMight = () => {
     }
 
     gameData.tempData.might = might
-    saveGame(gameData)
 }
 
 // calcualte max recruitable unit
-export const calcMaxUnit = (unitCost) => {
-    const gameData = loadGame()
+export const calcMaxUnit = (unitCost, gameData) => {
     let lowestCost = []
 
     const res = [
@@ -59,8 +52,7 @@ export const calcMaxUnit = (unitCost) => {
 }
 
 // dismiss selected amount of units
-export const dismissUnits = (unitName) => {
-    let gameData = loadGame()
+export const dismissUnits = (unitName, gameData) => {
     let val = Number(document.getElementById(`dismiss${unitName}`).value)
 
     if (!val) val = 0
@@ -74,41 +66,35 @@ export const dismissUnits = (unitName) => {
 
     saveGame(gameData)
     calculateMight()
-    generateMarkup('armyManagementPanel')
+    generateMarkup('armyManagementPanel', gameData)
 }
 
 // if units are recruitable and are in queue, add them to army.
-export const recruitUnits = (isNewMonth) => {
-    if (isNewMonth) {
-        let gameData = loadGame()
-
-        for (let unit of gameData.units) {
-            if (unit.isRecruitable && unit.queue) {
-                if (unit.queue >= unit.recrutpm) {
-                    unit.amount += unit.recrutpm
-                    unit.queue -= unit.recrutpm
-                    printMessage(unit.recruitMessage.replace('##amount##', unit.recrutpm), 'recruit')
-                } else {
-                    unit.amount += unit.queue
-                    printMessage(unit.recruitMessage.replace('##amount##', unit.queue), 'recruit')
-                    unit.queue = 0
-                }
+export const recruitUnits = (gameData) => {
+    for (let unit of gameData.units) {
+        if (unit.isRecruitable && unit.queue) {
+            if (unit.queue >= unit.recrutpm) {
+                unit.amount += unit.recrutpm
+                unit.queue -= unit.recrutpm
+                printMessage(unit.recruitMessage.replace('##amount##', unit.recrutpm), 'recruit')
+            } else {
+                unit.amount += unit.queue
+                printMessage(unit.recruitMessage.replace('##amount##', unit.queue), 'recruit')
+                unit.queue = 0
             }
         }
-        saveGame(gameData)
     }
 }
 
 // add selected amount of units to recruitment queue
-export const addRecruits = (unitName, e, max=false) => {
-    let gameData = loadGame()
+export const addRecruits = (unitName, e, max=false, gameData) => {
     let recruitAmount = 0
     let val = Number(document.getElementById(`recruit${unitName}`).value)
     let check = false
 
     for (let unit of gameData.units) {
         if (unit.name === unitName) {
-            const maxAmount = calcMaxUnit(unit.recruitCost)
+            const maxAmount = calcMaxUnit(unit.recruitCost, gameData)
             if (max) {
                 recruitAmount = maxAmount
                 check = true
@@ -126,7 +112,7 @@ export const addRecruits = (unitName, e, max=false) => {
                 gameData.basicResources.gold -= (unit.recruitCost.gold * recruitAmount)
                 gameData.basicResources.pop -= (unit.recruitCost.pop * recruitAmount)
                 saveGame(gameData)
-                generateMarkup('recruitmentPanel')
+                generateMarkup('recruitmentPanel', gameData)
             } else {
                 e.target.parentElement.children[0].classList.remove('none')
                 setTimeout(() => {e.target.parentElement.children[0].classList.add('none')}, 2000)
@@ -136,32 +122,22 @@ export const addRecruits = (unitName, e, max=false) => {
 }
 
 // check if there is enough gold to pay the army
-export const checkUpkeep = (isNewMonth) => {
-    if (isNewMonth) {
-        let gameData = loadGame()
-        gameData.alerts.desertion = false
-
-        if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold > 0) {
-            printMessage('Our army upkeep is higher than our gold income. Increase gold production or dismiss some units.', 'warning')
-        } else if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold === 0) {
-            gameData.alerts.desertion = true
-            printMessage('We do not have enough gold to pay our army. Our units are deserting!', 'critical')
-            saveGame(gameData)
-            removeUnitsDesertion()
-        } else {
-            saveGame(gameData)
-        }
-    }
-    
+export const checkUpkeep = (gameData) => {
+    gameData.alerts.desertion = false
+    if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold > 0) {
+        printMessage('Our army upkeep is higher than our gold income. Increase gold production or dismiss some units.', 'warning')
+    } else if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold === 0) {
+        gameData.alerts.desertion = true
+        printMessage('We do not have enough gold to pay our army. Our units are deserting!', 'critical')
+        removeUnitsDesertion()
+    }    
 }
 
 // if there is not enough gold, remove 10% of units per month
 const removeUnitsDesertion = () => {
-    let gameData = loadGame()
     for (let unit of gameData.units) {
         if (unit.amount) {
             unit.amount -= Math.floor(unit.amount * 0.1)
         }
     }
-    saveGame(gameData)
 }

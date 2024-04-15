@@ -1,45 +1,40 @@
 'use strict';
 
-import { loadGame, saveGame } from "./utilities.js"
 import { showPanel, showMissionNumber, printMessage } from "./domhelpers.js"
 
 // generates events at the beginning of the month
-export const generateEvent = (isNewMonth) => {
-    if (isNewMonth) {
+export const generateEvent = (gameData) => {
+    // checks if any events are unlocked
+    unlockEvents(gameData)
 
-        // checks if any events are unlocked
-        unlockEvents()
+    // disable active events from previous month or decrease timed events
+    actionActiveEvents(gameData)
+    
+    //determine how many events are genereated (0 - 3)
+    let eventNum = 0
+    const rnd = Math.floor(Math.random() * 200)
+    if (rnd >= 0 && rnd < 177) eventNum = 0
+    else if (rnd === 177) eventNum = 3
+    else if (rnd > 177 && rnd <= 180) eventNum = 2
+    else eventNum = 1
 
-        // disable active events from previous month or decrease timed events
-        actionActiveEvents()
-        
-        //determine how many events are genereated (0 - 3)
-        let eventNum = 0
-        const rnd = Math.floor(Math.random() * 200)
-        if (rnd >= 0 && rnd < 177) eventNum = 0
-        else if (rnd === 177) eventNum = 3
-        else if (rnd > 177 && rnd <= 180) eventNum = 2
-        else eventNum = 1
+    // check if any event is generated
+    if (eventNum > 0) {
 
-        // check if any event is generated
-        if (eventNum > 0) {
-
-            // generate events 
-            while (eventNum > 0) {
-                let generated = false
-                generated = checkIfEventIsGenerated()
-                if (generated) eventNum--
-            }  
-        }
-
-        // if any event granted build space, add it to max. avalilable space
-        calculateBuildSpace()
+        // generate events 
+        while (eventNum > 0) {
+            let generated = false
+            generated = checkIfEventIsGenerated(gameData)
+            if (generated) eventNum--
+        }  
     }
+
+    // if any event granted build space, add it to max. avalilable space
+    calculateBuildSpace(gameData)
 }
 
 // check various condition to determine if the event can be generated or not
-const checkIfEventIsGenerated = () => {
-    let gameData = loadGame() 
+const checkIfEventIsGenerated = (gameData) => {
     const id = Math.floor(Math.random() * gameData.events.length)
     let event = gameData.events[id]
 
@@ -66,8 +61,6 @@ const checkIfEventIsGenerated = () => {
             } else if (event.isMission && gameData.tempData.activeMissions === gameData.general.maxMissions) {
                 return false
             }
-            
-            saveGame(gameData)
             return true
         }
     }   
@@ -84,9 +77,7 @@ const generateRewards = (rewards) => {
 }
 
 //check active events, then disable active events from previous month or decrease timed events
-const actionActiveEvents = () => {
-    let gameData = loadGame()
-
+const actionActiveEvents = (gameData) => {
     for (let event of gameData.events) {
         // look for active  event
         if (event.active) {
@@ -110,36 +101,27 @@ const actionActiveEvents = () => {
             }
         }
     }
-
-    saveGame(gameData)
 }
 
 // if any event granted build space, add it to max. avalilable space
-const calculateBuildSpace = () => {
-    let gameData = loadGame()
+const calculateBuildSpace = (gameData) => {
     for (let event of gameData.events) {
         if (event.active && event.type === 'gainFarmSpace') gameData.buildings[2].maxSpace++
         if (event.active && event.type === 'gainLumberSpace') gameData.buildings[3].maxSpace++
         if (event.active && event.type === 'gainQuarrySpace') gameData.buildings[4].maxSpace++
     }
-    saveGame(gameData)
 }
 
 // unlock or locks events
-const unlockEvents = () => {
-    let gameData = loadGame()
-    const month = gameData.basicResources.month
-    const fame = gameData.basicResources.fame
-    const might = gameData.tempData.might
-
+const unlockEvents = (gameData) => {
     for (let event of gameData.events) {
 
         if (event?.unlockConditions) {
             event.unlockConditions.special = specialUnlock(event, gameData)
             // checks if month, fame, might or special condition is met, if so, unlocks the event, otherwise locks it.
-            if (month >= event.unlockConditions.month  
-                && fame >= event.unlockConditions.fame
-                && might >= event.unlockConditions.might
+            if (gameData.basicResources.month >= event.unlockConditions.month  
+                && gameData.basicResources.fame >= event.unlockConditions.fame
+                && gameData.tempData.might >= event.unlockConditions.might
                 && event.unlockConditions.special) {
                     event.unlocked = true
                 }
@@ -148,8 +130,6 @@ const unlockEvents = () => {
             }
         }
     }
-
-    saveGame(gameData)
 }
 
 // check if special unlock condition are met
@@ -160,9 +140,7 @@ const specialUnlock = (event, gameData) => {
 }
 
 // adds reward from mission
-const addMissionReward = (mission) => {
-    let gameData = loadGame()
-
+const addMissionReward = (mission, gameData) => {
     if (mission.missionType === 'Instant') {
         for (let [reward, amount] of mission.rewards) {
             if (reward === 'pop') gameData.basicResources.pop += amount
@@ -174,13 +152,10 @@ const addMissionReward = (mission) => {
 
     // in case pop is added, check if pop > space and if so, triggers overpopulation
     if (gameData.basicResources.pop > gameData.tempData.totalSpace) gameData.alerts.overpopulation = true
-
-    saveGame(gameData)
 }
 
 // removes mission from the log after accept / reject / completed
-export const removeMission = (mission, status) => {
-    let gameData = loadGame()
+export const removeMission = (mission, status, gameData) => {
     let id = Number(mission.slice(7))
 
     gameData.tempData.activeMissions--
@@ -188,17 +163,16 @@ export const removeMission = (mission, status) => {
     for (let event of gameData.events) {
         if (event.id === id) {
             event.active = false
-            saveGame(gameData)
             if (!status) {
                 printMessage(event.missionDescription.failure, 'warning')
             } else if (status) {
                 printMessage(event.missionDescription.success, 'info')
-                addMissionReward(event)
+                addMissionReward(event, gameData)
             }
              
         }
     }
 
-    showPanel('overviewPanel')
+    showPanel('overviewPanel', gameData)
     showMissionNumber()
 }
