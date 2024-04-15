@@ -25,4 +25,5 @@ Progress month:
 14. Calculate total might 
 15. Calculate happines based on various conditions (taxes, alerts, etc.). If happiness is at 0, triggers 'Riot' event.
 16. Displays all active alerts
-17. Re-generate DOM with the updated values
+17. Show menu buttons based on unlocked features
+18. Re-generate DOM with the updated values

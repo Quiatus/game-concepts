@@ -11,6 +11,7 @@ const menuBtnMissions = document.getElementById('missionsPanel')
 const missions = document.getElementById('missions')
 const army = document.getElementById('army') 
 const recruitment = document.getElementById('recruitment') 
+const menuBtnUnlock = document.getElementById('menuBtnUnlock') 
 
 // === UTILITIES ===================================================================================================
 
@@ -40,6 +41,25 @@ export const showPanel = (panelName) => {
     generateMarkup(panelName)
 }
 
+// show menu buttons for unlocked features
+export const showMenuButtons = () => {
+    let gameData = loadGame()
+    let buttons = null
+
+    let newDiv = document.createElement('div')
+    newDiv.classList = 'menu-buttons-section'
+
+    menuBtnUnlock.innerHTML = ''
+
+    if (gameData.buildings[6].amount) {
+        buttons = `<span class="menuBtn menuPanel" id="blacksmithPanel">Blacksmith</span>`
+        newDiv.innerHTML += buttons
+    }
+
+    if (buttons) {
+        menuBtnUnlock.append(newDiv)
+    }
+}
 
 // loops over alerts and checks which are active, then displays those
 export const displayActiveAlerts = () => {

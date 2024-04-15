@@ -29,6 +29,7 @@
     --clr-bgpurp: #434;
     --clr-bgbrown: #420;
     --clr-bggray: #444;
+    --clr-bgred: #400;
 
     /* Text colors */
     --clr-white: #eee;
@@ -537,6 +538,10 @@ input::-webkit-inner-spin-button {
 #buildingQuarry > h2,
 .bggrey {
     background-color: var(--clr-bggray);
+}
+
+#buildingArcheryRange > h2 {
+    background-color: var(--clr-bgred);
 }
 
 .ml {

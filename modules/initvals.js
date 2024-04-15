@@ -466,6 +466,62 @@ export const initData = {
                     info: 'Increases monthy recruitment of archers to #effect#'
                 },
             ]
+        },
+        {
+            id: 'buildingBlacksmith',  // 6
+            name: 'Blacksmith',
+            buildingType: 'General',
+            textColor: 'text-gray',
+            amount: 0,
+            isUnique: true,
+            isVisible: true,
+            isBeingBuilt: false,
+            isUpgradeable: true,
+            currentLevel: 1,
+            maxLevel: 3,
+            buildProgress: 0,
+            requireCapitalLevel: false,
+            costTime: 0,
+            costGold: 0,
+            costWood: 0,
+            costStone: 0,
+            requireSpace: false,
+            space: 1,
+            maxSpace: 1,
+            effect: null,
+            info: 'Allows to craft armor and weapons for our army.',
+            levels: [
+                {
+                    level: 1,
+                    effect: null,
+                    costTime: 10,
+                    costGold: 10000,
+                    costWood: 100,
+                    costStone: 10,
+                    requireCapitalLevel: false,
+                    info: 'Allows to craft armor and weapons for our army.'
+                },
+                {
+                    level: 2,
+                    effect: null,
+                    costTime: 30,
+                    costGold: 10000,
+                    costWood: 1000,
+                    costStone: 20,
+                    requireCapitalLevel: 2,
+                    info: 'Unlocks higher quality crafting recipes.'
+                },
+                {
+                    level: 3,
+                    effect: null,
+                    costTime: 50,
+                    costGold: 25000,
+                    costWood: 5000,
+                    costStone: 100,
+                    requireCapitalLevel: 3,
+                    info: 'Unlocks the highest quality crafting recipes.'
+                },
+            ]
         }
     ],
 // === UNITS ===============================================================================================

@@ -1,6 +1,6 @@
 'use strict';
 
-import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber } from "./modules/domhelpers.js"
+import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber, showMenuButtons } from "./modules/domhelpers.js"
 import { checkIfNewGame } from "./modules/utilities.js"
 import { changeTax, calculateHappiness, changeFoodLevel } from "./modules/generalcalcs.js";
 import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
@@ -51,6 +51,7 @@ const checkAfterResourceCalc = (isNewMonth) => {
     calculateMight() // calculate might
     calculateHappiness(isNewMonth, pop, gold, food)  // calculates happiness based on the conditions calculaed before
     displayActiveAlerts() // shows any active alerts
+    showMenuButtons() // show unlocked buttons
     generateMarkup() // updates DOM
 }
 
