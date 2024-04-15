@@ -36,7 +36,7 @@ const checkBefore = (isNewMonth) => {
 const checkAfter = (isNewMonth) => {
     checkUpkeep(gameData) // check if there is enough gold to pay the army
     calculateMight(gameData) // calculate might
-    calculateHappiness(isNewMonth, pop, gold, food, gameData) // calculates happiness based on the conditions calculaed before
+    calculateHappiness(isNewMonth, gameData) // calculates happiness based on the conditions calculaed before
     displayActiveAlerts(gameData) // shows any active alerts
     showMenuButtons(gameData) // show unlocked buttons
     generateMarkup(undefined ,gameData) // updates DOM

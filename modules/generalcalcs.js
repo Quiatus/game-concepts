@@ -1,10 +1,11 @@
 'use strict';
 
 import { generateMarkup, printMessage, converThousand } from "./domhelpers.js"
+import { gold, pop, food } from "./resources.js"
 import { saveGame } from "./utilities.js"
 
 // Calculate happines. Min 0, max 100. If reach 0 happines, riots will occur (generally pop will die and attack our army. If no army, gold will disappear)
-export const calculateHappiness = (isNewMonth, pop, gold, food, gameData) => {
+export const calculateHappiness = (isNewMonth, gameData) => {
     let calculatedHappiness = gameData.basicResources.baseHappiness // 50
 
     // Positive gains
@@ -28,7 +29,7 @@ export const calculateHappiness = (isNewMonth, pop, gold, food, gameData) => {
 
     if (!calculatedHappiness && gameData.basicResources.pop > 10) {
         gameData.alerts.riot = true
-        if (isNewMonth) actionRiot(pop, gold, food, gameData)
+        if (isNewMonth) actionRiot(gameData)
     } else {
         gameData.alerts.riot = false
     }
@@ -55,7 +56,7 @@ export const changeFoodLevel = (id, gameData) => {
 }
 
 // if riot event is active, people will be attacking each other and looting our supplies.
-const actionRiot = (pop, gold, food, gameData) => {
+const actionRiot = (gameData) => {
     const deadPop = pop.removePops(gameData, 'riot')
     const stolenGold = gold.removeGold(gameData.basicResources.gold, 'riot')
     const stolenFood = food.removeFood(gameData.basicResources.food, 'riot')
