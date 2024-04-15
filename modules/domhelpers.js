@@ -119,11 +119,11 @@ const newMonthGains = () => {
     let gameData = loadGame()
     let addedGold = '', addedFood = '', addedPop = '', addedWood = '', addedStone = ''
 
-    gameData.resourceGain.goldTotal > 0 ? addedGold = `<span class="text-gold"> ${converThousand(gameData.resourceGain.goldTotal)} </span> <img class='img-s' src='media/gold.png'>,` : null
-    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple"> ${converThousand(gameData.resourceGain.pop)} </span> <img class='img-s' src='media/pop.png'>,` : null
-    gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow"> ${converThousand(gameData.resourceGain.food)} </span> <img class='img-s' src='media/food.png'>,` : null
-    gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown"> ${converThousand(gameData.resourceGain.wood)} </span> <img class='img-s' src='media/wood.png'>,` : null
-    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-darkgray"> ${converThousand(gameData.resourceGain.stone)} </span> <img class='img-s' src='media/stone.png'>,` : null
+    gameData.resourceGain.goldTotal > 0 ? addedGold = `<span class="text-gold"> ${converThousand(gameData.resourceGain.goldTotal)} </span> <img class='img-s' src='media/res/gold.png'>,` : null
+    gameData.resourceGain.pop > 0 ? addedPop = `<span class="text-purple"> ${converThousand(gameData.resourceGain.pop)} </span> <img class='img-s' src='media/res/pop.png'>,` : null
+    gameData.resourceGain.food > 0 ? addedFood = `<span class="text-yellow"> ${converThousand(gameData.resourceGain.food)} </span> <img class='img-s' src='media/res/food.png'>,` : null
+    gameData.resourceGain.wood > 0 ? addedWood = `<span class="text-brown"> ${converThousand(gameData.resourceGain.wood)} </span> <img class='img-s' src='media/res/wood.png'>,` : null
+    gameData.resourceGain.stone > 0 ? addedStone = `<span class="text-darkgray"> ${converThousand(gameData.resourceGain.stone)} </span> <img class='img-s' src='media/res/stone.png'>,` : null
 
     // cleanup functions - replaces last , with and removes commas
     let res = `Gained ${addedPop}${addedGold}${addedFood}${addedWood}${addedStone}.`.replace(',.', '.')
@@ -137,8 +137,8 @@ const newMonthGains = () => {
 export const printNewMonthMessages = () => {
     let gameData = loadGame()
     printMessage('', 'gains')
-    printMessage(`Our population is consuming <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/food.png'>.`, 'info')
-    if (gameData.tempData.armyUpkeep > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.armyUpkeep}</span> <img class='img-s' src='media/gold.png'>.`, 'info')
+    printMessage(`Our population is consuming <span class='text-yellow'>${gameData.tempData.consumedFood}</span> <img class='img-s' src='media/res/food.png'>.`, 'info')
+    if (gameData.tempData.armyUpkeep > 0) printMessage(`The army upkeep is <span class='text-gold'>${gameData.tempData.armyUpkeep}</span> <img class='img-s' src='media/res/gold.png'>.`, 'info')
 }
 
 // prints various messages 
@@ -263,13 +263,13 @@ export const buildingConstrProgress = (building, level=null) => {
 export const displayBuildCosts = (building) => {    
     return `<div class="build-costs">
         <div class="resource-box">
-            <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(building.costGold)}</span></div>
-            ${building.costWood > 0 ? `<div><img class="img-s" src="media/wood.png"><span class="text-brown">${converThousand(building.costWood)}</span></div>` : ``}
-            ${building.costStone > 0 ? `<div><img class="img-s" src="media/stone.png"><span class="text-darkgray">${converThousand(building.costStone)}</span></div>` : ``}
+            <div><img class="img-s" src="media/res/gold.png"><span class="text-gold">${converThousand(building.costGold)}</span></div>
+            ${building.costWood > 0 ? `<div><img class="img-s" src="media/res/wood.png"><span class="text-brown">${converThousand(building.costWood)}</span></div>` : ``}
+            ${building.costStone > 0 ? `<div><img class="img-s" src="media/res/stone.png"><span class="text-darkgray">${converThousand(building.costStone)}</span></div>` : ``}
         </div>
 
         <div class="resource-box">
-            <div><img class="img-s" src="media/month.png"><span>${converThousand(building.costTime)}</span></div>
+            <div><img class="img-s" src="media/res/month.png"><span>${converThousand(building.costTime)}</span></div>
         </div>
         
     </div>`
@@ -334,10 +334,10 @@ const generateEventMessage = (event) => {
 
 // adds icon if the event is a resource
 const eventText = (event) => {
-    if (event.type === 'gainGold') return `<span class="text-gold"> ${converThousand(event.effect)} </span><img class="img-s" src="media/gold.png">`
-    if (event.type === 'gainStone') return `<span class="text-darkgray"> ${converThousand(event.effect)} </span><img class="img-s" src="media/stone.png">`
-    if (event.type === 'gainWood') return `<span class="text-brown"> ${converThousand(event.effect)} </span><img class="img-s" src="media/wood.png">`
-    if (event.type === 'gainFood') return `<span class="text-yellow"> ${converThousand(event.effect)} </span><img class="img-s" src="media/food.png">`
+    if (event.type === 'gainGold') return `<span class="text-gold"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/gold.png">`
+    if (event.type === 'gainStone') return `<span class="text-darkgray"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/stone.png">`
+    if (event.type === 'gainWood') return `<span class="text-brown"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/wood.png">`
+    if (event.type === 'gainFood') return `<span class="text-yellow"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/food.png">`
     if (event.type === 'gainFarmSpace') return `<span class="text-yellow"> Farm </span>`
     if (event.type === 'gainLumberSpace') return `<span class="text-brown"> Lumber yard </span>`
     if (event.type === 'gainQuarrySpace') return `<span class="text-darkgray"> Quarry </span>`
@@ -345,11 +345,11 @@ const eventText = (event) => {
 
 // shows approx. time left of the mission
 export const displayRemainingTimeMission = (time) => {
-    if (time > 100) return `100 > <img class='img-s' src='media/month.png'>`
-    if (time > 50 && time <= 100) return `50 - 100 <img class='img-s' src='media/month.png'>`
-    if (time > 25 && time <= 50) return `25 - 50 <img class='img-s' src='media/month.png'>`
-    if (time > 10 && time <= 25) return `10 - 25 <img class='img-s' src='media/month.png'>`
-    if (time <= 10 ) return `< 10 <img class='img-s' src='media/month.png'>`
+    if (time > 100) return `100 > <img class='img-s' src='media/res/month.png'>`
+    if (time > 50 && time <= 100) return `50 - 100 <img class='img-s' src='media/res/month.png'>`
+    if (time > 25 && time <= 50) return `25 - 50 <img class='img-s' src='media/res/month.png'>`
+    if (time > 10 && time <= 25) return `10 - 25 <img class='img-s' src='media/res/month.png'>`
+    if (time <= 10 ) return `< 10 <img class='img-s' src='media/res/month.png'>`
 }
 
 // displays mission rewards
@@ -359,10 +359,10 @@ export const displayMissionReward = (rewards) => {
     for (let [reward, amount] of rewards) {
         let sub = document.createElement('div')
         
-        if (reward === 'pop') sub.innerHTML = `<img class="img-s" src="media/pop.png"><span class="text-purple">${converThousand(amount)}</span>`
-        if (reward === 'gold') sub.innerHTML = `<img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(amount)}</span>`
-        if (reward === 'food') sub.innerHTML = `<img class="img-s" src="media/food.png"><span class="text-yellow">${converThousand(amount)}</span>`
-        if (reward === 'fame') sub.innerHTML = `<img class="img-s" src="media/fame.png"><span class="text-white">${converThousand(amount)}</span>`
+        if (reward === 'pop') sub.innerHTML = `<img class="img-s" src="media/res/pop.png"><span class="text-purple">${converThousand(amount)}</span>`
+        if (reward === 'gold') sub.innerHTML = `<img class="img-s" src="media/res/gold.png"><span class="text-gold">${converThousand(amount)}</span>`
+        if (reward === 'food') sub.innerHTML = `<img class="img-s" src="media/res/food.png"><span class="text-yellow">${converThousand(amount)}</span>`
+        if (reward === 'fame') sub.innerHTML = `<img class="img-s" src="media/res/fame.png"><span class="text-white">${converThousand(amount)}</span>`
 
         div.append(sub)
     }

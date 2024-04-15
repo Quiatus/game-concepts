@@ -12,16 +12,16 @@ const capital = document.getElementById('buildingCapital')
 // Generates resource box
 export const displayResourceBox = (gameData) => {    
     return resourcesText.innerHTML =
-    `<div class="res res-nm"><img class='img-m' src='media/month.png' title='Month'><span title='Month' class='text-bold'>${converThousand(gameData.basicResources.month)}</span></div>
-    <div class="res res-b"><img title='Current population / Max population' class='img-m' src='media/pop.png'><span title='Current population / Max population' class='text-purple'>${popText(gameData.basicResources.pop, gameData.tempData.totalSpace)}</span></div>
-    <div class="res"><img title='Gold' class='img-m' src='media/gold.png'><span title='Gold' class='text-gold'>${converThousand(gameData.basicResources.gold)}</span></div>
-    <div class="res"><img title='Food' class='img-m' src='media/food.png'><span title='Food' class='text-yellow'>${converThousand(gameData.basicResources.food)}</span></div>
-    <div class="res res-nm"><img title='Wood' class='img-m' src='media/wood.png'><span title='Wood' class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
-    <div class="res res-nm"><img title='Stone' class='img-m' src='media/stone.png'><span title='Stone' class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
-    <div class="res hr"><img title='Fame' class='img-m' src='media/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
-    <div class="res"> <img title='Might' class='img-m' src='media/army.png'><span title='Might'>${converThousand(gameData.tempData.might)}</span></div>
-    <div class="res res-nm"> <img title='Happiness' class='img-m' src='media/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
-    <div class="res res-nm"><img title='Army status' class='img-m' src='media/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
+    `<div class="res res-nm"><img class='img-m' src='media/res/month.png' title='Month'><span title='Month' class='text-bold'>${converThousand(gameData.basicResources.month)}</span></div>
+    <div class="res res-b"><img title='Current population / Max population' class='img-m' src='media/res/pop.png'><span title='Current population / Max population' class='text-purple'>${popText(gameData.basicResources.pop, gameData.tempData.totalSpace)}</span></div>
+    <div class="res"><img title='Gold' class='img-m' src='media/res/gold.png'><span title='Gold' class='text-gold'>${converThousand(gameData.basicResources.gold)}</span></div>
+    <div class="res"><img title='Food' class='img-m' src='media/res/food.png'><span title='Food' class='text-yellow'>${converThousand(gameData.basicResources.food)}</span></div>
+    <div class="res res-nm"><img title='Wood' class='img-m' src='media/res/wood.png'><span title='Wood' class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
+    <div class="res res-nm"><img title='Stone' class='img-m' src='media/res/stone.png'><span title='Stone' class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
+    <div class="res hr"><img title='Fame' class='img-m' src='media/res/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
+    <div class="res"> <img title='Might' class='img-m' src='media/army/army.png'><span title='Might'>${converThousand(gameData.tempData.might)}</span></div>
+    <div class="res res-nm"> <img title='Happiness' class='img-m' src='media/res/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
+    <div class="res res-nm"><img title='Army status' class='img-m' src='media/army/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
 }
 
 // changes the tax level text
@@ -329,15 +329,15 @@ export const generateArmy = (unit) => {
 
         <div class='unit-stats'>
             <div class='unit-stat'>
-                <div><img class="img-s" src="media/might.png" title="Attack"><span>${converThousand(unit.attack)}</span></div>
-                <div><img class="img-s" src="media/defense.png" title="Defense"><span>${converThousand(unit.defense)}</span></div>
-                <div><img class="img-s" src="media/health.png" title="HP"><span>${converThousand(unit.hp)}</span></div>
+                <div><img class="img-s" src="media/army/might.png" title="Attack"><span>${converThousand(unit.attack)}</span></div>
+                <div><img class="img-s" src="media/army/defense.png" title="Defense"><span>${converThousand(unit.defense)}</span></div>
+                <div><img class="img-s" src="media/army/health.png" title="HP"><span>${converThousand(unit.hp)}</span></div>
             </div>
 
             <div class='unit-stat'>
-                <div><img class="img-s" src="media/speed.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
-                <div><img class="img-s" src="media/army.png" title="Might (total)"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
-                <div><img class="img-s" src="media/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.ceil(unit.pay * unit.amount))})</span></div>
+                <div><img class="img-s" src="media/army/speed.png" title="Speed"><span>${converThousand(unit.speed)}</span></div>
+                <div><img class="img-s" src="media/army/army.png" title="Might (total)"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
+                <div><img class="img-s" src="media/res/gold.png" title="Upkeep (total)"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.ceil(unit.pay * unit.amount))})</span></div>
             </div>
         </div>
 
@@ -374,11 +374,11 @@ export const generateRecruits = (unit) => {
 
         <div class='recruit-stats'>
             <div class='resource-box'>
-                <div><img class="img-s" src="media/gold.png"><span class="text-gold">${converThousand(unit.recruitCost.gold)}</span></div>
-                <div><img class="img-s" src="media/pop.png"><span class="text-purple">${converThousand(unit.recruitCost.pop)}</span></div>
+                <div><img class="img-s" src="media/res/gold.png"><span class="text-gold">${converThousand(unit.recruitCost.gold)}</span></div>
+                <div><img class="img-s" src="media/res/pop.png"><span class="text-purple">${converThousand(unit.recruitCost.pop)}</span></div>
             </div>
             <div class='resource-box'>
-                <div><img class="img-s" src="media/month.png"><span class="text-white">${converThousand(unit.recrutpm)}</span></div>
+                <div><img class="img-s" src="media/res/month.png"><span class="text-white">${converThousand(unit.recrutpm)}</span></div>
             </div>
         </div>
 

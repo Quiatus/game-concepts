@@ -58,7 +58,7 @@ export const initData = {
     events: [
         {
             id: 1,
-            description: ['Thanks to the favourable weather, our <span class="text-yellow">farms</span> produce <span class="text-green">20%</span> more <img class="img-s" src="media/food.png">'],
+            description: ['Thanks to the favourable weather, our <span class="text-yellow">farms</span> produce <span class="text-green">20%</span> more <img class="img-s" src="media/res/food.png">'],
             type: 'foodGainMultiplier',
             rarity: 1,
             isMission: false,
@@ -78,7 +78,7 @@ export const initData = {
         },
         {
             id: 2,
-            description: ['Our people are happy with our leadership. <img class="img-s" src="media/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
+            description: ['Our people are happy with our leadership. <img class="img-s" src="media/res/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
             type: 'popHappyGainMultiplier',
             rarity: 1,
             isMission: false,
@@ -415,7 +415,7 @@ export const initData = {
             name: 'Archery Range',
             buildingType: 'Military',
             unlocksUnit: 'Archer',
-            textColor: 'text-gray',
+            textColor: 'text-red',
             amount: 0,
             isUnique: true,
             isVisible: true,

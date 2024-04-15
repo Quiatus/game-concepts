@@ -205,7 +205,7 @@ export class Pop {
             const leftPop = this.removePops(pop, 'overpopulation') // removes pops 
             gameData.basicResources.pop -= leftPop
             gameData.tempData.popLeft = leftPop 
-            printMessage(`Our people have nowhere to live.<span class="text-bold">${converThousand(leftPop)}</span><img class='img-s' src='media/pop.png'> left. Build more housing or conquer more settlements!`, 'critical')
+            printMessage(`Our people have nowhere to live.<span class="text-bold">${converThousand(leftPop)}</span><img class='img-s' src='media/res/pop.png'> left. Build more housing or conquer more settlements!`, 'critical')
         } else if ((pop > totalSpace) && !isNewMonth) {
             // overpopulation (on game load)
             gameData.alerts.overpopulation = true
@@ -305,7 +305,7 @@ export class Food{
             const deadPop = pop.removePops(gameData.basicResources.pop, 'famine')
             gameData.basicResources.pop -= deadPop
             gameData.tempData.popDied = deadPop 
-            printMessage(`Our clan is suffering from famine! <span class="text-bold">${converThousand(deadPop)}</span><img class='img-s' src='media/pop.png'> died from starvation! Increase food production! `, 'critical')
+            printMessage(`Our clan is suffering from famine! <span class="text-bold">${converThousand(deadPop)}</span><img class='img-s' src='media/res/pop.png'> died from starvation! Increase food production! `, 'critical')
         } else if (food === 0 && consumedFood === gainedFood) {
             // if the food is 0 and the food gain is same as consumption, triggers warning
             gameData.alerts.famine = true

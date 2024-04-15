@@ -1,6 +1,5 @@
-# Concepts for the game
 
-Progress month:
+# Progress month:
 
 1. Clear message box
 2. Progress any active constructions and update value accordingly
@@ -27,3 +26,33 @@ Progress month:
 16. Displays all active alerts
 17. Show menu buttons based on unlocked features
 18. Re-generate DOM with the updated values
+
+
+# Notes on metal:
+
+# Copper 
+Can be mined and smelted into copper bar
+
+# Bronze
+Can be smelted from copper ore (needs smelter)
+
+# Iron
+Can be mined and smelted into iron bars
+
+# Steel
+Can be smelted from iron ore and coal (needs klin and smelter)
+
+# Seranite
+Can be mined and smelted into seratine bar (Blacksmith level 2)
+
+# Magical: Dark Steel
+Can be created by enchanting steel using runes (death? earth + fire?) (Blacksmith level 2, needs enchanter)
+
+# Magical: Elementium
+Can be created by enchanting seratine using runes (fire, water, air, earth) (Blacksmith level 3, needs enchanter)
+
+# Magical: Dragonsteel
+Can be created by enchanting steel using runes (dragonrune) (Blacksmith level 3, needs enchanter)
+
+# Magical: Ethersteel
+Cannot be produced, only looted from Etherials

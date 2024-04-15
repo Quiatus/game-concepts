@@ -70,8 +70,8 @@ const actionRiot = (pop, gold, food) => {
     const stolenGold = gold.removeGold(gameData.basicResources.gold, 'riot')
     const stolenFood = food.removeFood(gameData.basicResources.food, 'riot')
     printMessage(`Our people are rioting! 
-    <span class='text-bold'>${converThousand(deadPop)}</span><img class='img-s' src='media/pop.png'>died during riots. 
-    Rioters broke into our storages and stole ${stolenGold > 0 ? `<span class='text-bold'>${converThousand(stolenGold)}</span><img class='img-s' src='media/gold.png'> and ` : ``} ${stolenFood > 0 ? `<span class='text-bold'>${converThousand(stolenFood)}</span><img class='img-s' src='media/food.png'>` : ``}.`, 'critical')
+    <span class='text-bold'>${converThousand(deadPop)}</span><img class='img-s' src='media/res/pop.png'>died during riots. 
+    Rioters broke into our storages and stole ${stolenGold > 0 ? `<span class='text-bold'>${converThousand(stolenGold)}</span><img class='img-s' src='media/res/gold.png'> and ` : ``} ${stolenFood > 0 ? `<span class='text-bold'>${converThousand(stolenFood)}</span><img class='img-s' src='media/res/food.png'>` : ``}.`, 'critical')
     gameData.basicResources.pop -= deadPop
     gameData.tempData.popDied = deadPop 
     gameData.basicResources.gold -= stolenGold
