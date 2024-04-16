@@ -34,9 +34,7 @@ export const initData = {
         riot: false,
         pestilence: false,
         siege: false,
-        desertion: false,
-        dragonplague: false,
-        etherstorm: false
+        desertion: false
     },
     tempData: {
         houseSpace: 0,
@@ -470,7 +468,7 @@ export const initData = {
         {
             id: 'buildingBlacksmith',  // 6
             name: 'Blacksmith',
-            buildingType: 'General',
+            buildingType: 'Production',
             textColor: 'text-gray',
             amount: 0,
             isUnique: true,
@@ -489,7 +487,7 @@ export const initData = {
             space: 1,
             maxSpace: 1,
             effect: null,
-            info: 'Allows to craft armor and weapons for our army.',
+            info: 'Allows crafting armor and weapons for our army.',
             levels: [
                 {
                     level: 1,
@@ -522,7 +520,31 @@ export const initData = {
                     info: 'Unlocks the highest quality crafting recipes.'
                 },
             ]
-        }
+        },
+        {
+            id: 'buildingTavern',  // 7
+            name: 'Tavern',
+            buildingType: 'General',
+            textColor: 'text-orange',
+            amount: 0,
+            isUnique: true,
+            isVisible: true,
+            isBeingBuilt: false,
+            isUpgradeable: false,
+            currentLevel: null,
+            maxLevel: null,
+            buildProgress: 0,
+            requireCapitalLevel: 2,
+            costTime: 10,
+            costGold: 2500,
+            costWood: 100,
+            costStone: 10,
+            requireSpace: false,
+            space: 1,
+            maxSpace: 1,
+            effect: null,
+            info: 'Place where we can meet people and get valuable information.',
+        },
     ],
 // === UNITS ===============================================================================================
     units: [

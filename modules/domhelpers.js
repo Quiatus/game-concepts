@@ -55,6 +55,11 @@ export const showMenuButtons = (gameData) => {
         newDiv.innerHTML += buttons
     }
 
+    if (gameData.buildings[7].amount) {
+        buttons = `<span class="menuBtn menuPanel" id="tavernPanel">Tavern</span>`
+        newDiv.innerHTML += buttons
+    }
+
     if (buttons) {
         menuBtnUnlock.append(newDiv)
     }
@@ -106,7 +111,7 @@ export const generateMarkup = (panel=null, gameData) => {
 
 // === MESSAGES ====================================================================================================================
 
-export const clearMessages = (isNewMonth) => {
+export const clearMessages = () => {
     messages.innerHTML = ''
 }
 
@@ -193,10 +198,10 @@ export const getArmyStatus = (gameData) => {
 
 // Shows every unlocked building
 const displayBuildings = (gameData) => {
-    const buildingTypes = ['General', 'Resource', 'Military']
+    const buildingTypes = ['General', 'Resource', 'Production', 'Military']
     buildings.innerHTML = ''
     for (let item of buildingTypes) {
-        buildings.innerHTML += `<p class='mtbb text-big'>${item} buildings</p>`
+        buildings.innerHTML += `<p class='mtbb text-big text-gray pback'>${item} buildings</p>`
         let buildingSubdiv = document.createElement('div')
         buildingSubdiv.classList = 'smallBoxDiv'
     

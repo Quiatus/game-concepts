@@ -24,13 +24,6 @@
     --clr-progress: #900;
     */
 
-    /* Colors for building headers */
-    --clr-bgyellow: #343;
-    --clr-bgpurp: #434;
-    --clr-bgbrown: #420;
-    --clr-bggray: #444;
-    --clr-bgred: #400;
-
     /* Text colors */
     --clr-white: #eee;
     --clr-darkgray: #aaa;
@@ -43,6 +36,7 @@
     --clr-gold: #ffd700;
     --clr-brown: #C15710; 
     --clr-darkgreen: #008000;
+    --clr-bggray: #444;
 }
 
 * {
@@ -519,29 +513,10 @@ input::-webkit-inner-spin-button {
     position: relative;
 }
 
-
-#buildingFarm > h2,
-.bgyellow {
-    background-color: var(--clr-bgyellow);
-}
-
-#buildingHouse > h2,
-.bgpurple {
-    background-color: var(--clr-bgpurp);
-}
-
-#buildingLumberyard > h2,
-.bgbrown {
-    background-color: var(--clr-bgbrown);
-}
-
-#buildingQuarry > h2,
-.bggrey {
-    background-color: var(--clr-bggray);
-}
-
-#buildingArcheryRange > h2 {
-    background-color: var(--clr-bgred);
+.pback {
+    background: linear-gradient(90deg, var(--clr-compbg), transparent);
+    padding-left: 0.5rem ;
+    border-radius: 0.25rem;
 }
 
 .ml {
