@@ -4,6 +4,7 @@ import { printMessage, converThousand } from "./domhelpers.js"
 export const month = {
     increaseMonth(gameData) {
         gameData.basicResources.month++
+        gameData.general.isNewGame = false
     }
 }
 
@@ -187,14 +188,14 @@ export const pop = {
 
         // warning if people have nowhere to live
         if (pop === totalSpace) {
-            printMessage('Population capacity reached. Build more housing or conquer more settlements!', 'warning')
+            printMessage('Population capacity reached. Build more housing or conquer more settlements!', 'warning', gameData)
         } else if (pop > totalSpace) {
             // overpopulation
             gameData.alerts.overpopulation = true
             const leftPop = this.removePops(gameData, 'overpopulation') // removes pops 
             gameData.basicResources.pop -= leftPop
             gameData.tempData.popLeft = leftPop 
-            printMessage(`Our people have nowhere to live.<span class="text-bold">${converThousand(leftPop)}</span><img class='img-s' src='media/res/pop.png'> left. Build more housing or conquer more settlements!`, 'critical')
+            printMessage(`Our people have nowhere to live.<span class="text-bold">${converThousand(leftPop)}</span><img class='img-s' src='media/res/pop.png'> left. Build more housing or conquer more settlements!`, 'critical', gameData)
         } 
     },
 
@@ -274,18 +275,18 @@ export const food = {
         
         if (((consumedFood - gainedFood) * 15 >= food) && food > 0) {
             // checks if food consumtions is lower than gain, then if food supplies will be depleted in 15 months. If so, triggers warning
-            printMessage(`We are running low on food! Increase food production!`, 'warning')
+            printMessage(`We are running low on food! Increase food production!`, 'warning', gameData)
         } else if (food === 0 && consumedFood > gainedFood) {
             // checks if famine is active at the beginnig of month, if so, kills pops
             gameData.alerts.famine = true
             const deadPop = pop.removePops(gameData, 'famine')
             gameData.basicResources.pop -= deadPop
             gameData.tempData.popDied = deadPop 
-            printMessage(`Our clan is suffering from famine! <span class="text-bold">${converThousand(deadPop)}</span><img class='img-s' src='media/res/pop.png'> died from starvation! Increase food production! `, 'critical')
+            printMessage(`Our clan is suffering from famine! <span class="text-bold">${converThousand(deadPop)}</span><img class='img-s' src='media/res/pop.png'> died from starvation! Increase food production! `, 'critical', gameData)
         } else if (food === 0 && consumedFood === gainedFood) {
             // if the food is 0 and the food gain is same as consumption, triggers warning
             gameData.alerts.famine = true
-            printMessage(`Our food reserves are empty! Our population will die of starvation. Increase food production! `, 'critical')
+            printMessage(`Our food reserves are empty! Our population will die of starvation. Increase food production! `, 'critical', gameData)
         } 
     },
 

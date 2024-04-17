@@ -1,6 +1,6 @@
 'use strict';
 
-import { showPanel, showMissionNumber, printMessage } from "./domhelpers.js"
+import { showPanel, printMessage } from "./domhelpers.js"
 
 // generates events at the beginning of the month
 export const generateEvent = (gameData) => {
@@ -13,9 +13,9 @@ export const generateEvent = (gameData) => {
     //determine how many events are genereated (0 - 3)
     let eventNum = 0
     const rnd = Math.floor(Math.random() * 200)
-    if (rnd >= 0 && rnd < 177) eventNum = 0
-    else if (rnd === 177) eventNum = 3
-    else if (rnd > 177 && rnd <= 180) eventNum = 2
+    if (rnd >= 0 && rnd < 178) eventNum = 0
+    else if (rnd === 178) eventNum = 3
+    else if (rnd > 178 && rnd <= 180) eventNum = 2
     else eventNum = 1
 
     // check if any event is generated
@@ -92,7 +92,7 @@ const actionActiveEvents = (gameData) => {
                     event.active = false
                     if (event.isMission) {
                         gameData.tempData.activeMissions--
-                        printMessage(`A mission <span class='text-bold'>${event.missionDescription.name}</span> has expired!`,'warning')
+                        printMessage(`A mission <span class='text-bold'>${event.missionDescription.name}</span> has expired!`,'warning', gameData)
                     }
                 }
             // if event is not timed, just disable it 
@@ -164,9 +164,9 @@ export const removeMission = (mission, status, gameData) => {
         if (event.id === id) {
             event.active = false
             if (!status) {
-                printMessage(event.missionDescription.failure, 'warning')
+                printMessage(event.missionDescription.failure, 'warning', gameData)
             } else if (status) {
-                printMessage(event.missionDescription.success, 'info')
+                printMessage(event.missionDescription.success, 'info', gameData)
                 addMissionReward(event, gameData)
             }
              
@@ -174,5 +174,4 @@ export const removeMission = (mission, status, gameData) => {
     }
 
     showPanel('overviewPanel', gameData)
-    showMissionNumber()
 }

@@ -1,3 +1,7 @@
+# ToDo: 
+- blacksmithing - create layout, add basic functions
+- tavern - create feature
+
 
 # Progress month:
 
@@ -56,3 +60,4 @@ Can be created by enchanting steel using runes (dragonrune) (Blacksmith level 3,
 
 # Magical: Ethersteel
 Cannot be produced, only looted from Etherials
+  

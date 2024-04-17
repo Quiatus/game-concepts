@@ -1,6 +1,6 @@
 'use strict';
 
-import { generateMarkup, showPanel, displayActiveAlerts, printNewMonthMessages, clearMessages, displayActiveEvents,showMissionNumber, showMenuButtons } from "./modules/domhelpers.js"
+import { showPanel, printMessage, printNewMonthMessages } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
 import { changeTax, calculateHappiness, changeFoodLevel } from "./modules/generalcalcs.js";
 import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
@@ -19,33 +19,31 @@ document.addEventListener('readystatechange', (e) => {
 const initApp = () => {
     checkIfNewGame()
     gameData = loadGame()
-    showPanel('overviewPanel', gameData)  // show general panel
     checkBefore(false)
+    if (gameData.general.isNewGame) printMessage('A new game has started!', 'info', gameData)
+    else printMessage('Game loaded!', 'info', gameData)
     checkAfter(false)
 }
 
 const checkBefore = (isNewMonth) => {
+    gameData.tempData.messages = []
+    showPanel('', gameData)  // show general panel
     unlockUnits(gameData) // unlocks recruitable units
     applyCapitalBonuses(gameData) // apply capital bonuses 
     updateBuildCost(gameData) // Updates the current building cost for any upgradeable building  
     pop.calculateTotalSpace(gameData) // calculates max. available space for pop (from building, capital and settlements)
-    displayActiveEvents(isNewMonth, gameData) // displays any active events
-    showMissionNumber(gameData) // show number of mission on the menu button
+    
 }
 
 const checkAfter = (isNewMonth) => {
     checkUpkeep(gameData) // check if there is enough gold to pay the army
     calculateMight(gameData) // calculate might
     calculateHappiness(isNewMonth, gameData) // calculates happiness based on the conditions calculaed before
-    displayActiveAlerts(gameData) // shows any active alerts
-    showMenuButtons(gameData) // show unlocked buttons
-    generateMarkup(undefined ,gameData) // updates DOM
+    showPanel('overviewPanel', gameData, isNewMonth)  // show general panel
     saveGame(gameData)
 }
 
 const progressGame = (isNewMonth) => {
-    clearMessages() 
-    showPanel('overviewPanel', gameData)  // show general panel
     progressBuild(gameData) // progress construction
     generateEvent(gameData) // generates random event at the beginning of the month
     checkBefore(isNewMonth)
@@ -58,7 +56,6 @@ const progressGame = (isNewMonth) => {
     stone.calculateStone(gameData);
 
     printNewMonthMessages(gameData)
-
     pop.isMaxPop(gameData) // checks if there is a space for population, if not, shows warning
     food.checkIfEnoughFood(gameData) // checks if there is enough food, if not, shows warning
     recruitUnits(gameData) // recruit units 
@@ -74,7 +71,7 @@ document.addEventListener('click', (e) => {
     button === 'btnNewMonth' ? progressGame(true) : null
     button === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
 
-    btnClass.includes('menuPanel') ? showPanel(e.target.id, gameData) : null
+    btnClass === 'menuBtn' ? showPanel(e.target.id, gameData) : null
     btnClass === 'btnTax' ? changeTax(e.target.id, gameData) : null
     btnClass === 'btnFood' ? changeFoodLevel(e.target.id, gameData) : null
     btnClass === 'btnBuild' ? startConstruction(e, gameData) : null

@@ -1,13 +1,10 @@
 'use strict';
-import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, displayUnitDescription } from "./domhelpers.js"
+import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, displayUnitDescription, displayActiveAlerts, changeEmpireTextColors } from "./domhelpers.js"
 import { calcMaxUnit } from "./units.js"
 
 const resourcesText = document.getElementById('resourceBox')
-const taxBox = document.getElementById('taxBox')
-const foodBox = document.getElementById('foodBox')
-const statistics = document.getElementById('statistics')
-const economy = document.getElementById('economy')
-const capital = document.getElementById('buildingCapital') 
+const menu = document.getElementById('menu')
+const rightPanel = document.getElementById('rightPanel')
 
 // Generates resource box
 export const displayResourceBox = (gameData) => {    
@@ -24,22 +21,140 @@ export const displayResourceBox = (gameData) => {
     <div class="res res-nm"><img title='Army status' class='img-m' src='media/army/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
 }
 
+// generate menu buttons 
+export const displayMenu = (gameData) => {
+    return menu.innerHTML = 
+    `
+    <div class="box-sub alerts">
+    <h3>Alerts</h3>
+        ${displayActiveAlerts(gameData)}
+    </div>
+
+    <div class="menu-buttons-section">
+        <span class="text-big text-bold text-orange" id="btnNewMonth">NEW MONTH</span>
+    </div>
+
+    <div class="menu-buttons-section">
+        <span class="menuBtn" id="overviewPanel">Overview</span>
+        <span class="menuBtn" id="empireManagementPanel">Empire management</span>
+        <span class="menuBtn" id="statisticsPanel">Statistics</span>
+    </div>
+
+    <div class="menu-buttons-section">
+        <span class="menuBtn" id="buildingsPanel">Buildings</span>
+        ${gameData.buildings[6].amount ? `<span class="menuBtn" id="blacksmithPanel">Blacksmith</span>` : ``}
+        ${gameData.buildings[7].amount ? `<span class="menuBtn" id="tavernPanel">Tavern</span>` : ``}
+    </div>
+
+    <div class="menu-buttons-section">
+        <span class="menuBtn" id="campaignPanel">Campaign</span>
+        <span class="menuBtn" id="missionsPanel">Missions (${gameData.tempData.activeMissions})</span>
+        <span class="menuBtn" id="conquestsPanel">Conquests</span>
+    </div>
+
+    <div class="menu-buttons-section">
+        <span class="menuBtn" id="recruitmentPanel">Recruitment</span>
+        <span class="menuBtn" id="armyManagementPanel">Army management</span>
+    </div>
+    `
+}
+
+export const displayOverview = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Overview</h1>
+
+    <div class="bigBoxDiv" >
+        <div class="box-sub messages">
+            <h3>Messages</h3>
+            <div class="message-div">
+                
+            </div>
+        </div>
+
+        <div class="box-sub events">
+            <h3>Events</h3>
+            <div class="event-div">
+                
+            </div>
+        </div>
+    </div>
+    `
+}
+
+export const displayEmpireManagement = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Empire management</h1>
+
+    <div class="smallBoxDiv">
+        <div class="box" id="buildingCapital">
+            ${displayCapital(gameData)}
+        </div> 
+
+        <div class="box" id="taxBox">
+            ${displayTaxBox(gameData)}
+        </div> 
+
+        <div class="box" id="foodBox">
+            ${displayFoodBox(gameData)}
+        </div> 
+
+        <div class="box">
+            ${displayResetBox()}
+        </div> 
+    </div>  
+    `
+}
+
+const displayCapital = (gameData) => {
+    // helper vars for level array index
+    const cl = gameData.buildings[0].currentLevel - 1
+    const nl = gameData.buildings[0].currentLevel
+    const ml = gameData.buildings[0].maxLevel
+    return `<h2>Capital</h2>
+        <div class="build-description">
+            <p>Capital city of our empire.</p>
+        </div>
+        <span class="text-bold text-orange">Level ${nl}</span>
+        <div class="box-stats">
+            <span class="text-gray">Space:</span><span>${converThousand(gameData.buildings[0].levels[cl].space)}</span>
+            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildings[0].levels[cl].houses)}</span>
+            <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildings[0].levels[cl].militiaRecruit)}</span>
+            ${gameData.buildings[0].levels[cl].commerce > 0 ? ` <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildings[0].levels[cl].commerce)}</span>` : ``}
+        </div>
+        <hr class="separator">
+        ${nl === ml ? `<span class="text-bold text-orange">Capital is at max level.</span>` : 
+        
+       ` <span>Upgrade to <span class="text-orange">level ${nl + 1}</span></span>
+
+       ${displayBuildCosts(gameData.buildings[0])}
+       ${gameData.buildings[0].levels[nl].specialUnlock ? `
+       <div class="box-stats">
+       <span class="text-gray">Special costs:</span><span>${gameData.buildings[0].levels[nl].specialUnlock}</span>
+       </div>` : ``}
+
+       <span class='mt'>Upgrade bonuses:</span>
+        <div class="box-stats">
+            <span class="text-gray">Space:</span><span>${converThousand(gameData.buildings[0].levels[cl].space)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].space)}</span></span>
+            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildings[0].levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].houses)}</span></span>
+            <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildings[0].levels[cl].militiaRecruit)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].militiaRecruit)}</span></span>
+            <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildings[0].levels[cl].commerce)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].commerce)}</span></span>
+            
+        </div>
+
+        <div class="subdiv">
+        ${buildingConstrProgress(gameData.buildings[0])}
+        </div>`
+        }`
+}
+
 // changes the tax level text
-export const displayTaxBox = (gameData) => {
-    let taxText = ''
-
-    // change the text base on tax level
-    if (gameData.general.tax === 1) taxText = '<span class="text-green">Low</span>'
-    else if (gameData.general.tax === 2) taxText = '<span class="text-gold">Balanced</span>'
-    else taxText = '<span class="text-red">High</span>'
-
-    // markup
-    return taxBox.innerHTML = `<h2>Taxes</h2>
+const displayTaxBox = (gameData) => {
+    return `<h2>Taxes</h2>
     <div class="build-description">
         <p>Important source of <span class="text-gold text-bold">gold</span>. High taxes negatively affect happiness. Low taxes have the opposite effect.</p>
     </div>
     <div class="box-stats mtb">
-        <span class="text-gray">Current tax:</span> <span>${taxText}</span>
+        <span class="text-gray">Current tax:</span> <span>${changeEmpireTextColors('tax', gameData.general.tax)}</span>
         <span class="text-gray">Gold p. 100 pop.:</span><span>${gameData.general.tax * 5}</span>
     </div>
     <hr class="separator">
@@ -51,22 +166,26 @@ export const displayTaxBox = (gameData) => {
     </div>`
 }
 
+// Reset game
+const displayResetBox = () => {
+    return `<h2>Abandon clan</h2>
+    <div class="build-description">
+        <p>Leave our people behind and start a new clan.</p>
+        <p class='text-red'>Warning: this option is irreversible!</p>
+    </div>
+    <div class="buttons-box">
+        <button id="btnReset">Do it!</button>
+    </div>`
+}
+
 // changes the food box
-export const displayFoodBox = (gameData) => {
-    let foodLevel = ''
-
-    // change the text base on food level
-    if (gameData.general.foodLevel === 1) foodLevel = '<span class="text-red">Limited</span>'
-    else if (gameData.general.foodLevel === 2) foodLevel = '<span class="text-yellow">Normal</span>'
-    else foodLevel = '<span class="text-green">Generous</span>'
-
-    // markup
-    return foodBox.innerHTML = `<h2>Food rationing</h2>
+const displayFoodBox = (gameData) => {
+    return `<h2>Food rationing</h2>
     <div class="build-description">
         <p>Increase or decrease the <span class="text-yellow text-bold">food</span> rations for our population. Limited rations decrease happiness and population growth, generous rations increase happiness and population growth.</p>
     </div>
     <div class="box-stats mtb">
-        <span class="text-gray">Current rations:</span> <span>${foodLevel}</span>
+        <span class="text-gray">Current rations:</span> <span>${changeEmpireTextColors('food', gameData.general.foodLevel)}</span>
         <span class="text-gray">Food p. 100 pop.:</span><span>${gameData.general.foodLevel * 0.5}</span>
         <span class="text-gray">Population growth:</span>${
             gameData.general.foodLevel === 1 ? `<span class="text-red">75%</span>` : gameData.general.foodLevel === 2 ? `<span class="text-white">100%</span>` : `<span class="text-green">125%</span>`
@@ -81,16 +200,50 @@ export const displayFoodBox = (gameData) => {
     </div>`
 }
 
-// Display statistics
+
 export const displayStatistics = (gameData) => {
-    return statistics.innerHTML = `
+    return rightPanel.innerHTML = `<h1>Statistics</h1>
+
+    <div class="bigBoxDiv">
+        <div class="box-sub">
+            <h3>Economy overview</h3>
+            <div class="statsBox economy" id="economy">
+                ${displayEconomy(gameData)}
+            </div>          
+        </div>
+
+        <div class="box-sub">
+            <h3>Statistics - General</h3>
+            <div class="statsBox statistics" id="statistics">
+                ${displayStatsGeneral(gameData)}
+            </div>          
+        </div>
+
+        <div class="box-sub">
+            <h3>Statistics - Buildings</h3>
+            <div class="statsBox statistics" id="statistics">
+                ${displayStatsBuildings(gameData)}
+            </div>          
+        </div>
+
+        <div class="box-sub">
+            <h3>Statistics - Materials</h3>
+            <div class="statsBox statistics" id="statistics">
+                ${displayStatsMaterials(gameData)}
+            </div>          
+        </div>
+    </div>`
+}
+
+const displayStatsGeneral = (gameData) => {
+    return `
     <div>
-        <p class="stat-header">General:</p>
+        <p class="stat-header">Empire:</p>
         <div class="stat-div">
-            <span class="text-gray">Fame:</span><span>${converThousand(gameData.basicResources.fame)}</span>
-            <span class="text-gray">Happiness:</span><span>${changeHappinessColor(gameData.tempData.happiness)}</span>
-            <span class="text-gray">Might:</span><span>${converThousand(gameData.tempData.might)}</span>
-            <span class="text-gray">Army:</span><span>${getArmyStatus(gameData)}</span>
+            <span class="text-gray">Clan age:</span> <span>${ Math.floor(gameData.basicResources.month / 12)} years</span>
+            <span class="text-gray">Capital:</span><span>Level ${gameData.buildings[0].currentLevel}</span>
+            <span class="text-gray">Taxes:</span><span>${changeEmpireTextColors('tax', gameData.general.tax)}</span>
+            <span class="text-gray">Food rations:</span><span>${changeEmpireTextColors('food', gameData.general.foodLevel)}</span>
         </div>
     </div>
 
@@ -106,16 +259,6 @@ export const displayStatistics = (gameData) => {
     </div>
 
     <div>
-        <p class="stat-header">Buildings:</p>
-        <div class="stat-div">
-            <span class="text-gray">Housing distr:</span><span>${converThousand(gameData.buildings[1].amount)}</span>
-            <span class="text-gray">Farms:</span><span>${converThousand(gameData.buildings[2].amount)}</span>
-            <span class="text-gray">Lumber yards:</span><span>${converThousand(gameData.buildings[3].amount)}</span>
-            <span class="text-gray">Quarries:</span><span>${converThousand(gameData.buildings[4].amount)}</span>
-        </div>
-    </div>    
-
-    <div>
         <p class="stat-header">Settlements:</p>
         <div class="stat-div">
             <span class="text-gray">Villages:</span><span id="stat-settlement-village">0</span>
@@ -126,10 +269,62 @@ export const displayStatistics = (gameData) => {
     `
 }
 
-// Display economy info
-export const displayEconomy = (gameData) => {
-    return economy.innerHTML =
+const displayStatsBuildings = (gameData) => {
+    return `
+    <div>
+        <p class="stat-header">Buildings - general:</p>
+        <div class="stat-div">
+            <span class="text-gray">Housing distr:</span><span>${converThousand(gameData.buildings[1].amount)}</span>
+            <span class="text-gray">Tavern:</span><span>${converThousand(gameData.buildings[7].amount)}</span>
+
+        </div>
+    </div>    
+
+    <div>
+        <p class="stat-header">Buildings - resources:</p>
+        <div class="stat-div">
+            <span class="text-gray">Farms:</span><span>${converThousand(gameData.buildings[2].amount)}</span>
+            <span class="text-gray">Lumber yards:</span><span>${converThousand(gameData.buildings[3].amount)}</span>
+            <span class="text-gray">Quarries:</span><span>${converThousand(gameData.buildings[4].amount)}</span>
+        </div>
+    </div>    
+
+    <div>
+        <p class="stat-header">Buildings - production:</p>
+        <div class="stat-div">
+            <span class="text-gray">Blacksmith:</span><span>${gameData.buildings[6].amount ? `Level ${gameData.buildings[6].currentLevel}` : `Not built`}</span>
+        </div>
+    </div> 
+
+    <div>
+        <p class="stat-header">Buildings - military:</p>
+        <div class="stat-div">
+        <span class="text-gray">Archery range:</span><span>${gameData.buildings[5].amount ? `Level ${gameData.buildings[5].currentLevel}` : `Not built`}</span>
+        </div>
+    </div>  `
+}
+
+const displayStatsMaterials = (gameData) => {
+    return `
+    <div>
+        <p class="stat-header">Metal:</p>
+        <div class="stat-div">
+            
+        </div>
+    </div> 
+
+    <div>
+        <p class="stat-header">Runes:</p>
+        <div class="stat-div">
+            
+        </div>
+    </div> 
     `
+}
+
+// Display economy info
+const displayEconomy = (gameData) => {
+    return `
     <div>
     <p class="stat-header">People:</p>
     <div class="economy-div">
@@ -222,48 +417,66 @@ export const displayEconomy = (gameData) => {
 </div>`
 }
 
-export const displayCapital = (gameData) => {
-    // helper vars for level array index
-    const cl = gameData.buildings[0].currentLevel - 1
-    const nl = gameData.buildings[0].currentLevel
-    const ml = gameData.buildings[0].maxLevel
-    return capital.innerHTML =
-        `<h2>Capital</h2>
-        <div class="build-description">
-            <p>Capital city of our empire.</p>
-        </div>
-        <span class="text-bold text-orange">Level ${nl}</span>
-        <div class="box-stats">
-            <span class="text-gray">Space:</span><span>${converThousand(gameData.buildings[0].levels[cl].space)}</span>
-            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildings[0].levels[cl].houses)}</span>
-            <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildings[0].levels[cl].militiaRecruit)}</span>
-            ${gameData.buildings[0].levels[cl].commerce > 0 ? ` <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildings[0].levels[cl].commerce)}</span>` : ``}
-        </div>
-        <hr class="separator">
-        ${nl === ml ? `<span class="text-bold text-orange">Capital is at max level.</span>` : 
+
+export const displayBuildings = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Buildings</h1>
+    <div class="buildings" id="buildings">  
         
-       ` <span>Upgrade to <span class="text-orange">level ${nl + 1}</span></span>
-
-       ${displayBuildCosts(gameData.buildings[0])}
-       ${gameData.buildings[0].levels[nl].specialUnlock ? `
-       <div class="box-stats">
-       <span class="text-gray">Special costs:</span><span>${gameData.buildings[0].levels[nl].specialUnlock}</span>
-       </div>` : ``}
-
-       <span class='mt'>Upgrade bonuses:</span>
-        <div class="box-stats">
-            <span class="text-gray">Space:</span><span>${converThousand(gameData.buildings[0].levels[cl].space)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].space)}</span></span>
-            <span class="text-gray">Housing districts:</span><span>${converThousand(gameData.buildings[0].levels[cl].houses)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].houses)}</span></span>
-            <span class="text-gray">Militia p.m.:</span><span>${converThousand(gameData.buildings[0].levels[cl].militiaRecruit)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].militiaRecruit)}</span></span>
-            <span class="text-gray">Gold from trade:</span><span>${converThousand(gameData.buildings[0].levels[cl].commerce)} > <span class="text-green">${converThousand(gameData.buildings[0].levels[nl].commerce)}</span></span>
-            
-        </div>
-
-        <div class="subdiv">
-        ${buildingConstrProgress(gameData.buildings[0])}
-        </div>`
-        }`
+    </div>
+    `
 }
+
+export const displayTavern = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Tavern</h1>
+    <div id="tavern">  
+        
+    </div>`
+}
+
+export const displayBlacksmith = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Blacksmith</h1>
+    <div id="blacksmith">  
+    </div>`
+}
+
+export const displayCampaign = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Campaign</h1>
+    <div id="campaign">  
+    </div>`
+}
+
+export const displayMission = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Missions</h1>
+    <div id="missions">  
+    </div>`
+}
+
+export const displayConquest = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Conquests</h1>
+    <div id="conquests"> 
+    </div>`
+}
+
+export const displayRecruitment = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Recruitment</h1>
+    <div class="smallBoxDiv" id="recruitment">  
+    </div>`
+}
+
+export const displayArmy = (gameData) => {
+    return rightPanel.innerHTML = `
+    <h1>Army management</h1>
+    <div class="smallBoxDiv" id="army">  
+    </div>`
+}
+
 
 export const generateBuildings = (building, level) => {
     const cl = building.currentLevel

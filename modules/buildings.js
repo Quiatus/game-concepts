@@ -1,6 +1,6 @@
 'use strict';
 
-import { generateMarkup, printMessage } from "./domhelpers.js"
+import { showPanel, printMessage } from "./domhelpers.js"
 import { saveGame } from "./utilities.js"
 
 // checks the current capital level and applies modifiers
@@ -73,7 +73,7 @@ export const startConstruction = (e, gameData) => {
                 gameData.basicResources.stone -= building.costStone
         
                 saveGame(gameData)
-                building.name === 'Capital' ? generateMarkup('empireManagementPanel', gameData) : generateMarkup('buildingsPanel', gameData)
+                building.name === 'Capital' ? showPanel('empireManagementPanel', gameData) : showPanel('buildingsPanel', gameData)
             } else {
                 // displays the error message if construction not possible
                 e.target.parentElement.children[0].textContent = reason
@@ -95,11 +95,11 @@ export const progressBuild = (gameData) => {
     
                 if (!building.isUpgradeable || (building.isUpgradeable && building.amount === 0)) {
                     building.amount++;
-                    printMessage(`A new <span class='${building.textColor}'>${building.name}</span> has been built.`)
+                    printMessage(`A new <span class='${building.textColor}'>${building.name}</span> has been built.`, 'info', gameData)
                 } else {
                     building.currentLevel++
                     if (building.id !== 'buildingCapital') building.effect = building.levels[building.currentLevel-1].effect
-                    printMessage(`<span class='${building.textColor}'>${building.name}</span> has been upgraded to <span class='text-orange'>level ${building.currentLevel}</span>.`)
+                    printMessage(`<span class='${building.textColor}'>${building.name}</span> has been upgraded to <span class='text-orange'>level ${building.currentLevel}</span>.`, 'info', gameData)
                 }      
                 
             } else {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { generateMarkup, printMessage, converThousand } from "./domhelpers.js"
+import { showPanel, printMessage, converThousand } from "./domhelpers.js"
 import { gold, pop, food } from "./resources.js"
 import { saveGame } from "./utilities.js"
 
@@ -25,7 +25,7 @@ export const calculateHappiness = (isNewMonth, gameData) => {
     gameData.tempData.happiness = calculatedHappiness
 
     // checks if happiness is too low and prints / triggers adequate response
-    calculatedHappiness > 0 && calculatedHappiness < 20 ? printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning') : null
+    calculatedHappiness > 0 && calculatedHappiness < 20 ? printMessage('Our population is unhappy! Increase happiness of our population, otherwise our people will riot!', 'warning', gameData) : null
 
     if (!calculatedHappiness && gameData.basicResources.pop > 10) {
         gameData.alerts.riot = true
@@ -42,7 +42,7 @@ export const changeTax = (id, gameData) => {
     if (id === 'taxHigh') gameData.general.tax = 3
 
     saveGame(gameData)
-    generateMarkup('empireManagementPanel', gameData)
+    showPanel('empireManagementPanel', gameData)
 }
 
 // change food ration
@@ -52,7 +52,7 @@ export const changeFoodLevel = (id, gameData) => {
     if (id === 'foodHigh') gameData.general.foodLevel = 3
 
     saveGame(gameData)
-    generateMarkup('empireManagementPanel', gameData)
+    showPanel('empireManagementPanel', gameData)
 }
 
 // if riot event is active, people will be attacking each other and looting our supplies.
@@ -61,7 +61,7 @@ const actionRiot = (gameData) => {
     const stolenGold = gold.removeGold(gameData.basicResources.gold, 'riot')
     const stolenFood = food.removeFood(gameData.basicResources.food, 'riot')
     printMessage(`Our people are rioting! <span class='text-bold'>${converThousand(deadPop)}</span><img class='img-s' src='media/res/pop.png'>died during riots. 
-    Rioters broke into our storages and stole ${stolenGold > 0 ? `<span class='text-bold'>${converThousand(stolenGold)}</span><img class='img-s' src='media/res/gold.png'> and ` : ``} ${stolenFood > 0 ? `<span class='text-bold'>${converThousand(stolenFood)}</span><img class='img-s' src='media/res/food.png'>` : ``}.`, 'critical')
+    Rioters broke into our storages and stole ${stolenGold > 0 ? `<span class='text-bold'>${converThousand(stolenGold)}</span><img class='img-s' src='media/res/gold.png'> and ` : ``} ${stolenFood > 0 ? `<span class='text-bold'>${converThousand(stolenFood)}</span><img class='img-s' src='media/res/food.png'>` : ``}.`, 'critical', gameData)
     gameData.basicResources.pop -= deadPop
     gameData.tempData.popDied = deadPop 
     gameData.basicResources.gold -= stolenGold

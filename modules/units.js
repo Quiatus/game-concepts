@@ -1,7 +1,7 @@
 'use strict';
 
 import { saveGame } from "./utilities.js"
-import { generateMarkup } from "./domhelpers.js"
+import { showPanel } from "./domhelpers.js"
 import { printMessage } from "./domhelpers.js"
 
 // check if any building that allows recruitment is built and if so, unlock the appropriate unit or increases the recruitment
@@ -66,7 +66,7 @@ export const dismissUnits = (unitName, gameData) => {
 
     saveGame(gameData)
     calculateMight()
-    generateMarkup('armyManagementPanel', gameData)
+    showPanel('armyManagementPanel', gameData)
 }
 
 // if units are recruitable and are in queue, add them to army.
@@ -76,10 +76,10 @@ export const recruitUnits = (gameData) => {
             if (unit.queue >= unit.recrutpm) {
                 unit.amount += unit.recrutpm
                 unit.queue -= unit.recrutpm
-                printMessage(unit.recruitMessage.replace('##amount##', unit.recrutpm), 'recruit')
+                printMessage(unit.recruitMessage.replace('##amount##', unit.recrutpm), 'recruit', gameData)
             } else {
                 unit.amount += unit.queue
-                printMessage(unit.recruitMessage.replace('##amount##', unit.queue), 'recruit')
+                printMessage(unit.recruitMessage.replace('##amount##', unit.queue), 'recruit', gameData)
                 unit.queue = 0
             }
         }
@@ -112,7 +112,7 @@ export const addRecruits = (unitName, e, max=false, gameData) => {
                 gameData.basicResources.gold -= (unit.recruitCost.gold * recruitAmount)
                 gameData.basicResources.pop -= (unit.recruitCost.pop * recruitAmount)
                 saveGame(gameData)
-                generateMarkup('recruitmentPanel', gameData)
+                showPanel('recruitmentPanel', gameData)
             } else {
                 e.target.parentElement.children[0].classList.remove('none')
                 setTimeout(() => {e.target.parentElement.children[0].classList.add('none')}, 2000)
@@ -125,10 +125,10 @@ export const addRecruits = (unitName, e, max=false, gameData) => {
 export const checkUpkeep = (gameData) => {
     gameData.alerts.desertion = false
     if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold > 0) {
-        printMessage('Our army upkeep is higher than our gold income. Increase gold production or dismiss some units.', 'warning')
+        printMessage('Our army upkeep is higher than our gold income. Increase gold production or dismiss some units.', 'warning', gameData)
     } else if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold === 0) {
         gameData.alerts.desertion = true
-        printMessage('We do not have enough gold to pay our army. Our units are deserting!', 'critical')
+        printMessage('We do not have enough gold to pay our army. Our units are deserting!', 'critical', gameData)
         removeUnitsDesertion()
     }    
 }

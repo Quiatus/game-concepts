@@ -1,17 +1,7 @@
 'use strict';
 
-import { displayResourceBox, displayTaxBox, displayStatistics, displayEconomy, displayCapital, generateBuildings, generateMissions, generateArmy, generateRecruits, displayFoodBox } from "./domgenerators.js"
-
-const messages = document.querySelector('.message-div')
-const events = document.querySelector('.event-div')
-const rightPanels = document.querySelectorAll('.right-panel')
-const alertsPanel = document.querySelector('.alert-div')
-const buildings = document.getElementById('buildings')
-const menuBtnMissions = document.getElementById('missionsPanel')
-const missions = document.getElementById('missions')
-const army = document.getElementById('army') 
-const recruitment = document.getElementById('recruitment') 
-const menuBtnUnlock = document.getElementById('menuBtnUnlock') 
+import { displayResourceBox, displayStatistics, generateBuildings, generateMissions, generateArmy, generateRecruits, displayMenu, displayOverview, displayEmpireManagement,
+displayBuildings, displayTavern, displayBlacksmith, displayCampaign, displayMission, displayConquest, displayRecruitment, displayArmy} from "./domgenerators.js"
 
 // === UTILITIES ===================================================================================================
 
@@ -33,87 +23,75 @@ export const popText = (pop, space) => {
     return `<span>${converThousand(pop)}<span class="text-normal"> / ${converThousand(space)}</span></span>`
 }
 
+// change the text color of tax / food level 
+export const changeEmpireTextColors = (type, lvl) => {
+    let text = ''
+    let texts = []
+    if (type === 'tax') texts = ['Low', 'Balanced', 'High']
+    if (type === 'food') texts = ['Limited', 'Normal', 'Generous']
+
+    if (lvl === 1) text = `<span class="${type === 'tax' ? `text-green` : `text-red`}">${texts[0]}</span>`
+    else if (lvl === 2) text = `<span class="${type === 'tax' ? `text-gold` : `text-yellow`}">${texts[1]}</span>`
+    else text = `<span class="${type === 'tax' ? `text-red` : `text-green`}">${texts[2]}</span>`
+
+    return text
+}
+
 // === GENERAL =====================================================================================================
 
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
-export const showPanel = (panelName, gameData) => {
-    rightPanels.forEach(panel => panel.id === panelName ? panel.classList.remove('none') : panel.classList.add('none'))
-    generateMarkup(panelName, gameData)
-}
+export const showPanel = (panelName, gameData, isNewMonth=false) => {
+    displayResourceBox(gameData)
+    displayMenu(gameData)
 
-// show menu buttons for unlocked features
-export const showMenuButtons = (gameData) => {
-    let buttons = null
-
-    let newDiv = document.createElement('div')
-    newDiv.classList = 'menu-buttons-section'
-
-    menuBtnUnlock.innerHTML = ''
-
-    if (gameData.buildings[6].amount) {
-        buttons = `<span class="menuBtn menuPanel" id="blacksmithPanel">Blacksmith</span>`
-        newDiv.innerHTML += buttons
+    if (panelName === 'overviewPanel') {
+        displayOverview(gameData)
+        displayMessages(gameData)
+        displayActiveEvents(gameData, isNewMonth) // displays any active events
     }
+    if (panelName === 'empireManagementPanel') displayEmpireManagement(gameData)
+    if (panelName === 'statisticsPanel') displayStatistics(gameData)
 
-    if (gameData.buildings[7].amount) {
-        buttons = `<span class="menuBtn menuPanel" id="tavernPanel">Tavern</span>`
-        newDiv.innerHTML += buttons
+    if (panelName === 'buildingsPanel') {
+        displayBuildings(gameData)
+        showUnlockedBuildings(gameData)
     }
-
-    if (buttons) {
-        menuBtnUnlock.append(newDiv)
+    if (panelName === 'tavernPanel') displayTavern(gameData)
+    if (panelName === 'blacksmithPanel') displayBlacksmith(gameData)
+    if (panelName === 'campaignPanel') displayCampaign(gameData)
+    if (panelName === 'missionsPanel') {
+        displayMission(gameData) 
+        showActiveMissions(gameData)
+    } 
+    if (panelName === 'conquestsPanel') displayConquest(gameData)
+    if (panelName === 'recruitmentPanel') {
+        displayRecruitment(gameData)
+        showRecruitableUnits(gameData) 
+    }
+    if (panelName === 'armyManagementPanel') {
+        displayArmy(gameData)
+        showArmyUnits(gameData)
     }
 }
 
 // loops over alerts and checks which are active, then displays those
 export const displayActiveAlerts = (gameData) => {
-    alertsPanel.innerHTML = ''
+    let div = document.createElement('div')
+    let alerts = document.createElement('div')
+    alerts.classList.add('alert-div', 'text-disabled', 'text-big', 'text-bold')
 
     for (let alert in gameData.alerts) {
         const span = document.createElement('span')
         span.textContent = alert
         if (gameData.alerts[alert]) span.classList.add('text-red', 'text-bold')
-        alertsPanel.append(span)
+        alerts.append(span)
     }
-}
-
-// Main fuction that generates markup based on which panel is shown
-export const generateMarkup = (panel=null, gameData) => {
-    displayResourceBox(gameData)
-
-    if (panel === 'empireManagementPanel') {
-        displayTaxBox(gameData)
-        displayCapital(gameData)
-        displayFoodBox(gameData)
-    }
-
-    if (panel === 'buildingsPanel') {
-        displayBuildings(gameData)
-    }
-
-    if (panel === 'missionsPanel') {
-        displayMissions(gameData)
-    }
-
-    if (panel === 'armyManagementPanel') {
-        displayArmy(gameData)
-    }
-
-    if (panel === 'recruitmentPanel') {
-        displayRecruits(gameData)
-    }
-
-    if (panel === 'statisticsPanel') {
-        displayStatistics(gameData)
-        displayEconomy(gameData)
-    }
+    div.append(alerts)
+    return div.innerHTML
 }
 
 // === MESSAGES ====================================================================================================================
 
-export const clearMessages = () => {
-    messages.innerHTML = ''
-}
 
 // display beginning of month gains. Only shows positive gains
 const newMonthGains = (gameData) => {
@@ -142,15 +120,29 @@ export const printNewMonthMessages = (gameData) => {
 
 // prints various messages 
 export const printMessage = (text, type='info', gameData={}) => {
-    const msg = document.createElement('p');
-    msg.innerHTML = text
-    if (type==='critical')  msg.className = 'text-red'
-    if (type==='warning') msg.className = 'text-orange'
-    if (type==='info') msg.className = 'text-white'
-    if (type==='recruit') msg.className = 'text-green'
-    if (type==='gains') msg.innerHTML = newMonthGains(gameData)
 
-    messages.appendChild(msg)
+
+    let clr = ''
+    if (type==='critical')  clr = 'text-red'
+    if (type==='warning') clr = 'text-orange'
+    if (type==='info') clr = 'text-white'
+    if (type==='recruit') clr = 'text-green'
+    if (type==='gains') text = newMonthGains(gameData)
+
+    let message = [text, clr]
+
+    gameData.tempData.messages.push(message)
+}
+
+const displayMessages = (gameData) => {
+    const messages = document.querySelector('.message-div')
+    
+    for (let [text, clr] of gameData.tempData.messages) {
+        let msg = document.createElement('p');
+        msg.innerHTML = text
+        msg.className = clr
+        messages.appendChild(msg)
+    }
 }
 
 // === STATISTICS ================================================================================================================
@@ -197,8 +189,10 @@ export const getArmyStatus = (gameData) => {
 // === BUILDINGS =================================================================================================================
 
 // Shows every unlocked building
-const displayBuildings = (gameData) => {
+export const showUnlockedBuildings = (gameData) => {
     const buildingTypes = ['General', 'Resource', 'Production', 'Military']
+    const buildings = document.getElementById('buildings')
+    
     buildings.innerHTML = ''
     for (let item of buildingTypes) {
         buildings.innerHTML += `<p class='mtbb text-big text-gray pback'>${item} buildings</p>`
@@ -283,12 +277,9 @@ export const displayBuildDescr = (building) => {
 
 // === EVENT & MISSION ===========================================================================================================
 
-export const showMissionNumber = (gameData) => {
-    menuBtnMissions.textContent = `Missions (${gameData.tempData.activeMissions})`
-}
-
 // Shows active missions
-const displayMissions = (gameData) => {
+const showActiveMissions = (gameData) => {
+    const missions = document.getElementById('missions')
     missions.innerHTML = `<p class='mtbb text-big'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
     const missionSubdiv = document.createElement('div')
     missionSubdiv.classList = 'smallBoxDiv'
@@ -306,7 +297,8 @@ const displayMissions = (gameData) => {
 }
 
 // displays active events
-export const displayActiveEvents = (isNewMonth, gameData) => {
+export const displayActiveEvents = (gameData, isNewMonth) => {
+    const events = document.querySelector('.event-div')
     events.innerHTML = ''
     // searches for active events
     for (let event of gameData.events) {
@@ -369,7 +361,8 @@ export const displayMissionReward = (rewards) => {
 // === ARMY =================================================================================================================
 
 // generate unit box for each unit that amount is bigger than 0
-const displayArmy = (gameData) => {
+const showArmyUnits = (gameData) => {
+    const army = document.getElementById('army') 
     army.innerHTML = ''
     for (let unit of gameData.units) {
         if (unit.amount) {
@@ -399,7 +392,8 @@ export const displayUnitDescription = (unit) => {
 // === RECRUITMENT ============================================================================================================
 
 // generate unit box for each unit that is recruitable
-const displayRecruits = (gameData) => {
+const showRecruitableUnits = (gameData) => {
+    const recruitment = document.getElementById('recruitment') 
     recruitment.innerHTML = ''
     for (let unit of gameData.units) {
         if (unit.isRecruitable) {

@@ -4,6 +4,7 @@ export const initData = {
         foodLevel: 2,
         armyStatus: true,
         maxMissions: 6,
+        isNewGame: true,
     },
     basicResources: {
         month: 0,
@@ -49,7 +50,8 @@ export const initData = {
         might: 0,
         activeMissions: 0,
         armyUpkeep: 0,
-        totalGoldGain: 0
+        totalGoldGain: 0,
+        messages: []
     },
 
 // === EVENTS ===============================================================================================
