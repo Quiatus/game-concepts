@@ -20,12 +20,12 @@ const initApp = () => {
     checkIfNewGame()
     gameData = loadGame()
     checkBefore(false)
+    gameData.tempData.messages = []
     gameData.general.isNewGame ? printMessage('A new game has started!', 'info', gameData) : printMessage('Game loaded!', 'info', gameData)
     checkAfter(false)
 }
 
 const checkBefore = () => {
-    gameData.tempData.messages = []
     showPanel('', gameData)  // show general panel
     unlockUnits(gameData) // unlocks recruitable units
     applyCapitalBonuses(gameData) // apply capital bonuses 
@@ -42,6 +42,7 @@ const checkAfter = (isNewMonth) => {
 }
 
 const progressGame = (isNewMonth) => {
+    gameData.tempData.messages = []
     progressBuild(gameData) // progress construction
     generateEvent(gameData) // generates random event at the beginning of the month
     checkBefore(isNewMonth)
