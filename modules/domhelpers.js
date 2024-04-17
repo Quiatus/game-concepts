@@ -45,7 +45,7 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
     displayMenu(gameData)
 
     if (panelName === 'overviewPanel') {
-        displayOverview(gameData)
+        displayOverview()
         displayMessages(gameData)
         displayActiveEvents(gameData, isNewMonth) // displays any active events
     }
@@ -120,8 +120,6 @@ export const printNewMonthMessages = (gameData) => {
 
 // prints various messages 
 export const printMessage = (text, type='info', gameData={}) => {
-
-
     let clr = ''
     if (type==='critical')  clr = 'text-red'
     if (type==='warning') clr = 'text-orange'
@@ -184,7 +182,6 @@ export const getArmyStatus = (gameData) => {
     if (gameData.general.armyStatus) return `<span class='text-green'>Ready</span>`
     return `<span class='text-orange'>Exhausted</span>`
 }
-
 
 // === BUILDINGS =================================================================================================================
 

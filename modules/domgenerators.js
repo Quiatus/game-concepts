@@ -59,7 +59,7 @@ export const displayMenu = (gameData) => {
     `
 }
 
-export const displayOverview = (gameData) => {
+export const displayOverview = () => {
     return rightPanel.innerHTML = `
     <h1>Overview</h1>
 

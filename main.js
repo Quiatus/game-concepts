@@ -20,19 +20,17 @@ const initApp = () => {
     checkIfNewGame()
     gameData = loadGame()
     checkBefore(false)
-    if (gameData.general.isNewGame) printMessage('A new game has started!', 'info', gameData)
-    else printMessage('Game loaded!', 'info', gameData)
+    gameData.general.isNewGame ? printMessage('A new game has started!', 'info', gameData) : printMessage('Game loaded!', 'info', gameData)
     checkAfter(false)
 }
 
-const checkBefore = (isNewMonth) => {
+const checkBefore = () => {
     gameData.tempData.messages = []
     showPanel('', gameData)  // show general panel
     unlockUnits(gameData) // unlocks recruitable units
     applyCapitalBonuses(gameData) // apply capital bonuses 
     updateBuildCost(gameData) // Updates the current building cost for any upgradeable building  
     pop.calculateTotalSpace(gameData) // calculates max. available space for pop (from building, capital and settlements)
-    
 }
 
 const checkAfter = (isNewMonth) => {
