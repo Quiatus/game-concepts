@@ -1,5 +1,4 @@
 # ToDo: 
-- refactor resource?
 - blacksmithing - create layout, add basic functions
 - tavern - create feature
 

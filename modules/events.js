@@ -1,6 +1,7 @@
 'use strict';
 
 import { showPanel, printMessage } from "./domhelpers.js"
+import { displayMenu } from "./domgenerators.js"
 
 // generates events at the beginning of the month
 export const generateEvent = (gameData) => {
@@ -174,4 +175,5 @@ export const removeMission = (mission, status, gameData) => {
     }
 
     showPanel('overviewPanel', gameData)
+    displayMenu(gameData)
 }

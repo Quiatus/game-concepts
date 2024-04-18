@@ -45,7 +45,7 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
     displayResourceBox(gameData)
     
     if (panelName === 'overviewPanel') {
-        displayMenu(gameData)
+        
         displayOverview()
         displayMessages(gameData)
         displayActiveEvents(gameData, isNewMonth) 

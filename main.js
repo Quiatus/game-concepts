@@ -7,6 +7,7 @@ import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost 
 import { month, gold, pop, food, wood, stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
 import { dismissUnits, calculateMight, recruitUnits, addRecruits, checkUpkeep, unlockUnits } from "./modules/units.js"
+import { displayMenu } from "./modules/domgenerators.js"
 
 let gameData = {}
 
@@ -27,6 +28,7 @@ const initApp = () => {
 
 const checkBefore = () => {
     showPanel('', gameData)  // show general panel
+    displayMenu(gameData)
     unlockUnits(gameData) // unlocks recruitable units
     applyCapitalBonuses(gameData) // apply capital bonuses 
     updateBuildCost(gameData) // Updates the current building cost for any upgradeable building  
