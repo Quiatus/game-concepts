@@ -2,7 +2,7 @@
 
 import { showPanel, printMessage, printNewMonthMessages } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
-import { changeTax, calculateHappiness, changeFoodLevel } from "./modules/generalcalcs.js";
+import { changeTax, calculateHappiness, changeFoodLevel, changeProductionLevel, calculateTotalSpace } from "./modules/generalcalcs.js";
 import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
 import { month, gold, pop, food, wood, stone } from "./modules/resources.js";
 import { generateEvent, removeMission } from "./modules/events.js";
@@ -30,7 +30,7 @@ const checkBefore = () => {
     unlockUnits(gameData) // unlocks recruitable units
     applyCapitalBonuses(gameData) // apply capital bonuses 
     updateBuildCost(gameData) // Updates the current building cost for any upgradeable building  
-    pop.calculateTotalSpace(gameData) // calculates max. available space for pop (from building, capital and settlements)
+    calculateTotalSpace(gameData) // calculates max. available space for pop (from building, capital and settlements)
 }
 
 const checkAfter = (isNewMonth) => {
@@ -70,9 +70,10 @@ document.addEventListener('click', (e) => {
     button === 'btnNewMonth' ? progressGame(true) : null
     button === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
 
-    btnClass === 'menuBtn' ? showPanel(e.target.id, gameData) : null
+    btnClass === 'menuBtn' ? showPanel(e.target.id, gameData, true) : null
     btnClass === 'btnTax' ? changeTax(e.target.id, gameData) : null
     btnClass === 'btnFood' ? changeFoodLevel(e.target.id, gameData) : null
+    btnClass === 'btnProduction' ? changeProductionLevel(e.target.id, gameData) : null
     btnClass === 'btnBuild' ? startConstruction(e, gameData) : null
     btnClass == 'btnDismiss' ? dismissUnits(e.target.id, gameData) : null
     btnClass.includes('add-max') ? addRecruits(e.target.id, e, true, gameData) : null

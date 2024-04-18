@@ -1,7 +1,8 @@
 export const initData = {
     general: {
-        tax: 2,
-        foodLevel: 2,
+        tax: 1,
+        foodLevel: 1,
+        production: 1,
         armyStatus: true,
         maxMissions: 6,
         isNewGame: true,

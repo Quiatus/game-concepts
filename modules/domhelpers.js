@@ -29,10 +29,11 @@ export const changeEmpireTextColors = (type, lvl) => {
     let texts = []
     if (type === 'tax') texts = ['Low', 'Balanced', 'High']
     if (type === 'food') texts = ['Limited', 'Normal', 'Generous']
+    if (type === 'production') texts = ['Decreased', 'Standard', 'Increased']
 
-    if (lvl === 1) text = `<span class="${type === 'tax' ? `text-green` : `text-red`}">${texts[0]}</span>`
-    else if (lvl === 2) text = `<span class="${type === 'tax' ? `text-gold` : `text-yellow`}">${texts[1]}</span>`
-    else text = `<span class="${type === 'tax' ? `text-red` : `text-green`}">${texts[2]}</span>`
+    if (lvl < 1) text = `<span class="${type === 'food' ? `text-red` : `text-green`}">${texts[0]}</span>`
+    else if (lvl === 1) text = `<span class="${type === 'food' ? `text-yellow` : type === 'tax' ? `text-gold`: `text-white`}">${texts[1]}</span>`
+    else text = `<span class="${type === 'food' ? `text-green` : `text-red`}">${texts[2]}</span>`
 
     return text
 }
@@ -42,12 +43,12 @@ export const changeEmpireTextColors = (type, lvl) => {
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
 export const showPanel = (panelName, gameData, isNewMonth=false) => {
     displayResourceBox(gameData)
-    displayMenu(gameData)
-
+    
     if (panelName === 'overviewPanel') {
+        displayMenu(gameData)
         displayOverview()
         displayMessages(gameData)
-        displayActiveEvents(gameData, isNewMonth) // displays any active events
+        displayActiveEvents(gameData, isNewMonth) 
     }
     if (panelName === 'empireManagementPanel') displayEmpireManagement(gameData)
     if (panelName === 'statisticsPanel') displayStatistics(gameData)

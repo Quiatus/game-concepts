@@ -99,6 +99,10 @@ export const displayEmpireManagement = (gameData) => {
         </div> 
 
         <div class="box">
+            ${displayProductionBox(gameData)}
+        </div> 
+
+        <div class="box">
             ${displayResetBox()}
         </div> 
     </div>  
@@ -155,7 +159,7 @@ const displayTaxBox = (gameData) => {
     </div>
     <div class="box-stats mtb">
         <span class="text-gray">Current tax:</span> <span>${changeEmpireTextColors('tax', gameData.general.tax)}</span>
-        <span class="text-gray">Gold p. 100 pop.:</span><span>${gameData.general.tax * 5}</span>
+        <span class="text-gray">Gold p. 100 pop.:</span><span>${gameData.general.tax * 10}</span>
     </div>
     <hr class="separator">
     <span>Set tax level:</span>
@@ -186,9 +190,9 @@ const displayFoodBox = (gameData) => {
     </div>
     <div class="box-stats mtb">
         <span class="text-gray">Current rations:</span> <span>${changeEmpireTextColors('food', gameData.general.foodLevel)}</span>
-        <span class="text-gray">Food p. 100 pop.:</span><span>${gameData.general.foodLevel * 0.5}</span>
+        <span class="text-gray">Food p. 100 pop.:</span><span>${gameData.general.foodLevel}</span>
         <span class="text-gray">Population growth:</span>${
-            gameData.general.foodLevel === 1 ? `<span class="text-red">75%</span>` : gameData.general.foodLevel === 2 ? `<span class="text-white">100%</span>` : `<span class="text-green">125%</span>`
+            gameData.general.foodLevel < 1 ? `<span class="text-red">75%</span>` : gameData.general.foodLevel === 1 ? `<span class="text-white">100%</span>` : `<span class="text-green">125%</span>`
         }
     </div>
     <hr class="separator">
@@ -200,6 +204,25 @@ const displayFoodBox = (gameData) => {
     </div>`
 }
 
+const displayProductionBox = (gameData) => {
+    return `<h2>Production</h2>
+    <div class="build-description">
+        <p>Set the output of all resource buildings. Lowering the output increases happiness, increasing the output decreases happiness and increases food consumption by 50%.</p>
+    </div>
+    <div class="box-stats mtb">
+        <span class="text-gray">Current production:</span> <span>${changeEmpireTextColors('production', gameData.general.production)}</span>
+        <span class="text-gray">Production:</span> ${
+            gameData.general.production < 1 ? `<span class="text-red">75%</span>` : gameData.general.production === 1 ? `<span class="text-white">100%</span>` : `<span class="text-green">125%</span>`
+        }
+    </div>
+    <hr class="separator">
+    <span>Set production:</span>
+    <div class="buttons-box">
+        <button class="btnProduction" id="productionLow">Decrease</button>
+        <button class="btnProduction" id="productionBalanced">Standard</button>
+        <button class="btnProduction" id="productionHigh">Increase</button>
+    </div>`
+}
 
 export const displayStatistics = (gameData) => {
     return rightPanel.innerHTML = `<h1>Statistics</h1>
@@ -244,6 +267,7 @@ const displayStatsGeneral = (gameData) => {
             <span class="text-gray">Capital:</span><span>Level ${gameData.buildings[0].currentLevel}</span>
             <span class="text-gray">Taxes:</span><span>${changeEmpireTextColors('tax', gameData.general.tax)}</span>
             <span class="text-gray">Food rations:</span><span>${changeEmpireTextColors('food', gameData.general.foodLevel)}</span>
+            <span class="text-gray">Production:</span><span>${changeEmpireTextColors('production', gameData.general.production)}</span>
         </div>
     </div>
 
@@ -329,7 +353,7 @@ const displayEconomy = (gameData) => {
     <p class="stat-header">People:</p>
     <div class="economy-div">
         <span class="text-white spread">Gains</span>
-        <span class="text-gray ml">Births:</span><span class="text-green">${converThousand(gameData.resourceGain.pop)}</span>
+        <span class="text-gray ml">Growth:</span><span class="text-green">${converThousand(gameData.resourceGain.pop)}</span>
         <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('p', gameData)[0])}</span>
     </div>
     <div class="economy-div">
@@ -388,11 +412,11 @@ const displayEconomy = (gameData) => {
         <span class="text-white spread">Gains</span>
         <span class="text-gray ml">Lumber yard:</span><span class="text-green">${converThousand(gameData.resourceGain.wood)}</span>
         <span class="text-gray ml">Events:</span><span class="text-green">${converThousand(gameData.resourceGain.woodEvents)}</span>
-        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(gameData.resourceGain.wood)}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-green">${converThousand(calcEconomy('w', gameData)[0])}</span>
     </div>
     <div class="economy-div">
         <span class=" text-white spread">Loses</span>
-        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('w', gameData)[0])}</span>
+        <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('w', gameData)[1])}</span>
     </div>
     <div class="economy-div">
         <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('w', gameData)[2])}</span>
