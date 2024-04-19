@@ -3,7 +3,7 @@ import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuil
 import { calcMaxUnit } from "./units.js"
 
 const resourcesText = document.getElementById('resourceBox')
-const menu = document.getElementById('menu')
+const menuGenerate = document.getElementById('menuGenerate')
 const rightPanel = document.getElementById('rightPanel')
 
 // Generates resource box
@@ -18,23 +18,17 @@ export const displayResourceBox = (gameData) => {
     <div class="res hr"><img title='Fame' class='img-m' src='media/res/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
     <div class="res"> <img title='Might' class='img-m' src='media/army/army.png'><span title='Might'>${converThousand(gameData.tempData.might)}</span></div>
     <div class="res res-nm"> <img title='Happiness' class='img-m' src='media/res/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
-    <div class="res res-nm"><img title='Army status' class='img-m' src='media/army/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>`
+    <div class="res res-nm"><img title='Army status' class='img-m' src='media/army/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>
+    
+    <div class="alert-div text-disabled text-big">
+    <span class="text-gray text-bold">Alerts:</span> ${displayActiveAlerts(gameData)}
+    </div>`
 }
 
 // generate menu buttons 
 export const displayMenu = (gameData) => {
-    return menu.innerHTML = 
-    `
-    <div class="box-sub alerts">
-    <h3>Alerts</h3>
-        ${displayActiveAlerts(gameData)}
-    </div>
-
-    <div class="menu-buttons-section">
-        <span class="text-big text-bold text-orange" id="btnNewMonth">NEW MONTH</span>
-    </div>
-
-    <div class="menu-buttons-section">
+    return menuGenerate.innerHTML = 
+    `<div class="menu-buttons-section">
         <span class="menuBtn" id="overviewPanel">Overview</span>
         <span class="menuBtn" id="empireManagementPanel">Empire management</span>
         <span class="menuBtn" id="statisticsPanel">Statistics</span>
@@ -299,7 +293,7 @@ const displayStatsBuildings = (gameData) => {
         <p class="stat-header">Buildings - general:</p>
         <div class="stat-div">
             <span class="text-gray">Housing distr:</span><span>${converThousand(gameData.buildings[1].amount)}</span>
-            <span class="text-gray">Tavern:</span><span>${converThousand(gameData.buildings[7].amount)}</span>
+            <span class="text-gray">Tavern:</span><span>${gameData.buildings[7].amount ? `1` : `Not built`}</span>
 
         </div>
     </div>    
@@ -509,7 +503,7 @@ export const generateBuildings = (building, level) => {
     <div class="box" id="${building.id}">
         <h2>${building.name}</h2>
         <div class="build-description">
-            <p>${building.info.replace('#effect#', `<span class='text-bold'>${building.effect}</span>`)}</p>
+            <p class="build-description-icon-text">${building.info.replace('#effect#', `<span class='text-bold'>${building.effect}</span>`)}</p>
             <p class="text-orange">${displayBuildDescr(building)}</p> 
         </div>
 

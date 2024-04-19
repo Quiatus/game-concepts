@@ -361,7 +361,7 @@ export const initData = {
             space: 0,
             maxSpace: 1,
             effect: 10,
-            info: 'Produces #effect# units of <span class="text-yellow">food</span> per month.'
+            info: 'Produces #effect# <img class="img-s" src="media/res/food.png"> per month.'
         },
         {
             id: 'buildingLumberyard',  // 3
@@ -385,7 +385,7 @@ export const initData = {
             space: 0,
             maxSpace: 0,
             effect: 5,
-            info: 'Produces #effect# units of <span class="text-brown">wood</span> per month.'
+            info: 'Produces #effect# <img class="img-s" src="media/res/wood.png"> per month.'
         },
         {
             id: 'buildingQuarry',  // 4
@@ -409,7 +409,7 @@ export const initData = {
             space: 0,
             maxSpace: 0,
             effect: 2,
-            info: 'Produces #effect# units of <span class="text-darkgray">stone</span> per month.',
+            info: 'Produces #effect# <img class="img-s" src="media/res/stone.png"> per month.',
         },
         {
             id: 'buildingArcheryRange',  // 5
@@ -454,7 +454,7 @@ export const initData = {
                     costWood: 1000,
                     costStone: 20,
                     requireCapitalLevel: 2,
-                    info: 'Increases monthy recruitment of archers to #effect#'
+                    info: 'Increases monthy recruitment of archers to #effect#.'
                 },
                 {
                     level: 3,
@@ -464,7 +464,7 @@ export const initData = {
                     costWood: 5000,
                     costStone: 100,
                     requireCapitalLevel: 3,
-                    info: 'Increases monthy recruitment of archers to #effect#'
+                    info: 'Increases monthy recruitment of archers to #effect#.'
                 },
             ]
         },
@@ -490,7 +490,7 @@ export const initData = {
             space: 1,
             maxSpace: 1,
             effect: null,
-            info: 'Allows crafting armor and weapons for our army.',
+            info: 'Blacksmith can craft various armor and weapons for our army.',
             levels: [
                 {
                     level: 1,
@@ -500,7 +500,7 @@ export const initData = {
                     costWood: 100,
                     costStone: 10,
                     requireCapitalLevel: false,
-                    info: 'Allows to craft armor and weapons for our army.'
+                    info: 'Blacksmith can craft various armor and weapons for our army.'
                 },
                 {
                     level: 2,
@@ -546,7 +546,7 @@ export const initData = {
             space: 1,
             maxSpace: 1,
             effect: null,
-            info: 'Place where we can meet people and get valuable information.',
+            info: 'Place where we can learn valuable information.',
         },
     ],
 // === UNITS ===============================================================================================

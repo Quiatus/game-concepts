@@ -1,6 +1,6 @@
 'use strict';
 
-import { displayResourceBox, displayStatistics, generateBuildings, generateMissions, generateArmy, generateRecruits, displayMenu, displayOverview, displayEmpireManagement,
+import { displayResourceBox, displayStatistics, generateBuildings, generateMissions, generateArmy, generateRecruits, displayOverview, displayEmpireManagement,
 displayBuildings, displayTavern, displayBlacksmith, displayCampaign, displayMission, displayConquest, displayRecruitment, displayArmy} from "./domgenerators.js"
 
 // === UTILITIES ===================================================================================================
@@ -45,7 +45,6 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
     displayResourceBox(gameData)
     
     if (panelName === 'overviewPanel') {
-        
         displayOverview()
         displayMessages(gameData)
         displayActiveEvents(gameData, isNewMonth) 
@@ -77,9 +76,7 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
 
 // loops over alerts and checks which are active, then displays those
 export const displayActiveAlerts = (gameData) => {
-    let div = document.createElement('div')
     let alerts = document.createElement('div')
-    alerts.classList.add('alert-div', 'text-disabled', 'text-big', 'text-bold')
 
     for (let alert in gameData.alerts) {
         const span = document.createElement('span')
@@ -87,8 +84,8 @@ export const displayActiveAlerts = (gameData) => {
         if (gameData.alerts[alert]) span.classList.add('text-red', 'text-bold')
         alerts.append(span)
     }
-    div.append(alerts)
-    return div.innerHTML
+
+    return alerts.innerHTML
 }
 
 // === MESSAGES ====================================================================================================================

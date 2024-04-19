@@ -1,7 +1,6 @@
 # ToDo: 
-- blacksmithing - create layout, add basic functions
 - tavern - create feature
-
+- blacksmithing - create layout, add basic functions
 
 # Progress month:
 
