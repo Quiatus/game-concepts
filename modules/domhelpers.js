@@ -1,7 +1,7 @@
 'use strict';
 
 import { displayResourceBox, displayStatistics, generateBuildings, generateMissions, generateArmy, generateRecruits, displayOverview, displayEmpireManagement,
-displayBuildings, displayTavern, displayBlacksmith, displayCampaign, displayMission, displayConquest, displayRecruitment, displayArmy} from "./domgenerators.js"
+    displayBuildings, displayTavern, displayBlacksmith, displayCampaign, displayMission, displayConquest, displayRecruitment, displayArmy} from "./domgenerators.js"
 
 // === UTILITIES ===================================================================================================
 

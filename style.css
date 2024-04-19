@@ -8,16 +8,18 @@
     --clr-compbord: #445;
     --clr-compbg: #223;
     --clr-bg: #000;
+    --clr-bgl: #101018;
     --clr-hover: #eef;
     --clr-gray: #aab;
     --clr-menutext: #cce; 
     --clr-progress: #55a;
     
     /* Red 
-    --clr-bgborder: #511;
+    --clr-bgborder: #411;
     --clr-compbord: #922;
     --clr-compbg: #311;
-    --clr-bg: #000;
+    --clr-bg: #100; 
+    --clr-bgl: #211; 
     --clr-hover: #fee;
     --clr-gray: #b99;
     --clr-menutext: #ecc;  
@@ -48,7 +50,6 @@
 html {
     font-family: "Carrois Gothic", sans-serif; 
     user-select: none;
-    
 }
 
 ::-webkit-scrollbar {
@@ -60,7 +61,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--clr-darkgray);
+    background: var(--clr-compbord);
 }
 
 /* General */
@@ -115,14 +116,15 @@ h1 {
 
 .box-sub {
     overflow: hidden;
-    border: 1px solid var(--clr-compbg);
-    box-shadow: 0 0 5px var(--clr-compbg);
+    box-shadow: 0 0 5px var(--clr-bgborder) inset;
     border-radius: 0.25rem;
     margin-bottom: 1rem;
+    background-color: #050510;
 }
 
 h3 {
     background-color: var(--clr-compbg);
+    box-shadow: 0 0 10px var(--clr-bgl) inset;
     color: var(--clr-gray);
     line-height: 1;
     padding: 0.25rem 0.5rem;
@@ -134,15 +136,14 @@ h3 {
 /* Sub boxes - small */
 
 .box {
-    background-color: var(--clr-bg);
+    background-color: var(--clr-bgl);
     width: 315px;
     padding-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    border: 1px solid var(--clr-bgborder);
-    box-shadow: 0 0 10px var(--clr-bgborder);
+    box-shadow: 0 0 5px var(--clr-bgborder) inset;
     border-radius: 0.25rem;
     height: fit-content;
     overflow: hidden;
@@ -150,6 +151,7 @@ h3 {
 
  h2 {
     background-color: var(--clr-bgborder);
+    box-shadow: 0 0 5px var(--clr-bgl) inset;
     width: 100%;
     text-align: center;
     padding: 0.25rem 0;
@@ -243,27 +245,24 @@ input::-webkit-inner-spin-button {
 
 .resources {
     grid-area: 1/1/1/3;
-    opacity: 0.99;
-    background-color: var(--clr-bg);
+    background-color: var(--clr-bgl);
     border-bottom-left-radius: 0.35rem;
     border-bottom-right-radius: 0.35rem;
-    border: 1px solid var(--clr-compbord);
+    box-shadow: 0 0 10px var(--clr-bgborder) inset;
     border-top: none;
-    box-shadow: 0 0 5px var(--clr-compbord);
     display: grid;
     grid-template-columns: repeat(10, auto);
     grid-template-rows: 1fr auto;
-    padding: 0.25rem;
+    padding: 0.25rem 1rem;
 }
 
 .alert-div {
     margin-top: 0.25rem;
     padding: 0.25rem 0 0;
     border-top: 1px solid var(--clr-bgborder);
-    width: 100%;
     grid-area: 2/1/2/11;
     display: flex;
-    column-gap: 1rem;
+    column-gap: 2rem;
     justify-content: center;
 }
 
@@ -296,15 +295,14 @@ input::-webkit-inner-spin-button {
 
 .menu {
     grid-area: 2/1/3/1;
-    border: 1px solid var(--clr-compbord);
-    box-shadow: 0 0 5px var(--clr-compbord);
+    background-color: var(--clr-bgl);
     border-radius: 0.35rem;
+    box-shadow: 0 0 10px var(--clr-bgborder) inset;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1rem 1rem 0;
     width: 260px;
-
 }
 
 .menu-buttons-section {
@@ -549,10 +547,10 @@ button {
 }
 
 button:hover {
-    color: var(--clr-hover);
-    border-color: var(--clr-hover);
-    box-shadow: 0 0 10px var(--clr-hover);
-    text-shadow: 0 0 10px var(--clr-hover);
+    /* color: var(--clr-hover); */
+    border-color: var(--clr-gray);
+    box-shadow: 0 0 10px var(--clr-gray);
+    text-shadow: 0 0 10px var(--clr-gray);
     cursor: pointer;
 }
 

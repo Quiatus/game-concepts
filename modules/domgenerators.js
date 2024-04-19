@@ -1,5 +1,7 @@
 'use strict';
-import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, displayRemainingTimeMission, displayMissionReward, displayUnitDescription, displayActiveAlerts, changeEmpireTextColors } from "./domhelpers.js"
+
+import { popText, changeHappinessColor, calcEconomy, converThousand, displayBuildCosts, buildingConstrProgress, getArmyStatus, displayBuildDescr, 
+    displayRemainingTimeMission, displayMissionReward, displayUnitDescription, displayActiveAlerts, changeEmpireTextColors } from "./domhelpers.js"
 import { calcMaxUnit } from "./units.js"
 
 const resourcesText = document.getElementById('resourceBox')
