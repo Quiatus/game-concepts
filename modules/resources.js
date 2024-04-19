@@ -128,6 +128,7 @@ export const pop = {
             gameData.basicResources.pop -= leftPop
             gameData.tempData.popLeft = leftPop 
             printMessage(`Our people have nowhere to live.<span class="text-bold">${converThousand(leftPop)}</span><img class='img-s' src='media/res/pop.png'> left. Build more housing or conquer more settlements!`, 'critical', gameData)
+            if (gameData.basicResources.pop <= totalSpace) gameData.alerts.overpopulation = false
         } 
     }
 }

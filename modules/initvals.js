@@ -61,7 +61,7 @@ export const initData = {
     events: [
         {
             id: 1,
-            description: ['Thanks to the favourable weather, our <span class="text-yellow">farms</span> produce <span class="text-green">20%</span> more <img class="img-s" src="media/res/food.png">'],
+            description: 'Thanks to the favourable weather, our <span class="text-yellow">farms</span> produce <span class="text-green">20%</span> more <img class="img-s" src="media/res/food.png">',
             type: 'foodGainMultiplier',
             rarity: 1,
             isMission: false,
@@ -81,7 +81,7 @@ export const initData = {
         },
         {
             id: 2,
-            description: ['Our people are happy with our leadership. <img class="img-s" src="media/res/pop.png"> gain is increased by <span class="text-green">25%</span>.'],
+            description: 'Our people are happy with our leadership. <img class="img-s" src="media/res/pop.png"> gain is increased by <span class="text-green">25%</span>',
             type: 'popHappyGainMultiplier',
             rarity: 1,
             isMission: false,
@@ -101,7 +101,7 @@ export const initData = {
         },
         {
             id: 3,
-            description: ['A group of refugess has arrived and seeks asylum. Do we want to accept them?'],
+            description: 'A group of refugess has arrived and seeks asylum. Do we want to accept them?',
             type: 'missionRefugeesSmall',
             rarity: 5,
             isMission: true,
@@ -126,11 +126,7 @@ export const initData = {
 
         {
             id: 4,
-            description: [
-                'While exploring woods, our scouts discovered a small, partly buried wooden box. It contained #effect#.',
-                'We found an abandoned merchant cart. It looks like whoever attack it, stole most of the goods, but we noticed a few gold pieces scattered around. Gained #effect#.',
-                'While crossing a river, our explorers noticed a crate floating in the stream. They were able to pull it out and look inside. It contained #effect#'
-                ],
+            description: 'While exploring woods, our scouts discovered a small, partly buried wooden box. It contained <span class="text-gold">#effect#</span><img class="img-s" src="media/res/gold.png">.',
             type: 'gainGold',
             rarity: 1,
             isMission: false,
@@ -143,10 +139,7 @@ export const initData = {
         },
         {
             id: 5,
-            description: [
-                'Our scouts have discovered an old quarry. While almost depleted, we were able to found some viable stone. We gained #effect#.',
-                'Our scouts discovered a burnt village. We were able to salvage some building materials. Gained #effect#.'
-                ],
+            description: 'Our scouts have discovered an old quarry. While almost depleted, we were able to found some viable stone. We gained <span class="text-darkgray">#effect#</span><img class="img-s" src="media/res/stone.png">.',
             type: 'gainStone',
             rarity: 1,
             isMission: false,
@@ -159,10 +152,7 @@ export const initData = {
         },
         {
             id: 6,
-            description: [
-                'Our scouts have disovered an abandoned lumber yard. Gained #effect#.',
-                'We discovered a ruined settlement. Most of the valuables were already scavanged, but we found some wood. Gained #effect#.'
-                ],
+            description: 'We discovered a ruined settlement. Most of the valuables were already scavanged, but we found some wood. Gained <span class="text-brown">#effect#</span><img class="img-s" src="media/res/wood.png">.',
             type: 'gainWood',
             rarity: 1,
             isMission: false,
@@ -175,10 +165,7 @@ export const initData = {
         },
         {
             id: 7,
-            description: [
-                'We have discovered a small camp. Whoever was here had to leave in hurry and left the supplies behind. We gained #effect#.',
-                'Our scouts have discovered an old farm. We gained #effect#.'
-                ],
+            description: 'We have discovered a small camp. Whoever was here had to leave in hurry and left the supplies behind. We gained <span class="text-yellow">#effect#</span><img class="img-s" src="media/res/food.png">.',
             type: 'gainFood',
             rarity: 1,
             isMission: false,
@@ -191,9 +178,7 @@ export const initData = {
         },
         {
             id: 8,
-            description: [
-                'We have discovered a fertile land. We can build a #effect# here.'
-                ],
+            description: 'We have discovered a fertile land. We can build a <span class="text-yellow">Farm</span> here.',
             type: 'gainFarmSpace',
             rarity: 5,
             isMission: false,
@@ -205,9 +190,7 @@ export const initData = {
         },
         {
             id: 9,
-            description: [
-                'We have discovered a large forest, with wood ideal for construction. We can build a #effect# here.'
-                ],
+            description: 'We have discovered a large forest, with wood ideal for construction. We can build a <span class="text-brown">Lumber yard</span> here.',
             type: 'gainLumberSpace',
             rarity: 7,
             isMission: false,
@@ -219,10 +202,7 @@ export const initData = {
         },
         {
             id: 10,
-            description: [
-                'Our scouts have discovered a large stone deposit. We can built a new #effect#.',
-                'We found a ruined #effect#. We should be able to repair the equipment and resume the mining.'
-                ],
+            description: 'Our scouts have discovered a large stone deposit. We can built a new <span class="text-darkgray">Quarry</span>.',
             type: 'gainQuarrySpace',
             rarity: 10,
             isMission: false,
@@ -234,7 +214,7 @@ export const initData = {
         },
         {
             id: 11,
-            description: ['Because of the recent riots, our people feel no hope for the future. The population growth is 0.'],
+            description: 'Because of the recent riots, our people feel no hope for the future. There is no population growth',
             type: 'popGainRiot',
             rarity: 1,
             isMission: false,

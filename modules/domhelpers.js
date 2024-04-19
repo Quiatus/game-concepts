@@ -19,7 +19,7 @@ export const changeHappinessColor = (happiness) => {
 
 // changes the color of the pop text
 export const popText = (pop, space) => {
-    if (pop >= space)  return `<span class="text-red">${converThousand(pop)}<span class="text-normal"> / ${converThousand(space)}</span></span>`
+    if (pop > space) return `<span class="text-red">${converThousand(pop)}<span class="text-normal"> / ${converThousand(space)}</span></span>`
     return `<span>${converThousand(pop)}<span class="text-normal"> / ${converThousand(space)}</span></span>`
 }
 
@@ -292,7 +292,7 @@ const showActiveMissions = (gameData) => {
 }
 
 // displays active events
-export const displayActiveEvents = (gameData, isNewMonth) => {
+const displayActiveEvents = (gameData, isNewMonth) => {
     const events = document.querySelector('.event-div')
     events.innerHTML = ''
     // searches for active events
@@ -307,23 +307,11 @@ export const displayActiveEvents = (gameData, isNewMonth) => {
 // generates the event message based on the event type
 const generateEventMessage = (event) => {
     let message = document.createElement('p');
-    const descrID = Math.floor(Math.random() * event.description.length)
-    if (event.isTimed && !event.isMission) message.innerHTML = `<span class='text-orange text-bold'>Event: </span>${event.description[descrID].replace('#effect#', eventText(event))} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>.`
-    else if (event.isMission && event.isDisplayed) message.innerHTML = `<span class='text-orange text-bold'>Misson: </span>${event.description[descrID].replace('#effect#', eventText(event))}`
+    if (event.isTimed && !event.isMission) message.innerHTML = `<span class='text-orange text-bold'>Event: </span>${event.description} <span class='text-it'>( Remaining time: <span class='text-bold'>${event.remainingTime}</span> )</span>.`
+    else if (event.isMission && event.isDisplayed) message.innerHTML = `<span class='text-orange text-bold'>Misson: </span>${event.description}`
     else if (event.isMission && !event.isDisplayed) message.innerHTML = ``
-    else message.innerHTML = `<span class='text-orange text-bold'>Discovery: </span>${event.description[descrID].replace('#effect#', eventText(event))}` 
+    else message.innerHTML = `<span class='text-orange text-bold'>Discovery: </span>${event.description.replace('#effect#', converThousand(event.effect))}` 
     return message
-}
-
-// adds icon if the event is a resource
-const eventText = (event) => {
-    if (event.type === 'gainGold') return `<span class="text-gold"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/gold.png">`
-    if (event.type === 'gainStone') return `<span class="text-darkgray"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/stone.png">`
-    if (event.type === 'gainWood') return `<span class="text-brown"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/wood.png">`
-    if (event.type === 'gainFood') return `<span class="text-yellow"> ${converThousand(event.effect)} </span><img class="img-s" src="media/res/food.png">`
-    if (event.type === 'gainFarmSpace') return `<span class="text-yellow"> Farm </span>`
-    if (event.type === 'gainLumberSpace') return `<span class="text-brown"> Lumber yard </span>`
-    if (event.type === 'gainQuarrySpace') return `<span class="text-darkgray"> Quarry </span>`
 }
 
 // shows approx. time left of the mission
