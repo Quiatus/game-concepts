@@ -21,7 +21,7 @@ export const displayResourceBox = (gameData) => {
     <div class="res res-nm"><img title='Army status' class='img-m' src='media/army/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>
     
     <div class="alert-div text-disabled text-big">
-    <span class="text-gray text-bold">Alerts:</span> ${displayActiveAlerts(gameData)}
+        ${displayActiveAlerts(gameData)}
     </div>`
 }
 

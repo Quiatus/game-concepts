@@ -190,7 +190,7 @@ export const showUnlockedBuildings = (gameData) => {
     
     buildings.innerHTML = ''
     for (let item of buildingTypes) {
-        buildings.innerHTML += `<p class='mtbb text-big text-gray pback'>${item} buildings</p>`
+        buildings.innerHTML += `<p class='mtbb text-big text-gray'>${item} buildings</p>`
         let buildingSubdiv = document.createElement('div')
         buildingSubdiv.classList = 'smallBoxDiv'
     
