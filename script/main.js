@@ -18,7 +18,6 @@ document.addEventListener('readystatechange', (e) => { if (e.target.readyState =
 document.addEventListener('click', (e) => {
     if (e.target.className === 'menuBtn') showPanel(e.target.id, gameData, true)
     if (e.target.className === 'btnBuild') startConstruction(e, gameData)
-
 })
 document.querySelector('#btnNewMonth').addEventListener('click', () => progressGame(true))
 
