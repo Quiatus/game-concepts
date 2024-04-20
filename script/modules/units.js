@@ -76,10 +76,10 @@ export const recruitUnits = (gameData) => {
             if (unit.queue >= unit.recrutpm) {
                 unit.amount += unit.recrutpm
                 unit.queue -= unit.recrutpm
-                printMessage(unit.recruitMessage.replace('##amount##', unit.recrutpm), 'recruit', gameData)
+                printMessage(unit.recruitMessage.replace('##amount##', unit.recrutpm), 'reward', gameData)
             } else {
                 unit.amount += unit.queue
-                printMessage(unit.recruitMessage.replace('##amount##', unit.queue), 'recruit', gameData)
+                printMessage(unit.recruitMessage.replace('##amount##', unit.queue), 'reward', gameData)
                 unit.queue = 0
             }
         }

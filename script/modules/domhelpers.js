@@ -138,7 +138,7 @@ export const printMessage = (text, type='info', gameData={}) => {
     if (type==='critical')  clr = 'text-red'
     if (type==='warning') clr = 'text-orange'
     if (type==='info') clr = 'text-white'
-    if (type==='recruit') clr = 'text-green'
+    if (type==='reward') clr = 'text-green'
     if (type==='gains') text = newMonthGains(gameData)
 
     let message = [text, clr]

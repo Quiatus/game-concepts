@@ -61,20 +61,12 @@ export const displayOverview = () => {
     return rightPanel.innerHTML = `
     <h1>Overview</h1>
 
-    <div class="bigBoxDiv" >
-        <div class="box-sub messages">
-            <h3>Messages</h3>
-            <div class="message-div">
-                
-            </div>
-        </div>
+    <div class="bigBoxDiv">
+        <span class="text-big text-gray">Messages</span>
+        <div class="message-div mb"></div>
 
-        <div class="box-sub events">
-            <h3>Events</h3>
-            <div class="event-div">
-                
-            </div>
-        </div>
+        <span class="text-big text-gray">Events</span>
+        <div class="event-div"> </div>
     </div>
     `
 }

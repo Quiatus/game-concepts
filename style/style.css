@@ -2,29 +2,17 @@
 
 :root {
     /* Main colors for layout */
-
-    /* Blue */
-    --clr-bgborder: #334;
-    --clr-compbord: #445;
-    --clr-compbg: #223;
+    --clr-bgborder: #445;
+    --clr-compbord: #556;
+    --clr-compbg: #334;
     --clr-bg: #000;
-    --clr-bgl: #101018;
+    --clr-bga: #000000bb;
+    --clr-bgl: #111122aa;
+    --clr-bgb: #050515aa;
     --clr-hover: #eef;
     --clr-gray: #aab;
     --clr-menutext: #cce; 
-    --clr-progress: #55a;
-    
-    /* Red 
-    --clr-bgborder: #411;
-    --clr-compbord: #922;
-    --clr-compbg: #311;
-    --clr-bg: #100; 
-    --clr-bgl: #211; 
-    --clr-hover: #fee;
-    --clr-gray: #b99;
-    --clr-menutext: #ecc;  
-    --clr-progress: #900;
-    */
+    --clr-progress: #55a;   
 
     /* Text colors */
     --clr-white: #eee;
@@ -67,7 +55,11 @@ html {
 /* General */
 
 body {
-    background-color: var(--clr-bg);
+    background-color: var(--clr-bga);
+    background-image: url('../media/bck.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: color;
     color: var(--clr-white);
     overflow: hidden;
 }
@@ -105,6 +97,8 @@ h1 {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 24px;
+    background: linear-gradient(90deg, transparent, var(--clr-compbg), transparent);
+    padding: 0.1rem 0;
 }
 
 /* Sub boxes - big */
@@ -119,7 +113,7 @@ h1 {
     box-shadow: 0 0 5px var(--clr-bgborder) inset;
     border-radius: 0.25rem;
     margin-bottom: 1rem;
-    background-color: #050510;
+    background-color: var(--clr-bgb);
 }
 
 h3 {
@@ -147,6 +141,7 @@ h3 {
     border-radius: 0.25rem;
     height: fit-content;
     overflow: hidden;
+    
 }
 
  h2 {
@@ -536,6 +531,10 @@ input::-webkit-inner-spin-button {
 
 .mtbb {
     margin: 1rem 0 0.5rem;
+}
+
+.mb {
+    margin-bottom: 1rem;
 }
 
 /* Buttons */

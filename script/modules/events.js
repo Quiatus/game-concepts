@@ -170,7 +170,7 @@ export const removeMission = (mission, gameData) => {
             if (button === 'btnRejectMission') {
                 printMessage(event.missionDescription.failure, 'warning', gameData)
             } else if (button === 'btnAcceptMission') {
-                printMessage(event.missionDescription.success, 'info', gameData)
+                printMessage(event.missionDescription.success, 'reward', gameData)
                 addMissionReward(event, gameData)
             }
              
