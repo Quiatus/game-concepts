@@ -548,8 +548,8 @@ export const generateMissions = (mission) => {
         <hr class="separator">
 
         <div class="buttons-box">
-            <button id="btnAcceptMission">Accept</button>
-            <button id="btnRejectMission">Reject</button>
+            <button class="btnMission" id="btnAcceptMission">Accept</button>
+            <button class="btnMission" id="btnRejectMission">Reject</button>
         </div>
         
     </div>  `
@@ -626,3 +626,4 @@ export const generateRecruits = (unit, gameData) => {
         </div>
     </div>  `
 }
+

@@ -65,7 +65,7 @@ export const dismissUnits = (unitName, gameData) => {
     }
 
     saveGame(gameData)
-    calculateMight()
+    calculateMight(gameData)
     showPanel('armyManagementPanel', gameData)
 }
 
@@ -129,12 +129,12 @@ export const checkUpkeep = (gameData) => {
     } else if (gameData.tempData.armyUpkeep > gameData.tempData.totalGoldGain && gameData.basicResources.gold === 0) {
         gameData.alerts.desertion = true
         printMessage('We do not have enough gold to pay our army. Our units are deserting!', 'critical', gameData)
-        removeUnitsDesertion()
+        removeUnitsDesertion(gameData)
     }    
 }
 
 // if there is not enough gold, remove 10% of units per month
-const removeUnitsDesertion = () => {
+const removeUnitsDesertion = (gameData) => {
     for (let unit of gameData.units) {
         if (unit.amount) {
             unit.amount -= Math.floor(unit.amount * 0.1)

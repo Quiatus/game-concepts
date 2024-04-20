@@ -2,19 +2,21 @@
 
 import { showPanel, printMessage, printNewMonthMessages } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
-import { changeTax, calculateHappiness, changeFoodLevel, changeProductionLevel, calculateTotalSpace } from "./modules/generalcalcs.js";
-import { startConstruction, progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
+import { calculateHappiness, calculateTotalSpace } from "./modules/generalcalcs.js";
+import { progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
 import { month, gold, pop, food, wood, stone } from "./modules/resources.js";
-import { generateEvent, removeMission } from "./modules/events.js";
-import { dismissUnits, calculateMight, recruitUnits, addRecruits, checkUpkeep, unlockUnits } from "./modules/units.js"
+import { generateEvent } from "./modules/events.js";
+import { calculateMight, recruitUnits, checkUpkeep, unlockUnits } from "./modules/units.js"
 import { displayMenu } from "./modules/domgenerators.js"
 
 let gameData = {}
 
 // initiates app once page is fully loaded
-document.addEventListener('readystatechange', (e) => {
-    if (e.target.readyState === "complete") initApp();
-});
+document.addEventListener('readystatechange', (e) => { if (e.target.readyState === "complete") initApp() });
+
+// Button event listeners
+document.addEventListener('click', (e) => {e.target.className === 'menuBtn' ? showPanel(e.target.id, gameData, true) : null})
+document.querySelector('#btnNewMonth').addEventListener('click', () => progressGame(true))
 
 // initializes the app
 const initApp = () => {
@@ -62,26 +64,3 @@ const progressGame = (isNewMonth) => {
     recruitUnits(gameData) // recruit units 
     checkAfter(isNewMonth)
 }
-
-// Button event listeners
-document.addEventListener('click', (e) => {
-    const button = e.target.id
-    const btnClass = e.target.className
-
-    // New month and reset buttons
-    button === 'btnNewMonth' ? progressGame(true) : null
-    button === 'btnReset' ? (localStorage.removeItem('gameSave'), location.reload()) : null
-
-    btnClass === 'menuBtn' ? showPanel(e.target.id, gameData, true) : null
-    btnClass === 'btnTax' ? changeTax(e.target.id, gameData) : null
-    btnClass === 'btnFood' ? changeFoodLevel(e.target.id, gameData) : null
-    btnClass === 'btnProduction' ? changeProductionLevel(e.target.id, gameData) : null
-    btnClass === 'btnBuild' ? startConstruction(e, gameData) : null
-    btnClass == 'btnDismiss' ? dismissUnits(e.target.id, gameData) : null
-    btnClass.includes('add-max') ? addRecruits(e.target.id, e, true, gameData) : null
-    btnClass == 'btnRecruit' ? addRecruits(e.target.id, e, false, gameData) : null
-
-    // missions
-    button === 'btnAcceptMission' ? removeMission(e.target.parentNode.parentNode.id, true, gameData) : null
-    button === 'btnRejectMission' ? removeMission(e.target.parentNode.parentNode.id, false, gameData) : null
-})

@@ -2,6 +2,10 @@
 
 import { displayResourceBox, displayStatistics, generateBuildings, generateMissions, generateArmy, generateRecruits, displayOverview, displayEmpireManagement,
     displayBuildings, displayTavern, displayBlacksmith, displayCampaign, displayMission, displayConquest, displayRecruitment, displayArmy} from "./domgenerators.js"
+import { changeTax, changeFoodLevel, changeProductionLevel } from './generalcalcs.js'
+import { removeMission } from "./events.js"
+import { dismissUnits, addRecruits } from "./units.js"
+import { startConstruction } from "./buildings.js"
 
 // === UTILITIES ===================================================================================================
 
@@ -49,12 +53,20 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
         displayMessages(gameData)
         displayActiveEvents(gameData, isNewMonth) 
     }
-    if (panelName === 'empireManagementPanel') displayEmpireManagement(gameData)
+    if (panelName === 'empireManagementPanel') {
+        displayEmpireManagement(gameData)
+        document.querySelector('#btnReset').addEventListener('click', () => {localStorage.removeItem('gameSave'), location.reload()})
+        document.querySelector('.btnBuild').addEventListener('click', (e) => {startConstruction(e, gameData)})
+        document.querySelectorAll('.btnTax').forEach(item => item.addEventListener('click', (e) => {changeTax(e.target.id, gameData)}))
+        document.querySelectorAll('.btnFood').forEach(item => item.addEventListener('click', (e) => {changeFoodLevel(e.target.id, gameData)}))
+        document.querySelectorAll('.btnProduction').forEach(item => item.addEventListener('click', (e) => {changeProductionLevel(e.target.id, gameData)}))
+    }
     if (panelName === 'statisticsPanel') displayStatistics(gameData)
 
     if (panelName === 'buildingsPanel') {
         displayBuildings(gameData)
         showUnlockedBuildings(gameData)
+        document.querySelectorAll('.btnBuild').forEach(item => item.addEventListener('click', (e) => {startConstruction(e, gameData)}))
     }
     if (panelName === 'tavernPanel') displayTavern(gameData)
     if (panelName === 'blacksmithPanel') displayBlacksmith(gameData)
@@ -62,15 +74,19 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
     if (panelName === 'missionsPanel') {
         displayMission(gameData) 
         showActiveMissions(gameData)
+        document.querySelectorAll('.btnMission').forEach(item => item.addEventListener('click', (e) => {removeMission(e, gameData)}))
     } 
     if (panelName === 'conquestsPanel') displayConquest(gameData)
     if (panelName === 'recruitmentPanel') {
         displayRecruitment(gameData)
         showRecruitableUnits(gameData) 
+        document.querySelectorAll('.add-max').forEach(item => item.addEventListener('click', (e) => {addRecruits(e.target.id, e, true, gameData)}))
+        document.querySelectorAll('.btnRecruit').forEach(item => item.addEventListener('click', (e) => {addRecruits(e.target.id, e, false, gameData)}))
     }
     if (panelName === 'armyManagementPanel') {
         displayArmy(gameData)
         showArmyUnits(gameData)
+        document.querySelectorAll('.btnDismiss').forEach(item => item.addEventListener('click', (e) => {dismissUnits(e.target.id, gameData)}))
     }
 }
 

@@ -156,17 +156,20 @@ const addMissionReward = (mission, gameData) => {
 }
 
 // removes mission from the log after accept / reject / completed
-export const removeMission = (mission, status, gameData) => {
-    let id = Number(mission.slice(7))
+export const removeMission = (mission, gameData) => {
+    let missionId = mission.target.parentNode.parentNode.id
+    let button = mission.target.id
+
+    let id = Number(missionId.slice(7))
 
     gameData.tempData.activeMissions--
 
     for (let event of gameData.events) {
         if (event.id === id) {
             event.active = false
-            if (!status) {
+            if (button === 'btnRejectMission') {
                 printMessage(event.missionDescription.failure, 'warning', gameData)
-            } else if (status) {
+            } else if (button === 'btnAcceptMission') {
                 printMessage(event.missionDescription.success, 'info', gameData)
                 addMissionReward(event, gameData)
             }
