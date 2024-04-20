@@ -5,7 +5,7 @@ import { displayResourceBox, displayStatistics, generateBuildings, generateMissi
 import { changeTax, changeFoodLevel, changeProductionLevel } from './generalcalcs.js'
 import { removeMission } from "./events.js"
 import { dismissUnits, addRecruits } from "./units.js"
-import { startConstruction } from "./buildings.js"
+//import { startConstruction } from "./buildings.js"
 
 // === UTILITIES ===================================================================================================
 
@@ -56,7 +56,7 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
     if (panelName === 'empireManagementPanel') {
         displayEmpireManagement(gameData)
         document.querySelector('#btnReset').addEventListener('click', () => {localStorage.removeItem('gameSave'), location.reload()})
-        document.querySelector('.btnBuild').addEventListener('click', (e) => {startConstruction(e, gameData)})
+        //document.querySelector('.btnBuild').addEventListener('click', (e) => {startConstruction(e, gameData)})
         document.querySelectorAll('.btnTax').forEach(item => item.addEventListener('click', (e) => {changeTax(e.target.id, gameData)}))
         document.querySelectorAll('.btnFood').forEach(item => item.addEventListener('click', (e) => {changeFoodLevel(e.target.id, gameData)}))
         document.querySelectorAll('.btnProduction').forEach(item => item.addEventListener('click', (e) => {changeProductionLevel(e.target.id, gameData)}))
@@ -66,7 +66,7 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
     if (panelName === 'buildingsPanel') {
         displayBuildings(gameData)
         showUnlockedBuildings(gameData)
-        document.querySelectorAll('.btnBuild').forEach(item => item.addEventListener('click', (e) => {startConstruction(e, gameData)}))
+        //document.querySelectorAll('.btnBuild').forEach(item => item.addEventListener('click', (e) => {startConstruction(e, gameData)}))
     }
     if (panelName === 'tavernPanel') displayTavern(gameData)
     if (panelName === 'blacksmithPanel') displayBlacksmith(gameData)

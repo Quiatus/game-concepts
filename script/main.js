@@ -3,7 +3,7 @@
 import { showPanel, printMessage, printNewMonthMessages } from "./modules/domhelpers.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
 import { calculateHappiness, calculateTotalSpace } from "./modules/generalcalcs.js";
-import { progressBuild, applyCapitalBonuses, updateBuildCost } from "./modules/buildings.js"
+import { progressBuild, applyCapitalBonuses, updateBuildCost, startConstruction } from "./modules/buildings.js"
 import { month, gold, pop, food, wood, stone } from "./modules/resources.js";
 import { generateEvent } from "./modules/events.js";
 import { calculateMight, recruitUnits, checkUpkeep, unlockUnits } from "./modules/units.js"
@@ -15,7 +15,11 @@ let gameData = {}
 document.addEventListener('readystatechange', (e) => { if (e.target.readyState === "complete") initApp() });
 
 // Button event listeners
-document.addEventListener('click', (e) => {e.target.className === 'menuBtn' ? showPanel(e.target.id, gameData, true) : null})
+document.addEventListener('click', (e) => {
+    if (e.target.className === 'menuBtn') showPanel(e.target.id, gameData, true)
+    if (e.target.className === 'btnBuild') startConstruction(e, gameData)
+
+})
 document.querySelector('#btnNewMonth').addEventListener('click', () => progressGame(true))
 
 // initializes the app
