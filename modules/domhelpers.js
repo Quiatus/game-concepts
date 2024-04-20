@@ -275,7 +275,7 @@ export const displayBuildDescr = (building) => {
 // Shows active missions
 const showActiveMissions = (gameData) => {
     const missions = document.getElementById('missions')
-    missions.innerHTML = `<p class='mtbb text-big'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
+    missions.innerHTML = `<p class='mtbb text-big text-gray'>Active missions: ${gameData.tempData.activeMissions} / ${gameData.general.maxMissions}</p>`
     const missionSubdiv = document.createElement('div')
     missionSubdiv.classList = 'smallBoxDiv'
     

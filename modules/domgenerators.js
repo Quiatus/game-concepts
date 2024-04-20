@@ -17,11 +17,13 @@ export const displayResourceBox = (gameData) => {
     <div class="res"><img title='Food' class='img-m' src='media/res/food.png'><span title='Food' class='text-yellow'>${converThousand(gameData.basicResources.food)}</span></div>
     <div class="res res-nm"><img title='Wood' class='img-m' src='media/res/wood.png'><span title='Wood' class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
     <div class="res res-nm"><img title='Stone' class='img-m' src='media/res/stone.png'><span title='Stone' class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
-    <div class="res hr"><img title='Fame' class='img-m' src='media/res/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
+    <div class="res"><hr class="vseparator"><img title='Fame' class='img-m' src='media/res/fame.png'><span title='Fame'>${converThousand(gameData.basicResources.fame)}</span></div>
     <div class="res"> <img title='Might' class='img-m' src='media/army/army.png'><span title='Might'>${converThousand(gameData.tempData.might)}</span></div>
     <div class="res res-nm"> <img title='Happiness' class='img-m' src='media/res/fame.png'><span title='Happiness' class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
     <div class="res res-nm"><img title='Army status' class='img-m' src='media/army/army_status.png'><span title='Army status' class="text-bold">${getArmyStatus(gameData)}</span></div>
     
+    <hr class="separator" id="res-sep">
+
     <div class="alert-div text-disabled text-big">
         ${displayActiveAlerts(gameData)}
     </div>`
@@ -225,28 +227,28 @@ export const displayStatistics = (gameData) => {
 
     <div class="bigBoxDiv">
         <div class="box-sub">
-            <h3>Economy overview</h3>
+            <h3>Economy</h3>
             <div class="statsBox economy" id="economy">
                 ${displayEconomy(gameData)}
             </div>          
         </div>
 
         <div class="box-sub">
-            <h3>Statistics - General</h3>
+            <h3>General</h3>
             <div class="statsBox statistics" id="statistics">
                 ${displayStatsGeneral(gameData)}
             </div>          
         </div>
 
         <div class="box-sub">
-            <h3>Statistics - Buildings</h3>
+            <h3>Buildings</h3>
             <div class="statsBox statistics" id="statistics">
                 ${displayStatsBuildings(gameData)}
             </div>          
         </div>
 
         <div class="box-sub">
-            <h3>Statistics - Materials</h3>
+            <h3>Materials</h3>
             <div class="statsBox statistics" id="statistics">
                 ${displayStatsMaterials(gameData)}
             </div>          
