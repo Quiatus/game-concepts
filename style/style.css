@@ -83,6 +83,32 @@ main {
     height: auto;
 }
 
+.toolbox {
+    position: relative;
+}
+
+.tooltip {
+    position: absolute;
+    left: 0;
+    top: 75%;
+    visibility: hidden;
+    opacity: 0;
+    background-color: var(--clr-bgl);
+    box-shadow: 0 0 10px var(--clr-bgborder) inset;
+    border: 1px solid var(--clr-bgborder);
+    padding: 0.25rem 0.5rem;
+    transition: all 0.2s;
+    border-radius: 0.25rem;
+    color: var(--clr-gray);
+    font-size: 14px;
+    z-index: 5;
+}
+
+.toolbox:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
 /* Right panels */
 
 #rightPanel {
@@ -251,6 +277,7 @@ input::-webkit-inner-spin-button {
     border-bottom-left-radius: 0.35rem;
     border-bottom-right-radius: 0.35rem;
     box-shadow: 0 0 5px var(--clr-bgborder) inset;
+    border: 1px solid var(--clr-bgborder);
     border-top: none;
     display: grid;
     grid-template-columns: repeat(10, auto);
@@ -303,6 +330,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
     padding: 1rem 1rem 0;
     width: 260px;
+    border: 1px solid var(--clr-bgborder);
 }
 
 .menu-buttons-section {
