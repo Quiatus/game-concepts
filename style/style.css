@@ -7,8 +7,8 @@
     --clr-compbg: #334;
     --clr-bg: #000;
     --clr-bga: #000000bb;
-    --clr-bgl: #111122aa;
-    --clr-bgb: #050515aa;
+    --clr-bgl: #111122bb;
+    --clr-bgb: #050515bb;
     --clr-hover: #eef;
     --clr-gray: #aab;
     --clr-menutext: #cce; 
@@ -97,7 +97,7 @@ main {
     box-shadow: 0 0 10px var(--clr-bgborder) inset;
     border: 1px solid var(--clr-bgborder);
     padding: 0.25rem 0.5rem;
-    transition: all 0.2s;
+    transition: all 0.1s;
     border-radius: 0.25rem;
     color: var(--clr-gray);
     font-size: 14px;
@@ -123,8 +123,9 @@ h1 {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 24px;
-    background: linear-gradient(90deg, transparent, var(--clr-compbg), transparent);
+    background: linear-gradient(90deg, transparent 30%, var(--clr-compbg) , transparent 70%);
     padding: 0.1rem 0;
+    
 }
 
 /* Sub boxes - big */
@@ -132,6 +133,7 @@ h1 {
 .bigBoxDiv {
     display: flex;
     flex-direction: column;
+    padding-right: 0.5rem;
 }
 
 .box-sub {
