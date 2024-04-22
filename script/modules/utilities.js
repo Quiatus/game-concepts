@@ -2,8 +2,9 @@ import { generalData } from "../data/general.js"
 import { unitData } from "../data/units.js"
 import { eventData } from "../data/events.js"
 import { buildingData } from "../data/buildings.js"
+import { tavernData } from "../data/tavern.js"
 
-const initData = {...generalData, ...eventData, ...buildingData, ...unitData}
+const initData = {...generalData, ...eventData, ...buildingData, ...unitData, ...tavernData}
 
 export const saveGame = (gameData) => {
     localStorage.setItem('gameSave', JSON.stringify(gameData));
