@@ -1,23 +1,23 @@
 import { converThousand } from "./general.js"
 
-export const displayOverview = () => {
+export const displayOverview = (isNewMonth) => {
     const rightPanel = document.getElementById('rightPanel')
     return rightPanel.innerHTML = `
     <h1>Overview</h1>
-
+    
+    ${isNewMonth ? `<p class="text-i text-gray">A new month has begun...</p>`  : ``}
     <div class="bigBoxDiv">
-        <span class="text-big text-gray">Messages</span>
         <div class="message-div mb"></div>
-
-        <span class="text-big text-gray">Events</span>
-        <div class="event-div"> </div>
+        <p class="text-i mb"></p>
+        ${isNewMonth ? `<p class="text-i text-gray">Our scouts have returned and are ready to report...</p>`  : ``}
+        <div class="event-div">
+        </div>
     </div>
     `
 }
 
 export const displayMessages = (gameData) => {
     const messages = document.querySelector('.message-div')
-    
     for (let [text, clr] of gameData.tempData.messages) {
         let msg = document.createElement('p');
         msg.innerHTML = text
@@ -36,6 +36,8 @@ export const displayActiveEvents = (gameData, isNewMonth) => {
             if (!isNewMonth && event.isTimed) events.append(generateEventMessage(event))
         }
     }
+
+    if (!events.textContent && isNewMonth) events.innerHTML = '<span class="text-i">The scouts did not find anything interesting.</span>'
 }
 
 const generateEventMessage = (event) => {

@@ -59,8 +59,10 @@ const generateArmy = (unit) => {
 export const displayArmy = () => {
     const rightPanel = document.getElementById('rightPanel')
     return rightPanel.innerHTML = `
-    <h1>Army management</h1>
-    <div class="smallBoxDiv" id="army">  
+    <h1>Army overview</h1>
+    
+    <div class="smallBoxDiv" id="army"> 
+    
     </div>`
 }
 

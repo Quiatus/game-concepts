@@ -675,6 +675,10 @@ button:active {
     font-size: 14px;
 }
 
+.text-i {
+    font-style: italic;
+}
+
 .text-bold {
     font-weight: 700;
 }

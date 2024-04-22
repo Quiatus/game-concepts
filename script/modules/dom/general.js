@@ -23,7 +23,7 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
     displayResourceBox(gameData)
     
     if (panelName === 'overviewPanel') {
-        displayOverview()
+        displayOverview(isNewMonth)
         displayMessages(gameData)
         displayActiveEvents(gameData, isNewMonth) 
     }
@@ -123,7 +123,7 @@ export const displayMenu = (gameData) => {
 
     <div class="menu-buttons-section">
         <span class="menuBtn" id="recruitmentPanel">Recruitment</span>
-        <span class="menuBtn" id="armyManagementPanel">Army management</span>
+        <span class="menuBtn" id="armyManagementPanel">Army overview</span>
     </div>
     `
 }

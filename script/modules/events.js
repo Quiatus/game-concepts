@@ -176,6 +176,6 @@ export const removeMission = (mission, gameData) => {
         }
     }
 
-    showPanel('overviewPanel', gameData)
+    showPanel('overviewPanel', gameData, true)
     displayMenu(gameData)
 }
