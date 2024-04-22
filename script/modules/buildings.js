@@ -1,6 +1,6 @@
 'use strict';
 
-import { showPanel, printMessage } from "./domhelpers.js"
+import { showPanel, printMessage } from "./dom/general.js"
 import { saveGame } from "./utilities.js"
 
 // checks the current capital level and applies modifiers

@@ -1,7 +1,6 @@
 'use strict';
 
-import { showPanel, printMessage } from "./domhelpers.js"
-import { displayMenu } from "./domgenerators.js"
+import { showPanel, printMessage, displayMenu } from "./dom/general.js"
 
 // generates events at the beginning of the month
 export const generateEvent = (gameData) => {

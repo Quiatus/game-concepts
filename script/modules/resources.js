@@ -1,5 +1,5 @@
 'use strict';
-import { printMessage, converThousand } from "./domhelpers.js"
+import { printMessage, converThousand } from "./dom/general.js"
 
 export const month = {
     increaseMonth(gameData) {

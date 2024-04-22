@@ -1,6 +1,6 @@
 'use strict';
 
-import { showPanel, printMessage, converThousand } from "./domhelpers.js"
+import { showPanel, printMessage, converThousand } from "./dom/general.js"
 import { randomResource } from "./resources.js"
 import { saveGame } from "./utilities.js"
 
