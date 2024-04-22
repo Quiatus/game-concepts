@@ -2,19 +2,17 @@
 
 :root {
     /* Main colors for layout */
-    --clr-bgborder: #445;
-    --clr-compbord: #556;
-    --clr-compbg: #334;
-    --clr-bg: #000;
-    --clr-bga: #000000bb;
-    --clr-bgl: #111122bb;
-    --clr-bgb: #050515bb;
-    --clr-hover: #eef;
-    --clr-gray: #aab;
-    --clr-menutext: #cce; 
+    --clr-boxborder: #445;
+    --clr-boxbg: #151020bb;
+    --clr-componentborder: #556;
+    --clr-componentbg: #334;
+    --clr-bg: #000c;
     --clr-progress: #55a;   
 
     /* Text colors */
+    --clr-hover: #eef;
+    --clr-gray: #aab;
+    --clr-menutext: #cce; 
     --clr-white: #eee;
     --clr-darkgray: #aaa;
     --clr-yellow: #f5deb3;
@@ -45,17 +43,17 @@ html {
 }
   
 ::-webkit-scrollbar-track {
-    background: var(--clr-compbg);
+    background: var(--clr-componentbg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--clr-compbord);
+    background: var(--clr-componentborder);
 }
 
 /* General */
 
 body {
-    background-color: var(--clr-bga);
+    background-color: var(--clr-bg);
     background-image: url('../media/bck.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -93,9 +91,9 @@ main {
     top: 75%;
     visibility: hidden;
     opacity: 0;
-    background-color: var(--clr-bgl);
-    box-shadow: 0 0 10px var(--clr-bgborder) inset;
-    border: 1px solid var(--clr-bgborder);
+    background-color: var(--clr-boxbg);
+    box-shadow: 0 0 10px var(--clr-boxborder) inset;
+    border: 1px solid var(--clr-boxborder);
     padding: 0.25rem 0.5rem;
     transition: all 0.1s;
     border-radius: 0.25rem;
@@ -123,7 +121,7 @@ h1 {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 24px;
-    background: linear-gradient(90deg, transparent 30%, var(--clr-compbg) , transparent 70%);
+    background: linear-gradient(90deg, transparent 30%, var(--clr-componentbg) , transparent 70%);
     padding: 0.1rem 0;
     
 }
@@ -138,15 +136,15 @@ h1 {
 
 .box-sub {
     overflow: hidden;
-    box-shadow: 0 0 5px var(--clr-bgborder) inset;
+    box-shadow: 0 0 5px var(--clr-boxborder) inset;
     border-radius: 0.25rem;
     margin-bottom: 1rem;
-    background-color: var(--clr-bgb);
+    background-color: var(--clr-boxbg);
 }
 
 h3 {
-    background-color: var(--clr-compbg);
-    box-shadow: 0 0 10px var(--clr-bgl) inset;
+    background-color: var(--clr-componentbg);
+    box-shadow: 0 0 10px var(--clr-boxbg) inset;
     color: var(--clr-gray);
     line-height: 1;
     padding: 0.25rem 0.5rem;
@@ -158,14 +156,14 @@ h3 {
 /* Sub boxes - small */
 
 .box {
-    background-color: var(--clr-bgl);
+    background-color: var(--clr-boxbg);
     width: 315px;
     padding-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    box-shadow: 0 0 5px var(--clr-bgborder) inset;
+    box-shadow: 0 0 5px var(--clr-boxborder) inset;
     border-radius: 0.25rem;
     height: fit-content;
     overflow: hidden;
@@ -173,8 +171,8 @@ h3 {
 }
 
  h2 {
-    background-color: var(--clr-bgborder);
-    box-shadow: 0 0 5px var(--clr-bgl) inset;
+    background-color: var(--clr-boxborder);
+    box-shadow: 0 0 5px var(--clr-boxbg) inset;
     width: 100%;
     text-align: center;
     padding: 0.25rem 0;
@@ -200,14 +198,14 @@ h3 {
 
 .separator {
     width: 100%;
-    background: linear-gradient(90deg, transparent, var(--clr-compbord), transparent);
+    background: linear-gradient(90deg, transparent, var(--clr-componentborder), transparent);
     height: 1px;
     border: none;
 }
 
 .vseparator {
     width: 2px;
-    background: linear-gradient(transparent, var(--clr-compbord), transparent);
+    background: linear-gradient(transparent, var(--clr-componentborder), transparent);
     height: 100%;
     border: none;
 }
@@ -255,8 +253,8 @@ input[type="number"] {
     font: inherit;
     color: var(--clr-white);
     outline: none;
-    background-color: var(--clr-compbg);
-    border: 1px solid var(--clr-compbord);
+    background-color: var(--clr-componentbg);
+    border: 1px solid var(--clr-componentborder);
     padding: 0.15rem 0.25rem;
     border-radius: 0.25rem;
 }
@@ -275,11 +273,11 @@ input::-webkit-inner-spin-button {
 
 .resources {
     grid-area: 1/1/1/3;
-    background-color: var(--clr-bgl);
+    background-color: var(--clr-boxbg);
     border-bottom-left-radius: 0.35rem;
     border-bottom-right-radius: 0.35rem;
-    box-shadow: 0 0 5px var(--clr-bgborder) inset;
-    border: 1px solid var(--clr-bgborder);
+    box-shadow: 0 0 5px var(--clr-boxborder) inset;
+    border: 1px solid var(--clr-boxborder);
     border-top: none;
     display: grid;
     grid-template-columns: repeat(10, auto);
@@ -324,15 +322,15 @@ input::-webkit-inner-spin-button {
 
 .menu {
     grid-area: 2/1/3/1;
-    background-color: var(--clr-bgl);
+    background-color: var(--clr-boxbg);
     border-radius: 0.35rem;
-    box-shadow: 0 0 5px var(--clr-bgborder) inset;
+    box-shadow: 0 0 5px var(--clr-boxborder) inset;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1rem 1rem 0;
     width: 260px;
-    border: 1px solid var(--clr-bgborder);
+    border: 1px solid var(--clr-boxborder);
 }
 
 .menu-buttons-section {
@@ -420,8 +418,8 @@ input::-webkit-inner-spin-button {
 
 .progress-bar {
     width: 100%;
-    outline: 1px solid var(--clr-compbord);
-    border: 2px solid var(--clr-bg);
+    outline: 1px solid var(--clr-componentborder);
+    border: 2px solid var(--clr-boxbg);
     height: 18px;
     font-size: 14px;
     display: flex;
@@ -442,7 +440,7 @@ input::-webkit-inner-spin-button {
 .error-text-build {
     position: absolute;
     top: -38px;
-    background-color: var(--clr-compbg);
+    background-color: var(--clr-componentbg);
     padding: 0.25rem;
     width: 100%;
 }
@@ -504,7 +502,7 @@ input::-webkit-inner-spin-button {
 .error-text-recruit {
     position: absolute;
     top: -34px;
-    background-color: var(--clr-compbg);
+    background-color: var(--clr-componentbg);
     padding: 0.25rem;
     width: 100%;
     z-index: 2;
@@ -571,9 +569,9 @@ input::-webkit-inner-spin-button {
 
 button {
     font: inherit;
-    background-color: var(--clr-compbg);
+    background-color: var(--clr-componentbg);
     color: var(--clr-white);
-    border: 1px solid var(--clr-compbord);
+    border: 1px solid var(--clr-componentborder);
     line-height: 1;
     padding: 0.25rem 0.75rem;
     border-radius: 0.25rem;
