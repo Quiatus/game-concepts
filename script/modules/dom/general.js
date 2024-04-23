@@ -8,7 +8,7 @@ import { displayRecruitment, showRecruitableUnits } from './recruit.js';
 import { displayConquest } from './conquest.js'
 import { displayCampaign } from './campaign.js'
 import { displayBlacksmith } from './blacksmith.js'
-import { displayTavern } from './tavern.js'
+import { displayTavern, showTavernVisitors } from './tavern.js'
 import { displayBuildings, showUnlockedBuildings } from './buildings.js'
 import { displayStatistics } from './stats.js'
 import { displayEmpireManagement } from './empire.js'
@@ -40,7 +40,10 @@ export const showPanel = (panelName, gameData, isNewMonth=false) => {
         displayBuildings(gameData)
         showUnlockedBuildings(gameData)
     }
-    if (panelName === 'tavernPanel') displayTavern(gameData)
+    if (panelName === 'tavernPanel') {
+        displayTavern(gameData)
+        showTavernVisitors(gameData)
+    }
     if (panelName === 'blacksmithPanel') displayBlacksmith(gameData)
     if (panelName === 'campaignPanel') displayCampaign(gameData)
     if (panelName === 'missionsPanel') {

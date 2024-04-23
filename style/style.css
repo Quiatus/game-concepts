@@ -478,6 +478,34 @@ input::-webkit-inner-spin-button {
     gap: 0.5rem;
 }
 
+/* Tavern */
+
+
+
+.visitorDiv h2 {
+    background-color: transparent;
+    text-align: left;
+    color: var(--clr-gray);
+}
+
+.qnc {
+    color: var(--clr-menutext);
+    width: fit-content;
+}
+
+.qnc:hover {
+    color: var(--clr-white);
+    cursor: pointer;
+}
+
+.qc {
+    color: var(--clr-bggray);
+}
+
+.qc:hover {
+    cursor: pointer;
+}
+
 /* Recruitment */
 
 .recruit-stats {
