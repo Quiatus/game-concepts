@@ -12,6 +12,7 @@ export const calculateHappiness = (isNewMonth, gameData) => {
     gameData.general.tax < 1 ? calculatedHappiness += 25 : null
     gameData.general.foodLevel > 1 ? calculatedHappiness += 25 : null
     gameData.general.production < 1 ? calculatedHappiness += 25 : null
+    gameData.buildings[7].amount === 1 ? calculatedHappiness += 10 : null
 
     // Negative gains
     gameData.alerts.famine ? calculatedHappiness -= 25 : null

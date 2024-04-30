@@ -292,7 +292,7 @@ export const buildingData = {
             space: 1,
             maxSpace: 1,
             effect: null,
-            info: 'Place where we can learn valuable information.',
+            info: `Place where we can learn valuable information.\nIncreases happiness by 10%.`,
         },
     ]
 }
