@@ -12,8 +12,8 @@ export const generalData = {
         gold: 500,
         pop: 100,
         food: 50,
-        wood: 20,
-        stone: 5,
+        wood: 50,
+        stone: 25,
         fame: 0,
         basicSpace: 0,
         baseHappiness: 50
