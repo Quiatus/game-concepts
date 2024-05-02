@@ -4,7 +4,7 @@ export const eventData = {
         id: 1,
         description: 'Thanks to the favourable weather, our <span class="text-yellow">farms</span> produce <span class="text-green">20%</span> more <img class="img-s" src="media/res/food.png">',
         type: 'foodGainMultiplier',
-        rarity: 1,
+        rarity: 4,
         isMission: false,
         unlocked: false,
         unlockConditions: {
@@ -24,7 +24,7 @@ export const eventData = {
         id: 2,
         description: 'Our people are happy with our leadership. <img class="img-s" src="media/res/pop.png"> gain is increased by <span class="text-green">25%</span>',
         type: 'popHappyGainMultiplier',
-        rarity: 1,
+        rarity: 4,
         isMission: false,
         unlocked: false,
         unlockConditions: {
@@ -145,7 +145,7 @@ export const eventData = {
         id: 10,
         description: 'Our scouts have discovered a large stone deposit. We can built a new <span class="text-darkgray">Quarry</span>.',
         type: 'gainQuarrySpace',
-        rarity: 10,
+        rarity: 7,
         isMission: false,
         unlocked: true,
         active: false,
@@ -157,7 +157,7 @@ export const eventData = {
         id: 11,
         description: 'Because of the recent riots, our people feel no hope for the future. There is no population growth',
         type: 'popGainRiot',
-        rarity: 1,
+        rarity: 3,
         isMission: false,
         unlocked: false,
         unlockConditions: {
