@@ -25,15 +25,15 @@ const generateArmy = (unit) => {
 
         <div class='unit-stats'>
             <div class='unit-stat'>
-                <div class="toolbox"><img class="img-s" src="media/army/might.png"><span>${converThousand(unit.attack)}</span><span class="tooltip">Attack</span></div>
-                <div class="toolbox"><img class="img-s" src="media/army/defense.png"><span>${converThousand(unit.defense)}</span><span class="tooltip">Defense</span></div>
-                <div class="toolbox"><img class="img-s" src="media/army/health.png"><span>${converThousand(unit.hp)}</span><span class="tooltip">Health</span></div>
+                <div><div class="toolbox"><img class="img-s" src="media/army/might.png"><span class="tooltip">Attack</span></div><span>${converThousand(unit.attack)}</span></div>
+                <div><div class="toolbox"><img class="img-s" src="media/army/defense.png"><span class="tooltip">Defense</span></div><span>${converThousand(unit.defense)}</span></div>
+                <div><div class="toolbox"><img class="img-s" src="media/army/health.png"><span class="tooltip">Health</span></div><span>${converThousand(unit.hp)}</span></div>
             </div>
 
             <div class='unit-stat'>
-                <div class="toolbox"><img class="img-s" src="media/army/speed.png"><span>${converThousand(unit.speed)}</span><span class="tooltip">Speed</span></div>
-                <div class="toolbox"><img class="img-s" src="media/army/army.png"><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span><span class="tooltip">Might (total)</span></div>
-                <div class="toolbox"><img class="img-s" src="media/res/gold.png"><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.ceil(unit.pay * unit.amount))})</span><span class="tooltip">Upkeep (total)</span></div>
+                <div><div class="toolbox"><img class="img-s" src="media/army/speed.png"><span class="tooltip">Speed</span></div><span>${converThousand(unit.speed)}</span></div>
+                <div><div class="toolbox"><img class="img-s" src="media/army/army.png"><span class="tooltip">Might (total)</span></div><span>${converThousand(unit.might)}</span> <span class='text-gray'>(${converThousand(unit.might * unit.amount)})</span></div>
+                <div><div class="toolbox"><img class="img-s" src="media/res/gold.png"><span class="tooltip">Upkeep (total)</span></div><span>${converThousand(unit.pay)}</span> <span class='text-gray'>(${converThousand(Math.ceil(unit.pay * unit.amount))})</span></div>
             </div>
         </div>
 

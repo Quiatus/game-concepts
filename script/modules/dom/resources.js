@@ -3,16 +3,16 @@ import { converThousand } from "./general.js"
 export const displayResourceBox = (gameData) => {    
     const resourcesText = document.getElementById('resourceBox')
     return resourcesText.innerHTML =
-    `<div class="res res-nm toolbox"><img class='img-m' src='media/res/month.png'><span class='text-bold'>${converThousand(gameData.basicResources.month)}</span><span class="tooltip">Month</span></div>
-    <div class="res res-b toolbox"><img class='img-m' src='media/res/pop.png'><span class='text-purple'>${popText(gameData.basicResources.pop, gameData.tempData.totalSpace)}</span><span class="tooltip">Current population / Total space</span></div>
-    <div class="res toolbox"><img class='img-m' src='media/res/gold.png'><span class='text-gold'>${converThousand(gameData.basicResources.gold)}</span><span class="tooltip">Gold</span></div>
-    <div class="res toolbox"><img class='img-m' src='media/res/food.png'><span class='text-yellow'>${converThousand(gameData.basicResources.food)}</span><span class="tooltip">Food</span></div>
-    <div class="res res-nm toolbox"><img class='img-m' src='media/res/wood.png'><span class='text-brown'>${converThousand(gameData.basicResources.wood)}</span><span class="tooltip">Wood</span></div>
-    <div class="res res-nm toolbox"><img class='img-m' src='media/res/stone.png'><span class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span><span class="tooltip">Stone</span></div>
-    <div class="res toolbox"><hr class="vseparator"><img class='img-m' src='media/res/fame.png'><span>${converThousand(gameData.basicResources.fame)}</span><span class="tooltip">Fame</span></div>
-    <div class="res toolbox"> <img class='img-m' src='media/army/army.png'><span>${converThousand(gameData.tempData.might)}</span><span class="tooltip">Might</span></div>
-    <div class="res res-nm toolbox"> <img class='img-m' src='media/res/fame.png'><span class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span><span class="tooltip">Happiness</span></div>
-    <div class="res res-nm toolbox"><img class='img-m' src='media/army/army_status.png'><span class="text-bold">${getArmyStatus(gameData)}</span><span class="tooltip">Army readiness</span></div>
+    `<div class="res res-nm"><div class="toolbox"><img class='img-m' src='media/res/month.png'><span class="tooltip">Month</span></div><span class='text-bold'>${converThousand(gameData.basicResources.month)}</span></div>
+    <div class="res res-b"><div class="toolbox"><img class='img-m' src='media/res/pop.png'><span class="tooltip">Current population / Total space</span></div><span class='text-purple'>${popText(gameData.basicResources.pop, gameData.tempData.totalSpace)}</span></div>
+    <div class="res"><div class="toolbox"><img class='img-m' src='media/res/gold.png'><span class="tooltip">Gold</span></div><span class='text-gold'>${converThousand(gameData.basicResources.gold)}</span></div>
+    <div class="res"><div class="toolbox"><img class='img-m' src='media/res/food.png'><span class="tooltip">Food</span></div><span class='text-yellow'>${converThousand(gameData.basicResources.food)}</span></div>
+    <div class="res res-nm"><div class="toolbox"><img class='img-m' src='media/res/wood.png'><span class="tooltip">Wood</span></div><span class='text-brown'>${converThousand(gameData.basicResources.wood)}</span></div>
+    <div class="res res-nm"><div class="toolbox"><img class='img-m' src='media/res/stone.png'><span class="tooltip">Stone</span></div><span class='text-darkgray'>${converThousand(gameData.basicResources.stone)}</span></div>
+    <div class="res"><hr class="vseparator"><div class="toolbox"><img class='img-m' src='media/res/fame.png'><span class="tooltip">Fame</span></div><span>${converThousand(gameData.basicResources.fame)}</span></div>
+    <div class="res"><div class="toolbox"><img class='img-m' src='media/army/army.png'><span class="tooltip">Might</span></div><span>${converThousand(gameData.tempData.might)}</span></div>
+    <div class="res res-nm"><div class="toolbox"><img class='img-m' src='media/res/fame.png'><span class="tooltip">Happiness</span></div><span class='text-bold'>${changeHappinessColor(gameData.tempData.happiness)}</span></div>
+    <div class="res res-nm"><div class="toolbox"><img class='img-m' src='media/army/army_status.png'><span class="tooltip">Army readiness</span></div><span class="text-bold">${getArmyStatus(gameData)}</span></div>
     
     <hr class="separator" id="res-sep">
 
