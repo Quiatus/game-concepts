@@ -1,10 +1,9 @@
-export const displayTavern = () => {
+export const displayTavern = (gameData) => {
     const rightPanel = document.getElementById('rightPanel')
     return rightPanel.innerHTML = `
     <h1>Tavern</h1>
 
-    <p class="text-i mb">You enter the tavern and give a nod to the barkeep, who nods back and starts pouring you an ale. You look around the place and see a few regulars, some talking quietly, some playing a game of dice and some
-    already slumped across the table. You also see a few unfamiliar faces.</p>
+    <p class="text-i mb">${gameData.flavourText.tavern}</p>
 
     <div id="tavern">  
         
