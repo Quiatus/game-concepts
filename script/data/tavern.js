@@ -14,7 +14,7 @@ export const tavernData = {
                 {
                     id: 1,
                     question: 'Who are you?',
-                    answer: 'Old miner',
+                    answer: 'Me? I am a miner. Me and my companions used to mine a copper up north, until the mines were overrun by the bandits. ',
                     clicked: false,
                     isUnlocked: true,
                     unlocks: [],
