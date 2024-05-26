@@ -16,7 +16,12 @@ import { displayResourceBox } from './resources.js'
 import { displayOverview, displayMessages, displayActiveEvents } from './overview.js';
 
 // decimal separator
-export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+//export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+export const converThousand = (string) => {
+    const locale = navigator.language
+    return new Intl.NumberFormat(locale).format(string)
+}
 
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
 export const showPanel = (panelName, gameData, isNewMonth=false) => {
