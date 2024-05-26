@@ -15,12 +15,11 @@ import { displayEmpireManagement } from './empire.js'
 import { displayResourceBox } from './resources.js'
 import { displayOverview, displayMessages, displayActiveEvents } from './overview.js';
 
-// decimal separator
-//export const converThousand = (string) => string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
+// decimal separator - uses local number format. If for whaterver reason the app cannot get the local format, uses regex 
 export const converThousand = (string) => {
     const locale = navigator.language
-    return new Intl.NumberFormat(locale).format(string)
+    if (locale) return new Intl.NumberFormat(locale).format(string)
+    else return string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
 // Shows the general panel at the start of game or at the beginning of month. Switches to panel based on the button click
