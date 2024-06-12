@@ -140,7 +140,7 @@ const displayEconomy = (gameData) => {
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('p', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('p', gameData)[2])}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${calcEconomy('p', gameData)[2]}</span>
     </div>
 </div>
 
@@ -160,7 +160,7 @@ const displayEconomy = (gameData) => {
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('g', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('g', gameData)[2])}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${calcEconomy('g', gameData)[2]}</span>
     </div>
 </div>
 
@@ -179,7 +179,7 @@ const displayEconomy = (gameData) => {
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('f', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('f', gameData)[2])}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${calcEconomy('f', gameData)[2]}</span>
     </div>
 </div>
 
@@ -196,7 +196,7 @@ const displayEconomy = (gameData) => {
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('w', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('w', gameData)[2])}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${calcEconomy('w', gameData)[2]}</span>
     </div>
 </div>
 
@@ -213,7 +213,7 @@ const displayEconomy = (gameData) => {
         <span class="text-white">Total:</span><span class="text-bold text-red">${converThousand(calcEconomy('s', gameData)[1])}</span>
     </div>
     <div class="economy-div">
-        <span class="text-white text-bold">Difference:</span><span class="text-bold">${converThousand(calcEconomy('s', gameData)[2])}</span>
+        <span class="text-white text-bold">Difference:</span><span class="text-bold">${calcEconomy('s', gameData)[2]}</span>
     </div>
 </div>`
 }
@@ -243,8 +243,8 @@ const calcEconomy = (econType, gameData) => {
     total = results[0] - results[1]
 
     // changes the text color of total depending wheter the total is gain or loss
-    if (total > 0) results[2] = `<span class='text-green'>+ ${total}</span>`
-    else if (total < 0) results[2] = `<span class='text-red'>${total}</span>`
+    if (total > 0) results[2] = `<span class='text-green'>+ ${converThousand(total)}</span>`
+    else if (total < 0) results[2] = `<span class='text-red'>${converThousand(total)}</span>`
     else results[2] = `<span class='text-white'>0</span>`
 
     return results

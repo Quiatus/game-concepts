@@ -16,6 +16,8 @@ displayBuildCosts: show the building cost based on what is required
 displayBuildDescr: change building description text based on the type
 */
 
+// --- ADD TABS --- //
+
 import { converThousand } from "./general.js"
 
 export const displayBuildings = () => {
