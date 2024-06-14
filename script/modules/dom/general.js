@@ -1,6 +1,6 @@
-import { changeTax, changeFoodLevel, changeProductionLevel } from '../generalcalcs.js'
-import { removeMission } from "../events.js"
-import { dismissUnits, addRecruits } from "../units.js"
+import { changeTax, changeFoodLevel, changeProductionLevel } from '../general.js'
+import { removeMission } from "../features/events.js"
+import { dismissUnits, addRecruits } from "../features/units.js"
 
 import { displayMission, showActiveMissions } from './missions.js';
 import { displayArmy, showArmyUnits } from './army.js';

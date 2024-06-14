@@ -1,6 +1,6 @@
 'use strict';
 
-import { showPanel, printMessage, displayMenu } from "./dom/general.js"
+import { showPanel, printMessage, displayMenu } from "../dom/general.js"
 
 // generates events at the beginning of the month
 export const generateEvent = (gameData) => {

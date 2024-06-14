@@ -1,7 +1,7 @@
 'use strict';
 
-import { showPanel, printMessage } from "./dom/general.js"
-import { saveGame } from "./utilities.js"
+import { showPanel, printMessage } from "../dom/general.js"
+import { saveGame } from "../utilities.js"
 
 // checks the current capital level and applies modifiers
 export const applyCapitalBonuses = (gameData) => {

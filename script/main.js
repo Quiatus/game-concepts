@@ -2,11 +2,11 @@
 
 import { showPanel, printMessage, printNewMonthMessages, displayMenu } from "./modules/dom/general.js"
 import { checkIfNewGame, loadGame, saveGame } from "./modules/utilities.js"
-import { calculateHappiness, calculateTotalSpace } from "./modules/generalcalcs.js";
-import { progressBuild, applyCapitalBonuses, updateBuildCost, startConstruction } from "./modules/buildings.js"
-import { month, gold, pop, food, wood, stone } from "./modules/resources.js";
-import { generateEvent } from "./modules/events.js";
-import { calculateMight, recruitUnits, checkUpkeep, unlockUnits } from "./modules/units.js"
+import { calculateHappiness, calculateTotalSpace } from "./modules/general.js";
+import { progressBuild, applyCapitalBonuses, updateBuildCost, startConstruction } from "./modules/features/buildings.js"
+import { month, gold, pop, food, wood, stone } from "./modules/features/resources.js";
+import { generateEvent } from "./modules/features/events.js";
+import { calculateMight, recruitUnits, checkUpkeep, unlockUnits } from "./modules/features/units.js"
 
 let gameData = {}
 

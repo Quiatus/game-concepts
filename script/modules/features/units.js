@@ -1,7 +1,7 @@
 'use strict';
 
-import { saveGame } from "./utilities.js"
-import { showPanel, printMessage } from "./dom/general.js"
+import { saveGame } from "../utilities.js"
+import { showPanel, printMessage } from "../dom/general.js"
 
 // check if any building that allows recruitment is built and if so, unlock the appropriate unit or increases the recruitment
 export const unlockUnits = (gameData) => {

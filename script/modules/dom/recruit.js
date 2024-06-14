@@ -11,7 +11,7 @@ generateRecruits: Generates the box for each unit that the player can recruit. T
 showRecruitableUnits: iterates over the list of army units. If the units is unlocked for recruitment, calls generateArmy fn, which then generate the html for the unit with all the information
 */
 
-import { calcMaxUnit } from "../units.js"
+import { calcMaxUnit } from "../features/units.js"
 import { converThousand } from "./general.js"
 
 export const displayRecruitment = () => {
